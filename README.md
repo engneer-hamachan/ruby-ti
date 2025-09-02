@@ -57,7 +57,7 @@ git clone https://github.com/engneer-hamachan/ruby-ti.git
 cd ruby-ti
 
 # システムにインストール
-sh ./install.sh
+sh ./shell/install.sh
 ```
 インストールスクリプトは`ti`バイナリをビルドして`./bin/`ディレクトリに配置します。
 
