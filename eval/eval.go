@@ -153,7 +153,7 @@ func (e *Evaluator) Eval(
 		return e.handleEvaluateMethod(p, ctx, &t, nextT, false)
 
 	// hoge.fuga
-	case nextT.IsDotIdentifier():
+	case nextT.IsDotIdentifier() && !t.IsNewLineIdentifier():
 		nextT, err := p.Read()
 		if err != nil {
 			return err
