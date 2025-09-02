@@ -271,7 +271,7 @@ func (l *Lexer) Advance() bool {
 		l.tok = char
 		l.reader.Unread()
 
-	case '!', '+', '-', '/':
+	case '!', '+', '-', '/', '%':
 		var buf strings.Builder
 		nextChar := l.reader.Read()
 		buf.WriteRune(char)

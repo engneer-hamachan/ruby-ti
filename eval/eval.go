@@ -143,7 +143,7 @@ func (e *Evaluator) Eval(
 		return nameSpaceEvaluation(e, p, ctx, t)
 
 		// hoge[:a]
-	case nextT.IsArrayStartIdentifier() && !nextT.IsBeforeSpace:
+	case nextT.IsArrayStartIdentifier() && !t.IsTargetIdentifier("[") && !nextT.IsBeforeSpace:
 		return e.referenceEvaluation(p, ctx, t)
 
 	// hoge.fuga
