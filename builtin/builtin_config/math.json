@@ -1,0 +1,123 @@
+{
+  "frame": "Builtin",
+  "class": "Math",
+  "instance_methods": [],
+  "class_methods": [
+    {
+      "name": "acos",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "acosh",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "asin",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "asinh",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "atan",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "atan2",
+      "arguments": [{"type": ["Float"]},{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "atanh",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "cbrt",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "cos",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "cosh",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "erf",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "erfc",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "exp",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "hypot",
+      "arguments": [{"type": ["Float"]},{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "ldexp",
+      "arguments": [{"type": ["Float"]},{"type": ["Int"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "log",
+      "arguments": [{"type": ["Float"]},{"type": ["DefaultFloat"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "log10",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "log2",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "sin",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "sinh",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "sqrt",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "tan",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "tanh",
+      "arguments": [{"type": ["Float"]}],
+      "return_type": {"type": ["Float"]}
+    }
+  ],
+  "constants": []
+}

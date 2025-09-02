@@ -1,0 +1,11 @@
+def test
+  x = '1'.downcase!
+
+  if x.is_a?('1')
+    x + '1'
+  end
+end
+
+x + 1
+
+

@@ -1,0 +1,264 @@
+{
+  "frame": "Builtin",
+  "class": "String",
+  "instance_methods": [
+    {
+      "name": "!",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "*",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "+",
+      "arguments": [{"type": ["String"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "<",
+      "arguments": [{"type": ["String"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "<<",
+      "arguments": [{"type": ["String", "Int"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "<=",
+      "arguments": [{"type": ["String"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "<=>",
+      "arguments": [{"type": ["String"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "==",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "===",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": ">",
+      "arguments": [{"type": ["String"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": ">=",
+      "arguments": [{"type": ["String"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "[]",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["String", "Nil"]}
+    },
+    {
+      "name": "[]=",
+      "arguments": [{"type": ["Untyped"]}, {"type": ["String"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "__ljust_rjust_argcheck",
+      "arguments": [{"type": ["Int", "String"]}],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
+      "name": "bytes",
+      "arguments": [],
+      "return_type": {"type": ["IntArray"]}
+    },
+    {
+      "name": "chars",
+      "arguments": [],
+      "return_type": {"type": ["StringArray"]}
+    },
+    {
+      "name": "chomp",
+      "arguments": [{"type": ["DefaultString"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "chomp!",
+      "arguments": [{"type": ["DefaultString"]}],
+      "return_type": {"type": ["String", "Nil"]}
+    },
+    {
+      "name": "clear",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "downcase",
+      "arguments": [{"type": ["DefaultUntyped"]}, {"type": ["DefaultUntyped"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "downcase!",
+      "arguments": [{"type": ["DefaultUntyped"]}, {"type": ["DefaultUntyped"]}],
+      "return_type": {"type": ["String", "Nil"]}
+    },
+    {
+      "name": "each_byte",
+      "arguments": [],
+      "block_parameters": ["Int"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "each_char",
+      "arguments": [],
+      "block_parameters": ["String"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "each_line",
+      "arguments": [],
+      "block_parameters": ["String"],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "empty?",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "end_with?",
+      "arguments": [{"type": ["String"], "is_asterisk": true}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "getbyte",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int", "Nil"]}
+    },
+    {
+      "name": "include?",
+      "arguments": [{"type": ["String"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "index",
+      "arguments": [{"type": ["String", "DefaultInt"]}],
+      "return_type": {"type": ["Int", "Nil"]}
+    },
+    {
+      "name": "inspect",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "intern",
+      "arguments": [],
+      "return_type": {"type": ["Symbol"]}
+    },
+    {
+      "name": "length",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "ljust",
+      "arguments": [{"type": ["Int"]}, {"type": ["DefaultString"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "lstrip",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "lstrip!",
+      "arguments": [],
+      "return_type": {"type": ["String", "Nil"]}
+    },
+    {
+      "name": "ord",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "rjust",
+      "arguments": [{"type": ["Int"]}, {"type": ["DefaultString"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "rstrip",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "rstrip!",
+      "arguments": [],
+      "return_type": {"type": ["String", "Nil"]}
+    },
+    {
+      "name": "split",
+      "arguments": [{"type": ["DefaultString"]}, {"type": ["DefaultInt"]}],
+      "return_type": {"type": ["StringArray"]}
+    },
+    {
+      "name": "start_with?",
+      "arguments": [{"type": ["String"], "is_asterisk": true}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "strip",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "strip!",
+      "arguments": [],
+      "return_type": {"type": ["String", "Nil"]}
+    },
+    {
+      "name": "to_f",
+      "arguments": [],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "to_i",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "to_s",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "to_sym",
+      "arguments": [],
+      "return_type": {"type": ["Symbol"]}
+    },
+    {
+      "name": "tr",
+      "arguments": [{"type": ["String"]}, {"type": ["String"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "tr!",
+      "arguments": [{"type": ["String"]}, {"type": ["String"]}],
+      "return_type": {"type": ["String", "Nil"]}
+    },
+    {
+      "name": "upcase",
+      "arguments": [{"type": ["DefaultUntyped"]}, {"type": ["DefaultUntyped"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "upcase!",
+      "arguments": [{"type": ["DefaultUntyped"]}, {"type": ["DefaultUntyped"]}],
+      "return_type": {"type": ["String", "Nil"]}
+    }
+  ]
+}

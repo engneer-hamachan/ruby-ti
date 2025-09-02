@@ -1,0 +1,102 @@
+{
+  "frame": "Builtin",
+  "class": "GPIO",
+  "instance_methods": [
+    {
+      "name": "high?",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "low?",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "open_drain",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "read",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "write",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    }
+  ],
+  "class_methods": [
+    {
+      "name": "high_at?",
+      "arguments": [{"type": ["Int", "String", "Symbol"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "low_at?",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "new",
+      "arguments": [
+        {"type": ["Int", "String", "Symbol"]},
+        {"type": ["Int"]},
+        {"type": ["DefaultInt"]}
+      ],
+      "return_type": {"type": ["GPIO"]}
+    },
+    {
+      "name": "open_drain_at",
+      "arguments": [{"type": ["Int", "String", "Symbol"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "pull_down_at",
+      "arguments": [{"type": ["Int", "String", "Symbol"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "pull_up_at",
+      "arguments": [{"type": ["Int", "String", "Symbol"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "read_at",
+      "arguments": [{"type": ["Int", "String", "Symbol"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "set_dir_at",
+      "arguments": [
+        {"type": ["Int", "String", "Symbol"]},
+        {"type": ["Int"]}
+      ],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "set_function_at",
+      "arguments": [
+        {"type": ["Int", "String", "Symbol"]},
+        {"type": ["Int"]}
+      ],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "write_at",
+      "arguments": [
+        {"type": ["Int", "String", "Symbol"]},
+        {"type": ["Int"]}
+      ],
+      "return_type": {"type": ["Int"]}
+    }
+  ],
+  "constants": [
+    {
+      "name": "OUT",
+      "return_type": {"type": ["Int"]}
+    }
+  ]
+}

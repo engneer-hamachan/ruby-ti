@@ -1,0 +1,112 @@
+{
+  "frame": "Builtin",
+  "class": "",
+  "extends": ["Kernel"],
+  "instance_methods": [
+    {
+      "name": "<=>",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["OptionalInt"]}
+    },
+    {
+      "name": "==",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "===",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "attr_accessor",
+      "arguments": [{"type": ["Symbol"], "is_asterisk": true}],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
+      "name": "attr_reader",
+      "arguments": [{"type": ["Symbol"], "is_asterisk": true}],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
+      "name": "block_given?",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "class",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "dup",
+      "arguments": [],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "exit",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
+      "name": "include",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
+      "name": "inspect",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "is_a?",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "loop",
+      "arguments": [],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
+      "name": "nil?",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "private",
+      "arguments": [{"type": ["DefaultUntyped"]}],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
+      "name": "raise",
+      "arguments": [{"type": ["DefaultUntyped"]}, {"type": ["DefaultString"]}],
+      "return_type": {"type": ["Bot"]}
+    },
+    {
+      "name": "relinquish",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "sleep",
+      "arguments": [{"type": ["Number"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "sleep_ms",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "sprintf",
+      "arguments": [{"type": ["String"]}, {"type": ["DefaultUntyped"], "is_asterisk": true}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "to_s",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    }
+  ]
+}

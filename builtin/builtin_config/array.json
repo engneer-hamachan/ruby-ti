@@ -1,0 +1,220 @@
+{
+  "frame": "Builtin",
+  "class": "Array",
+  "extends": ["Enumerable"],
+  "instance_methods": [
+    {
+      "name": "[]=",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "[]",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "&",
+      "arguments": [{"type": ["Array"]}],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "*",
+      "arguments": [{"type": ["Int", "String"]}],
+      "return_type": {"type": ["Self", "String"], "is_conditional": true}
+    },
+    {
+      "name": "+",
+      "arguments": [{"type": ["Array"]}],
+      "return_type": {"type": ["Array"]}
+    },
+    {
+      "name": "-",
+      "arguments": [{"type": ["Array"]}],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "push",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Array"]}
+    },
+    {
+      "name": "<=>",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["OptionalInt"]}
+    },
+    {
+      "name": "all?",
+      "arguments": [],
+      "block_parameters": ["Unify"],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "at",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["OptionalUnify"]}
+    },
+    {
+      "name": "clear",
+      "arguments": [],
+      "return_type": {"type": ["Array"]}
+    },
+    {
+      "name": "collect!",
+      "arguments": [],
+      "block_parameters": ["Unify"],
+      "return_type": {"type": ["BlockResultArray"], "is_destructive": true}
+    },
+    {
+      "name": "count",
+      "arguments": [{"type": ["DefaultUntyped"]}],
+      "block_parameters": ["Unify"],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "concat",
+      "arguments": [{"type": ["Array"]}],
+      "return_type": {"type": ["Array"]}
+    },
+    {
+      "name": "delete_at",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["OptionalUnify"]}
+    },
+    {
+      "name": "delete_if",
+      "arguments": [],
+      "block_parameters": ["Unify"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "each",
+      "arguments": [],
+      "block_parameters": ["Unify"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "each_index",
+      "arguments": [],
+      "block_parameters": ["Int"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "empty?",
+      "arguments": [],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "first",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "return_type": {"type": ["OptionalUnify", "Self"], "is_conditional": true}
+    },
+    {
+      "name": "flatten",
+      "arguments": [],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "include?",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "inspect",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "join",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "last",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "return_type": {"type": ["OptionalUnify", "Self"], "is_conditional": true}
+    },
+    {
+      "name": "length",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "max",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "block_parameters": ["Unify", "Unify"],
+      "return_type": {"type": ["OptionalUnify", "Self"], "is_conditional": true}
+    },
+    {
+      "name": "pop",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "return_type": {"type": ["OptionalUnify", "Self"], "is_conditional": true}
+    },
+    {
+      "name": "reject",
+      "arguments": [],
+      "block_parameters": ["Unify"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "reject!",
+      "arguments": [],
+      "block_parameters": ["Unify"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "replace",
+      "arguments": [{"type": ["Array"]}],
+      "return_type": {"type": ["Array"]}
+    },
+    {
+      "name": "shift",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "return_type": {"type": ["Unify", "Self"], "is_conditional": true}
+    },
+    {
+      "name": "sort",
+      "arguments": [],
+      "block_parameters": ["Unify", "Unify"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "sort!",
+      "arguments": [],
+      "block_parameters": ["Unify", "Unify"],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "slice",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Untyped"]}
+    },
+    {
+      "name": "uniq",
+      "arguments": [],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "uniq!",
+      "arguments": [],
+      "return_type": {"type": ["Self"]}
+    },
+    {
+      "name": "unshift",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Array"]}
+    },
+    {
+      "name": "|",
+      "arguments": [{"type": ["Array"]}],
+      "return_type": {"type": ["Array"]}
+    }
+  ],
+  "class_methods": [
+    {
+      "name": "new",
+      "arguments": [{"type": ["DefaultUntyped"]}, {"type": ["DefaultUntyped"]}],
+      "return_type": {"type": ["Array"]}
+    }
+  ]
+}

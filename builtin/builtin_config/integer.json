@@ -1,0 +1,149 @@
+{
+  "frame": "Builtin",
+  "class": "Integer",
+  "instance_methods": [
+    {
+      "name": "%",
+      "arguments": [{"type": ["Int", "Float"]}],
+      "return_type": {"type": ["Int", "Float"], "is_conditional": true}
+    },
+    {
+      "name": "&",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "*",
+      "arguments": [{"type": ["Int", "Float"]}],
+      "return_type": {"type": ["Int", "Float"], "is_conditional": true}
+    },
+    {
+      "name": "**",
+      "arguments": [{"type": ["Number"]}],
+      "return_type": {"type": ["Integer"]}
+    },
+    {
+      "name": "+",
+      "arguments": [{"type": ["Int", "Float"]}],
+      "return_type": {"type": ["Int", "Float"], "is_conditional": true}
+    },
+    {
+      "name": "+@",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "-",
+      "arguments": [{"type": ["Int", "Float"]}],
+      "return_type": {"type": ["Int", "Float"], "is_conditional": true}
+    },
+    {
+      "name": "-@",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "/",
+      "arguments": [{"type": ["Int", "Float"]}],
+      "return_type": {"type": ["Int", "Float"], "is_conditional": true}
+    },
+    {
+      "name": "<",
+      "arguments": [{"type": ["Number"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "<<",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "<=",
+      "arguments": [{"type": ["Number"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "<=>",
+      "arguments": [{"type": ["Int", "Untyped"]}],
+      "return_type": {"type": ["Int", "OptionalInt"], "is_conditional": true}
+    },
+    {
+      "name": "==",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "==",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": ">",
+      "arguments": [{"type": ["Number"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": ">=",
+      "arguments": [{"type": ["Number"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": ">>",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "^",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "abs",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "chr",
+      "arguments": [],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "downto",
+      "arguments": [{"type": ["Int"]}],
+      "block_parameters": ["Int"],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "times",
+      "arguments": [],
+      "block_parameters": ["Int"],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "to_f",
+      "arguments": [],
+      "return_type": {"type": ["Float"]}
+    },
+    {
+      "name": "to_i",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "to_s",
+      "arguments": [{"type": ["DefaultInt"]}],
+      "return_type": {"type": ["String"]}
+    },
+    {
+      "name": "|",
+      "arguments": [{"type": ["Int"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
+      "name": "~",
+      "arguments": [],
+      "return_type": {"type": ["Int"]}
+    }
+  ],
+  "class_methods": []
+}

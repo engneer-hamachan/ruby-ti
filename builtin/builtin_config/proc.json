@@ -1,0 +1,18 @@
+{
+  "frame": "Builtin",
+  "class": "Proc",
+  "instance_methods": [
+    {
+      "name": "call",
+      "arguments": [],
+      "return_type": {"type": ["Untyped"]}
+    }
+  ],
+  "class_methods": [
+    {
+      "name": "new",
+      "arguments": [],
+      "return_type": {"type": ["Proc"]}
+    }
+  ]
+}
