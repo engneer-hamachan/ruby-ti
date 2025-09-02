@@ -20,6 +20,10 @@ Ruby-TIは、Go言語で書かれたmruby用の静的型解析器です。
 解析対象のmrubyコードに対して実行すると、
 パース→型推論→型検査までを行います。
 
+<p align="center">
+  <img src="sample.png" alt="Ruby-TI Sample" width="600"/>
+</p>
+
 
 ## なぜRuby-TIを作ったか
 私はインタプリタ言語(とりわけRuby)が大好きです。
