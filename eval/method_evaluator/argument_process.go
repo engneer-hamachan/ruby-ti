@@ -43,34 +43,12 @@ func (m *MethodEvaluator) isNotArgT(
 		}
 	}
 
-	if t.IsTargetIdentifier("&&") {
-		m.parser.Unget()
-		return true
-	}
-
 	if t.IsTargetIdentifier("[") && methodT.IsEmptyDefineArgs() {
 		m.parser.Unget()
 		return true
 	}
 
-	if t.IsCommaIdentifier() || t.IsPredicateIdentifier() {
-		if len(argTs) < 1 {
-			m.parser.Unget()
-			return true
-		}
-	}
-
 	if !m.isParentheses && t.IsTargetIdentifier(")") {
-		m.parser.Unget()
-		return true
-	}
-
-	if t.IsCalcIdentifier() {
-		m.parser.Unget()
-		return true
-	}
-
-	if t.IsDotIdentifier() {
 		m.parser.Unget()
 		return true
 	}
@@ -96,11 +74,6 @@ func (m *MethodEvaluator) isNotArgT(
 	}
 
 	if t.IsTargetIdentifier("}") {
-		m.parser.Unget()
-		return true
-	}
-
-	if t.IsEqualIdentifier() {
 		m.parser.Unget()
 		return true
 	}
