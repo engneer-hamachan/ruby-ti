@@ -75,7 +75,7 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
-	if t.IsTargetIdentifier("==") {
+	if t.GetPower() > 0 {
 		m.parser.Unget()
 		return true
 	}
