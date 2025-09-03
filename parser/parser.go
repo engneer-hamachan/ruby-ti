@@ -15,6 +15,7 @@ type Parser struct {
 	Row                 int
 	ErrorRow            int
 	lastEvaluatedT      any
+	LastCallMethodT     *base.T
 	lastCallFrame       [3]string
 	isParsingExpression bool
 	lastReturnT         []base.T

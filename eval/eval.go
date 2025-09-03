@@ -202,7 +202,7 @@ func (e *Evaluator) Eval(
 		return e.handleEvaluateMethod(p, ctx, &objectT, t, false)
 
 	// 1 + 1
-	case nextT.IsTransformTargetIdentifier():
+	case nextT.IsTransformTargetIdentifier() && p.LastCallMethodT.IsPowerUp(nextT):
 		err := e.Eval(p, ctx, t)
 		if err != nil {
 			return err
