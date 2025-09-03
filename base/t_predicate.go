@@ -152,8 +152,8 @@ func (t *T) IsCalcMethod() bool {
 	return slices.Contains(calcIdentifiers, t.GetMethodName())
 }
 
-func (t *T) IsArrayStartIdentifier() bool {
-	return t.IsTargetIdentifier("[")
+func (t *T) IsRefferenceSquareT() bool {
+	return t.IsTargetIdentifier("[") && !t.IsBeforeSpace
 }
 
 func (t *T) IsExclamationIdentifier() bool {
@@ -466,4 +466,8 @@ func (t *T) IsNameSpaceIdentifier() bool {
 
 func (t *T) IsPriorityT() bool {
 	return t.IsCalcIdentifier() || t.IsDotIdentifier() || t.IsAndDotIdentifier()
+}
+
+func (t *T) IsRefferenceAbleT() bool {
+	return !t.IsTargetIdentifier("[") && !t.IsTargetIdentifier("\n")
 }

@@ -143,7 +143,7 @@ func (e *Evaluator) Eval(
 		return nameSpaceEvaluation(e, p, ctx, t)
 
 	// hoge[:a]
-	case nextT.IsArrayStartIdentifier() && !t.IsTargetIdentifier("[") && !t.IsTargetIdentifier("\n") && !nextT.IsBeforeSpace:
+	case t.IsRefferenceAbleT() && nextT.IsRefferenceSquareT():
 		return e.referenceEvaluation(p, ctx, t)
 
 	// hoge.fuga
@@ -202,7 +202,7 @@ func (e *Evaluator) Eval(
 		return e.handleEvaluateMethod(p, ctx, &objectT, t, false)
 
 	// 1 + 1
-	case nextT.IsTransformTargetIdentifier() && p.LastCallMethodT.IsPowerUp(nextT):
+	case nextT.IsTransformTargetIdentifier() && p.LastCallT.IsNotPowerDown(nextT):
 		err := e.Eval(p, ctx, t)
 		if err != nil {
 			return err

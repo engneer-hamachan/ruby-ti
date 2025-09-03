@@ -53,7 +53,7 @@ func NewMethodEvaluator(
 		methodIdentifierT.ToString(),
 	)
 
-	p.LastCallMethodT = methodIdentifierT
+	p.LastCallT = methodIdentifierT
 
 	return &MethodEvaluator{
 		outerEval:        e,
