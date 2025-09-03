@@ -13,10 +13,10 @@ func init() {
 }
 
 func (t *T) IsPowerUp(otherT *T) bool {
-	return t.getPower() <= otherT.getPower()
+	return t.GetPower() <= otherT.GetPower()
 }
 
-func (t *T) getPower() int8 {
+func (t *T) GetPower() int8 {
 	power, ok := tPower[t.ToString()]
 	if ok {
 		return power

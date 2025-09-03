@@ -27,16 +27,28 @@ func (b *Bind) handleScalarAsigntment(
 
 	leftT := p.GetLastEvaluatedTPointer().(*base.T)
 
+	ctx.IsBind = true
+
 	nextT, err := p.Read()
 	if err != nil {
 		return err
 	}
 
-	ctx.IsBind = true
+	for {
+		err = e.ContinuousEval(p, ctx, nextT, ",")
+		if err != nil {
+			return err
+		}
 
-	err = e.ContinuousEval(p, ctx, nextT, ",")
-	if err != nil {
-		return err
+		nextT, err = p.Read()
+		if err != nil {
+			return err
+		}
+
+		if nextT.GetPower() == 0 {
+			p.Unget()
+			break
+		}
 	}
 
 	rightT := p.GetLastEvaluatedT()
