@@ -9,6 +9,11 @@
       "return_type": {"type": ["OptionalInt"]}
     },
     {
+      "name": "!=",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Bool"]}
+    },
+    {
       "name": "==",
       "arguments": [{"type": ["Untyped"]}],
       "return_type": {"type": ["Bool"]}
