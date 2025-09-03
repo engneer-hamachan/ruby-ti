@@ -53,11 +53,6 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
-	if t.GetPower() > 0 {
-		m.parser.Unget()
-		return true
-	}
-
 	if t.IsTargetIdentifier("do") {
 		m.parser.Unget()
 		return true
@@ -74,6 +69,11 @@ func (m *MethodEvaluator) isNotArgT(
 	}
 
 	if t.IsTargetIdentifier("}") {
+		m.parser.Unget()
+		return true
+	}
+
+	if t.GetPower() > 0 {
 		m.parser.Unget()
 		return true
 	}
