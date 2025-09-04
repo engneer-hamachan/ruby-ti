@@ -16,6 +16,8 @@ func init() {
 	logical := NewLogical()
 	DynamicEvaluators["&&"] = logical
 	DynamicEvaluators["||"] = logical
+	DynamicEvaluators["and"] = logical
+	DynamicEvaluators["or"] = logical
 }
 
 func (r *Logical) Evaluation(
