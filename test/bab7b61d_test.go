@@ -6,12 +6,12 @@ import (
 	"testing"
 )
 
-func Test13f156e8(t *testing.T) {
-	cmd := exec.Command("../ti", "./13f156e8.rb")
+func TestBab7b61d(t *testing.T) {
+	cmd := exec.Command("../ti", "./bab7b61d.rb")
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./13f156e8.rb::1::Array<Integer>"
+	expectedOutput := "./bab7b61d.rb::1::Union<Integer String>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -31,9 +31,21 @@ func (d *DebugTypePrint) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
-	err = e.Eval(p, ctx, nextT)
-	if err != nil {
-		p.Fatal(ctx, err)
+	for {
+		err = e.Eval(p, ctx, nextT)
+		if err != nil {
+			p.Fatal(ctx, err)
+		}
+
+		nextT, err = p.Read()
+		if err != nil {
+			p.Fatal(ctx, err)
+		}
+
+		if nextT.GetPower() == 0 {
+			p.Unget()
+			break
+		}
 	}
 
 	if !ctx.IsCheckRound() {
