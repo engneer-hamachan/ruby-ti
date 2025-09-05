@@ -1,6 +1,7 @@
 package base
 
 type T struct {
+	ID                  string
 	tType               int
 	val                 any
 	key                 string

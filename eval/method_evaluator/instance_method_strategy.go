@@ -55,5 +55,18 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return class, methodT, nil
 	}
 
+	methodT =
+		base.GetMethodT(
+			m.evaluatedObjectT.GetFrame(),
+			m.evaluatedObjectT.ID,
+			m.method,
+			false,
+		)
+
+	if methodT != nil {
+		methodT.SetBeforeEvaluateCode(class + "." + m.method)
+		return class, methodT, nil
+	}
+
 	return "", nil, m.makeNotDefinedMethodError(class, m.method)
 }

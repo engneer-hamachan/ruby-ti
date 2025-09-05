@@ -205,28 +205,54 @@ func (d *Def) evaluationBody(
 
 func (d *Def) getMethodNameAndIsStatic(
 	p *parser.Parser,
-	ctx context.Context,
+	ctx *context.Context,
 ) (string, bool, error) {
 
 	var isStatic bool
 
-	nextT, err := p.Read()
+	t, err := p.Read()
 	if err != nil {
 		return "", false, err
 	}
 
 	isStatic = ctx.IsDefineStatic
 
-	if nextT.IsTargetIdentifier("self") {
+	if t.IsTargetIdentifier("self") {
 		isStatic = true
 
-		nextT, err = p.ReadTwice()
+		t, err = p.ReadTwice()
 		if err != nil {
 			return "", false, err
 		}
 	}
 
-	method := nextT.ToString()
+	// def hoge.fuga
+	nextT, err := p.Read()
+	if err != nil {
+		return "", false, err
+	}
+
+	if nextT.IsDotIdentifier() {
+		objectT :=
+			base.GetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				t.ToString(),
+			)
+
+		ctx.SetClass(objectT.ID)
+		ctx.SetFrame(objectT.GetFrame())
+
+		t, err = p.Read()
+		if err != nil {
+			return "", false, err
+		}
+	} else {
+		p.Unget()
+	}
+
+	method := t.ToString()
 
 	if method == "initialize" {
 		method = "new"
@@ -350,7 +376,7 @@ func (d *Def) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	method, isStatic, err := d.getMethodNameAndIsStatic(p, ctx)
+	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)
 	if err != nil {
 		p.Fatal(ctx, err)
 	}
