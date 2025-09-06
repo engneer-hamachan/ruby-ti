@@ -39,11 +39,25 @@ func (h *Hash) Evaluation(
 			continue
 		}
 
-		key := ":" + nextT.ToString()[:len(nextT.ToString())-1]
+		var key string
+
+		switch nextT.GetType() {
+		case base.UNKNOWN:
+			key = ":" + nextT.ToString()[:len(nextT.ToString())-1]
+		default:
+			key = nextT.ToString()
+		}
 
 		nextT, err = p.Read()
 		if err != nil {
 			return err
+		}
+
+		if nextT.IsTargetIdentifier("=>") {
+			nextT, err = p.Read()
+			if err != nil {
+				return err
+			}
 		}
 
 		err = e.ContinuousEval(p, ctx, nextT, ".")
