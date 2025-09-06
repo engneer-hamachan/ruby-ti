@@ -66,7 +66,6 @@ func (b *Bind) handleScalarAsigntment(
 	}
 
 	rightT.SetHasDefault(ctx.IsDefineArg)
-	rightT.ID = base.GenId()
 
 	*leftT = rightT
 

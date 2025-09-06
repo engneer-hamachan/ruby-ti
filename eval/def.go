@@ -241,6 +241,10 @@ func (d *Def) getMethodNameAndIsStatic(
 				t.ToString(),
 			)
 
+		if objectT.ID == "" {
+			objectT.ID = base.GenId()
+		}
+
 		ctx.SetClass(objectT.ID)
 		ctx.SetFrame(objectT.GetFrame())
 

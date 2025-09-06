@@ -55,7 +55,7 @@ func Test$(echo ${test_name:0:1} | tr '[:lower:]' '[:upper:]')${test_name:1}(t *
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "$output"
+	expectedOutput := \`$output\`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
