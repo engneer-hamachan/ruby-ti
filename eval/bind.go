@@ -179,6 +179,7 @@ func (b *Bind) handleMultipleAsigntment(
 	p *parser.Parser,
 	ctx context.Context,
 ) (err error) {
+
 	leftTs := p.GetLastEvaluatedTPointer().([]*base.T)
 
 	nextT, err := p.Read()

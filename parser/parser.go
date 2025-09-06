@@ -52,7 +52,14 @@ func (p *Parser) GetLastEvaluatedT() base.T {
 		return *base.MakeUntyped()
 	}
 
-	t := p.lastEvaluatedT.(*base.T)
+	var t *base.T
+
+	switch p.lastEvaluatedT.(type) {
+	case *base.T:
+		t = p.lastEvaluatedT.(*base.T)
+	default:
+		t = base.MakeUnknown()
+	}
 
 	return *t.DeepCopy()
 }
