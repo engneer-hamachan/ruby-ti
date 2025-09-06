@@ -380,6 +380,8 @@ func (d *Def) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	p.ConsumeLastReturnT()
+
 	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)
 	if err != nil {
 		p.Fatal(ctx, err)
