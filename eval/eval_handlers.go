@@ -79,6 +79,10 @@ func (e *Evaluator) handleIdentifier(
 		}
 
 	default:
+		if t.IsAsteriskPrefix() {
+			id = t.ToString()[1:]
+		}
+
 		valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
 	}
 
