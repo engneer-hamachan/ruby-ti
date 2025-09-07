@@ -48,11 +48,6 @@ func (d *Comma) Evaluation(
 			return nil
 		}
 
-		if nextT.IsAsteriskPrefix() {
-			nextT = base.MakeIdentifier(nextT.ToString()[1:])
-			nextT.IsAsterisk = true
-		}
-
 		err = e.Eval(p, ctx, nextT)
 		if err != nil {
 			return err

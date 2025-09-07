@@ -84,10 +84,27 @@ func (e *Evaluator) handleIdentifier(
 			valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
 		default:
 			valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id[1:])
-		}
 
-		if valueT != nil {
-			valueT.SetBeforeEvaluateCode(id)
+			if valueT != nil {
+				valueT.SetBeforeEvaluateCode(id)
+
+				e.setLastEvaluatedT(p, ctx, valueT)
+
+				return
+			}
+
+			identifierT := base.MakeIdentifier(id)
+
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				id[1:],
+				identifierT,
+			)
+
+			e.setLastEvaluatedT(p, ctx, identifierT)
+			return
 		}
 
 	default:
@@ -103,7 +120,6 @@ func (e *Evaluator) handleIdentifier(
 	}
 
 	identifierT := base.MakeIdentifier(id)
-	identifierT.IsAsterisk = t.IsAsterisk
 
 	base.SetValueT(
 		ctx.GetFrame(),

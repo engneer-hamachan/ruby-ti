@@ -21,7 +21,6 @@ type T struct {
 	blockParamaters     []T
 	IsBeforeSpace       bool
 	IsBlockGiven        bool
-	IsAsterisk          bool
 }
 
 func (t *T) DeepCopy() *T {
@@ -41,7 +40,6 @@ func (t *T) DeepCopy() *T {
 		isWhenCallType:     t.isWhenCallType,
 		beforeEvaluateCode: t.beforeEvaluateCode,
 		isReadOnly:         t.isReadOnly,
-		IsAsterisk:         t.IsAsterisk,
 	}
 
 	if t.defineArgs != nil {
