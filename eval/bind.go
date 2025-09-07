@@ -142,33 +142,54 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 	rightTs *base.T,
 ) error {
 
-	var idx int
+	var leftIdx int
+	var rightIdx int
+
+	rightVariants := rightTs.GetVariants()
+	//	rightLen := len(rightTs.GetVariants())
+
 	for {
-		if (idx + 1) > len(leftTs) {
+		if (leftIdx + 1) > len(leftTs) {
 			break
 		}
 
-		if (idx + 1) > len(rightTs.GetVariants()) {
-			*leftTs[idx] = *base.MakeNil()
-			idx++
+		if (leftIdx + 1) > len(rightVariants) {
+			*leftTs[leftIdx] = *base.MakeNil()
+
+			leftIdx++
+			rightIdx++
+
 			continue
 		}
 
-		if leftTs[idx].HasDefault() {
+		if leftTs[leftIdx].HasDefault() {
 			return nil
 		}
 
-		if leftTs[idx].IsReadOnly() && leftTs[idx].GetBeforeEvaluateCode()[0] != '@' {
-			return fmt.Errorf("%s is read only", leftTs[idx].GetBeforeEvaluateCode())
+		if leftTs[leftIdx].IsReadOnly() && leftTs[leftIdx].GetBeforeEvaluateCode()[0] != '@' {
+			return fmt.Errorf("%s is read only", leftTs[leftIdx].GetBeforeEvaluateCode())
 		}
 
-		if leftTs[idx].IsReadOnly() {
-			rightTs.GetVariants()[idx].EnableReadOnly()
+		if leftTs[leftIdx].IsReadOnly() {
+			rightVariants[rightIdx].EnableReadOnly()
 		}
 
-		*leftTs[idx] = rightTs.GetVariants()[idx]
+		//		if leftTs[leftIdx].IsAsterisk {
+		//			variant := []base.T{}
+		//
+		//			for {
+		//				if leftIdx >= rightLen {
+		//					break
+		//				}
+		//
+		//				leftIdx++
+		//			}
+		//		}
 
-		idx++
+		*leftTs[leftIdx] = rightVariants[rightIdx]
+
+		leftIdx++
+		rightIdx++
 	}
 
 	return nil

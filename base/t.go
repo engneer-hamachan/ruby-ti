@@ -21,6 +21,7 @@ type T struct {
 	blockParamaters     []T
 	IsBeforeSpace       bool
 	IsBlockGiven        bool
+	IsAsterisk          bool
 }
 
 func (t *T) DeepCopy() *T {
