@@ -53,6 +53,24 @@ func (b *Bind) handleScalarAsigntment(
 
 	rightT := p.GetLastEvaluatedT()
 
+	if rightT.IsArrayType() {
+		newRightT := base.MakeArray()
+
+		for _, variant := range rightT.GetVariants() {
+			if variant.IsAsterisk && variant.GetBeforeEvaluateCode()[0] == '*' {
+				for _, v := range variant.GetVariants() {
+					newRightT.AppendArrayVariant(v)
+				}
+
+				continue
+			}
+
+			newRightT.AppendArrayVariant(variant)
+		}
+
+		rightT = *newRightT
+	}
+
 	if leftT.HasDefault() {
 		return nil
 	}

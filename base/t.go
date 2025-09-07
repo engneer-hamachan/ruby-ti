@@ -41,6 +41,7 @@ func (t *T) DeepCopy() *T {
 		isWhenCallType:     t.isWhenCallType,
 		beforeEvaluateCode: t.beforeEvaluateCode,
 		isReadOnly:         t.isReadOnly,
+		IsAsterisk:         t.IsAsterisk,
 	}
 
 	if t.defineArgs != nil {

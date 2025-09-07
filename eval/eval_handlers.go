@@ -78,6 +78,18 @@ func (e *Evaluator) handleIdentifier(
 			return
 		}
 
+	case '*':
+		switch ctx.IsDefineArg {
+		case true:
+			valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
+		default:
+			valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id[1:])
+		}
+
+		if valueT != nil {
+			valueT.SetBeforeEvaluateCode(id)
+		}
+
 	default:
 		valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
 	}
