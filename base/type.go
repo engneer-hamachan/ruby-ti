@@ -84,7 +84,7 @@ func UnionTypeToString(unionTypes []T) string {
 
 func TypeToString(t *T) string {
 	if t == nil {
-		return "Unknown"
+		return "?"
 	}
 
 	switch t.tType {
