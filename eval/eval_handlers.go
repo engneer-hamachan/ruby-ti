@@ -79,9 +79,12 @@ func (e *Evaluator) handleIdentifier(
 		}
 
 	case '*':
+		// test(*a)
 		switch ctx.IsDefineArg {
 		case true:
 			valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
+
+		// *a = 1, 2
 		default:
 			valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id[1:])
 
