@@ -456,6 +456,18 @@ func (t *T) IsAsteriskPrefix() bool {
 	return t.ToString()[0] == '*'
 }
 
+func (t *T) IsBeforeEvaluateAsteriskPrefix() bool {
+	if t == nil {
+		return false
+	}
+
+	if len(t.beforeEvaluateCode) < 1 {
+		return false
+	}
+
+	return t.beforeEvaluateCode[0] == '*'
+}
+
 func (t *T) IsNameSpaceIdentifier() bool {
 	if t == nil {
 		return false

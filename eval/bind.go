@@ -57,7 +57,7 @@ func (b *Bind) handleScalarAsigntment(
 		newRightT := base.MakeArray()
 
 		for _, variant := range rightT.GetVariants() {
-			if len(variant.GetBeforeEvaluateCode()) > 0 && variant.GetBeforeEvaluateCode()[0] == '*' {
+			if variant.IsBeforeEvaluateAsteriskPrefix() {
 				for _, v := range variant.GetVariants() {
 					newRightT.AppendArrayVariant(v)
 				}
@@ -192,7 +192,7 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 			rightVariants[rightIdx].EnableReadOnly()
 		}
 
-		if len(leftTs[leftIdx].GetBeforeEvaluateCode()) > 0 && leftTs[leftIdx].GetBeforeEvaluateCode()[0] == '*' {
+		if leftTs[leftIdx].IsBeforeEvaluateAsteriskPrefix() {
 			arrayT := base.MakeArray()
 
 			for {
