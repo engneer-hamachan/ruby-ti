@@ -266,7 +266,12 @@ func (e *Evaluator) makeArray(
 			break
 		}
 
+		if nextT.IsTargetIdentifier("\n") && isParentheses {
+			continue
+		}
+
 		if nextT.IsTargetIdentifier(",") {
+			p.SetLastEvaluatedT(base.MakeNil())
 			continue
 		}
 
