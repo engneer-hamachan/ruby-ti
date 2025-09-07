@@ -146,7 +146,7 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 	var rightIdx int
 
 	rightVariants := rightTs.GetVariants()
-	//	rightLen := len(rightTs.GetVariants())
+	rightLen := len(rightTs.GetVariants())
 
 	for {
 		if (leftIdx + 1) > len(leftTs) {
@@ -174,17 +174,27 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 			rightVariants[rightIdx].EnableReadOnly()
 		}
 
-		//		if leftTs[leftIdx].IsAsterisk {
-		//			variant := []base.T{}
-		//
-		//			for {
-		//				if leftIdx >= rightLen {
-		//					break
-		//				}
-		//
-		//				leftIdx++
-		//			}
-		//		}
+		if leftTs[leftIdx].IsAsterisk {
+			arrayT := base.MakeArray()
+
+			for {
+				if rightIdx >= rightLen {
+					break
+				}
+
+				arrayT.AppendArrayVariant(rightVariants[rightIdx])
+
+				rightIdx++
+			}
+
+			arrayT.IsAsterisk = true
+
+			*leftTs[leftIdx] = *arrayT
+
+			leftIdx++
+
+			continue
+		}
 
 		*leftTs[leftIdx] = rightVariants[rightIdx]
 

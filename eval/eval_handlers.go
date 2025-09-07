@@ -91,6 +91,7 @@ func (e *Evaluator) handleIdentifier(
 	}
 
 	identifierT := base.MakeIdentifier(id)
+	identifierT.IsAsterisk = t.IsAsterisk
 
 	base.SetValueT(
 		ctx.GetFrame(),
