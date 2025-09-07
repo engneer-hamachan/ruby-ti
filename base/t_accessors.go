@@ -130,6 +130,33 @@ func (t *T) AppendVariant(variantT T) {
 
 		return
 
+	case ARRAY:
+		if len(t.variants) == 0 {
+			t.variants = append(t.variants, variantT)
+			return
+		}
+
+		b := true
+		var isArrayContained bool
+
+		for _, v := range t.variants {
+			if v.IsArrayType() {
+				isArrayContained = true
+
+				for _, tv := range variantT.variants {
+					for _, cv := range v.variants {
+						if !tv.IsEqualObject(&cv) {
+							b = false
+						}
+					}
+				}
+			}
+		}
+
+		if !b || !isArrayContained {
+			t.variants = append(t.variants, variantT)
+		}
+
 	default:
 		if !t.IsEqualObject(&variantT) {
 			t.variants = append(t.variants, variantT)

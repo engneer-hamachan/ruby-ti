@@ -408,6 +408,10 @@ func (t *T) IsEqualObject(targetT *T) bool {
 	targetObject := targetT.objectClass
 	targetType := targetT.tType
 
+	if len(t.variants) == 0 && len(targetT.variants) == 0 {
+		return t.tType == targetType
+	}
+
 	for _, variantT := range t.variants {
 		variantType := variantT.tType
 		variantObject := variantT.objectClass
