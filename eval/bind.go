@@ -153,7 +153,7 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 			break
 		}
 
-		if (leftIdx + 1) > len(rightVariants) {
+		if rightIdx >= rightLen {
 			*leftTs[leftIdx] = *base.MakeNil()
 
 			leftIdx++
@@ -178,7 +178,7 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 			arrayT := base.MakeArray()
 
 			for {
-				if rightIdx >= rightLen {
+				if rightIdx > (rightLen - len(leftTs[leftIdx:])) {
 					break
 				}
 
