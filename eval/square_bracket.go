@@ -321,7 +321,8 @@ func (e *Evaluator) referenceEvaluation(
 
 	objectIdentifier := objectT.ToString()
 
-	t := base.GetDynamicValueT("", ctx.GetClass(), ctx.GetMethod(), objectIdentifier)
+	t :=
+		base.GetDynamicValueT("", ctx.GetClass(), ctx.GetMethod(), objectIdentifier)
 
 	if !t.IsArrayType() && !t.IsHashType() && !t.IsTargetClassObject("Proc") {
 		p.SkipToTargetToken("]")
