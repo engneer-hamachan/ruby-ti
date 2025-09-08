@@ -48,6 +48,10 @@ func (d *Do) setBlockParameters(
 
 	methodT := base.GetMethodT(frame, class, method, false)
 
+	if methodT == nil {
+		methodT = base.GetClassMethodT(frame, class, method, false)
+	}
+
 	if methodT != nil {
 		var blockParamaters []base.T
 

@@ -4,7 +4,7 @@
   "instance_methods": [
     {
       "name": "call",
-      "arguments": [],
+      "arguments": [{"type": ["DefaultUntyped"], "is_asterisk": true}],
       "return_type": {"type": ["Untyped"]}
     }
   ],
@@ -12,6 +12,7 @@
     {
       "name": "new",
       "arguments": [],
+      "block_parameters": ["Untyped"],
       "return_type": {"type": ["Proc"]}
     }
   ]
