@@ -244,7 +244,17 @@ func (e *Evaluator) makeArray(
 			return err
 		}
 
-		arrayT.AppendArrayVariant(p.GetLastEvaluatedT())
+		lastEvaluatedT := p.GetLastEvaluatedT()
+
+		switch lastEvaluatedT.IsBeforeEvaluateAsteriskPrefix() {
+		case true:
+			for _, variant := range lastEvaluatedT.GetVariants() {
+				arrayT.AppendArrayVariant(variant)
+			}
+
+		default:
+			arrayT.AppendArrayVariant(lastEvaluatedT)
+		}
 	}
 
 	for {
@@ -284,7 +294,17 @@ func (e *Evaluator) makeArray(
 			p.SkipNewline()
 		}
 
-		arrayT.AppendArrayVariant(p.GetLastEvaluatedT())
+		lastEvaluatedT := p.GetLastEvaluatedT()
+
+		switch lastEvaluatedT.IsBeforeEvaluateAsteriskPrefix() {
+		case true:
+			for _, variant := range lastEvaluatedT.GetVariants() {
+				arrayT.AppendArrayVariant(variant)
+			}
+
+		default:
+			arrayT.AppendArrayVariant(lastEvaluatedT)
+		}
 	}
 
 	p.SetLastEvaluatedT(arrayT)

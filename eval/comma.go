@@ -90,6 +90,14 @@ func (d *Comma) Evaluation(
 			continue
 		}
 
+		if t.IsBeforeEvaluateAsteriskPrefix() {
+			for _, variant := range t.GetVariants() {
+				arrayT.AppendArrayVariant(variant)
+			}
+
+			continue
+		}
+
 		arrayT.AppendArrayVariant(*t)
 	}
 
