@@ -319,13 +319,11 @@ func (e *Evaluator) referenceEvaluation(
 	objectT *base.T,
 ) error {
 
-	var collectionT *base.T
 	objectIdentifier := objectT.ToString()
 
-	collectionT =
-		base.GetDynamicValueT("", ctx.GetClass(), ctx.GetMethod(), objectIdentifier)
+	t := base.GetDynamicValueT("", ctx.GetClass(), ctx.GetMethod(), objectIdentifier)
 
-	if !collectionT.IsArrayType() && !collectionT.IsHashType() {
+	if !t.IsArrayType() && !t.IsHashType() && !t.IsTargetClassObject("Proc") {
 		p.SkipToTargetToken("]")
 
 		return fmt.Errorf(
@@ -334,13 +332,16 @@ func (e *Evaluator) referenceEvaluation(
 		)
 	}
 
-	switch collectionT.GetType() {
+	switch t.GetType() {
 	case base.ARRAY:
-		return e.arrayReferenceEvaluation(p, ctx, objectT, collectionT)
+		return e.arrayReferenceEvaluation(p, ctx, objectT, t)
 
 	case base.HASH:
-		return e.hashReferenceEvaluation(p, ctx, objectT, collectionT)
+		return e.hashReferenceEvaluation(p, ctx, objectT, t)
 	}
+
+	p.SkipToTargetToken("]")
+	p.SetLastEvaluatedT(base.MakeUntyped())
 
 	return nil
 }

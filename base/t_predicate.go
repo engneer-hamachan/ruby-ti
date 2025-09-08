@@ -424,6 +424,14 @@ func (t *T) IsEqualObject(targetT *T) bool {
 	return false
 }
 
+func (t *T) IsTargetClassObject(target string) bool {
+	if t == nil {
+		return false
+	}
+
+	return t.objectClass == target
+}
+
 func (t *T) IsSymbolType() bool {
 	if t == nil {
 		return false

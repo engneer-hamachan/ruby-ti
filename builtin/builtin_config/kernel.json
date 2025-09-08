@@ -26,6 +26,18 @@
       "name": "yield",
       "arguments": [{"type": ["Untyped"], "is_asterisk": true}],
       "return_type": {"type": ["SelfArgument"]}
+    },
+    {
+      "name": "proc",
+      "arguments": [],
+      "block_parameters": ["Untyped"],
+      "return_type": {"type": ["Proc"]}
+    },
+    {
+      "name": "lambda",
+      "arguments": [],
+      "block_parameters": ["Untyped"],
+      "return_type": {"type": ["Proc"]}
     }
   ],
   "class_methods": []
