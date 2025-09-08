@@ -78,19 +78,6 @@ func (e *Evaluator) handleIdentifier(
 			return
 		}
 
-	case '*':
-		// test(*a)
-		switch ctx.IsDefineArg {
-		case true:
-			valueT =
-				base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
-
-		// *a = 1, 2
-		default:
-			valueT =
-				base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id[1:])
-		}
-
 	default:
 		valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
 	}
@@ -104,10 +91,6 @@ func (e *Evaluator) handleIdentifier(
 	}
 
 	identifierT := base.MakeIdentifier(id)
-
-	if !ctx.IsDefineArg && id[0] == '*' {
-		id = id[1:]
-	}
 
 	base.SetValueT(
 		ctx.GetFrame(),

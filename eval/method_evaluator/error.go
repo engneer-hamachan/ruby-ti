@@ -73,6 +73,10 @@ func makeDefineArgumentInfo(
 			argumentTypes += "?"
 		}
 
+		if isAsteriskPrefix(definedArg) {
+			definedArgT = definedArgT.UnifyVariants()
+		}
+
 		switch definedArgT.GetType() {
 		case base.UNION:
 			argumentTypes += base.UnionTypeToString(definedArgT.GetVariants())

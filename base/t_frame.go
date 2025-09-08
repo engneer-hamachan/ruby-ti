@@ -263,6 +263,10 @@ func SetValueT(
 	t *T,
 ) error {
 
+	if len(variable) > 0 && variable[0] == '*' {
+		variable = variable[1:]
+	}
+
 	_, ok := TFrame[valueTFrameKey(frame, class, method, variable)]
 	if ok {
 		TFrame[valueTFrameKey(frame, class, method, variable)] = t
@@ -314,6 +318,10 @@ func getParentValueT(
 }
 
 func GetValueT(frame string, class string, method string, variable string) *T {
+	if len(variable) > 0 && variable[0] == '*' {
+		variable = variable[1:]
+	}
+
 	t := TFrame[valueTFrameKey(frame, class, method, variable)]
 
 	if t != nil {
