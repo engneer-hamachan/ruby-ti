@@ -407,6 +407,29 @@ func (d *Def) Evaluation(
 		}
 	}
 
+	tmpArgs := []string{}
+	isBlockGiven := false
+
+	for _, arg := range args {
+		if arg[0] == '&' {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				method,
+				arg[1:],
+				base.MakeObject("Proc"),
+			)
+
+			isBlockGiven = true
+
+			continue
+		}
+
+		tmpArgs = append(tmpArgs, arg)
+	}
+
+	args = tmpArgs
+
 	nextT, err = p.Read()
 	if err != nil {
 		return err
@@ -436,6 +459,11 @@ func (d *Def) Evaluation(
 
 	methodT := base.MakeMethod(ctx.GetFrame(), method, returnT, args)
 	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
+
+	if isBlockGiven {
+		methodT.IsBlockGiven = isBlockGiven
+		methodT.SetBlockParamaters([]base.T{*base.MakeUntyped()})
+	}
 
 	p.ClearTmpBlockParameters()
 
