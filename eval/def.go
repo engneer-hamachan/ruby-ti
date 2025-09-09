@@ -411,7 +411,7 @@ func (d *Def) Evaluation(
 	isBlockGiven := false
 
 	for _, arg := range args {
-		if arg[0] == '&' {
+		if len(arg) > 1 && arg[0] == '&' {
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),

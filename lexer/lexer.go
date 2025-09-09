@@ -258,7 +258,7 @@ func (l *Lexer) Advance() bool {
 		l.tok = char
 		l.reader.Unread()
 
-	case '!', '+', '-', '/', '%':
+	case '!', '+', '-', '/':
 		var buf strings.Builder
 		nextChar := l.reader.Read()
 		buf.WriteRune(char)
@@ -346,8 +346,23 @@ func (l *Lexer) Advance() bool {
 		l.tok = base.STRING
 
 	case '#':
-		l.skipLineComment()
-		return l.Advance()
+		nextChar := l.reader.Read()
+
+		switch nextChar {
+		case '{':
+			var buf strings.Builder
+			buf.WriteRune(char)
+			buf.WriteRune(nextChar)
+			str := buf.String()
+			l.val = Intern(str)
+			l.tok = base.UNKNOWN
+
+		default:
+			l.reader.Unread()
+			l.skipLineComment()
+
+			return l.Advance()
+		}
 
 	default:
 		if unicode.IsDigit(char) {
