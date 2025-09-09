@@ -24,7 +24,7 @@
     },
     {
       "name": "yield",
-      "arguments": [{"type": ["Untyped"], "is_asterisk": true}],
+      "arguments": [{"type": ["DefaultUntyped"], "is_asterisk": true}],
       "return_type": {"type": ["SelfArgument"]}
     },
     {
