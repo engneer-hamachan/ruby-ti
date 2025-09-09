@@ -178,7 +178,6 @@ func (l *Lexer) Advance() bool {
 		for {
 			nextChar := l.reader.Read()
 			if unicode.IsSpace(nextChar) {
-				l.IsSpace = true
 				break
 			}
 
@@ -215,18 +214,10 @@ func (l *Lexer) Advance() bool {
 				buf.WriteRune(nextChar)
 			} else {
 				l.reader.Unread()
-
-				if unicode.IsSpace(nextChar) {
-					l.IsSpace = true
-				}
 			}
 
 		} else {
 			l.reader.Unread()
-
-			if unicode.IsSpace(nextChar) {
-				l.IsSpace = true
-			}
 		}
 
 		str := buf.String()
@@ -253,10 +244,6 @@ func (l *Lexer) Advance() bool {
 				buf.WriteRune(nextChar)
 			default:
 				l.reader.Unread()
-
-				if unicode.IsSpace(nextChar) {
-					l.IsSpace = true
-				}
 			}
 
 			str := buf.String()
@@ -282,10 +269,6 @@ func (l *Lexer) Advance() bool {
 
 		default:
 			l.reader.Unread()
-
-			if unicode.IsSpace(nextChar) {
-				l.IsSpace = true
-			}
 		}
 
 		str := buf.String()
@@ -303,10 +286,6 @@ func (l *Lexer) Advance() bool {
 
 		default:
 			l.reader.Unread()
-
-			if unicode.IsSpace(nextChar) {
-				l.IsSpace = true
-			}
 		}
 
 		str := buf.String()
@@ -325,10 +304,6 @@ func (l *Lexer) Advance() bool {
 
 		default:
 			l.reader.Unread()
-
-			if unicode.IsSpace(nextChar) {
-				l.IsSpace = true
-			}
 		}
 
 		nextChar = l.reader.Read()
@@ -339,10 +314,6 @@ func (l *Lexer) Advance() bool {
 
 		default:
 			l.reader.Unread()
-
-			if unicode.IsSpace(nextChar) {
-				l.IsSpace = true
-			}
 		}
 
 		str := buf.String()
@@ -370,10 +341,6 @@ func (l *Lexer) Advance() bool {
 		}
 
 		if isIdentifierChar(char) {
-			if unicode.IsSpace(char) {
-				l.IsSpace = true
-			}
-
 			l.reader.Unread()
 			l.lexIdentifier(char)
 
