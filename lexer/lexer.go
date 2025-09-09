@@ -283,14 +283,32 @@ func (l *Lexer) Advance() bool {
 		switch nextChar {
 		case '.', '&':
 			buf.WriteRune(nextChar)
+			str := buf.String()
+			l.val = Intern(str)
+			l.tok = base.UNKNOWN
 
 		default:
 			l.reader.Unread()
-		}
 
-		str := buf.String()
-		l.val = Intern(str)
-		l.tok = base.UNKNOWN
+			l.tok = base.UNKNOWN
+
+			var buf strings.Builder
+			buf.WriteRune(char)
+
+			for {
+				char := l.reader.Read()
+
+				if !isIdentifierChar(char) {
+					l.reader.Unread()
+					break
+				}
+
+				buf.WriteRune(char)
+			}
+
+			str := buf.String()
+			l.val = Intern(str)
+		}
 
 	case '|':
 		var buf strings.Builder
