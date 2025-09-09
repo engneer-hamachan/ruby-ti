@@ -29,6 +29,10 @@ func (o *OpenParentheses) Evaluation(
 			return err
 		}
 
+		if nextT == nil {
+			break
+		}
+
 		if nextT.IsCloseParentheses() {
 			break
 		}

@@ -54,6 +54,12 @@ func (e *Evaluator) handleIdentifier(
 
 	var valueT *base.T
 
+	// <<EOF
+	if len(id) > 2 && id[:2] == "<<" {
+		evalHereDocument(p, t)
+		return
+	}
+
 	switch rune(id[0]) {
 	case '@':
 		valueT =
