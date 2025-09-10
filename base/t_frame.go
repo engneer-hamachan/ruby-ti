@@ -64,25 +64,47 @@ func getParentMethodT(
 	class string,
 	method string,
 	isPrivate bool,
+	isStatic bool,
 ) *T {
 
 	classNode := ClassNode{frame, class}
 
 	for _, parentNode := range ClassInheritanceMap[classNode] {
-		methodT, ok :=
-			TFrame[methodTFrameKey(
-				parentNode.Frame,
-				parentNode.Class,
-				method,
-				isPrivate,
-			)]
+		var methodT *T
+		var ok bool
+
+		switch isStatic {
+		case true:
+			methodT, ok =
+				TFrame[classMethodTFrameKey(
+					parentNode.Frame,
+					parentNode.Class,
+					method,
+					isPrivate,
+				)]
+
+		default:
+			methodT, ok =
+				TFrame[methodTFrameKey(
+					parentNode.Frame,
+					parentNode.Class,
+					method,
+					isPrivate,
+				)]
+		}
 
 		if ok {
 			return methodT
 		}
 
 		methodT =
-			getParentMethodT(parentNode.Frame, parentNode.Class, method, isPrivate)
+			getParentMethodT(
+				parentNode.Frame,
+				parentNode.Class,
+				method,
+				isPrivate,
+				isStatic,
+			)
 
 		if methodT != nil {
 			return methodT
@@ -100,7 +122,7 @@ func GetMethodT(frame, targetClass, targetMethod string, isPrivate bool) *T {
 		return methodT
 	}
 
-	methodT = getParentMethodT(frame, targetClass, targetMethod, isPrivate)
+	methodT = getParentMethodT(frame, targetClass, targetMethod, isPrivate, false)
 	if methodT != nil {
 		return methodT
 	}
@@ -112,7 +134,9 @@ func GetMethodT(frame, targetClass, targetMethod string, isPrivate bool) *T {
 		return methodT
 	}
 
-	methodT = getParentMethodT("Builtin", targetClass, targetMethod, isPrivate)
+	methodT =
+		getParentMethodT("Builtin", targetClass, targetMethod, isPrivate, false)
+
 	if methodT != nil {
 		return methodT
 	}
@@ -152,7 +176,7 @@ func GetTopLevelMethodT(
 		return methodT
 	}
 
-	methodT = getParentMethodT(frame, class, method, false)
+	methodT = getParentMethodT(frame, class, method, false, false)
 	if methodT != nil {
 		return methodT
 	}
@@ -168,7 +192,7 @@ func GetTopLevelMethodT(
 		return methodT
 	}
 
-	methodT = getParentMethodT("Builtin", "", method, false)
+	methodT = getParentMethodT("Builtin", "", method, false, false)
 	if methodT != nil {
 		return methodT
 	}
@@ -206,7 +230,9 @@ func GetClassMethodT(
 	}
 
 	if methodT == nil {
-		methodT = getParentMethodT(frame, targetClass, targetMethod, isPrivate)
+		methodT =
+			getParentMethodT(frame, targetClass, targetMethod, isPrivate, true)
+
 		if methodT != nil {
 			return methodT
 		}
