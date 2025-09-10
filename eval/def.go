@@ -189,6 +189,10 @@ func (d *Def) evaluationBody(
 			p.Fatal(ctx, err)
 		}
 
+		if nextT == nil {
+			break
+		}
+
 		if nextT.IsEndIdentifier() {
 			p.AppendLastReturnT()
 			break
