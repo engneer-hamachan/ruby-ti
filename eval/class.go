@@ -96,7 +96,8 @@ func (c *Class) Evaluation(
 
 	// make new method
 	returnT := base.MakeObject(class)
-	methodT := base.MakeMethod(nextFrame, "new", *returnT, []string{})
+	args := "*" + base.GenId()
+	methodT := base.MakeMethod(nextFrame, "new", *returnT, []string{args})
 	base.SetClassMethodT(nextFrame, class, methodT, ctx.IsPrivate)
 
 	// include ObjectClass
