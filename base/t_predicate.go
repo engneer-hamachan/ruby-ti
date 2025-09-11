@@ -247,6 +247,14 @@ func (t *T) IsBlockType() bool {
 	return t.tType == BLOCK
 }
 
+func (t *T) IsStringType() bool {
+	if t == nil {
+		return false
+	}
+
+	return t.tType == STRING
+}
+
 func (t *T) IsArrayType() bool {
 	if t == nil {
 		return false

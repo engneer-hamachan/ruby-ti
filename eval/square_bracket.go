@@ -221,6 +221,90 @@ func (e *Evaluator) hashReferenceEvaluation(
 	}
 }
 
+func (e *Evaluator) stringReferenceEvaluation(
+	p *parser.Parser,
+	ctx context.Context,
+	objectT *base.T,
+	stringT *base.T,
+) error {
+
+	for {
+		id, isCloseParentheses, err := p.ReadWithCheck("]")
+		if err != nil {
+			return err
+		}
+
+		// a[1..]
+		if id.IsTargetIdentifier("..") {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				objectT.ToString(),
+				stringT,
+			)
+
+			p.SetLastEvaluatedT(stringT)
+			p.Skip()
+			return nil
+		}
+
+		if !isCloseParentheses {
+			continue
+		}
+
+		break
+	}
+
+	_, isEquale, err := p.ReadWithCheck("=")
+	if err != nil {
+		return err
+	}
+
+	switch isEquale {
+	// a[0] = 1
+	case true:
+
+		ctx.IsBind = true
+		p.SkipNewline()
+
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		err = e.Eval(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
+
+		base.SetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			objectT.ToString(),
+			stringT,
+		)
+
+		p.SetLastEvaluatedT(stringT)
+
+		return nil
+
+	// a[0]
+	default:
+		methodT := base.GetMethodT(ctx.GetFrame(), "String", "[]", false)
+		if methodT == nil {
+			return fmt.Errorf("[] is not defined method")
+		}
+
+		p.Unget()
+
+		p.SetLastEvaluatedT(stringT)
+
+		return e.evalPriorityExp(p, ctx)
+	}
+}
+
 func (e *Evaluator) makeArray(
 	p *parser.Parser,
 	ctx context.Context,
@@ -324,7 +408,7 @@ func (e *Evaluator) referenceEvaluation(
 	t :=
 		base.GetDynamicValueT("", ctx.GetClass(), ctx.GetMethod(), objectIdentifier)
 
-	if !t.IsArrayType() && !t.IsHashType() && !t.IsTargetClassObject("Proc") {
+	if !t.IsArrayType() && !t.IsHashType() && !t.IsTargetClassObject("Proc") && !t.IsStringType() {
 		p.SkipToTargetToken("]")
 
 		return fmt.Errorf(
@@ -339,6 +423,9 @@ func (e *Evaluator) referenceEvaluation(
 
 	case base.HASH:
 		return e.hashReferenceEvaluation(p, ctx, objectT, t)
+
+	case base.STRING:
+		return e.stringReferenceEvaluation(p, ctx, objectT, t)
 	}
 
 	p.SkipToTargetToken("]")
