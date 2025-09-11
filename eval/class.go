@@ -94,12 +94,6 @@ func (c *Class) Evaluation(
 	nextFrame := c.getNextFrame(ctx)
 	class := nextT.ToString()
 
-	// make new method
-	returnT := base.MakeObject(class)
-	args := "*" + base.GenId()
-	methodT := base.MakeMethod(nextFrame, "new", *returnT, []string{args})
-	base.SetClassMethodT(nextFrame, class, methodT, ctx.IsPrivate)
-
 	// include ObjectClass
 	if ctx.IsCollectRound() {
 		classNode := base.ClassNode{Frame: ctx.GetFrame(), Class: class}
@@ -185,6 +179,15 @@ func (c *Class) Evaluation(
 		if err != nil {
 			p.Fatal(ctx, err)
 		}
+	}
+
+	// make new method
+	newMethodT := base.GetClassMethodT(nextFrame, class, "new", false)
+	if newMethodT == nil {
+		returnT := base.MakeObject(class)
+		args := "*" + base.GenId()
+		methodT := base.MakeMethod(nextFrame, "new", *returnT, []string{args})
+		base.SetClassMethodT(nextFrame, class, methodT, false)
 	}
 
 	return nil
