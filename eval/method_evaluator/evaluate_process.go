@@ -73,7 +73,12 @@ func conditioningMethodReturn(
 	return methodT
 }
 
-func setLastEvaluatedTAndReturn(m *MethodEvaluator, methodT *base.T) *base.T {
+func setLastEvaluatedTAndReturn(
+	m *MethodEvaluator,
+	methodT *base.T,
+	args []*base.T,
+) *base.T {
+
 	switch methodT.GetType() {
 	case base.BLOCK:
 		m.parser.SetLastEvaluatedT(methodT.GetVal())
@@ -112,8 +117,25 @@ func setLastEvaluatedTAndReturn(m *MethodEvaluator, methodT *base.T) *base.T {
 		return arrayT
 
 	case base.SELF_ARGUMENT:
-		lastEvaluatedT := m.parser.GetLastEvaluatedT()
-		return &lastEvaluatedT
+		switch len(args) {
+		case 0:
+			nilT := base.MakeNil()
+			m.parser.SetLastEvaluatedT(nilT)
+			return nilT
+
+		case 1:
+			t := args[0]
+			m.parser.SetLastEvaluatedT(t)
+			return t
+
+		default:
+			arrayT := base.MakeAnyArray()
+			for _, variant := range args {
+				arrayT.AppendArrayVariant(*variant)
+			}
+			m.parser.SetLastEvaluatedT(arrayT)
+			return arrayT
+		}
 
 	case base.UNIFY:
 		unifiedT := m.evaluatedObjectT.UnifyVariants()
@@ -177,7 +199,7 @@ func evaluateNoUnionInstanceMethod(
 		methodT = conditioningMethodReturn(m, class, methodT, evaluatedArgs)
 	}
 
-	returnT := setLastEvaluatedTAndReturn(m, methodT)
+	returnT := setLastEvaluatedTAndReturn(m, methodT, evaluatedArgs)
 
 	// a&.b
 	if m.isAmpersand {

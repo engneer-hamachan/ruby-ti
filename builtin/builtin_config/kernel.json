@@ -4,7 +4,7 @@
   "instance_methods": [
     {
       "name": "p",
-      "arguments": [{"type": ["DefaultUntyped"]}],
+      "arguments": [{"type": ["DefaultUntyped"], "is_asterisk": true}],
       "return_type": {"type": ["SelfArgument"]}
     },
     {
@@ -14,7 +14,7 @@
     },
     {
       "name": "puts",
-      "arguments": [{"type": ["DefaultUntyped"]}],
+      "arguments": [{"type": ["DefaultUntyped"], "is_asterisk": true}],
       "return_type": {"type": ["Nil"]}
     },
     {
