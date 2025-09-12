@@ -57,6 +57,30 @@ func (l *Lexer) lexDigit() {
 		char := l.reader.Read()
 
 		switch char {
+		case 'x', 'o', 'b':
+			l.reader.Unread()
+
+			l.tok = base.UNKNOWN
+
+			var buf strings.Builder
+			buf.WriteRune(char)
+
+			for {
+				char := l.reader.Read()
+
+				if !isIdentifierChar(char) {
+					l.reader.Unread()
+					break
+				}
+
+				buf.WriteRune(char)
+			}
+
+			l.val = int64(0)
+			l.tok = base.INT
+
+			return
+
 		case '.':
 			nextChar := l.reader.Read()
 
