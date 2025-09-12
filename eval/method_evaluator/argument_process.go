@@ -267,7 +267,7 @@ func expectBlockArgProcess(
 		return argTs, nil
 	}
 
-	if methodT.IsBlockGiven {
+	if methodT.IsBlockGiven && !nextT.IsNewLineIdentifier() {
 		err := m.outerEval.Eval(m.parser, m.ctx, nextT)
 		if err != nil {
 			return argTs, err
