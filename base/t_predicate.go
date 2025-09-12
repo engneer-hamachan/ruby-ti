@@ -484,6 +484,18 @@ func (t *T) IsBeforeEvaluateAsteriskPrefix() bool {
 	return t.beforeEvaluateCode[0] == '*'
 }
 
+func (t *T) IsBeforeEvaluateAtmarkPrefix() bool {
+	if t == nil {
+		return false
+	}
+
+	if len(t.beforeEvaluateCode) < 1 {
+		return false
+	}
+
+	return t.beforeEvaluateCode[0] == '@'
+}
+
 func (t *T) IsNameSpaceIdentifier() bool {
 	if t == nil {
 		return false

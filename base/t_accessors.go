@@ -65,6 +65,10 @@ func (t *T) EnableReadOnly() {
 	t.isReadOnly = true
 }
 
+func (t *T) DisableReadOnly() {
+	t.isReadOnly = false
+}
+
 func (t *T) SetIsWhenCallType(b bool) {
 	t.isWhenCallType = b
 }

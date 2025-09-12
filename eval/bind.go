@@ -79,6 +79,8 @@ func (b *Bind) handleScalarAsigntment(
 		return fmt.Errorf("%s is read only", leftT.GetBeforeEvaluateCode())
 	}
 
+	rightT.DisableReadOnly()
+
 	if leftT.IsReadOnly() {
 		rightT.EnableReadOnly()
 	}
@@ -123,10 +125,6 @@ func (b *Bind) handleMultipleToScalarAsigntment(
 
 			unionT := rightT.UnifyVariants()
 			unionT.SetHasDefault(ctx.IsDefineArg)
-
-			if leftTs[idx].IsReadOnly() {
-				unionT.EnableReadOnly()
-			}
 
 			*leftTs[idx] = *unionT
 
