@@ -403,10 +403,23 @@ func (e *Evaluator) referenceEvaluation(
 	objectT *base.T,
 ) error {
 
-	objectIdentifier := objectT.ToString()
+	var t *base.T
 
-	t :=
-		base.GetDynamicValueT("", ctx.GetClass(), ctx.GetMethod(), objectIdentifier)
+	switch objectT.GetType() {
+	case base.ARRAY, base.HASH, base.STRING:
+		t = objectT
+
+	default:
+		objectIdentifier := objectT.ToString()
+
+		t =
+			base.GetDynamicValueT(
+				"",
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				objectIdentifier,
+			)
+	}
 
 	if !t.IsArrayType() && !t.IsHashType() && !t.IsTargetClassObject("Proc") && !t.IsStringType() {
 		p.SkipToTargetToken("]")
