@@ -35,7 +35,7 @@ func (h *Hash) Evaluation(
 			break
 		}
 
-		if nextT.IsCommaIdentifier() {
+		if nextT.IsCommaIdentifier() || nextT.IsNewLineIdentifier() {
 			continue
 		}
 
