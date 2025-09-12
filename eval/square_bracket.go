@@ -421,9 +421,6 @@ func (e *Evaluator) referenceEvaluation(
 			)
 	}
 
-	if !t.IsArrayType() && !t.IsHashType() && !t.IsTargetClassObject("Proc") && !t.IsStringType() {
-	}
-
 	switch t.GetType() {
 	case base.ARRAY:
 		return e.arrayReferenceEvaluation(p, ctx, objectT, t)
@@ -434,20 +431,19 @@ func (e *Evaluator) referenceEvaluation(
 	case base.STRING:
 		return e.stringReferenceEvaluation(p, ctx, objectT, t)
 
-	case base.OBJECT:
+	default:
+		p.SkipToTargetToken("]")
+
 		if t.IsTargetClassObject("Proc") {
-			p.SkipToTargetToken("]")
 			p.SetLastEvaluatedT(base.MakeUntyped())
 			return nil
 		}
+
+		return fmt.Errorf(
+			"type mismatch. %s is not Array or Hash",
+			objectT.ToString(),
+		)
 	}
-
-	p.SkipToTargetToken("]")
-
-	return fmt.Errorf(
-		"type mismatch. %s is not Array or Hash",
-		objectT.ToString(),
-	)
 }
 
 // a[← current token pattern]
