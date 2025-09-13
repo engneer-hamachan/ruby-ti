@@ -330,6 +330,11 @@ func (l *Lexer) Advance() bool {
 			l.reader.Unread()
 		}
 
+		if (char == '+' || char == '-') && unicode.IsDigit(nextChar) {
+			l.lexDigit()
+			break
+		}
+
 		str := buf.String()
 		l.val = Intern(str)
 		l.tok = base.UNKNOWN
