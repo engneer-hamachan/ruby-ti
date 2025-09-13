@@ -59,14 +59,13 @@ func (d *Def) bindDefaultArgs(
 	e *Evaluator,
 	p *parser.Parser,
 	ctx context.Context,
-	argVariables []string,
-) ([]string, error) {
+) error {
 
 	leftT := p.GetLastEvaluatedT()
 
 	nextT, err := p.Read()
 	if err != nil {
-		return argVariables, err
+		return err
 	}
 
 	e.Eval(p, ctx, nextT)
@@ -83,14 +82,10 @@ func (d *Def) bindDefaultArgs(
 			&rightT,
 		)
 
-		argVariables = append(argVariables, leftT.ToString())
-
-		return argVariables, nil
+		return nil
 	}
 
-	//	argVariables = append(argVariables, leftT.GetBeforeEvaluateCode())
-
-	return argVariables, nil
+	return nil
 }
 
 func (d *Def) makeDefineArgVariables(
@@ -147,7 +142,7 @@ func (d *Def) makeDefineArgVariables(
 
 		// x=10
 		if argT.IsEqualIdentifier() {
-			argVariables, err = d.bindDefaultArgs(e, p, ctx, argVariables)
+			err = d.bindDefaultArgs(e, p, ctx)
 			if err != nil {
 				return argVariables, err
 			}
@@ -171,7 +166,11 @@ func (d *Def) makeDefineArgVariables(
 			}
 		}
 
-		e.Eval(p, ctx, argT)
+		err = e.Eval(p, ctx, argT)
+		if err != nil {
+			return argVariables, err
+		}
+
 		argVariables = append(argVariables, argT.ToString())
 	}
 
