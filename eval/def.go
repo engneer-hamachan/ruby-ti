@@ -68,7 +68,10 @@ func (d *Def) bindDefaultArgs(
 		return err
 	}
 
-	e.Eval(p, ctx, nextT)
+	err = e.Eval(p, ctx, nextT)
+	if err != nil {
+		return err
+	}
 
 	rightT := p.GetLastEvaluatedT()
 	rightT.SetHasDefault(true)
