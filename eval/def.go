@@ -88,7 +88,7 @@ func (d *Def) bindDefaultArgs(
 		return argVariables, nil
 	}
 
-	argVariables = append(argVariables, leftT.GetBeforeEvaluateCode())
+	//	argVariables = append(argVariables, leftT.GetBeforeEvaluateCode())
 
 	return argVariables, nil
 }
@@ -114,6 +114,7 @@ func (d *Def) makeDefineArgVariables(
 	var asteriskCount int
 
 	for {
+
 		argT, err := p.Read()
 		if err != nil {
 			return argVariables, err
