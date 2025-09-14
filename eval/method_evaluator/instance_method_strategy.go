@@ -68,5 +68,9 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return class, methodT, nil
 	}
 
+	if class == "Identifier" {
+		return class, methodT, nil
+	}
+
 	return "", nil, m.makeNotDefinedMethodError(class, m.method)
 }

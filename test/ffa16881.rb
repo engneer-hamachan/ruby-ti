@@ -6,6 +6,6 @@ def test
   end
 end
 
-x + 1
+dbtp x
 
 
