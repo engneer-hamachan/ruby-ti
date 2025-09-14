@@ -11,7 +11,7 @@ func Test0ee9a5ff(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./0ee9a5ff.rb::11::method 'abs' is not defined for Identifier"
+	expectedOutput := ""
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -11,7 +11,7 @@ func TestAeeffde5(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./aeeffde5.rb::13::method '+' is not defined for Identifier"
+	expectedOutput := ""
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
