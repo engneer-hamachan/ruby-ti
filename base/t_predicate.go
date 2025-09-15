@@ -310,9 +310,9 @@ func (t *T) IsMatchType(targetT *T) bool {
 func (t *T) IsMatchUnionType(targetT *T) bool {
 	switch targetT.tType {
 	case UNION:
-		targetTypes := targetT.GetUnionTypes()
+		targetTypes := targetT.GetVariantTypes()
 
-		for _, candidateType := range t.GetUnionTypes() {
+		for _, candidateType := range t.GetVariantTypes() {
 			if candidateType == UNTYPED {
 				return true
 			}

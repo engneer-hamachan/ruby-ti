@@ -103,7 +103,7 @@ func (t *T) PopVariants() *T {
 	return returnT
 }
 
-func (t *T) GetUnionTypes() []int {
+func (t *T) GetVariantTypes() []int {
 	var types []int
 	for _, candidateT := range t.GetVariants() {
 		types = append(types, candidateT.tType)
