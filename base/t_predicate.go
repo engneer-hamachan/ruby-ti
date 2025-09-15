@@ -402,6 +402,10 @@ func (t *T) IsSymbolIdentifier() bool {
 }
 
 func (t *T) IsReadOnly() bool {
+	if t == nil {
+		return false
+	}
+
 	return t.isReadOnly
 }
 

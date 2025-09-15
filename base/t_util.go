@@ -82,8 +82,6 @@ func (t *T) MergeHash(variantT *T) {
 		case UNION:
 			if !existT.IsMatchUnionType(newValueT) {
 				existT.AppendVariant(*newValueT)
-				//TODO: 後で調べる
-				//existT.variants = append(existT.variants, *newValueT)
 			}
 
 			continue
