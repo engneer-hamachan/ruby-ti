@@ -80,11 +80,15 @@ func (t *T) IsConstType() bool {
 }
 
 func (t *T) IsConstIdentifier() bool {
+	if t == nil {
+		return false
+	}
+
 	if t.tType != UNKNOWN {
 		return false
 	}
 
-	if len(t.ToString()) < 1 {
+	if len(t.ToString()) < 2 {
 		return false
 	}
 
@@ -92,28 +96,21 @@ func (t *T) IsConstIdentifier() bool {
 		return false
 	}
 
-	var isConst bool
-	if unicode.IsUpper(rune(t.ToString()[0])) {
-		isConst = true
-	}
-
-	if len(t.ToString()) < 2 {
+	if !unicode.IsUpper(rune(t.ToString()[0])) {
 		return false
 	}
 
-	if isConst {
-		for _, char := range t.ToString() {
-			if char == ':' {
-				return false
-			}
+	for _, char := range t.ToString() {
+		if char == ':' {
+			return false
+		}
 
-			if unicode.IsLower(char) {
-				return false
-			}
+		if unicode.IsLower(char) {
+			return false
 		}
 	}
 
-	return isConst
+	return true
 }
 
 func (t *T) IsDotIdentifier() bool {
