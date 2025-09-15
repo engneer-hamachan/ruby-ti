@@ -8,7 +8,7 @@ func NewT(objectClass string, types int, val any) *T {
 	}
 }
 
-func MakeRootObject() *T {
+func MakeObjectObject() *T {
 	t := NewT("", OBJECT, "")
 
 	return t

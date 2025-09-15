@@ -232,7 +232,7 @@ func (e *Evaluator) Eval(
 	// test()
 	case t.IsTopLevelFunctionIdentifier(ctx.GetFrame(), ctx.GetClass()):
 		p.Unget()
-		return e.handleEvaluateMethod(p, ctx, base.MakeRootObject(), t, false)
+		return e.handleEvaluateMethod(p, ctx, base.MakeObjectObject(), t, false)
 
 	default:
 		p.Unget()
