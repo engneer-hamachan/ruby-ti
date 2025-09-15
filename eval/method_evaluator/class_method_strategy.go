@@ -24,23 +24,33 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 
 	class = m.objectT.ToString()
 
-	frame := m.ctx.GetFrame()
+	calculatedFrame := m.ctx.GetFrame()
 
 	if m.ctx.GetClass() != "" {
-		switch frame {
+		switch calculatedFrame {
 		case "":
-			frame = m.ctx.GetClass()
+			calculatedFrame = m.ctx.GetClass()
 		default:
-			frame = frame + "::" + m.ctx.GetClass()
+			calculatedFrame = calculatedFrame + "::" + m.ctx.GetClass()
 		}
 	}
 
-	methodT =
-		base.GetClassMethodT(frame, class, m.method, false)
+	// TODO: GetClassMethodTに統合する
+	methodT = base.GetClassMethodT(calculatedFrame, class, m.method, false)
+
+	if methodT == nil {
+		methodT =
+			base.GetClassMethodT(m.ctx.GetFrame(), class, m.method, false)
+	}
+
+	if methodT == nil {
+		methodT = base.GetClassMethodT("", class, m.method, false)
+	}
 
 	if methodT == nil {
 		return "", nil, m.makeNotDefinedMethodError(class, m.method)
 	}
+	// ここまで
 
 	methodT.SetBeforeEvaluateCode(class + "." + m.method)
 
