@@ -378,11 +378,7 @@ func (t *T) IsKeyIdentifier() bool {
 		return false
 	}
 
-	if t.ToString()[len(t.ToString())-1:] == ":" {
-		return true
-	}
-
-	return false
+	return t.ToString()[len(t.ToString())-1:] == ":"
 }
 
 func (t *T) IsSymbolIdentifier() bool {
