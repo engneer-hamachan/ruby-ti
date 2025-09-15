@@ -140,8 +140,8 @@ func (t *T) AppendVariant(variantT T) {
 			return
 		}
 
-		b := true
 		var isArrayContained bool
+		isEqualArrayObject := true
 
 		for _, v := range t.variants {
 			if v.IsArrayType() {
@@ -150,14 +150,14 @@ func (t *T) AppendVariant(variantT T) {
 				for _, tv := range variantT.variants {
 					for _, vv := range v.variants {
 						if !tv.IsEqualObject(&vv) {
-							b = false
+							isEqualArrayObject = false
 						}
 					}
 				}
 			}
 		}
 
-		if !b || !isArrayContained {
+		if !isEqualArrayObject || !isArrayContained {
 			t.variants = append(t.variants, variantT)
 		}
 
