@@ -13,6 +13,7 @@ func NewDefineBuiltinMethod(
 	frame string,
 	class string,
 ) *defineBuiltinMethod {
+
 	d := &defineBuiltinMethod{
 		frame:       frame,
 		targetClass: class,
@@ -25,6 +26,7 @@ func (d *defineBuiltinMethod) setupMethodArgs(
 	method string,
 	argTypes []base.T,
 ) []string {
+
 	var argIdentifiers []string
 
 	for _, argType := range argTypes {
