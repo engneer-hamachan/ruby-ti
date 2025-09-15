@@ -26,6 +26,8 @@ func (h *Hash) Evaluation(
 	newHash := base.MakeAnyHash()
 
 	for {
+		p.SkipNewline()
+
 		nextT, err := p.Read()
 		if err != nil {
 			return err
@@ -35,7 +37,11 @@ func (h *Hash) Evaluation(
 			break
 		}
 
-		if nextT.IsCommaIdentifier() || nextT.IsNewLineIdentifier() {
+		if nextT.IsCommaIdentifier() {
+			continue
+		}
+
+		if nextT.IsTargetIdentifier("|") {
 			continue
 		}
 
@@ -44,6 +50,7 @@ func (h *Hash) Evaluation(
 		switch nextT.GetType() {
 		case base.UNKNOWN:
 			key = ":" + nextT.ToString()[:len(nextT.ToString())-1]
+
 		default:
 			key = nextT.ToString()
 		}
