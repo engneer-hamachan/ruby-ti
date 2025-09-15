@@ -41,10 +41,6 @@ func (h *Hash) Evaluation(
 			continue
 		}
 
-		if nextT.IsTargetIdentifier("|") {
-			continue
-		}
-
 		var key string
 
 		switch nextT.GetType() {

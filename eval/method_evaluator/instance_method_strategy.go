@@ -8,12 +8,15 @@ type instanceMethodStrategy struct{}
 
 func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 	class, methodT, err := i.getRequiredValues(m)
-	if err != nil && m.ctx.IsCheckRound() {
-		return err
-	}
 
+	errorRow := m.parser.ErrorRow
 	if err != nil {
 		m.errorResolve()
+	}
+
+	if err != nil && m.ctx.IsCheckRound() {
+		m.parser.ErrorRow = errorRow
+		return err
 	}
 
 	if methodT == nil {

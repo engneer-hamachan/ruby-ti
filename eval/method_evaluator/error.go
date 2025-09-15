@@ -101,6 +101,12 @@ func (m *MethodEvaluator) errorResolve() error {
 			return err
 		}
 
+		if nextT.IsTargetIdentifier("{") {
+			m.parser.Unget()
+			_, err = expectBlockArgProcess(m, base.MakeIdentifier("tmp"), []*base.T{})
+			return err
+		}
+
 		if nextT == nil || nextT.IsNewLineIdentifier() {
 			m.parser.Unget()
 			break
