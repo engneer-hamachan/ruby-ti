@@ -23,11 +23,7 @@ func (t *T) IsTargetIdentifiers(targets []string) bool {
 		return false
 	}
 
-	if slices.Contains(targets, t.ToString()) {
-		return true
-	}
-
-	return false
+	return slices.Contains(targets, t.ToString())
 }
 
 func (t *T) IsIdentifierType() bool {
