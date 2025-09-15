@@ -24,6 +24,7 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 
 	class = m.objectT.ToString()
 
+	// TODO: GetClassMethodTに統合する
 	calculatedFrame := m.ctx.GetFrame()
 
 	if m.ctx.GetClass() != "" {
@@ -35,7 +36,6 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		}
 	}
 
-	// TODO: GetClassMethodTに統合する
 	methodT = base.GetClassMethodT(calculatedFrame, class, m.method, false)
 
 	if methodT == nil {
