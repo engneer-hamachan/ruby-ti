@@ -72,6 +72,10 @@ func (t *T) IsClassIdentifier() bool {
 }
 
 func (t *T) IsConstType() bool {
+	if t == nil {
+		return false
+	}
+
 	return t.tType == CONST
 }
 
