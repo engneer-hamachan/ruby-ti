@@ -175,6 +175,15 @@ func (c *Class) Evaluation(
 			continue
 		}
 
+		if nextT.IsTargetIdentifier("public") {
+			methodT := base.GetMethodT("Builtin", "", "public", false)
+			if methodT != nil {
+				ctx.EndPrivate()
+			}
+
+			continue
+		}
+
 		err = e.Eval(p, ctx, nextT)
 		if err != nil {
 			p.Fatal(ctx, err)

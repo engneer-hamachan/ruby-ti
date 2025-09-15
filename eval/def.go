@@ -464,7 +464,18 @@ func (d *Def) Evaluation(
 		returnT = d.getLastEvaluatedTWhenDefineMethod(e, p, ctx)
 	}
 
-	methodT := base.MakeMethod(ctx.GetFrame(), method, returnT, args)
+	// TODO: 違うやり方あるかも
+	var methodT *base.T
+
+	switch returnT.GetType() {
+	case base.OBJECT:
+		methodT = base.MakeMethod(returnT.GetFrame(), method, returnT, args)
+
+	default:
+		methodT = base.MakeMethod(ctx.GetFrame(), method, returnT, args)
+	}
+	// ここまで
+
 	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
 
 	if isBlockGiven {

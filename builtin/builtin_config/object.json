@@ -84,6 +84,11 @@
       "return_type": {"type": ["Nil"]}
     },
     {
+      "name": "public",
+      "arguments": [{"type": ["DefaultUntyped"]}],
+      "return_type": {"type": ["Nil"]}
+    },
+    {
       "name": "raise",
       "arguments": [{"type": ["DefaultUntyped"]}, {"type": ["DefaultString"]}],
       "return_type": {"type": ["Bot"]}
