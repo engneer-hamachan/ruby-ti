@@ -24,8 +24,19 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 
 	class = m.objectT.ToString()
 
+	frame := m.ctx.GetFrame()
+
+	if m.ctx.GetClass() != "" {
+		switch frame {
+		case "":
+			frame = m.ctx.GetClass()
+		default:
+			frame = frame + "::" + m.ctx.GetClass()
+		}
+	}
+
 	methodT =
-		base.GetClassMethodT(m.ctx.GetFrame(), class, m.method, false)
+		base.GetClassMethodT(frame, class, m.method, false)
 
 	if methodT == nil {
 		return "", nil, m.makeNotDefinedMethodError(class, m.method)
