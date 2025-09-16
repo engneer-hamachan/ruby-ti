@@ -73,7 +73,7 @@ func main() {
 		var br *bufio.Reader
 		var file string
 
-		for _, round := range []string{"collect", "inference", "check"} {
+		for _, round := range context.GetRounds() {
 			if len(os.Args) == 1 {
 				panic("want one argument!")
 			}

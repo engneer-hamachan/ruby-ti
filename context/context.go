@@ -21,6 +21,10 @@ func NewContext(class string, method string, round string) Context {
 	}
 }
 
+func GetRounds() []string {
+	return []string{"collect", "inference", "check"}
+}
+
 func (c *Context) SetFrame(class string) {
 	c.frame = class
 }
