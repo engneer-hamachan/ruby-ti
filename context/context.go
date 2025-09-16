@@ -53,12 +53,12 @@ func (c Context) IsCheckRound() bool {
 	return c.round == "check"
 }
 
-func (c Context) IsCollectRound() bool {
-	return c.round == "collect"
-}
-
 func (c Context) IsInferenceRound() bool {
 	return c.round == "inference"
+}
+
+func (c Context) IsCollectRound() bool {
+	return c.round == "collect"
 }
 
 func (c *Context) StartPrivate() {
