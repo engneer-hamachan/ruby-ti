@@ -16,9 +16,7 @@ type Lexer struct {
 	reader      reader.LexerReader
 }
 
-var reserved map[string]any = make(
-	map[string]any,
-)
+var reserved map[string]any = make(map[string]any)
 
 func New(lr reader.LexerReader) Lexer {
 	reserved["nil"] = rune(base.NIL)
@@ -37,7 +35,10 @@ func (l *Lexer) Value() any {
 }
 
 func (l *Lexer) setDigitToken(buf strings.Builder) {
-	val, err := strconv.ParseInt(buf.String(), 10, 64)
+	var err error
+
+	l.val, err = strconv.ParseInt(buf.String(), 10, 64)
+	l.tok = base.INT
 
 	if err != nil {
 		l.val, _ = strconv.ParseFloat(buf.String(), 64)
@@ -45,9 +46,51 @@ func (l *Lexer) setDigitToken(buf strings.Builder) {
 
 		return
 	}
+}
 
-	l.val = val
-	l.tok = base.INT
+func (l *Lexer) lexToSpaceTokenEat(currentChar rune) strings.Builder {
+	var buf strings.Builder
+
+	buf.WriteRune(currentChar)
+
+	for {
+		char := l.reader.Read()
+
+		if unicode.IsSpace(char) {
+			if char != '\n' {
+				l.reader.Unread()
+				l.IsSpace = true
+			}
+
+			return buf
+		}
+
+		buf.WriteRune(char)
+	}
+}
+
+func (l *Lexer) lexToNotIdentifierTokenEat(currentChar rune) strings.Builder {
+	var buf strings.Builder
+
+	buf.WriteRune(currentChar)
+
+	for {
+		char := l.reader.Read()
+
+		if !isIdentifierChar(char) {
+			if char == ' ' {
+				l.IsSpace = true
+			}
+
+			if char != '\n' {
+				l.reader.Unread()
+			}
+
+			return buf
+		}
+
+		buf.WriteRune(char)
+	}
 }
 
 func (l *Lexer) lexDigit() {
@@ -63,19 +106,7 @@ func (l *Lexer) lexDigit() {
 
 			l.tok = base.UNKNOWN
 
-			var buf strings.Builder
-			buf.WriteRune(char)
-
-			for {
-				char := l.reader.Read()
-
-				if !isIdentifierChar(char) {
-					l.reader.Unread()
-					break
-				}
-
-				buf.WriteRune(char)
-			}
+			l.lexToSpaceTokenEat(char)
 
 			l.val = int64(0)
 			l.tok = base.INT
@@ -199,17 +230,7 @@ func (l *Lexer) Advance() bool {
 
 	switch char {
 	case '<', '>':
-		var buf strings.Builder
-		buf.WriteRune(char)
-
-		for {
-			nextChar := l.reader.Read()
-			if unicode.IsSpace(nextChar) {
-				break
-			}
-
-			buf.WriteRune(nextChar)
-		}
+		buf := l.lexToSpaceTokenEat(char)
 
 		str := buf.String()
 		l.tok = base.UNKNOWN
@@ -231,21 +252,32 @@ func (l *Lexer) Advance() bool {
 			return true
 		}
 
-		// ==
-		if nextChar == '=' {
-			buf.WriteRune(nextChar)
-
-			nextChar := l.reader.Read()
-			// ====
-			if nextChar == '=' {
-				buf.WriteRune(nextChar)
-			} else {
-				l.reader.Unread()
-			}
-
-		} else {
+		if nextChar != '=' {
 			l.reader.Unread()
+
+			str := buf.String()
+			l.tok = base.UNKNOWN
+			l.val = Intern(str)
+
+			return true
 		}
+
+		// ==
+		buf.WriteRune(nextChar)
+
+		nextChar = l.reader.Read()
+		if nextChar != '=' {
+			l.reader.Unread()
+
+			str := buf.String()
+			l.tok = base.UNKNOWN
+			l.val = Intern(str)
+
+			return true
+		}
+
+		// ===
+		buf.WriteRune(nextChar)
 
 		str := buf.String()
 		l.tok = base.UNKNOWN
@@ -302,19 +334,7 @@ func (l *Lexer) Advance() bool {
 
 			l.tok = base.UNKNOWN
 
-			var buf strings.Builder
-			buf.WriteRune(char)
-
-			for {
-				char := l.reader.Read()
-
-				if !isIdentifierChar(char) {
-					l.reader.Unread()
-					break
-				}
-
-				buf.WriteRune(char)
-			}
+			buf = l.lexToSpaceTokenEat(char)
 
 			str := buf.String()
 			l.val = Intern(str)
@@ -359,19 +379,7 @@ func (l *Lexer) Advance() bool {
 
 			l.tok = base.UNKNOWN
 
-			var buf strings.Builder
-			buf.WriteRune(char)
-
-			for {
-				char := l.reader.Read()
-
-				if !isIdentifierChar(char) {
-					l.reader.Unread()
-					break
-				}
-
-				buf.WriteRune(char)
-			}
+			buf := l.lexToNotIdentifierTokenEat(char)
 
 			str := buf.String()
 			l.val = Intern(str)
@@ -446,28 +454,6 @@ func (l *Lexer) Advance() bool {
 
 			break
 		}
-
-		return false
-	}
-
-	return true
-}
-
-func isIdentifierChar(c rune) bool {
-	if unicode.IsSpace(c) ||
-		c == '\n' ||
-		c == '(' ||
-		c == ')' ||
-		c == ',' ||
-		c == '.' ||
-		c == '{' ||
-		c == '}' ||
-		c == '=' ||
-		c == '[' ||
-		c == ']' ||
-		c == '|' ||
-		c == '&' ||
-		c == base.NIL {
 
 		return false
 	}
