@@ -57,6 +57,7 @@ func (l *Lexer) lexDigit() {
 		char := l.reader.Read()
 
 		switch char {
+		//0xff
 		case 'x', 'o', 'b':
 			l.reader.Unread()
 
@@ -81,6 +82,7 @@ func (l *Lexer) lexDigit() {
 
 			return
 
+		// 1.23
 		case '.':
 			nextChar := l.reader.Read()
 
@@ -92,6 +94,7 @@ func (l *Lexer) lexDigit() {
 
 				return
 			}
+
 		default:
 			if !unicode.IsDigit(char) {
 				l.reader.Unread()
