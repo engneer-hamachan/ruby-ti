@@ -172,14 +172,20 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 			return nil
 		}
 
-		if leftTs[leftIdx].IsReadOnly() && leftTs[leftIdx].GetBeforeEvaluateCode()[0] != '@' {
-			return fmt.Errorf("%s is read only", leftTs[leftIdx].GetBeforeEvaluateCode())
+		if leftTs[leftIdx].IsReadOnly() &&
+			!leftTs[leftIdx].IsBeforeEvaluateAtmarkPrefix() {
+
+			return fmt.Errorf(
+				"%s is read only",
+				leftTs[leftIdx].GetBeforeEvaluateCode(),
+			)
 		}
 
 		if leftTs[leftIdx].IsReadOnly() {
 			rightVariants[rightIdx].EnableReadOnly()
 		}
 
+		// *x, y = 1, 2, 3
 		if leftTs[leftIdx].IsBeforeEvaluateAsteriskPrefix() {
 			arrayT := base.MakeArray()
 
