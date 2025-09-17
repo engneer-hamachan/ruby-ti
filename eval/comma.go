@@ -32,13 +32,13 @@ func (d *Comma) Evaluation(
 			return err
 		}
 
-		if nextT.IsCommaIdentifier() {
-			continue
-		}
-
 		if nextT == nil || nextT.IsNewLineIdentifier() {
 			p.Unget()
 			break
+		}
+
+		if nextT.IsCommaIdentifier() {
+			continue
 		}
 
 		if nextT.IsEqualIdentifier() {
