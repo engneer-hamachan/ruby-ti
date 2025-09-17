@@ -60,14 +60,20 @@ func (c *Class) classIdentifierProcessing(
 		}
 
 		if nextT.IsTargetIdentifier("private") {
-			ctx.StartPrivate()
-			defer ctx.EndPrivate()
+			methodT := base.GetMethodT("Builtin", "", "private", false)
+			if methodT != nil {
+				ctx.StartPrivate()
+				defer ctx.EndPrivate()
+			}
 
 			continue
 		}
 
 		if nextT.IsTargetIdentifier("public") {
-			ctx.EndPrivate()
+			methodT := base.GetMethodT("Builtin", "", "public", false)
+			if methodT != nil {
+				ctx.EndPrivate()
+			}
 
 			continue
 		}
