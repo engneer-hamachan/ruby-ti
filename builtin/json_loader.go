@@ -281,6 +281,9 @@ func loadBuiltinFromJSON(configFS fs.FS, configDir string) error {
 			base.ClassInheritanceMap[classNode] =
 				append(base.ClassInheritanceMap[classNode], parentNode)
 		}
+
+		// set Defined Class
+		d.SetDefinedClass()
 	}
 
 	return nil

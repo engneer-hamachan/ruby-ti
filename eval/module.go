@@ -137,5 +137,8 @@ func (m *Module) Evaluation(
 		}
 	}
 
+	// set defined class
+	base.SetDefinedClass(nextFrame, class)
+
 	return nil
 }

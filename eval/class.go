@@ -213,5 +213,8 @@ func (c *Class) Evaluation(
 		base.SetClassMethodT(nextFrame, class, methodT, false)
 	}
 
+	// set defined class
+	base.SetDefinedClass(nextFrame, class)
+
 	return nil
 }

@@ -92,3 +92,7 @@ func (d *defineBuiltinMethod) defineBuiltinConstant(
 
 	base.SetConstValueT(frame, class, variable, &returnT)
 }
+
+func (d *defineBuiltinMethod) SetDefinedClass() {
+	base.SetDefinedClass(d.frame, d.targetClass)
+}

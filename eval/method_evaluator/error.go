@@ -39,6 +39,10 @@ func (m *MethodEvaluator) makeNotDefinedMethodError(
 	return fmt.Errorf("method '%s' is not defined for %s", method, class)
 }
 
+func (m *MethodEvaluator) makeNotDefinedClassError(class string) error {
+	return fmt.Errorf("class '%s' is not defined", class)
+}
+
 func makeDefineArgumentInfo(
 	m *MethodEvaluator,
 	class string,

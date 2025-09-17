@@ -36,6 +36,11 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		}
 	}
 
+	frames := []string{calculatedFrame, m.ctx.GetFrame(), ""}
+	if !base.IsClassDefined(frames, class) {
+		return "", nil, m.makeNotDefinedClassError(class)
+	}
+
 	methodT = base.GetClassMethodT(calculatedFrame, class, m.method, false)
 
 	if methodT == nil {
