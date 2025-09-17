@@ -210,7 +210,7 @@ func (d *Do) Evaluation(
 		}
 
 		if nextT == nil {
-			return nil
+			break
 		}
 
 		if nextT.IsTargetIdentifier("end") || nextT.IsTargetIdentifier("}") {
