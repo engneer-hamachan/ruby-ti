@@ -209,6 +209,10 @@ func (d *Do) Evaluation(
 			return err
 		}
 
+		if nextT == nil {
+			return nil
+		}
+
 		if nextT.IsTargetIdentifier("end") || nextT.IsTargetIdentifier("}") {
 			break
 		}
