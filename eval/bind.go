@@ -35,7 +35,7 @@ func (b *Bind) handleScalarAsigntment(
 	}
 
 	for {
-		err = e.ContinuousEval(p, ctx, nextT, ",")
+		err = e.Eval(p, ctx, nextT)
 		if err != nil {
 			return err
 		}
@@ -43,6 +43,14 @@ func (b *Bind) handleScalarAsigntment(
 		nextT, err = p.Read()
 		if err != nil {
 			return err
+		}
+
+		if nextT == nil {
+			return nil
+		}
+
+		if nextT.IsCommaIdentifier() {
+			continue
 		}
 
 		if nextT.GetPower() == 0 {
@@ -53,29 +61,11 @@ func (b *Bind) handleScalarAsigntment(
 
 	rightT := p.GetLastEvaluatedT()
 
-	if rightT.IsArrayType() {
-		newRightT := base.MakeArray()
-
-		for _, variant := range rightT.GetVariants() {
-			if variant.IsBeforeEvaluateAsteriskPrefix() {
-				for _, v := range variant.GetVariants() {
-					newRightT.AppendArrayVariant(v)
-				}
-
-				continue
-			}
-
-			newRightT.AppendArrayVariant(variant)
-		}
-
-		rightT = *newRightT
-	}
-
 	if leftT.HasDefault() {
 		return nil
 	}
 
-	if leftT.IsReadOnly() && leftT.GetBeforeEvaluateCode()[0] != '@' {
+	if leftT.IsReadOnly() && !leftT.IsBeforeEvaluateAtmarkPrefix() {
 		return fmt.Errorf("%s is read only", leftT.GetBeforeEvaluateCode())
 	}
 

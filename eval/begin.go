@@ -29,6 +29,10 @@ func (r *Begin) Evaluation(
 			return err
 		}
 
+		if nextT == nil {
+			return nil
+		}
+
 		if nextT.IsEndIdentifier() {
 			break
 		}

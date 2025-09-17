@@ -266,3 +266,7 @@ func MakeKeyValueArray() *T {
 
 	return t
 }
+
+func MakeEos() *T {
+	return NewT("EOS", EOS, "eos")
+}

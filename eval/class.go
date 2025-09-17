@@ -51,6 +51,10 @@ func (c *Class) classIdentifierProcessing(
 			p.Fatal(*ctx, err)
 		}
 
+		if nextT == nil {
+			break
+		}
+
 		if nextT.IsEndIdentifier() {
 			break
 		}
@@ -141,6 +145,10 @@ func (c *Class) Evaluation(
 		nextT, err := p.Read()
 		if err != nil {
 			return err
+		}
+
+		if nextT == nil {
+			return nil
 		}
 
 		if nextT.IsEndIdentifier() {
