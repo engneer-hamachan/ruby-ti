@@ -66,6 +66,12 @@ func (c *Class) classIdentifierProcessing(
 			continue
 		}
 
+		if nextT.IsTargetIdentifier("public") {
+			ctx.EndPrivate()
+
+			continue
+		}
+
 		err = e.Eval(p, *ctx, nextT)
 		if err != nil {
 			p.Fatal(*ctx, err)
