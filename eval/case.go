@@ -48,9 +48,9 @@ func (c *Case) Evaluation(
 	}
 
 	var caseTs []base.T
-	var resultTs []base.T
-	var isElse bool
 	var isFirstWhen bool
+
+	resultTs := []base.T{*base.MakeNil()}
 
 	for {
 		nextT, err := p.Read()
@@ -70,85 +70,82 @@ func (c *Case) Evaluation(
 			break
 		}
 
-		if nextT.IsTargetIdentifier("when") {
-			if !isFirstWhen {
-				isFirstWhen = true
-			} else {
+		switch nextT.ToString() {
+		case "when":
+			switch isFirstWhen {
+			case true:
 				resultTs = append(resultTs, p.GetLastEvaluatedT())
+			case false:
+				isFirstWhen = true
 			}
 
-			if objectT.IsIdentifierType() {
-				caseT, err := p.Read()
-				if err != nil {
-					return err
-				}
-
-				err = e.Eval(p, ctx, caseT)
-				if err != nil {
-					return err
-				}
-
-				evaluatedT := p.GetLastEvaluatedT()
-				caseTs = append(caseTs, evaluatedT)
-
-				base.SetValueT(
-					ctx.GetFrame(),
-					ctx.GetClass(),
-					ctx.GetMethod(),
-					objectT.ToString(),
-					&evaluatedT,
-				)
+			if !objectT.IsIdentifierType() {
+				continue
 			}
 
-			continue
-		}
+			caseT, err := p.Read()
+			if err != nil {
+				return err
+			}
 
-		if nextT.IsTargetIdentifier("else") {
-			isElse = true
+			err = e.Eval(p, ctx, caseT)
+			if err != nil {
+				return err
+			}
+
+			evaluatedT := p.GetLastEvaluatedT()
+			caseTs = append(caseTs, evaluatedT)
+
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				objectT.ToString(),
+				&evaluatedT,
+			)
+
+		case "else":
+			resultTs = resultTs[1:]
 			resultTs = append(resultTs, p.GetLastEvaluatedT())
 
-			if evaluatedT.IsUnionType() && objectT.IsIdentifierType() {
-				unionVariants := evaluatedT.GetVariants()
-
-				var newUnionVariants []base.T
-
-				for _, variant := range unionVariants {
-					isContain := false
-					for _, caseT := range caseTs {
-						if caseT.GetType() == variant.GetType() {
-							isContain = true
-							break
-						}
-					}
-
-					if isContain {
-						continue
-					}
-
-					newUnionVariants = append(newUnionVariants, variant)
-				}
-
-				unionT := base.MakeUnion(newUnionVariants)
-				base.SetValueT(
-					ctx.GetFrame(),
-					ctx.GetClass(),
-					ctx.GetMethod(),
-					objectT.ToString(),
-					unionT.UnifyVariants(),
-				)
+			if !evaluatedT.IsUnionType() || !objectT.IsIdentifierType() {
+				continue
 			}
 
-			continue
+			unionVariants := evaluatedT.GetVariants()
+
+			var newUnionVariants []base.T
+
+			for _, variant := range unionVariants {
+				isContain := false
+				for _, caseT := range caseTs {
+					if caseT.GetType() == variant.GetType() {
+						isContain = true
+						break
+					}
+				}
+
+				if isContain {
+					continue
+				}
+
+				newUnionVariants = append(newUnionVariants, variant)
+			}
+
+			unionT := base.MakeUnion(newUnionVariants)
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				objectT.ToString(),
+				unionT.UnifyVariants(),
+			)
 		}
 
 		err = e.Eval(p, ctx, nextT)
 		if err != nil {
 			return err
 		}
-	}
-
-	if !isElse {
-		resultTs = append(resultTs, *base.MakeNil())
 	}
 
 	resultT := base.MakeUnifiedT(resultTs)
