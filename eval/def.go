@@ -348,7 +348,7 @@ func (d *Def) getLastEvaluatedTWhenDefineMethod(
 	return d.getChainMethodReturnType(e, p, ctx, evaluatedT)
 }
 
-func (d *Def) endlessDefiniction(
+func (d *Def) endlessDefinition(
 	e *Evaluator,
 	p *parser.Parser,
 	ctx context.Context,
@@ -406,8 +406,9 @@ func (d *Def) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
+	// def hoge = 1
 	if nextT.IsEqualIdentifier() {
-		return d.endlessDefiniction(e, p, ctx, method, []string{}, isStatic)
+		return d.endlessDefinition(e, p, ctx, method, []string{}, isStatic)
 	}
 
 	var args []string
@@ -422,6 +423,7 @@ func (d *Def) Evaluation(
 	tmpArgs := []string{}
 	isBlockGiven := false
 
+	// def hoge(&block)
 	for _, arg := range args {
 		if len(arg) > 1 && arg[0] == '&' {
 			base.SetValueT(
@@ -447,8 +449,9 @@ func (d *Def) Evaluation(
 		return err
 	}
 
+	// def hoge() = 1
 	if nextT.IsEqualIdentifier() {
-		return d.endlessDefiniction(e, p, ctx, method, args, isStatic)
+		return d.endlessDefinition(e, p, ctx, method, args, isStatic)
 	}
 
 	p.Unget()
