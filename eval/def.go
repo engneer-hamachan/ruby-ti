@@ -313,12 +313,12 @@ func (d *Def) unifyReturnT(lastReturnT []base.T) base.T {
 			continue
 		}
 
-		if t.GetType() != base.UNION {
-			unionVariants = append(unionVariants, t)
+		if t.GetType() == base.UNION {
+			unionVariants = append(unionVariants, t.GetVariants()...)
 			continue
 		}
 
-		unionVariants = append(unionVariants, t.GetVariants()...)
+		unionVariants = append(unionVariants, t)
 	}
 
 	if len(unionVariants) == 1 {
