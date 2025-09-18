@@ -71,6 +71,7 @@ func (d *Comma) Evaluation(
 
 	arrayT := base.MakeArray()
 
+	// x, *y, z
 	for _, t := range tArray {
 		if t == nil {
 			arrayT.AppendArrayVariant(*base.MakeNil())
