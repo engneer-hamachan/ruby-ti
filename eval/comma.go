@@ -69,19 +69,6 @@ func (d *Comma) Evaluation(
 		break
 	}
 
-	nextT, err := p.Read()
-	if err != nil {
-		return err
-	}
-
-	p.Unget()
-
-	if nextT.IsEqualIdentifier() {
-		p.SetLastEvaluatedT(tArray)
-
-		return nil
-	}
-
 	arrayT := base.MakeArray()
 
 	for _, t := range tArray {
