@@ -27,11 +27,14 @@ func (d *Def) bindDefaultKeywordArgs(
 
 	nextT, err := p.Read()
 	if err != nil {
-		return []string{}, false, err
+		return argVariables, false, err
 	}
 
 	if !nextT.IsCloseParentheses() && !nextT.IsCommaIdentifier() {
-		e.Eval(p, ctx, nextT)
+		err := e.Eval(p, ctx, nextT)
+		if err != nil {
+			return argVariables, false, err
+		}
 
 		lastEvaluatedT := p.GetLastEvaluatedT()
 		lastEvaluatedT.SetHasDefault(true)
@@ -71,6 +74,10 @@ func (d *Def) bindDefaultArgs(
 	err = e.Eval(p, ctx, nextT)
 	if err != nil {
 		return err
+	}
+
+	if nextT == nil {
+		return nil
 	}
 
 	rightT := p.GetLastEvaluatedT()
@@ -233,12 +240,12 @@ func (d *Def) getMethodNameAndIsStatic(
 		}
 	}
 
-	// def hoge.fuga
-	nextT, err := p.Read()
+	nextT, err := p.ReadAhead()
 	if err != nil {
 		return "", false, err
 	}
 
+	// def object.special_method
 	if nextT.IsDotIdentifier() {
 		objectT :=
 			base.GetValueT(
@@ -255,12 +262,10 @@ func (d *Def) getMethodNameAndIsStatic(
 		ctx.SetClass(objectT.ID)
 		ctx.SetFrame(objectT.GetFrame())
 
-		t, err = p.Read()
+		t, err = p.ReadTwice()
 		if err != nil {
 			return "", false, err
 		}
-	} else {
-		p.Unget()
 	}
 
 	method := t.ToString()
