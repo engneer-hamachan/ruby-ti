@@ -40,20 +40,20 @@ func (i *IfUnless) setConditionalCtx(
 
 	classT := i.convertClassNameToTobject(class)
 
-	var shouldNarrowType bool
+	var isNarrow bool
 
 	switch i.conditionType {
 	case "if":
-		shouldNarrowType = !isExclamation
+		isNarrow = !isExclamation
 
 	case "unless":
-		shouldNarrowType = isExclamation
+		isNarrow = isExclamation
 
 	default:
 		return fmt.Errorf("syntax error")
 	}
 
-	switch shouldNarrowType {
+	switch isNarrow {
 	case true:
 		base.SetValueT(
 			ctx.GetFrame(),
@@ -264,13 +264,16 @@ func (i *IfUnless) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
-	var isElse bool
-	var resultTs []base.T
+	resultTs := []base.T{*base.MakeNil()}
 
 	for {
 		nextT, err := p.Read()
 		if err != nil {
 			p.Fatal(ctx, err)
+		}
+
+		if nextT == nil {
+			return nil
 		}
 
 		if nextT.IsTargetIdentifier(endIdentifier) {
@@ -302,7 +305,7 @@ func (i *IfUnless) Evaluation(
 			p.Unget()
 
 			if nextT.ToString() != endIdentifier {
-				isElse = true
+				resultTs = resultTs[1:]
 			}
 
 			resultTs = append(resultTs, p.GetLastEvaluatedT())
@@ -314,10 +317,6 @@ func (i *IfUnless) Evaluation(
 		if err != nil {
 			p.Fatal(ctx, err)
 		}
-	}
-
-	if !isElse {
-		resultTs = append(resultTs, *base.MakeNil())
 	}
 
 	if endIdentifier == "\n" {
