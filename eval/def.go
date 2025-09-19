@@ -102,12 +102,11 @@ func (d *Def) makeDefineArgVariables(
 	e *Evaluator,
 	p *parser.Parser,
 	ctx context.Context,
-	t *base.T,
-) ([]string, error) {
+	method string,
+	isParentheses bool,
+) ([]string, bool, error) {
 
 	var argVariables []string
-
-	isParentheses := t.IsOpenParentheses()
 
 	if !isParentheses {
 		p.Unget()
@@ -117,12 +116,12 @@ func (d *Def) makeDefineArgVariables(
 	defer ctx.EndDefineArg()
 
 	var asteriskCount int
+	isBlockGiven := false
 
 	for {
-
 		argT, err := p.Read()
 		if err != nil {
-			return argVariables, err
+			return argVariables, false, err
 		}
 
 		if argT.IsTargetIdentifier(",") {
@@ -143,7 +142,7 @@ func (d *Def) makeDefineArgVariables(
 
 			if asteriskCount > 1 {
 				p.Skip()
-				return argVariables, fmt.Errorf(
+				return argVariables, false, fmt.Errorf(
 					"syntax errror. %s is define multiple '*'",
 					ctx.GetMethod(),
 				)
@@ -154,7 +153,7 @@ func (d *Def) makeDefineArgVariables(
 		if argT.IsEqualIdentifier() {
 			err = d.bindDefaultArgs(e, p, ctx)
 			if err != nil {
-				return argVariables, err
+				return argVariables, false, err
 			}
 
 			continue
@@ -168,7 +167,7 @@ func (d *Def) makeDefineArgVariables(
 				d.bindDefaultKeywordArgs(e, p, ctx, argT, argVariables)
 
 			if err != nil {
-				return argVariables, err
+				return argVariables, false, err
 			}
 
 			if isBind {
@@ -178,13 +177,30 @@ func (d *Def) makeDefineArgVariables(
 
 		err = e.Eval(p, ctx, argT)
 		if err != nil {
-			return argVariables, err
+			return argVariables, false, err
 		}
 
-		argVariables = append(argVariables, argT.ToString())
+		arg := argT.ToString()
+
+		// &block
+		if len(arg) > 1 && arg[0] == '&' {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				method,
+				arg[1:],
+				base.MakeObject("Proc"),
+			)
+
+			isBlockGiven = true
+
+			continue
+		}
+
+		argVariables = append(argVariables, arg)
 	}
 
-	return argVariables, nil
+	return argVariables, isBlockGiven, nil
 }
 
 func (d *Def) evaluationBody(
@@ -412,37 +428,16 @@ func (d *Def) Evaluation(
 	}
 
 	var args []string
+	var isBlockGiven bool
 
 	if nextT.IsTargetIdentifier("(") || !nextT.IsTargetIdentifier("\n") {
-		args, err = d.makeDefineArgVariables(e, p, ctx, nextT)
+		args, isBlockGiven, err =
+			d.makeDefineArgVariables(e, p, ctx, method, nextT.IsOpenParentheses())
+
 		if err != nil {
 			p.Fatal(ctx, err)
 		}
 	}
-
-	tmpArgs := []string{}
-	isBlockGiven := false
-
-	// def hoge(&block)
-	for _, arg := range args {
-		if len(arg) > 1 && arg[0] == '&' {
-			base.SetValueT(
-				ctx.GetFrame(),
-				ctx.GetClass(),
-				method,
-				arg[1:],
-				base.MakeObject("Proc"),
-			)
-
-			isBlockGiven = true
-
-			continue
-		}
-
-		tmpArgs = append(tmpArgs, arg)
-	}
-
-	args = tmpArgs
 
 	nextT, err = p.Read()
 	if err != nil {
