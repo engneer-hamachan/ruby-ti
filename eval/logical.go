@@ -47,6 +47,10 @@ func (r *Logical) Evaluation(
 			return err
 		}
 
+		if nextT == nil {
+			break
+		}
+
 		if nextT.GetPower() == 0 {
 			p.Unget()
 			break
