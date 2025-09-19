@@ -28,20 +28,22 @@ func (e *Evaluator) handleEvaluateMethod(
 	return methodEvaluator.Evaluation()
 }
 
-func (e *Evaluator) handleDynamicEvaluator(
+func (e *Evaluator) handleDynamicOrIdentifierEvaluator(
 	p *parser.Parser,
 	ctx context.Context,
 	t *base.T,
-) (bool, error) {
+) error {
 
 	id := t.ToString()
 
 	dynamicEvalutor, ok := DynamicEvaluators[id]
 	if ok {
-		return true, dynamicEvalutor.Evaluation(e, p, ctx, t)
+		return dynamicEvalutor.Evaluation(e, p, ctx, t)
 	}
 
-	return false, nil
+	e.handleIdentifier(p, ctx, t)
+
+	return nil
 }
 
 func (e *Evaluator) handleIdentifier(

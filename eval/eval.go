@@ -238,16 +238,10 @@ func (e *Evaluator) Eval(
 		p.Unget()
 	}
 
-	isEndOfProccess, err := e.handleDynamicEvaluator(p, ctx, t)
+	err = e.handleDynamicOrIdentifierEvaluator(p, ctx, t)
 	if err != nil {
 		return err
 	}
-
-	if isEndOfProccess {
-		return nil
-	}
-
-	e.handleIdentifier(p, ctx, t)
 
 	return nil
 }
