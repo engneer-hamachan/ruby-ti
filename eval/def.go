@@ -472,7 +472,6 @@ func (d *Def) Evaluation(
 		returnT = d.getLastEvaluatedTWhenDefineMethod(e, p, ctx)
 	}
 
-	// TODO: 違うやり方あるかも
 	var methodT *base.T
 
 	switch returnT.GetType() {
@@ -482,7 +481,6 @@ func (d *Def) Evaluation(
 	default:
 		methodT = base.MakeMethod(ctx.GetFrame(), method, returnT, args)
 	}
-	// ここまで
 
 	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
 
