@@ -20,6 +20,10 @@ func evalHereDocument(
 			return err
 		}
 
+		if nextT == nil {
+			return nil
+		}
+
 		if nextT.IsNewLineIdentifier() {
 			isNewLine = true
 		}
