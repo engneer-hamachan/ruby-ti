@@ -63,7 +63,7 @@ func (h *Hash) Evaluation(
 			}
 		}
 
-		err = e.ContinuousEval(p, ctx, nextT, ".")
+		err = e.Eval(p, ctx, nextT)
 		if err != nil {
 			return err
 		}
