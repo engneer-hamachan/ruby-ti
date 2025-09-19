@@ -55,8 +55,20 @@ func (m *Module) classIdentifierProcessing(
 		}
 
 		if nextT.IsTargetIdentifier("private") {
-			ctx.StartPrivate()
-			defer ctx.EndPrivate()
+			methodT := base.GetMethodT("Builtin", "", "private", false)
+			if methodT != nil {
+				ctx.StartPrivate()
+				defer ctx.EndPrivate()
+			}
+
+			continue
+		}
+
+		if nextT.IsTargetIdentifier("public") {
+			methodT := base.GetMethodT("Builtin", "", "public", false)
+			if methodT != nil {
+				ctx.EndPrivate()
+			}
 
 			continue
 		}
@@ -129,8 +141,20 @@ func (m *Module) Evaluation(
 		}
 
 		if nextT.IsTargetIdentifier("private") {
-			ctx.StartPrivate()
-			defer ctx.EndPrivate()
+			methodT := base.GetMethodT("Builtin", "", "private", false)
+			if methodT != nil {
+				ctx.StartPrivate()
+				defer ctx.EndPrivate()
+			}
+
+			continue
+		}
+
+		if nextT.IsTargetIdentifier("public") {
+			methodT := base.GetMethodT("Builtin", "", "public", false)
+			if methodT != nil {
+				ctx.EndPrivate()
+			}
 
 			continue
 		}
