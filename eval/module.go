@@ -102,6 +102,10 @@ func (m *Module) Evaluation(
 			p.Fatal(ctx, err)
 		}
 
+		if nextT == nil {
+			return nil
+		}
+
 		if nextT.IsEndIdentifier() {
 			break
 		}
