@@ -8,6 +8,7 @@ function! ruby_ti#ui#setup_highlights()
   endif
 
   highlight RubyTiWarning ctermfg=Yellow guifg=Yellow cterm=bold gui=bold
+  highlight RubyTiTypeInfo ctermfg=Blue guifg=#88aaff cterm=italic gui=italic
   
   if exists('&signcolumn')
     setlocal signcolumn=yes:2
@@ -270,4 +271,33 @@ endfunction
 
 function! ruby_ti#ui#clear_status()
   echo ''
+endfunction
+
+function! ruby_ti#ui#show_virtual_text()
+  if !ruby_ti#config#get('enable_def_type_info', 1)
+    return
+  endif
+  
+  let current_file = expand('%:p')
+  let type_infos = ruby_ti#state#get_type_infos()
+  let ns = ruby_ti#state#get_virtual_text_ns()
+  
+  " Clear existing virtual text
+  call nvim_buf_clear_namespace(bufnr('%'), ns, 0, -1)
+  
+  " Add virtual text for type info messages in current file
+  for type_info in type_infos
+    if type_info.file_path == current_file
+      let line_idx = type_info.line_number - 1  " Convert to 0-based indexing
+      if line_idx >= 0
+        call nvim_buf_set_virtual_text(bufnr('%'), ns, line_idx, 
+          \ [[' → ' . type_info.type_info, 'RubyTiTypeInfo']], {})
+      endif
+    endif
+  endfor
+endfunction
+
+function! ruby_ti#ui#clear_virtual_text()
+  let ns = ruby_ti#state#get_virtual_text_ns()
+  call nvim_buf_clear_namespace(bufnr('%'), ns, 0, -1)
 endfunction

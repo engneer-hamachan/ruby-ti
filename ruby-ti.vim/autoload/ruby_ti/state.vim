@@ -14,7 +14,9 @@ function! ruby_ti#state#init()
     \ },
     \ 'all_errors': [],
     \ 'current_error_index': 0,
-    \ 'match_id': -1
+    \ 'match_id': -1,
+    \ 'type_infos': [],
+    \ 'virtual_text_ns': -1
   \ }
 endfunction
 
@@ -45,6 +47,7 @@ function! ruby_ti#state#clear_error_info()
   \ }
   let s:state['all_errors'] = []
   let s:state['current_error_index'] = 0
+  let s:state['type_infos'] = []
 endfunction
 
 function! ruby_ti#state#is_popup_visible()
@@ -106,6 +109,21 @@ function! ruby_ti#state#cycle_to_next_error()
   call ruby_ti#state#set_error_info(all_errors[next_index])
 endfunction
 
+function! ruby_ti#state#set_type_infos(type_infos)
+  let s:state['type_infos'] = a:type_infos
+endfunction
+
+function! ruby_ti#state#get_type_infos()
+  return get(s:state, 'type_infos', [])
+endfunction
+
+function! ruby_ti#state#get_virtual_text_ns()
+  if s:state['virtual_text_ns'] == -1
+    let s:state['virtual_text_ns'] = nvim_create_namespace('ruby_ti_virtual_text')
+  endif
+  return s:state['virtual_text_ns']
+endfunction
+
 function! ruby_ti#state#reset()
   execute 'match none'
   
@@ -124,4 +142,10 @@ function! ruby_ti#state#reset()
   let s:state['popup_window_id'] = -1
   call ruby_ti#state#reset_typing_state()
   call ruby_ti#state#clear_error_info()
+  let s:state['type_infos'] = []
+  
+  " Clear virtual text
+  if s:state['virtual_text_ns'] != -1
+    call nvim_buf_clear_namespace(bufnr('%'), s:state['virtual_text_ns'], 0, -1)
+  endif
 endfunction

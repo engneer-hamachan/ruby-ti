@@ -83,6 +83,9 @@ function! s:on_checker_complete(job_id, data, event)
     
     call ruby_ti#ui#show_popup_if_needed()
   endif
+  
+  " Display type info as virtual text for current file
+  call ruby_ti#ui#show_virtual_text()
 endfunction
 
 function! s:on_checker_exit(job_id, exit_code, event)
@@ -93,17 +96,27 @@ function! s:on_checker_exit(job_id, exit_code, event)
     call ruby_ti#ui#hide_popup()
     call ruby_ti#ui#clear_status()
   endif
+  
+  " Always show virtual text (even if no errors, there might be type info)
+  call ruby_ti#ui#show_virtual_text()
 endfunction
 
 function! s:parse_all_checker_errors(output)
-  " Parse multiple lines of format: "file_path::line_number::error_message"
+  " Parse multiple lines of format: "file_path::line_number::error_message" or "@file_path::line_number::type_info"
   let lines = split(a:output, '\n')
   let errors = []
+  let type_infos = []
   
   for line in lines
     let line = s:sanitize_string(line)
     if empty(line)
       continue
+    endif
+    
+    " Check if this is a type info message (starts with @)
+    let is_type_info = line[0] ==# '@'
+    if is_type_info
+      let line = line[1:]  " Remove @ prefix
     endif
     
     let parts = split(line, '::')
@@ -112,24 +125,40 @@ function! s:parse_all_checker_errors(output)
     endif
     
     let file_path = s:sanitize_string(parts[0])
+    " For type info messages, ensure file_path is absolute
+    if is_type_info && !empty(file_path) && file_path[0] !=# '/'
+      let file_path = expand('%:p:h') . '/' . file_path
+    endif
     let line_number = s:parse_line_number(parts[1])
-    let error_message = s:sanitize_string(parts[2])
+    let message = s:sanitize_string(parts[2])
     
     " Validate parsed data
-    if empty(file_path) || line_number <= 0 || empty(error_message)
+    if empty(file_path) || line_number <= 0 || empty(message)
       continue
     endif
     
-    " Create filename display (basename + line number)
-    let filename_display = fnamemodify(file_path, ':t') . ' line:' . line_number
-    
-    call add(errors, {
-      \ 'file_path': file_path,
-      \ 'line_number': line_number,
-      \ 'message': error_message,
-      \ 'filename': filename_display
-    \ })
+    if is_type_info
+      " Store type info for virtual text display
+      call add(type_infos, {
+        \ 'file_path': file_path,
+        \ 'line_number': line_number,
+        \ 'type_info': message
+      \ })
+    else
+      " Create filename display (basename + line number)
+      let filename_display = fnamemodify(file_path, ':t') . ' line:' . line_number
+      
+      call add(errors, {
+        \ 'file_path': file_path,
+        \ 'line_number': line_number,
+        \ 'message': message,
+        \ 'filename': filename_display
+      \ })
+    endif
   endfor
+  
+  " Store type infos in state for virtual text display
+  call ruby_ti#state#set_type_infos(type_infos)
   
   return errors
 endfunction

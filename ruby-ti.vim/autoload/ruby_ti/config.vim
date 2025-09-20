@@ -6,6 +6,7 @@ let s:config = {
   \ 'checker_command': 'ti',
   \ 'enable_animation': 1,
   \ 'enable_line_highlighting': 1,
+  \ 'enable_def_type_info': 1,
   \ 'auto_run': 0,
   \ 'mark': '💎',
   \ 'popup_style': {
