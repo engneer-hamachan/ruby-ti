@@ -401,6 +401,94 @@ func (d *Def) endlessDefinition(
 	return nil
 }
 
+func isKeySuffix(str string) bool {
+	return str[len(str)-1:] == ":" && len(str) >= 2
+}
+
+func isAsteriskPrefix(str string) bool {
+	return str[0] == '*'
+}
+
+func removeSuffix(str string) string {
+	return str[:len(str)-1]
+}
+
+func (d *Def) setDefineInfos(
+	p *parser.Parser,
+	ctx context.Context,
+	methodT *base.T,
+) {
+
+	var hint string
+
+	hint += "@"
+	hint += p.FileName + "::"
+	hint += fmt.Sprintf("%d", p.DefineRow)
+	hint += "::"
+
+	argumentTypes := "("
+
+	for _, definedArg := range methodT.GetDefineArgs() {
+		if argumentTypes != "(" {
+			argumentTypes += ", "
+		}
+
+		if isKeySuffix(definedArg) {
+			argumentTypes += definedArg + " "
+			definedArg = removeSuffix(definedArg)
+		}
+
+		if isAsteriskPrefix(definedArg) {
+			argumentTypes += "*"
+		}
+
+		definedArgT :=
+			base.GetValueT(
+				methodT.GetFrame(),
+				ctx.GetClass(),
+				methodT.GetMethodName(),
+				definedArg,
+			)
+
+		if definedArgT.HasDefault() {
+			argumentTypes += "?"
+		}
+
+		if isAsteriskPrefix(definedArg) {
+			definedArgT = definedArgT.UnifyVariants()
+		}
+
+		switch definedArgT.GetType() {
+		case base.UNION:
+			argumentTypes += base.UnionTypeToString(definedArgT.GetVariants())
+
+		case base.UNKNOWN:
+			argumentTypes += "?"
+
+		default:
+			argumentTypes += base.TypeToString(definedArgT)
+		}
+	}
+
+	argumentTypes += ")"
+
+	hint += argumentTypes
+	hint += " -> "
+
+	switch methodT.GetType() {
+	case base.UNION:
+		hint += base.UnionTypeToString(methodT.GetVariants())
+
+	case base.UNKNOWN:
+		hint += "?"
+
+	default:
+		hint += base.TypeToString(methodT)
+	}
+
+	p.DefineInfos = append(p.DefineInfos, hint)
+}
+
 func (d *Def) Evaluation(
 	e *Evaluator,
 	p *parser.Parser,
@@ -409,6 +497,7 @@ func (d *Def) Evaluation(
 ) (err error) {
 
 	p.ConsumeLastReturnT()
+	p.DefineRow = p.Row
 
 	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)
 	if err != nil {
@@ -492,6 +581,10 @@ func (d *Def) Evaluation(
 
 	default:
 		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
+	}
+
+	if ctx.IsCheckRound() {
+		d.setDefineInfos(p, ctx, methodT)
 	}
 
 	return nil

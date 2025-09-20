@@ -14,6 +14,7 @@ type Parser struct {
 	FileName            string
 	Row                 int
 	ErrorRow            int
+	DefineRow           int
 	lastEvaluatedT      any
 	LastCallT           *base.T
 	lastCallFrame       [3]string
@@ -23,6 +24,7 @@ type Parser struct {
 	tmpEvaluatedArgs    []*base.T
 	Debug               bool
 	Errors              []error
+	DefineInfos         []string
 }
 
 func New(lexer lexer.Lexer, file string) Parser {
