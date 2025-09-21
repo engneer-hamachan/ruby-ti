@@ -409,6 +409,10 @@ func isAsteriskPrefix(str string) bool {
 	return str[0] == '*'
 }
 
+func isAmpersandPrefix(str string) bool {
+	return str[0] == '&'
+}
+
 func removeSuffix(str string) string {
 	return str[:len(str)-1]
 }
@@ -427,10 +431,6 @@ func (d *Def) setDefineInfos(
 	hint += "::"
 
 	argumentTypes := "("
-
-	if methodT.GetMethodName() == "new" {
-		methodT = base.MakeObject(ctx.GetClass())
-	}
 
 	for _, definedArg := range methodT.GetDefineArgs() {
 		if argumentTypes != "(" {

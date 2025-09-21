@@ -46,11 +46,11 @@ func loop(p parser.Parser, round string) {
 		break
 	}
 
-	//if len(p.DefineInfos) > 0 {
-	//	for _, info := range p.DefineInfos {
-	//		fmt.Println(info)
-	//	}
-	//}
+	if len(p.DefineInfos) > 0 {
+		for _, info := range p.DefineInfos {
+			fmt.Println(info)
+		}
+	}
 
 	if len(p.Errors) > 0 {
 		for _, err := range p.Errors {
