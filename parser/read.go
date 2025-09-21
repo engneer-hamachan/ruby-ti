@@ -3,6 +3,7 @@ package parser
 import (
 	"errors"
 	"fmt"
+	"strings"
 	"ti/base"
 	"ti/lexer"
 )
@@ -93,7 +94,16 @@ func (p *Parser) Read() (*base.T, error) {
 		t = base.MakeFloat(p.Lexer.Value().(float64))
 
 	case base.STRING:
-		t = base.MakeString(p.Lexer.Value().(string))
+		stringValue := p.Lexer.Value().(string)
+		t = base.MakeString(stringValue)
+
+		if p.BeforeString != stringValue {
+			// Count newlines in string and increment p.Row accordingly
+			newlineCount := strings.Count(stringValue, "\n")
+			p.Row += newlineCount
+		}
+
+		p.BeforeString = stringValue
 
 	case base.NIL:
 		t = base.MakeNil()

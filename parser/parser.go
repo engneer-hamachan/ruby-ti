@@ -26,6 +26,7 @@ type Parser struct {
 	IsDefineInfo        bool
 	Errors              []error
 	DefineInfos         []string
+	BeforeString        string
 }
 
 func New(lexer lexer.Lexer, file string) Parser {
