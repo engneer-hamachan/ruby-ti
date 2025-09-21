@@ -409,10 +409,6 @@ func isAsteriskPrefix(str string) bool {
 	return str[0] == '*'
 }
 
-func isAmpersandPrefix(str string) bool {
-	return str[0] == '&'
-}
-
 func removeSuffix(str string) string {
 	return str[:len(str)-1]
 }
@@ -474,9 +470,18 @@ func (d *Def) setDefineInfos(
 		}
 	}
 
+	if methodT.IsBlockGiven {
+		if argumentTypes != "(" {
+			argumentTypes += ", "
+		}
+
+		argumentTypes += "Proc"
+	}
+
 	argumentTypes += ")"
 
 	hint += argumentTypes
+
 	hint += " -> "
 
 	switch methodT.GetType() {
