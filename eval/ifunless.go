@@ -245,6 +245,8 @@ func (i *IfUnless) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	lastEvaluatedT := p.GetLastEvaluatedT()
+
 	zaorik, err := i.getBackupContext(e, *p, ctx)
 	if err != nil {
 		p.Fatal(ctx, err)
@@ -321,6 +323,10 @@ func (i *IfUnless) Evaluation(
 
 	if endIdentifier == "\n" {
 		p.Unget()
+	}
+
+	if p.IsParsingExpression() {
+		resultTs = append(resultTs, lastEvaluatedT)
 	}
 
 	resultT := base.MakeUnifiedT(resultTs)
