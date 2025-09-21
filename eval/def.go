@@ -591,7 +591,7 @@ func (d *Def) Evaluation(
 	default:
 		// this proccess for not instance variable override check
 		t = base.GetInstanceValueT(ctx.GetFrame(), ctx.GetClass(), method)
-		if t != nil && t.IsBeforeEvaluateAtmarkPrefix() {
+		if t != nil && t.IsBeforeEvaluateAtmarkPrefix() && methodT.IsIdentifierType() {
 			break
 		}
 
