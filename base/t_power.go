@@ -3,6 +3,7 @@ package base
 var tPower = make(map[string]int8)
 
 func init() {
+	tPower["def"] = 100
 	tPower["!"] = 100
 	tPower["~"] = 100
 	tPower["*"] = 70

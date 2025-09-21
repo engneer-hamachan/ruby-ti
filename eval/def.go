@@ -505,6 +505,7 @@ func (d *Def) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	p.LastCallT = t
 	p.ConsumeLastReturnT()
 	p.DefineRow = p.Row
 
