@@ -35,6 +35,8 @@ func (k *kernelYieldStrategy) evaluate(m *MethodEvaluator) error {
 	m.parser.SetTmpBlockParameters(blockParameters)
 	m.parser.StartParsingExpression()
 
+	m.parser.SetLastEvaluatedT(base.MakeUntyped())
+
 	return nil
 
 }
