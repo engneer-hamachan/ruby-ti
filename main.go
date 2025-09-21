@@ -46,7 +46,7 @@ func loop(p parser.Parser, round string) {
 		break
 	}
 
-	if len(p.DefineInfos) > 0 {
+	if len(p.DefineInfos) > 0 && p.IsDefineInfo {
 		for _, info := range p.DefineInfos {
 			fmt.Println(info)
 		}
@@ -91,6 +91,10 @@ func main() {
 
 			if len(os.Args) >= 3 && os.Args[2] == "-d" {
 				p.Debug = true
+			}
+
+			if len(os.Args) >= 3 && os.Args[2] == "-i" {
+				p.IsDefineInfo = true
 			}
 
 			cleanSimpleIdentifires()

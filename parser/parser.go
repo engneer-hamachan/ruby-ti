@@ -23,6 +23,7 @@ type Parser struct {
 	tmpBlockParamaters  []base.T
 	tmpEvaluatedArgs    []*base.T
 	Debug               bool
+	IsDefineInfo        bool
 	Errors              []error
 	DefineInfos         []string
 }

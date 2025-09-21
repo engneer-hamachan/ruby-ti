@@ -30,7 +30,7 @@ function! ruby_ti#checker#run()
   \ }
   
   try
-    let job_id = jobstart([command, file_path], job_options)
+    let job_id = jobstart([command, file_path, '-i'], job_options)
     if job_id <= 0
       call ruby_ti#ui#echo_warning('Failed to start type checker: ' . command)
     endif
