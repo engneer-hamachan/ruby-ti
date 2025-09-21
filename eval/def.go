@@ -584,6 +584,7 @@ func (d *Def) Evaluation(
 		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
 
 	default:
+		// this proccess for not instance variable override check
 		t = base.GetInstanceValueT(ctx.GetFrame(), ctx.GetClass(), method)
 		if t != nil && t.IsBeforeEvaluateAtmarkPrefix() {
 			break
