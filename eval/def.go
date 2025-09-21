@@ -428,6 +428,10 @@ func (d *Def) setDefineInfos(
 
 	argumentTypes := "("
 
+	if methodT.GetMethodName() == "new" {
+		methodT = base.MakeObject(ctx.GetClass())
+	}
+
 	for _, definedArg := range methodT.GetDefineArgs() {
 		if argumentTypes != "(" {
 			argumentTypes += ", "

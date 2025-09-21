@@ -142,12 +142,10 @@ func (c *Class) Evaluation(
 		parentFrame = base.CalculateFrame(parentFrame, parentNamespace)
 		parentNode := base.ClassNode{Frame: parentFrame, Class: parentClass}
 
-		if slices.Contains(base.ClassInheritanceMap[classNode], parentNode) {
-			return nil
+		if !slices.Contains(base.ClassInheritanceMap[classNode], parentNode) {
+			base.ClassInheritanceMap[classNode] =
+				append(base.ClassInheritanceMap[classNode], parentNode)
 		}
-
-		base.ClassInheritanceMap[classNode] =
-			append(base.ClassInheritanceMap[classNode], parentNode)
 
 	default:
 		p.Unget()
