@@ -127,7 +127,7 @@ function! s:parse_all_checker_errors(output)
     let file_path = s:sanitize_string(parts[0])
     " For type info messages, ensure file_path is absolute
     if is_type_info && !empty(file_path) && file_path[0] !=# '/'
-      let file_path = expand('%:p:h') . '/' . file_path
+      let file_path = fnamemodify(file_path, ':p')
     endif
     let line_number = s:parse_line_number(parts[1])
     let message = s:sanitize_string(parts[2])
