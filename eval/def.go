@@ -584,6 +584,11 @@ func (d *Def) Evaluation(
 		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
 
 	default:
+		t = base.GetInstanceValueT(ctx.GetFrame(), ctx.GetClass(), method)
+		if t != nil && t.IsBeforeEvaluateAtmarkPrefix() {
+			break
+		}
+
 		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
 	}
 
