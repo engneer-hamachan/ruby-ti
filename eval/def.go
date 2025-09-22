@@ -124,6 +124,11 @@ func (d *Def) makeDefineArgVariables(
 			return argVariables, false, err
 		}
 
+		if argT.IsTargetIdentifier("end") {
+			p.Unget()
+			return argVariables, false, err
+		}
+
 		if argT.IsTargetIdentifier(",") {
 			continue
 		}

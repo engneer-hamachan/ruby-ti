@@ -28,6 +28,8 @@ func (r *Return) Evaluation(
 		return err
 	}
 
+	p.StartParsingExpression()
+
 	err = e.ContinuousEval(p, ctx, nextT, ",")
 	if err != nil {
 		return err
