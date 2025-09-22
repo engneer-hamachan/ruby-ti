@@ -321,7 +321,7 @@ func (l *Lexer) Advance() bool {
 		buf.WriteRune(char)
 
 		switch nextChar {
-		case '=':
+		case '=', 'w', 'i':
 			buf.WriteRune(nextChar)
 			str := buf.String()
 			l.val = Intern(str)

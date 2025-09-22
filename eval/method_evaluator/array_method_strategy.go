@@ -37,7 +37,9 @@ func (a *arrayAppendStrategy) evaluate(m *MethodEvaluator) error {
 
 	arrayT := m.evaluatedObjectT
 
-	arrayT.AppendArrayVariant(*evaluatedArgs[0])
+	if len(evaluatedArgs) > 0 {
+		arrayT.AppendArrayVariant(*evaluatedArgs[0])
+	}
 
 	base.SetValueT(
 		m.ctx.GetFrame(),
