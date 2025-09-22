@@ -28,8 +28,15 @@ func (k *kernelYieldStrategy) evaluate(m *MethodEvaluator) error {
 	}
 
 	var blockParameters []base.T
-	for _, variant := range evaluatedArgs {
-		blockParameters = append(blockParameters, *variant)
+
+	switch len(evaluatedArgs) {
+	case 0:
+		blockParameters = append(blockParameters, *base.MakeNil())
+
+	default:
+		for _, variant := range evaluatedArgs {
+			blockParameters = append(blockParameters, *variant)
+		}
 	}
 
 	m.parser.SetTmpBlockParameters(blockParameters)

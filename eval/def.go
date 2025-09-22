@@ -470,17 +470,13 @@ func (d *Def) setDefineInfos(
 		}
 	}
 
-	if methodT.IsBlockGiven {
-		if argumentTypes != "(" {
-			argumentTypes += ", "
-		}
-
-		argumentTypes += "Proc"
-	}
-
 	argumentTypes += ")"
 
 	hint += argumentTypes
+
+	if methodT.IsBlockGiven {
+		hint += " <is_block_given: true>"
+	}
 
 	hint += " -> "
 

@@ -82,9 +82,7 @@ func (l *Lexer) lexToNotIdentifierTokenEat(currentChar rune) strings.Builder {
 				l.IsSpace = true
 			}
 
-			if char != '\n' {
-				l.reader.Unread()
-			}
+			l.reader.Unread()
 
 			return buf
 		}
