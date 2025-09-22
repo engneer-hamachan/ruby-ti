@@ -25,6 +25,11 @@ func (t *T) GetObjectClass() string {
 	return t.objectClass
 }
 
+func (t *T) SetObjectClass(class string) {
+	t.objectClass = class
+	t.val = class
+}
+
 func (t *T) GetKey() string {
 	return t.key
 }

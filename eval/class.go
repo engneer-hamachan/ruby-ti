@@ -210,11 +210,16 @@ func (c *Class) Evaluation(
 
 	// make new method
 	newMethodT := base.GetClassMethodT(nextFrame, class, "new", false)
-	if newMethodT == nil {
+	switch newMethodT {
+	case nil:
 		returnT := base.MakeObject(class)
 		args := "*" + base.GenId()
 		methodT := base.MakeMethod(nextFrame, "new", *returnT, []string{args})
 		base.SetClassMethodT(nextFrame, class, methodT, false)
+	default:
+		newMethodT = newMethodT.DeepCopy()
+		newMethodT.SetObjectClass(class)
+		base.SetClassMethodT(nextFrame, class, newMethodT, false)
 	}
 
 	// set defined class
