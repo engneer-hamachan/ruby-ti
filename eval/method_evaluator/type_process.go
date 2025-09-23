@@ -342,6 +342,10 @@ func checkAndPropagateArgs(
 
 		// *a
 		if isAsteriskPrefix(definedArg) {
+			if len(sortedArgTs) < argIdx {
+				break
+			}
+
 			isAsterisk = true
 
 			defineArgIdx, argIdx =
