@@ -1,6 +1,7 @@
 package eval
 
 import (
+	"strings"
 	"ti/base"
 	"ti/parser"
 )
@@ -12,8 +13,6 @@ func evalHereDocument(
 
 	target := t.ToString()[2:]
 
-	isNewLine := false
-
 	for {
 		nextT, err := p.Read()
 		if err != nil {
@@ -24,17 +23,9 @@ func evalHereDocument(
 			return nil
 		}
 
-		if nextT.IsNewLineIdentifier() {
-			isNewLine = true
-		}
-
-		if nextT.ToString() == target {
+		if strings.Contains(target, nextT.ToString()) {
 			break
 		}
-	}
-
-	if isNewLine {
-		p.Row++
 	}
 
 	p.SetLastEvaluatedT(base.MakeAnyString())

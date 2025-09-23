@@ -57,7 +57,7 @@ func (e *Evaluator) handleIdentifier(
 	var valueT *base.T
 
 	// <<EOF
-	if len(id) > 2 && id[:2] == "<<" {
+	if len(id) > 1 && id[:2] == "<<" {
 		evalHereDocument(p, t)
 		return
 	}

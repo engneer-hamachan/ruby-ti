@@ -58,9 +58,10 @@ func (l *Lexer) lexToSpaceTokenEat(currentChar rune) strings.Builder {
 
 		if unicode.IsSpace(char) {
 			if char != '\n' {
-				l.reader.Unread()
 				l.IsSpace = true
 			}
+
+			l.reader.Unread()
 
 			return buf
 		}
@@ -326,7 +327,7 @@ func (l *Lexer) Advance() bool {
 		buf.WriteRune(char)
 
 		switch nextChar {
-		case '=', 'w', 'i':
+		case '=', 'W', 'w', 'i', 'Q', 'q', 'r', 's', 'l', 'x':
 			buf.WriteRune(nextChar)
 			str := buf.String()
 			l.val = Intern(str)
