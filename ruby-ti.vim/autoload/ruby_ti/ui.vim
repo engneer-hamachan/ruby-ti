@@ -7,7 +7,7 @@ function! ruby_ti#ui#setup_highlights()
     highlight RubyTiErrorFloatBorder guibg=#000a1a guifg=#cc8888 ctermbg=0 ctermfg=Red cterm=bold gui=bold
   endif
 
-  highlight RubyTiWarning ctermfg=Yellow guifg=Yellow cterm=bold gui=bold
+  highlight RubyTiWarning ctermfg=Red guifg=White cterm=italic gui=italic
   highlight RubyTiTypeInfo ctermfg=Blue guifg=#88aaff cterm=italic gui=italic
   
   if exists('&signcolumn')
