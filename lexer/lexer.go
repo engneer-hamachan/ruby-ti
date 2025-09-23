@@ -153,6 +153,11 @@ func (l *Lexer) lexIdentifier(currentChar rune) {
 		}
 
 		if !isIdentifierChar(char) {
+			if strings.Contains(buf.String(), ":\"") && char != '\n' && char != '"' {
+				buf.WriteRune(char)
+				continue
+			}
+
 			l.reader.Unread()
 			break
 		}
