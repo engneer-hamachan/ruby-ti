@@ -93,6 +93,14 @@ func (d *Do) setBlockParameters(
 						tmpParameters[idx] = hashT
 						continue
 
+					case base.OBJECT:
+						if tmpParameters[idx] == nil {
+							arrayT := base.MakeAnyArray()
+							tmpParameters[idx] = arrayT
+						}
+
+						tmpParameters[idx].AppendArrayVariant(variant)
+
 					default:
 						if tmpParameters[0] == nil {
 							tmpParameters[0] = &variant
@@ -118,7 +126,7 @@ func (d *Do) setBlockParameters(
 						continue
 					}
 
-					if len(variant.GetVariants()) < maxLength {
+					if variant.IsArrayType() && len(variant.GetVariants()) < maxLength {
 						variant.AppendArrayVariant(*base.MakeNil())
 					}
 
@@ -127,7 +135,12 @@ func (d *Do) setBlockParameters(
 						continue
 					}
 
-					newParameters = append(newParameters, *variant.UnifyVariants())
+					switch len(variant.GetVariants()) {
+					case 0:
+						newParameters = append(newParameters, *variant)
+					default:
+						newParameters = append(newParameters, *variant.UnifyVariants())
+					}
 				}
 
 				blockParamaters = newParameters
