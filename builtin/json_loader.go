@@ -137,6 +137,8 @@ func parseTypeString(typeStr string) base.T {
 		return KeyValueArrayT
 	case "UnifiedSelfArgument":
 		return UnifiedSelfArgumentT
+	case "Flatten":
+		return FlattenT
 	default:
 		return *base.MakeObject(typeStr)
 	}

@@ -13,7 +13,7 @@ var (
 	BlockT        = *base.MakeBlock()
 	DefaultBlockT = *base.MakeBuiltinDefaultBlock()
 	//Any
-	UntypedT    = *base.MakeUntyped()
+	UntypedT        = *base.MakeUntyped()
 	DefaultUntypedT = *base.MakeBuiltinDefaultUntyped()
 	//String
 	StringT         = *base.MakeAnyString()
@@ -44,6 +44,7 @@ var (
 	SelfConvertArrayT    = *base.MakeSelfConvertArray()
 	SelfArgumentT        = *base.MakeSelfArgument()
 	UnifiedSelfArgumentT = *base.MakeUnifiedSelfArgument()
+	FlattenT             = *base.MakeFlatten()
 	//ForTest
 	IntIntT = *base.MakeUnion([]base.T{IntT, IntT})
 )

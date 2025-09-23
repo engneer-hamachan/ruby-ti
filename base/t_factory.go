@@ -270,3 +270,7 @@ func MakeKeyValueArray() *T {
 func MakeEos() *T {
 	return NewT("EOS", EOS, "eos")
 }
+
+func MakeFlatten() *T {
+	return NewT("FLATTEN", FLATTEN, "flatten")
+}

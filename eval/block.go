@@ -63,6 +63,78 @@ func (d *Do) setBlockParameters(
 				continue
 			}
 
+			if t.GetType() == base.FLATTEN {
+				tmpParameters := [20]*base.T{}
+
+				if len(lastEvaluatedT.UnifyVariants().GetVariants()) == 0 {
+					blockParamaters =
+						append(blockParamaters, *lastEvaluatedT.UnifyVariants())
+
+					continue
+				}
+
+				for idx, variant := range lastEvaluatedT.UnifyVariants().GetVariants() {
+					switch variant.GetType() {
+					case base.ARRAY:
+						arrayVariants := variant.GetVariants()
+
+						for idx, arrayVariant := range arrayVariants {
+							if tmpParameters[idx] == nil {
+								arrayT := base.MakeAnyArray()
+								tmpParameters[idx] = arrayT
+							}
+
+							tmpParameters[idx].AppendArrayVariant(arrayVariant)
+						}
+
+					case base.KEYVALUE:
+						hashT := base.MakeAnyHash()
+						hashT.AppendHashVariant(variant)
+						tmpParameters[idx] = hashT
+						continue
+
+					default:
+						if tmpParameters[0] == nil {
+							tmpParameters[0] = &variant
+							continue
+						}
+
+						tmpParameters[0].AppendVariant(variant)
+					}
+				}
+
+				// max
+				var maxLength int
+				for _, variant := range tmpParameters {
+					if variant != nil && len(variant.GetVariants()) > maxLength {
+						maxLength = len(variant.GetVariants())
+					}
+				}
+
+				var newParameters []base.T
+
+				for _, variant := range tmpParameters {
+					if variant == nil {
+						continue
+					}
+
+					if len(variant.GetVariants()) < maxLength {
+						variant.AppendArrayVariant(*base.MakeNil())
+					}
+
+					if variant.IsHashType() {
+						newParameters = append(newParameters, *variant)
+						continue
+					}
+
+					newParameters = append(newParameters, *variant.UnifyVariants())
+				}
+
+				blockParamaters = newParameters
+
+				continue
+			}
+
 			if t.GetType() == base.SELF {
 				blockParamaters = append(blockParamaters, lastEvaluatedT)
 				continue

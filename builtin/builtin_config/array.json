@@ -90,7 +90,7 @@
     {
       "name": "each",
       "arguments": [],
-      "block_parameters": ["Unify"],
+      "block_parameters": ["Flatten"],
       "return_type": {"type": ["Self"]}
     },
     {

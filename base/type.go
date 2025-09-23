@@ -29,6 +29,7 @@ const (
 	SELF_ARGUMENT         = 278
 	UNIFIED_SELF_ARGUMENT = 279
 	KEYVALUE_ARRAY        = 280
+	FLATTEN               = 281
 )
 
 func ArrayTypeToString(t *T) string {
@@ -134,6 +135,8 @@ func TypeToString(t *T) string {
 		return "SelfArgument"
 	case UNIFIED_SELF_ARGUMENT:
 		return "UnifiedSelfArgument"
+	case FLATTEN:
+		return "Flatten"
 	default:
 		fmt.Println(t.tType)
 		panic("type convert error")
