@@ -50,40 +50,47 @@ endfunction
 function! s:on_checker_complete(job_id, data, event)
   let output = join(a:data, "\n")
   let current_file = expand('%@:p')
-  
+
   if empty(output) || output ==# "\n"
     return
   endif
-  
+
   let all_errors = s:parse_all_checker_errors(output)
   if empty(all_errors)
     return
   endif
-  
+
+  " Check if error info display is enabled
+  if !ruby_ti#config#get('enable_error_info', 1)
+    " If error info is disabled, only show virtual text (type info) but skip error processing
+    call ruby_ti#ui#show_virtual_text()
+    return
+  endif
+
   call ruby_ti#state#set_all_errors(all_errors)
   call ruby_ti#state#set_error_info(all_errors[0])
-  
+
   let error_info = all_errors[0]
-  
+
   let status_msg = error_info.message . ' (' . error_info.filename . ')'
   if len(all_errors) > 1
     let status_msg .= ' [1/' . len(all_errors) . ' errors]'
   endif
   call ruby_ti#ui#show_status(status_msg)
-  
+
   let current_file_errors = []
   for error in all_errors
     if current_file ==# error.file_path
       call add(current_file_errors, error.line_number)
     endif
   endfor
-  
+
   if !empty(current_file_errors)
     call ruby_ti#ui#highlight_error_lines(current_file_errors)
-    
+
     call ruby_ti#ui#show_popup_if_needed()
   endif
-  
+
   " Display type info as virtual text for current file
   call ruby_ti#ui#show_virtual_text()
 endfunction

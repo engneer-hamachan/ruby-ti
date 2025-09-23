@@ -81,10 +81,15 @@ function! ruby_ti#ui#clear_error_signs()
 endfunction
 
 function! ruby_ti#ui#show_popup_if_needed()
+  " Check if error info display is enabled
+  if !ruby_ti#config#get('enable_error_info', 1)
+    return
+  endif
+
   let current_line = line('.')
   let current_file = expand('%@:p')
   let all_errors = ruby_ti#state#get_all_errors()
-  
+
   let current_line_error = {}
   let error_index = -1
   for i in range(len(all_errors))
@@ -94,21 +99,21 @@ function! ruby_ti#ui#show_popup_if_needed()
       break
     endif
   endfor
-  
+
   if ruby_ti#state#is_popup_visible() && empty(current_line_error)
     call ruby_ti#ui#hide_popup()
     return
   endif
-  
+
   if !empty(current_line_error)
     let current_error_line = ruby_ti#state#get_error_info('line_number')
     let current_error_file = ruby_ti#state#get_error_info('file_path')
-    
+
     if current_line_error.line_number != current_error_line || current_line_error.file_path != current_error_file
       if ruby_ti#state#is_popup_visible()
         call ruby_ti#ui#hide_popup()
       endif
-      
+
       call ruby_ti#state#set_error_info(current_line_error)
       if error_index >= 0
         call ruby_ti#state#set_current_error_index(error_index)

@@ -7,6 +7,7 @@ let s:config = {
   \ 'enable_animation': 1,
   \ 'enable_line_highlighting': 1,
   \ 'enable_def_type_info': 0,
+  \ 'enable_error_info': 1,
   \ 'auto_run': 0,
   \ 'mark': '💎',
   \ 'popup_style': {
