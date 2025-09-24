@@ -422,6 +422,7 @@ func (d *Def) setDefineInfos(
 	p *parser.Parser,
 	ctx context.Context,
 	methodT *base.T,
+	isStatic bool,
 ) {
 
 	var hint string
@@ -495,6 +496,24 @@ func (d *Def) setDefineInfos(
 	default:
 		hint += base.TypeToString(methodT)
 	}
+
+	hint += " ["
+
+	switch isStatic {
+	case true:
+		hint += "c/"
+	default:
+		hint += "i/"
+	}
+
+	switch ctx.IsPrivate {
+	case true:
+		hint += "private"
+	default:
+		hint += "public"
+	}
+
+	hint += "]"
 
 	p.DefineInfos = append(p.DefineInfos, hint)
 }
@@ -601,7 +620,7 @@ func (d *Def) Evaluation(
 	}
 
 	if ctx.IsCheckRound() {
-		d.setDefineInfos(p, ctx, methodT)
+		d.setDefineInfos(p, ctx, methodT, isStatic)
 	}
 
 	return nil
