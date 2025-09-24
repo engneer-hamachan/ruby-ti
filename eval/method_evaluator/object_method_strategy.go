@@ -150,7 +150,7 @@ func (o *objectClassStrategy) evaluate(m *MethodEvaluator) error {
 		return err
 	}
 
-	classT := base.MakeClass(m.objectT.GetObjectClass())
+	classT := base.MakeClass("Class")
 	m.parser.SetLastEvaluatedT(classT)
 
 	return nil
