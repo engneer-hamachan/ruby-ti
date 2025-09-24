@@ -8,6 +8,7 @@ let s:config = {
   \ 'enable_line_highlighting': 1,
   \ 'enable_def_type_info': 0,
   \ 'enable_error_info': 1,
+  \ 'enable_error_virtual_text': 0,
   \ 'auto_run': 0,
   \ 'mark': '💎',
   \ 'popup_style': {

@@ -60,14 +60,15 @@ function! s:on_checker_complete(job_id, data, event)
     return
   endif
 
+  " Always store errors for virtual text display
+  call ruby_ti#state#set_all_errors(all_errors)
+
   " Check if error info display is enabled
   if !ruby_ti#config#get('enable_error_info', 1)
-    " If error info is disabled, only show virtual text (type info) but skip error processing
+    " If error info is disabled, only show virtual text but skip popup/status processing
     call ruby_ti#ui#show_virtual_text()
     return
   endif
-
-  call ruby_ti#state#set_all_errors(all_errors)
   call ruby_ti#state#set_error_info(all_errors[0])
 
   let error_info = all_errors[0]

@@ -7,8 +7,9 @@ function! ruby_ti#ui#setup_highlights()
     highlight RubyTiErrorFloatBorder guibg=#000a1a guifg=#cc8888 ctermbg=0 ctermfg=Red cterm=bold gui=bold
   endif
 
-  highlight RubyTiWarning ctermfg=Gray guifg=LightGray cterm=italic gui=italic
-  highlight RubyTiTypeInfo ctermfg=Gray guifg=LightGray cterm=italic gui=italic
+  highlight RubyTiWarning ctermfg=LightGray guifg=LightGray cterm=italic gui=italic
+  highlight RubyTiTypeInfo ctermfg=LightGray guifg=LightGray cterm=italic gui=italic
+  highlight RubyTiErrorVirtualText ctermfg=Red guifg=Red 
   
   if exists('&signcolumn')
     setlocal signcolumn=yes:2
@@ -279,27 +280,39 @@ function! ruby_ti#ui#clear_status()
 endfunction
 
 function! ruby_ti#ui#show_virtual_text()
-  if !ruby_ti#config#get('enable_def_type_info', 1)
-    return
-  endif
-  
   let current_file = expand('%:p')
-  let type_infos = ruby_ti#state#get_type_infos()
   let ns = ruby_ti#state#get_virtual_text_ns()
-  
+
   " Clear existing virtual text
   call nvim_buf_clear_namespace(bufnr('%'), ns, 0, -1)
-  
+
   " Add virtual text for type info messages in current file
-  for type_info in type_infos
-    if type_info.file_path == current_file
-      let line_idx = type_info.line_number - 1  " Convert to 0-based indexing
-      if line_idx >= 0
-        call nvim_buf_set_virtual_text(bufnr('%'), ns, line_idx, 
-          \ [[' → ' . type_info.type_info, 'RubyTiTypeInfo']], {})
+  if ruby_ti#config#get('enable_def_type_info', 1)
+    let type_infos = ruby_ti#state#get_type_infos()
+    for type_info in type_infos
+      if type_info.file_path == current_file
+        let line_idx = type_info.line_number - 1  " Convert to 0-based indexing
+        if line_idx >= 0
+          call nvim_buf_set_virtual_text(bufnr('%'), ns, line_idx,
+            \ [[' -> ' . type_info.type_info, 'RubyTiTypeInfo']], {})
+        endif
       endif
-    endif
-  endfor
+    endfor
+  endif
+
+  " Add virtual text for error messages in current file
+  if ruby_ti#config#get('enable_error_virtual_text', 1)
+    let all_errors = ruby_ti#state#get_all_errors()
+    for error in all_errors
+      if fnamemodify(error.file_path, ':p') == current_file
+        let line_idx = error.line_number - 1  " Convert to 0-based indexing
+        if line_idx >= 0
+          call nvim_buf_set_virtual_text(bufnr('%'), ns, line_idx,
+            \ [[' ☓ ' . error.message, 'RubyTiErrorVirtualText']], {})
+        endif
+      endif
+    endfor
+  endif
 endfunction
 
 function! ruby_ti#ui#clear_virtual_text()
