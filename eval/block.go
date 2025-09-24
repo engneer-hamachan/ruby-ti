@@ -74,6 +74,7 @@ func (d *Do) setBlockParameters(
 				}
 
 				for idx, variant := range lastEvaluatedT.UnifyVariants().GetVariants() {
+
 					switch variant.GetType() {
 					case base.ARRAY:
 						arrayVariants := variant.GetVariants()
@@ -103,7 +104,8 @@ func (d *Do) setBlockParameters(
 
 					default:
 						if tmpParameters[0] == nil {
-							tmpParameters[0] = &variant
+							unionT := base.MakeUnion([]base.T{variant})
+							tmpParameters[0] = unionT
 							continue
 						}
 
