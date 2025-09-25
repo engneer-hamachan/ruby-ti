@@ -36,20 +36,20 @@ func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 
 		var isContained bool
 
-		if methodT.BeforeEvaluateFrame == m.ctx.GetFrame() && methodT.BeforeEvaluateClass == m.ctx.GetClass() {
+		if methodT.DefinedFrame == m.ctx.GetFrame() && methodT.DefinedClass == m.ctx.GetClass() {
 			isContained = true
 		}
 
 		if !isContained {
 			for _, node := range methodClassNodes {
-				if node.Frame == methodT.BeforeEvaluateFrame && node.Class == methodT.BeforeEvaluateClass {
+				if node.Frame == methodT.DefinedFrame && node.Class == methodT.DefinedClass {
 					isContained = true
 				}
 			}
 		}
 
 		if !isContained {
-			return fmt.Errorf("%s.%s is protect method", methodT.BeforeEvaluateClass, methodT.GetMethodName())
+			return fmt.Errorf("%s.%s is protect method", methodT.DefinedClass, methodT.GetMethodName())
 		}
 	}
 

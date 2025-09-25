@@ -602,8 +602,8 @@ func (d *Def) Evaluation(
 
 	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
 	methodT.IsProtected = ctx.IsProtected
-	methodT.BeforeEvaluateFrame = ctx.GetFrame()
-	methodT.BeforeEvaluateClass = ctx.GetClass()
+	methodT.DefinedFrame = ctx.GetFrame()
+	methodT.DefinedClass = ctx.GetClass()
 
 	if isBlockGiven {
 		methodT.IsBlockGiven = isBlockGiven

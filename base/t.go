@@ -22,8 +22,8 @@ type T struct {
 	IsBeforeSpace       bool
 	IsBlockGiven        bool
 	IsProtected         bool
-	BeforeEvaluateFrame string
-	BeforeEvaluateClass string
+	DefinedFrame        string
+	DefinedClass        string
 }
 
 func (t *T) DeepCopy() *T {
@@ -46,6 +46,8 @@ func (t *T) DeepCopy() *T {
 		IsBeforeSpace:      t.IsBeforeSpace,
 		IsBlockGiven:       t.IsBlockGiven,
 		IsProtected:        t.IsProtected,
+		DefinedFrame:       t.DefinedFrame,
+		DefinedClass:       t.DefinedClass,
 	}
 
 	if t.defineArgs != nil {
