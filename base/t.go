@@ -21,6 +21,7 @@ type T struct {
 	blockParamaters     []T
 	IsBeforeSpace       bool
 	IsBlockGiven        bool
+	IsProtected         bool
 }
 
 func (t *T) DeepCopy() *T {
@@ -42,6 +43,7 @@ func (t *T) DeepCopy() *T {
 		isReadOnly:         t.isReadOnly,
 		IsBeforeSpace:      t.IsBeforeSpace,
 		IsBlockGiven:       t.IsBlockGiven,
+		IsProtected:        t.IsProtected,
 	}
 
 	if t.defineArgs != nil {
