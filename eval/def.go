@@ -506,10 +506,14 @@ func (d *Def) setDefineInfos(
 		hint += "i/"
 	}
 
-	switch ctx.IsPrivate {
-	case true:
+	readable := [2]bool{ctx.IsPrivate, ctx.IsProtected}
+
+	switch readable {
+	case [2]bool{true, false}:
 		hint += "private"
-	default:
+	case [2]bool{false, true}:
+		hint += "protected"
+	case [2]bool{false, false}:
 		hint += "public"
 	}
 
