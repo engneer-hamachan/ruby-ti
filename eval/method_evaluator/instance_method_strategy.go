@@ -1,6 +1,7 @@
 package method_evaluator
 
 import (
+	"fmt"
 	"ti/base"
 )
 
@@ -21,6 +22,33 @@ func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 
 	if methodT == nil {
 		return nil
+	}
+
+	// protect check
+	if methodT.IsProtected {
+		callerNode :=
+			base.ClassNode{
+				Frame: m.ctx.GetFrame(),
+				Class: m.ctx.GetClass(),
+			}
+
+		methodClassNodes := base.ClassInheritanceMap[callerNode]
+
+		var isContained bool
+
+		if methodT.BeforeEvaluateFrame == m.ctx.GetFrame() && methodT.BeforeEvaluateClass == m.ctx.GetClass() {
+			isContained = true
+		}
+
+		for _, node := range methodClassNodes {
+			if node.Frame == methodT.BeforeEvaluateFrame && node.Class == methodT.BeforeEvaluateClass {
+				isContained = true
+			}
+		}
+
+		if !isContained {
+			return fmt.Errorf("%s.%s is protect method", methodT.BeforeEvaluateClass, methodT.GetMethodName())
+		}
 	}
 
 	return evaluateNoUnionInstanceMethod(m, class, methodT)
