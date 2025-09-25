@@ -64,10 +64,18 @@ func (m *Module) classIdentifierProcessing(
 			continue
 		}
 
+		if nextT.IsTargetIdentifier("protected") {
+			ctx.StartProtected()
+			defer ctx.EndProtected()
+
+			continue
+		}
+
 		if nextT.IsTargetIdentifier("public") {
 			methodT := base.GetMethodT("Builtin", "", "public", false)
 			if methodT != nil {
 				ctx.EndPrivate()
+				ctx.EndProtected()
 			}
 
 			continue
@@ -150,10 +158,18 @@ func (m *Module) Evaluation(
 			continue
 		}
 
+		if nextT.IsTargetIdentifier("protected") {
+			ctx.StartProtected()
+			defer ctx.EndProtected()
+
+			continue
+		}
+
 		if nextT.IsTargetIdentifier("public") {
 			methodT := base.GetMethodT("Builtin", "", "public", false)
 			if methodT != nil {
 				ctx.EndPrivate()
+				ctx.EndProtected()
 			}
 
 			continue

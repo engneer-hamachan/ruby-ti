@@ -5,6 +5,7 @@ type Context struct {
 	class          string
 	method         string
 	IsPrivate      bool
+	IsProtected    bool
 	IsBind         bool
 	IsCallArg      bool
 	IsDefineArg    bool
@@ -63,10 +64,20 @@ func (c Context) IsCollectRound() bool {
 
 func (c *Context) StartPrivate() {
 	c.IsPrivate = true
+	c.IsProtected = false
 }
 
 func (c *Context) EndPrivate() {
 	c.IsPrivate = false
+}
+
+func (c *Context) StartProtected() {
+	c.IsProtected = true
+	c.IsPrivate = false
+}
+
+func (c *Context) EndProtected() {
+	c.IsProtected = false
 }
 
 func (c *Context) StartCallArg() {

@@ -69,10 +69,18 @@ func (c *Class) classIdentifierProcessing(
 			continue
 		}
 
+		if nextT.IsTargetIdentifier("protected") {
+			ctx.StartProtected()
+			defer ctx.EndProtected()
+
+			continue
+		}
+
 		if nextT.IsTargetIdentifier("public") {
 			methodT := base.GetMethodT("Builtin", "", "public", false)
 			if methodT != nil {
 				ctx.EndPrivate()
+				ctx.EndProtected()
 			}
 
 			continue
@@ -193,10 +201,18 @@ func (c *Class) Evaluation(
 			continue
 		}
 
+		if nextT.IsTargetIdentifier("protected") {
+			ctx.StartProtected()
+			defer ctx.EndProtected()
+
+			continue
+		}
+
 		if nextT.IsTargetIdentifier("public") {
 			methodT := base.GetMethodT("Builtin", "", "public", false)
 			if methodT != nil {
 				ctx.EndPrivate()
+				ctx.EndProtected()
 			}
 
 			continue
