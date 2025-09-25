@@ -597,6 +597,7 @@ func (d *Def) Evaluation(
 	}
 
 	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
+	methodT.IsProtected = ctx.IsProtected
 
 	if isBlockGiven {
 		methodT.IsBlockGiven = isBlockGiven
