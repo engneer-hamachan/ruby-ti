@@ -43,6 +43,11 @@ func (m *MethodEvaluator) isNotArgT(
 		}
 	}
 
+	if t.IsTargetIdentifier("]") {
+		m.parser.Unget()
+		return true
+	}
+
 	if t.IsTargetIdentifier("[") && methodT.IsEmptyDefineArgs() {
 		m.parser.Unget()
 		return true
