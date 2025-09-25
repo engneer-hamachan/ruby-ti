@@ -40,9 +40,11 @@ func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 			isContained = true
 		}
 
-		for _, node := range methodClassNodes {
-			if node.Frame == methodT.BeforeEvaluateFrame && node.Class == methodT.BeforeEvaluateClass {
-				isContained = true
+		if !isContained {
+			for _, node := range methodClassNodes {
+				if node.Frame == methodT.BeforeEvaluateFrame && node.Class == methodT.BeforeEvaluateClass {
+					isContained = true
+				}
 			}
 		}
 
