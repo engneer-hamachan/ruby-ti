@@ -9,6 +9,8 @@ import (
 
 type IfUnless struct {
 	conditionType string
+	originalTs    map[string][]base.T
+	narrowTs      map[string][]base.T
 }
 
 func NewIfUnless(conditionType string) DynamicEvaluator {
@@ -53,6 +55,8 @@ func (i *IfUnless) setConditionalCtx(
 		return fmt.Errorf("syntax error")
 	}
 
+	i.originalTs[object] = append(i.originalTs[object], currentT)
+
 	switch isNarrow {
 	case true:
 		base.SetValueT(
@@ -62,6 +66,8 @@ func (i *IfUnless) setConditionalCtx(
 			object,
 			classT,
 		)
+
+		i.narrowTs[object] = append(i.narrowTs[object], *classT)
 
 	default:
 		if currentT.IsUnionType() {
@@ -77,8 +83,10 @@ func (i *IfUnless) setConditionalCtx(
 				ctx.GetClass(),
 				ctx.GetMethod(),
 				object,
-				base.MakeUnion(newVariants),
+				base.MakeUnifiedT(newVariants),
 			)
+
+			i.narrowTs[object] = newVariants
 
 			break
 		}
@@ -91,6 +99,8 @@ func (i *IfUnless) setConditionalCtx(
 				object,
 				base.MakeNil(),
 			)
+
+			i.narrowTs[object] = append(i.narrowTs[object], *base.MakeNil())
 		}
 	}
 
@@ -245,6 +255,10 @@ func (i *IfUnless) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	// clear
+	i.originalTs = make(map[string][]base.T)
+	i.narrowTs = make(map[string][]base.T)
+
 	lastEvaluatedT := p.GetLastEvaluatedT()
 
 	zaorik, err := i.getBackupContext(e, *p, ctx)
@@ -311,6 +325,56 @@ func (i *IfUnless) Evaluation(
 			}
 
 			resultTs = append(resultTs, p.GetLastEvaluatedT())
+
+			// narrowing proccess
+			for originalKey, originalVariants := range i.originalTs {
+				narrowVariants, ok := i.narrowTs[originalKey]
+				if !ok {
+					continue
+				}
+
+				variants := []base.T{}
+
+				for _, originalVariant := range originalVariants {
+					switch originalVariant.GetType() {
+					case base.UNION:
+						for _, variant := range originalVariant.GetVariants() {
+							isContain := false
+
+							for _, narrowVariant := range narrowVariants {
+								if variant.GetObjectClass() == narrowVariant.GetObjectClass() {
+									isContain = true
+								}
+							}
+
+							if isContain {
+								continue
+							}
+
+							variants = append(variants, variant)
+						}
+
+					default:
+						for _, narrowVariant := range narrowVariants {
+							if originalVariant.IsEqualObject(&narrowVariant) &&
+								originalVariant.GetObjectClass() != narrowVariant.GetObjectClass() {
+
+								continue
+							}
+
+							variants = append(variants, originalVariant)
+						}
+					}
+				}
+
+				base.SetValueT(
+					ctx.GetFrame(),
+					ctx.GetClass(),
+					ctx.GetMethod(),
+					originalKey,
+					base.MakeUnifiedT(variants),
+				)
+			}
 
 			continue
 		}
