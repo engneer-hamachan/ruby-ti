@@ -33,16 +33,21 @@ func NewMethodEvaluator(
 	instance := objectT.ToString()
 	var evaluatedObjectT *base.T
 
-	evaluatedObjectT = objectT
+	switch instance {
+	case "self":
+		evaluatedObjectT = base.MakeObject(ctx.GetClass())
+	default:
+		evaluatedObjectT = objectT
 
-	if objectT.IsIdentifierType() {
-		evaluatedObjectT =
-			base.GetDynamicValueT(
-				ctx.GetFrame(),
-				ctx.GetClass(),
-				ctx.GetMethod(),
-				instance,
-			)
+		if objectT.IsIdentifierType() {
+			evaluatedObjectT =
+				base.GetDynamicValueT(
+					ctx.GetFrame(),
+					ctx.GetClass(),
+					ctx.GetMethod(),
+					instance,
+				)
+		}
 	}
 
 	p.SetLastEvaluatedT(evaluatedObjectT)
