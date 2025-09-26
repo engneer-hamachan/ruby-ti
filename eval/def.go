@@ -548,7 +548,7 @@ func (d *Def) Evaluation(
 	}
 
 	// def hoge = 1
-	if nextT.IsEqualIdentifier() {
+	if nextT.IsEqualIdentifier() && nextT.IsBeforeSpace {
 		return d.endlessDefinition(e, p, ctx, method, []string{}, isStatic)
 	}
 
