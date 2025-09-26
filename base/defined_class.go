@@ -8,12 +8,20 @@ type DefinedClass struct {
 var DefinedClassTable = make(map[DefinedClass]bool)
 
 func init() {
-	returnT := MakeObject("Object")
+	class := "Object"
+
+	classNode := ClassNode{Frame: "Builtin", Class: class}
+	objectClassNode := ClassNode{Frame: "Builtin", Class: ""}
+
+	ClassInheritanceMap[classNode] =
+		append(ClassInheritanceMap[classNode], objectClassNode)
+
+	returnT := MakeObject(class)
 	args := "*" + GenId()
 	methodT := MakeMethod("Builtin", "new", *returnT, []string{args})
-	SetClassMethodT("", "Object", methodT, false)
+	SetClassMethodT("", class, methodT, false)
 
-	DefinedClassTable[DefinedClass{"Builtin", "Object"}] = true
+	DefinedClassTable[DefinedClass{"Builtin", class}] = true
 }
 
 func IsClassDefined(frames []string, class string) bool {
