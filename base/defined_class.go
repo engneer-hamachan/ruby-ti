@@ -7,6 +7,15 @@ type DefinedClass struct {
 
 var DefinedClassTable = make(map[DefinedClass]bool)
 
+func init() {
+	returnT := MakeObject("Object")
+	args := "*" + GenId()
+	methodT := MakeMethod("Builtin", "new", *returnT, []string{args})
+	SetClassMethodT("", "Object", methodT, false)
+
+	DefinedClassTable[DefinedClass{"Builtin", "Object"}] = true
+}
+
 func IsClassDefined(frames []string, class string) bool {
 	for _, frame := range frames {
 		key := DefinedClass{frame: frame, class: class}

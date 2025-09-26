@@ -531,6 +531,8 @@ func (d *Def) Evaluation(
 
 	p.LastCallT = t
 	p.ConsumeLastReturnT()
+	p.SetLastEvaluatedT(base.MakeNil())
+	p.EndParsingExpression()
 	p.DefineRow = p.Row
 
 	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)

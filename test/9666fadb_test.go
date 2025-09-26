@@ -6,13 +6,12 @@ import (
 	"testing"
 )
 
-func Test32bad572(t *testing.T) {
-	cmd := exec.Command("../ti", "./32bad572.rb")
+func Test9666fadb(t *testing.T) {
+	cmd := exec.Command("../ti", "./9666fadb.rb")
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./32bad572.rb::16::Nil
-./32bad572.rb::17::Union<Nil String>`
+	expectedOutput := ``
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
