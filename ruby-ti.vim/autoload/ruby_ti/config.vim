@@ -6,7 +6,7 @@ let s:config = {
   \ 'checker_command': 'ti',
   \ 'enable_animation': 1,
   \ 'enable_line_highlighting': 1,
-  \ 'enable_type_display': 0,
+  \ 'enable_type_comment': 0,
   \ 'enable_error_info': 1,
   \ 'enable_error_virtual_text': 0,
   \ 'auto_run': 0,
