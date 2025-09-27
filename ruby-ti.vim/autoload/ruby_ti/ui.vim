@@ -2,13 +2,14 @@ function! ruby_ti#ui#setup_highlights()
   if &term ==# 'tmux-256color'
     highlight RubyTiErrorFloat guibg=#000a1a guifg=#00ff88 ctermbg=0 ctermfg=108 cterm=bold gui=bold
     highlight RubyTiErrorFloatBorder guibg=#000a1a guifg=#ff0088 ctermbg=0 ctermfg=198 cterm=bold gui=bold
+    highlight RubyTiTypeInfo ctermfg=237 guifg=237 cterm=italic gui=italic
   else
     highlight RubyTiErrorFloat guibg=#000a1a guifg=#88cc88 ctermbg=0 ctermfg=Green cterm=bold gui=bold
     highlight RubyTiErrorFloatBorder guibg=#000a1a guifg=#cc8888 ctermbg=0 ctermfg=Red cterm=bold gui=bold
+    highlight RubyTiTypeInfo ctermfg=234 guifg=#4e4e4e cterm=italic gui=italic
   endif
 
   highlight RubyTiWarning ctermfg=LightGray guifg=LightGray cterm=italic gui=italic
-  highlight RubyTiTypeInfo ctermfg=237 guifg=LightGray cterm=italic gui=italic
   highlight RubyTiErrorVirtualText ctermfg=Red guifg=Red 
   
   if exists('&signcolumn')
