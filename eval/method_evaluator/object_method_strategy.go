@@ -50,7 +50,12 @@ func (o *objectIncludeStrategy) evaluate(m *MethodEvaluator) error {
 
 type objectAttrReaderStrategy struct{}
 
-func setAttrInfos(m *MethodEvaluator, props []base.T) {
+type Prop struct {
+	v string
+	t base.T
+}
+
+func setAttrInfos(m *MethodEvaluator, props []Prop) {
 	var hint string
 
 	hint += "@"
@@ -65,18 +70,18 @@ func setAttrInfos(m *MethodEvaluator, props []base.T) {
 			symbolInfo += ", "
 		}
 
-		symbolInfo += symbol.GetBeforeEvaluateCode()
+		symbolInfo += symbol.v
 		symbolInfo += ":"
 
-		switch symbol.GetType() {
+		switch symbol.t.GetType() {
 		case base.UNION:
-			symbolInfo += base.UnionTypeToString(symbol.GetVariants())
+			symbolInfo += base.UnionTypeToString(symbol.t.GetVariants())
 
 		case base.UNKNOWN:
 			symbolInfo += "?"
 
 		default:
-			symbolInfo += base.TypeToString(&symbol)
+			symbolInfo += base.TypeToString(&symbol.t)
 		}
 	}
 
@@ -86,7 +91,7 @@ func setAttrInfos(m *MethodEvaluator, props []base.T) {
 }
 
 func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
-	var currentTs []base.T
+	var currentTs []Prop
 	m.parser.DefineRow = m.parser.Row
 
 	for {
@@ -136,10 +141,10 @@ func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
 					t,
 				)
 
-				currentTs = append(currentTs, *t)
+				currentTs = append(currentTs, Prop{identifier, *t})
 
 			default:
-				currentTs = append(currentTs, *currentT)
+				currentTs = append(currentTs, Prop{identifier, *currentT})
 			}
 		}
 	}
@@ -148,7 +153,7 @@ func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
 type objectAttrAccessorStrategy struct{}
 
 func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
-	var currentTs []base.T
+	var currentTs []Prop
 	m.parser.DefineRow = m.parser.Row
 
 	for {
@@ -186,7 +191,7 @@ func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
 				)
 
 			if currentT != nil {
-				currentTs = append(currentTs, *currentT)
+				currentTs = append(currentTs, Prop{identifier, *currentT})
 			}
 
 			base.SetInstanceValueT(
