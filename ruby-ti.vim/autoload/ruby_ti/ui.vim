@@ -8,7 +8,7 @@ function! ruby_ti#ui#setup_highlights()
   endif
 
   highlight RubyTiWarning ctermfg=LightGray guifg=LightGray cterm=italic gui=italic
-  highlight RubyTiTypeInfo ctermfg=LightGray guifg=LightGray cterm=italic gui=italic
+  highlight RubyTiTypeInfo ctermfg=237 guifg=LightGray cterm=italic gui=italic
   highlight RubyTiErrorVirtualText ctermfg=Red guifg=Red 
   
   if exists('&signcolumn')
