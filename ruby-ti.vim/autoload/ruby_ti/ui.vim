@@ -294,7 +294,7 @@ function! ruby_ti#ui#show_virtual_text()
         let line_idx = type_info.line_number - 1  " Convert to 0-based indexing
         if line_idx >= 0
           call nvim_buf_set_virtual_text(bufnr('%'), ns, line_idx,
-            \ [[' -> ' . type_info.type_info, 'RubyTiTypeInfo']], {})
+            \ [[' # ' . type_info.type_info, 'RubyTiTypeInfo']], {})
         endif
       endif
     endfor
