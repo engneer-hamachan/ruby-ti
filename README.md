@@ -21,9 +21,8 @@ Ruby-TIは、Go言語で書かれたmruby用の静的型解析器です。
 パース→型推論→型検査までを行います。
 
 <p align="center">
-  <img src="sample.png" alt="Ruby-TI Sample" width="600"/>
+  <img src="image/sample2.png" alt="Ruby-TI Sample"/>
 </p>
-
 
 ## なぜRuby-TIを作ったか
 私はインタプリタ言語(とりわけRuby)が大好きです。
@@ -293,13 +292,25 @@ Ruby-TIはおまけ程度の専用Vimプラグインを含んでいます。(本
 " ~/.config/nvim/init.vimに追加
 set rtp+=/path/to/ruby-ti/ruby-ti.vim
 
+
+" legacy mode(検査エラーをモーダルで表示)
+" let g:ruby_ti_config = {
+"   \ 'animation_speed': 15,
+"   \ 'auto_run': 0,
+"   \ 'checker_command': 'ti',
+"   \ 'enable_animation': 1,
+"   \ 'enable_line_highlighting': 1,
+"   \ 'mark': '💎'
+" \ }
+
+
+" type comment mode(型コメント形式で表示)
 let g:ruby_ti_config = {
-  \ 'animation_speed': 15,
   \ 'auto_run': 0,
   \ 'checker_command': 'ti',
-  \ 'enable_animation': 1,
-  \ 'enable_line_highlighting': 1,
-  \ 'mark': '💎'
+  \ 'enable_type_comment': 1,
+  \ 'enable_error_info': 0,
+  \ 'enable_error_virtual_text': 1,
 \ }
 ```
 

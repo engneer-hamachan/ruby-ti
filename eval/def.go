@@ -456,7 +456,7 @@ func (d *Def) setDefineInfos(
 				definedArg,
 			)
 
-		if definedArgT.HasDefault() {
+		if definedArgT.HasDefault() && !definedArgT.IsUnionType() {
 			argumentTypes += "?"
 		}
 
