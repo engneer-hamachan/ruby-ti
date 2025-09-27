@@ -287,7 +287,7 @@ function! ruby_ti#ui#show_virtual_text()
   call nvim_buf_clear_namespace(bufnr('%'), ns, 0, -1)
 
   " Add virtual text for type info messages in current file
-  if ruby_ti#config#get('enable_def_type_info', 1)
+  if ruby_ti#config#get('enable_type_display', 1)
     let type_infos = ruby_ti#state#get_type_infos()
     for type_info in type_infos
       if type_info.file_path == current_file
