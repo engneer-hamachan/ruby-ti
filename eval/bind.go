@@ -251,6 +251,23 @@ func (b *Bind) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	defineRow := p.Row
+
+	defer func(defineRow int) {
+		var hint string
+
+		hint += "@"
+		hint += p.FileName + "::"
+		hint += fmt.Sprintf("%d", defineRow)
+		hint += "::"
+
+		hint += "bind: "
+		t := p.GetLastEvaluatedT()
+		hint += base.TypeToString(&t)
+
+		p.DefineInfos = append(p.DefineInfos, hint)
+	}(defineRow)
+
 	p.EndParsingExpression()
 
 	some := p.GetLastEvaluatedTPointer()
