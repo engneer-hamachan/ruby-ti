@@ -50,7 +50,45 @@ func (o *objectIncludeStrategy) evaluate(m *MethodEvaluator) error {
 
 type objectAttrReaderStrategy struct{}
 
+func setAttrInfos(m *MethodEvaluator, props []base.T) {
+	var hint string
+
+	hint += "@"
+	hint += m.parser.FileName + "::"
+	hint += fmt.Sprintf("%d", m.parser.DefineRow)
+	hint += "::"
+
+	var symbolInfo string
+
+	for _, symbol := range props {
+		if symbolInfo != "" {
+			symbolInfo += ", "
+		}
+
+		symbolInfo += symbol.GetBeforeEvaluateCode()
+		symbolInfo += ":"
+
+		switch symbol.GetType() {
+		case base.UNION:
+			symbolInfo += base.UnionTypeToString(symbol.GetVariants())
+
+		case base.UNKNOWN:
+			symbolInfo += "?"
+
+		default:
+			symbolInfo += base.TypeToString(&symbol)
+		}
+	}
+
+	hint += symbolInfo
+
+	m.parser.DefineInfos = append(m.parser.DefineInfos, hint)
+}
+
 func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
+	var currentTs []base.T
+	m.parser.DefineRow = m.parser.Row
+
 	for {
 		nextT, err := m.parser.Read()
 		if err != nil {
@@ -60,6 +98,11 @@ func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
 		switch nextT.ToString() {
 		case "\n":
 			m.parser.Unget()
+
+			if m.ctx.IsCheckRound() {
+				setAttrInfos(m, currentTs)
+			}
+
 			return nil
 
 		case ",":
@@ -84,13 +127,19 @@ func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
 					identifier,
 				)
 
-			if currentT == nil {
+			switch currentT {
+			case nil:
 				base.SetInstanceValueT(
 					m.ctx.GetFrame(),
 					m.ctx.GetClass(),
 					identifier,
 					t,
 				)
+
+				currentTs = append(currentTs, *t)
+
+			default:
+				currentTs = append(currentTs, *currentT)
 			}
 		}
 	}
@@ -99,6 +148,9 @@ func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
 type objectAttrAccessorStrategy struct{}
 
 func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
+	var currentTs []base.T
+	m.parser.DefineRow = m.parser.Row
+
 	for {
 		nextT, err := m.parser.Read()
 		if err != nil {
@@ -108,6 +160,11 @@ func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
 		switch nextT.ToString() {
 		case "\n":
 			m.parser.Unget()
+
+			if m.ctx.IsCheckRound() {
+				setAttrInfos(m, currentTs)
+			}
+
 			return nil
 
 		case ",":
@@ -120,6 +177,17 @@ func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
 
 			identifier := strings.TrimPrefix(nextT.ToString(), ":")
 			nilT := base.MakeNil()
+
+			currentT :=
+				base.GetInstanceValueT(
+					m.ctx.GetFrame(),
+					m.ctx.GetClass(),
+					identifier,
+				)
+
+			if currentT != nil {
+				currentTs = append(currentTs, *currentT)
+			}
 
 			base.SetInstanceValueT(
 				m.ctx.GetFrame(),
