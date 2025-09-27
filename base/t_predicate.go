@@ -506,7 +506,7 @@ func (t *T) IsNameSpaceIdentifier() bool {
 }
 
 func (t *T) IsPriorityT() bool {
-	return t.IsCalcIdentifier() || t.IsDotIdentifier() || t.IsAndDotIdentifier()
+	return t.GetPower() > 0
 }
 
 func (t *T) IsRefferenceAbleT() bool {

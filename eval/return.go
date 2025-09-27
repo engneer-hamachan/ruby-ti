@@ -28,6 +28,10 @@ func (r *Return) Evaluation(
 		return err
 	}
 
+	if nextT == nil {
+		return nil
+	}
+
 	p.StartParsingExpression()
 
 	err = e.ContinuousEval(p, ctx, nextT, ",")

@@ -33,6 +33,10 @@ func (r *Range) Evaluation(
 		return err
 	}
 
+	if nextT == nil {
+		return nil
+	}
+
 	err = e.Eval(p, ctx, nextT)
 	if err != nil {
 		return err

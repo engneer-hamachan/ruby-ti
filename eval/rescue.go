@@ -29,6 +29,10 @@ func (r *Rescue) Evaluation(
 			return err
 		}
 
+		if nextT == nil {
+			return nil
+		}
+
 		if nextT.IsNewLineIdentifier() {
 			break
 		}
