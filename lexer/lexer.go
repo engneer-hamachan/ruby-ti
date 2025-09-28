@@ -354,6 +354,11 @@ func (l *Lexer) Advance() bool {
 			buf.WriteRune(nextChar)
 
 		default:
+			if char == '-' && nextChar == '>' {
+				buf.WriteRune(nextChar)
+				break
+			}
+
 			l.reader.Unread()
 		}
 

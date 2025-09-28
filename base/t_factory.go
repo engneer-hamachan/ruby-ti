@@ -130,7 +130,7 @@ func MakeIdentifier(val string) *T {
 }
 
 func MakeUnknown() *T {
-	return NewT("", UNKNOWN, "")
+	return NewT("Unknown", UNKNOWN, "unknown")
 }
 
 func MakeObject(val string) *T {

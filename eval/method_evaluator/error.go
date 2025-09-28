@@ -122,5 +122,8 @@ func (m *MethodEvaluator) errorResolve() error {
 		}
 	}
 
+	m.parser.ConsumeLastReturnT()
+	m.parser.SetLastEvaluatedT(base.MakeUnknown())
+
 	return nil
 }
