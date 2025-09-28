@@ -55,12 +55,12 @@ type Prop struct {
 	t base.T
 }
 
-func setAttrInfos(m *MethodEvaluator, props []Prop) {
+func setAttrInfos(m *MethodEvaluator, props []Prop, defineRow int) {
 	var hint string
 
 	hint += "@"
 	hint += m.parser.FileName + "::"
-	hint += fmt.Sprintf("%d", m.parser.DefineRow)
+	hint += fmt.Sprintf("%d", defineRow)
 	hint += "::"
 
 	var symbolInfo string
@@ -92,7 +92,7 @@ func setAttrInfos(m *MethodEvaluator, props []Prop) {
 
 func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
 	var currentTs []Prop
-	m.parser.DefineRow = m.parser.Row
+	defineRow := m.parser.ErrorRow
 
 	for {
 		nextT, err := m.parser.Read()
@@ -105,7 +105,7 @@ func (o *objectAttrReaderStrategy) evaluate(m *MethodEvaluator) error {
 			m.parser.Unget()
 
 			if m.ctx.IsCheckRound() {
-				setAttrInfos(m, currentTs)
+				setAttrInfos(m, currentTs, defineRow)
 			}
 
 			return nil
@@ -154,7 +154,7 @@ type objectAttrAccessorStrategy struct{}
 
 func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
 	var currentTs []Prop
-	m.parser.DefineRow = m.parser.Row
+	defineRow := m.parser.ErrorRow
 
 	for {
 		nextT, err := m.parser.Read()
@@ -167,7 +167,7 @@ func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
 			m.parser.Unget()
 
 			if m.ctx.IsCheckRound() {
-				setAttrInfos(m, currentTs)
+				setAttrInfos(m, currentTs, defineRow)
 			}
 
 			return nil

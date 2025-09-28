@@ -251,7 +251,7 @@ func (b *Bind) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	defineRow := p.Row
+	defineRow := p.ErrorRow
 
 	defer func(defineRow int) {
 		var hint string

@@ -423,13 +423,14 @@ func (d *Def) setDefineInfos(
 	ctx context.Context,
 	methodT *base.T,
 	isStatic bool,
+	defineRow int,
 ) {
 
 	var hint string
 
 	hint += "@"
 	hint += p.FileName + "::"
-	hint += fmt.Sprintf("%d", p.DefineRow)
+	hint += fmt.Sprintf("%d", defineRow)
 	hint += "::"
 
 	argumentTypes := "("
@@ -533,7 +534,7 @@ func (d *Def) Evaluation(
 	p.ConsumeLastReturnT()
 	p.SetLastEvaluatedT(base.MakeNil())
 	p.EndParsingExpression()
-	p.DefineRow = p.Row
+	defineRow := p.ErrorRow
 
 	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)
 	if err != nil {
@@ -629,7 +630,7 @@ func (d *Def) Evaluation(
 	}
 
 	if ctx.IsCheckRound() {
-		d.setDefineInfos(p, ctx, methodT, isStatic)
+		d.setDefineInfos(p, ctx, methodT, isStatic, defineRow)
 	}
 
 	return nil
