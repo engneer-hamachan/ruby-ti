@@ -352,6 +352,22 @@ func getEvaluatedArgs(
 			return argTs, err
 		}
 
+		nextT, err = m.parser.Read()
+		if err != nil {
+			return argTs, err
+		}
+
+		switch m.parser.LastCallT.IsPowerUp(nextT) {
+		case true:
+			err = m.outerEval.Eval(m.parser, m.ctx, nextT)
+			if err != nil {
+				return argTs, err
+			}
+
+		default:
+			m.parser.Unget()
+		}
+
 		lastEvaluatedT := m.parser.GetLastEvaluatedT()
 		argTs = append(argTs, &lastEvaluatedT)
 	}

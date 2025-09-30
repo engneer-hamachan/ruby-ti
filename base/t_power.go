@@ -57,6 +57,10 @@ func (t *T) IsNotPowerDown(otherT *T) bool {
 	return t.GetPower() <= otherT.GetPower()
 }
 
+func (t *T) IsPowerUp(otherT *T) bool {
+	return t.GetPower() < otherT.GetPower()
+}
+
 func (t *T) GetPower() int8 {
 	power, ok := tPower[t.ToString()]
 	if ok {
