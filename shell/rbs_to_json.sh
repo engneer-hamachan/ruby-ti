@@ -1,5 +1,9 @@
 #!/bin/bash
 
+######WARNING!!!#######
+#this program is WIP!!#
+#######################
+
 # Generate builtin JSON from RBS file
 # Usage: ./shell/rbs_to_json.sh <rbs_file>
 
