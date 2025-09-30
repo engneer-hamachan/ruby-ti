@@ -5,4 +5,5 @@ sample**.rb
 test.rb
 CLAUDE.md
 todo.md
-rbs
+**/*.rbs
+buitin.json
