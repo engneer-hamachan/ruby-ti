@@ -33,7 +33,8 @@ func (o *objectIncludeStrategy) evaluate(m *MethodEvaluator) error {
 
 	classNode := base.ClassNode{Frame: m.ctx.GetFrame(), Class: m.ctx.GetClass()}
 
-	parentFrame, parentNamespace, parentClass := nextT.SeparateNameSpaces()
+	parentFrame, parentNamespace, parentClass :=
+		base.SeparateNameSpaces(nextT.ToString())
 
 	parentFrame = base.CalculateFrame(parentFrame, parentNamespace)
 	parentNode := base.ClassNode{Frame: parentFrame, Class: parentClass}

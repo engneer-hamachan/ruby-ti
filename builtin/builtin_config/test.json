@@ -37,6 +37,11 @@
       "name": "keyword_json_test2",
       "arguments": [{"key": "name:", "type": ["Int"]}],
       "return_type": {"type": ["Bool"]}
+    },
+    {
+      "name": "hogefuga",
+      "arguments": [],
+      "return_type": {"type": ["Hoge::Fuga"]}
     }
   ],
   "constants": [

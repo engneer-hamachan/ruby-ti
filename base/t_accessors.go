@@ -38,6 +38,10 @@ func (t *T) GetFrame() string {
 	return t.frame
 }
 
+func (t *T) SetFrame(frame string) {
+	t.frame = frame
+}
+
 func (t *T) GetRemoveSuffixKey() string {
 	return t.key[:len(t.key)-1]
 }

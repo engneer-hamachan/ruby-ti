@@ -174,6 +174,24 @@ func setLastEvaluatedTAndReturn(
 		return arrayT
 
 	default:
+		if methodT.IsNameSpaceIdentifier() {
+			frame, parentClass, class :=
+				base.SeparateNameSpaces(methodT.ToString())
+
+			methodT =
+				base.GetClassMethodT(
+					base.CalculateFrame(frame,
+						parentClass),
+					class,
+					"new",
+					false,
+				)
+
+			if methodT == nil {
+				methodT = base.MakeUnknown()
+			}
+		}
+
 		m.parser.SetLastEvaluatedT(methodT)
 		return methodT
 	}

@@ -97,12 +97,12 @@ func (t *T) MergeHash(variantT *T) {
 	}
 }
 
-func (t *T) SplitNameSpace() []string {
-	return strings.Split(t.ToString(), "::")
+func SplitNameSpace(str string) []string {
+	return strings.Split(str, "::")
 }
 
-func (t *T) SeparateNameSpaces() (string, string, string) {
-	spaces := t.SplitNameSpace()
+func SeparateNameSpaces(str string) (string, string, string) {
+	spaces := SplitNameSpace(str)
 
 	// Hoge
 	if len(spaces) == 1 {

@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"path/filepath"
 	"slices"
+	"strings"
 	"ti/base"
 )
 
@@ -140,6 +141,10 @@ func parseTypeString(typeStr string) base.T {
 	case "Flatten":
 		return FlattenT
 	default:
+		if len(strings.Split(typeStr, "::")) > 1 {
+			return *base.MakeIdentifier(typeStr)
+		}
+
 		return *base.MakeObject(typeStr)
 	}
 }

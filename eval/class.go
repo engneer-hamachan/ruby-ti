@@ -145,7 +145,8 @@ func (c *Class) Evaluation(
 
 		classNode := base.ClassNode{Frame: ctx.GetFrame(), Class: ctx.GetClass()}
 
-		parentFrame, parentNamespace, parentClass := nextT.SeparateNameSpaces()
+		parentFrame, parentNamespace, parentClass :=
+			base.SeparateNameSpaces(nextT.ToString())
 
 		parentFrame = base.CalculateFrame(parentFrame, parentNamespace)
 		parentNode := base.ClassNode{Frame: parentFrame, Class: parentClass}

@@ -17,7 +17,7 @@ func nameSpaceEvaluation(
 
 	p.Unget()
 
-	frame, parentClass, class := t.SeparateNameSpaces()
+	frame, parentClass, class := base.SeparateNameSpaces(t.ToString())
 
 	t = base.MakeIdentifier(class)
 
