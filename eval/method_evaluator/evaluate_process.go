@@ -180,8 +180,7 @@ func setLastEvaluatedTAndReturn(
 
 			methodT =
 				base.GetClassMethodT(
-					base.CalculateFrame(frame,
-						parentClass),
+					base.CalculateFrame(frame, parentClass),
 					class,
 					"new",
 					false,
