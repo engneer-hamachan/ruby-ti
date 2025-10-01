@@ -27,7 +27,8 @@ def extract_type(type)
     when "String"
       "String"
     else
-      type.name.name.to_s
+      # Handle namespaced classes (e.g., JS::Object)
+      type.name.to_s
     end
   when RBS::Types::Optional
     inner = extract_type(type.type)
@@ -76,23 +77,71 @@ decls = result[2]
 module_decl = decls.find { |d| d.is_a?(RBS::AST::Declarations::Module) }
 class_decls = []
 frame_name = "Builtin"
+module_class_methods = []
 
 if module_decl
   # extract all classes from module
   frame_name = module_decl.name.name.to_s
   class_decls = module_decl.members.select { |m| m.is_a?(RBS::AST::Declarations::Class) }
+
+  # extract module's singleton methods (self.xxx methods)
+  module_decl.members.each do |member|
+    if member.is_a?(RBS::AST::Members::MethodDefinition) && member.singleton?
+      module_class_methods << member
+    end
+  end
 else
   # find standalone classes
   class_decls = decls.select { |d| d.is_a?(RBS::AST::Declarations::Class) }
 end
 
-if class_decls.empty?
+if class_decls.empty? && module_class_methods.empty?
   puts "No class declaration found"
   exit 1
 end
 
 # process all classes
 all_outputs = []
+
+# If module has singleton methods, add module as a class
+if module_decl && module_class_methods.any?
+  module_output = {
+    "frame" => "Builtin",
+    "class" => module_decl.name.name.to_s,
+    "instance_methods" => [],
+    "class_methods" => []
+  }
+
+  # Process module's singleton methods as class methods
+  module_class_methods.each do |member|
+    method_data = {
+      "name" => member.name.to_s
+    }
+
+    if member.overloads.any?
+      overload = member.overloads.first
+      args = []
+
+      overload.method_type.type.required_positionals.each do |param|
+        args << {"type" => normalize_type(param.type)}
+      end
+
+      overload.method_type.type.optional_positionals.each do |param|
+        types = normalize_type(param.type)
+        args << {"type" => types.map { |t| "Default#{t}" }}
+      end
+
+      method_data["arguments"] = args unless args.empty?
+
+      return_type = normalize_type(overload.method_type.type.return_type)
+      method_data["return_type"] = {"type" => return_type}
+    end
+
+    module_output["class_methods"] << method_data
+  end
+
+  all_outputs << module_output
+end
 
 class_decls.each do |klass_decl|
   # merge overload methods
