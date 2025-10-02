@@ -19,6 +19,6 @@ if [ ! -f "$RBS_FILE" ]; then
     exit 1
 fi
 
-ruby rb_tools/rbs_to_json.rb "$RBS_FILE" > ./builtin.json
+mkdir -p ./myjson
 
-echo "Generated builtin.json from $RBS_FILE"
+ruby rb_tools/rbs_to_json.rb "$RBS_FILE"

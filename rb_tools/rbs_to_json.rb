@@ -349,5 +349,29 @@ class_decls.each do |klass_decl|
   all_outputs << output
 end
 
-# output all classes
-puts JSON.pretty_generate(all_outputs)
+# Create output directory
+output_dir = 'myjson'
+Dir.mkdir(output_dir) unless Dir.exist?(output_dir)
+
+# Output each class to a separate file
+all_outputs.each do |output|
+  # Generate filename from frame and class name
+  frame = output["frame"]
+  class_name = output["class"]
+
+  # Create a clean filename
+  if frame == "Builtin"
+    filename = "#{class_name.downcase}.json"
+  else
+    # For namespaced classes like JS::Object -> js_object.json
+    filename = "#{frame.downcase}_#{class_name.downcase}.json"
+  end
+
+  filepath = File.join(output_dir, filename)
+
+  # Write to file
+  File.write(filepath, JSON.pretty_generate(output))
+  puts "Generated #{filepath}"
+end
+
+puts "\nAll JSON files generated in #{output_dir}/ directory"

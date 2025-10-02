@@ -178,17 +178,9 @@ func setLastEvaluatedTAndReturn(
 			frame, parentClass, class :=
 				base.SeparateNameSpaces(methodT.ToString())
 
-			methodT =
-				base.GetClassMethodT(
-					base.CalculateFrame(frame, parentClass),
-					class,
-					"new",
-					false,
-				)
-
-			if methodT == nil {
-				methodT = base.MakeUnknown()
-			}
+			t := base.MakeObject(class)
+			t.SetFrame(base.CalculateFrame(frame, parentClass))
+			methodT = t
 		}
 
 		m.parser.SetLastEvaluatedT(methodT)
