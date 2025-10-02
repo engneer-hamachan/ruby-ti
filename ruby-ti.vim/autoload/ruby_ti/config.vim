@@ -11,6 +11,7 @@ let s:config = {
   \ 'enable_error_virtual_text': 0,
   \ 'auto_run': 0,
   \ 'mark': '💎',
+  \ 'type_info_color': 244,
   \ 'popup_style': {
   \   'title': ' MRUBY TYPE ANALYSIS ',
   \   'footer': 'alerted by ruby-ti',
