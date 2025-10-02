@@ -98,6 +98,11 @@
       "return_type": {"type": ["Int"]}
     },
     {
+      "name": "[]",
+      "arguments": [{"type": ["Untyped"]}],
+      "return_type": {"type": ["Int"]}
+    },
+    {
       "name": "abs",
       "arguments": [],
       "return_type": {"type": ["Int"]}

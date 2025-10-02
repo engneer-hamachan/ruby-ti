@@ -11,7 +11,7 @@ func TestA16beb45(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./a16beb45.rb::17::type mismatch. a is not Array or Hash\n./a16beb45.rb::19::String"
+	expectedOutput := "./a16beb45.rb::17::[]= is not defined method\n./a16beb45.rb::19::Integer"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

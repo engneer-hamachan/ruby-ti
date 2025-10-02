@@ -214,6 +214,9 @@ func (d *Def) evaluationBody(
 	ctx context.Context,
 ) (err error) {
 
+	p.SetLastEvaluatedT(base.MakeNil())
+	p.EndParsingExpression()
+
 	for {
 		nextT, err := p.Read()
 		if err != nil {

@@ -6,12 +6,12 @@ import (
 	"testing"
 )
 
-func Test127eb360(t *testing.T) {
-	cmd := exec.Command("../ti", "./127eb360.rb")
+func Test87ed0d11(t *testing.T) {
+	cmd := exec.Command("../ti", "./87ed0d11.rb")
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := ""
+	expectedOutput := `./87ed0d11.rb::4::Nil`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
