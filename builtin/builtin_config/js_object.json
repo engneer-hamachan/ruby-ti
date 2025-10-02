@@ -1,0 +1,322 @@
+{
+  "frame": "JS",
+  "class": "Object",
+  "instance_methods": [
+    {
+      "name": "to_poro",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "[]",
+      "arguments": [
+        {
+          "type": [
+            "Symbol"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "fetch",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "::Object"
+      ],
+      "return_type": {
+        "type": [
+          "Void"
+        ]
+      }
+    },
+    {
+      "name": "addEventListener",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "String"
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      }
+    },
+    {
+      "name": "to_binary",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
+    },
+    {
+      "name": "querySelector",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "appendChild",
+      "arguments": [
+        {
+          "type": [
+            "JS::Object"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "removeChild",
+      "arguments": [
+        {
+          "type": [
+            "JS::Object"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "setAttribute",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Void"
+        ]
+      }
+    },
+    {
+      "name": "removeAttribute",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Void"
+        ]
+      }
+    },
+    {
+      "name": "replaceChild",
+      "arguments": [
+        {
+          "type": [
+            "JS::Object"
+          ]
+        },
+        {
+          "type": [
+            "JS::Object"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "createElement",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "createTextNode",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "className",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "classList",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "children",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "parentElement",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "tagName",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "innerHTML",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "innerHTML=",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
+    },
+    {
+      "name": "style",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "style=",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
+    },
+    {
+      "name": "textContent",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "textContent=",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
+    }
+  ]
+}
