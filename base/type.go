@@ -115,7 +115,7 @@ func TypeToString(t *T) string {
 		case "", "Builtin":
 			return t.GetObjectClass()
 		default:
-			return str + " inner " + t.GetObjectClass()
+			return str + "::" + t.GetObjectClass()
 		}
 	case BLOCK:
 		return "Block"
