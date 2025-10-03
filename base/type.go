@@ -110,7 +110,13 @@ func TypeToString(t *T) string {
 	case UNION:
 		return UnionTypeToString(t.variants)
 	case OBJECT:
-		return t.ToString()
+		str := t.GetFrame()
+		switch str {
+		case "", "Builtin":
+			return t.GetObjectClass()
+		default:
+			return str + " inner " + t.GetObjectClass()
+		}
 	case BLOCK:
 		return "Block"
 	case CLASS:
