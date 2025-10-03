@@ -11,7 +11,7 @@ func Test9b549659(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./9b549659.rb::14::String"
+	expectedOutput := "./9b549659.rb:::14:::String"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

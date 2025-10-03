@@ -11,7 +11,7 @@ func TestD0abc991(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./d0abc991.rb::4::Integer"
+	expectedOutput := "./d0abc991.rb:::4:::Integer"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

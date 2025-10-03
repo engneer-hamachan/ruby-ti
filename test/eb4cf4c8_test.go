@@ -11,7 +11,7 @@ func TestEb4cf4c8(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./eb4cf4c8.rb::7::too few arguments for test expected (Integer, *untyped, ?)"
+	expectedOutput := "./eb4cf4c8.rb:::7:::too few arguments for test expected (Integer, *untyped, ?)"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

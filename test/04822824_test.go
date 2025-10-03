@@ -11,7 +11,7 @@ func Test04822824(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./04822824.rb::4::too many arguments for test"
+	expectedOutput := "./04822824.rb:::4:::too many arguments for test"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

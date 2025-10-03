@@ -11,7 +11,7 @@ func Test630ac4cc(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./630ac4cc.rb::12::type mismatch: expected String, but got Integer for String.+"
+	expectedOutput := "./630ac4cc.rb:::12:::type mismatch: expected String, but got Integer for String.+"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

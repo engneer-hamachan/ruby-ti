@@ -11,7 +11,7 @@ func Test8c22a83f(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./8c22a83f.rb::1::Array<Array<untyped>>`
+	expectedOutput := `./8c22a83f.rb:::1:::Array<Array<untyped>>`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -11,12 +11,12 @@ func TestB759e5d5(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./b759e5d5.rb::4::Integer
-./b759e5d5.rb::5::Array<untyped>
-./b759e5d5.rb::6::String
-./b759e5d5.rb::7::String
-./b759e5d5.rb::8::Integer
-./b759e5d5.rb::9::Nil`
+	expectedOutput := `./b759e5d5.rb:::4:::Integer
+./b759e5d5.rb:::5:::Array<untyped>
+./b759e5d5.rb:::6:::String
+./b759e5d5.rb:::7:::String
+./b759e5d5.rb:::8:::Integer
+./b759e5d5.rb:::9:::Nil`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

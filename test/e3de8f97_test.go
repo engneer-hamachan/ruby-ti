@@ -11,7 +11,7 @@ func TestE3de8f97(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./e3de8f97.rb::5::type mismatch: expected Integer, but got String for Test.keyword_json_test"
+	expectedOutput := "./e3de8f97.rb:::5:::type mismatch: expected Integer, but got String for Test.keyword_json_test"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

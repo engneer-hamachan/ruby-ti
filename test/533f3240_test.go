@@ -11,7 +11,7 @@ func Test533f3240(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./533f3240.rb::5::Integer"
+	expectedOutput := "./533f3240.rb:::5:::Integer"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

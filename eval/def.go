@@ -432,9 +432,9 @@ func (d *Def) setDefineInfos(
 	var hint string
 
 	hint += "@"
-	hint += p.FileName + "::"
+	hint += p.FileName + ":::"
 	hint += fmt.Sprintf("%d", defineRow)
-	hint += "::"
+	hint += ":::"
 
 	argumentTypes := "("
 

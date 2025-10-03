@@ -11,7 +11,7 @@ func Test775118fd(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./775118fd.rb::6::Nil"
+	expectedOutput := "./775118fd.rb:::6:::Nil"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

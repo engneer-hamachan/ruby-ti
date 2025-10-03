@@ -13,7 +13,7 @@ func Test9bac7176(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 
-	expectedOutput := "./9bac7176.rb::13::type mismatch: expected Union<Integer Float>, but got String for Hoge.test"
+	expectedOutput := "./9bac7176.rb:::13:::type mismatch: expected Union<Integer Float>, but got String for Hoge.test"
 
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

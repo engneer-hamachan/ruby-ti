@@ -11,7 +11,7 @@ func TestB6fddcc7(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./b6fddcc7.rb::8::too many arguments for Integer.to_s"
+	expectedOutput := "./b6fddcc7.rb:::8:::too many arguments for Integer.to_s"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -11,7 +11,7 @@ func TestC1771b66(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./c1771b66.rb::18::method 'test' is not defined for Hoge"
+	expectedOutput := "./c1771b66.rb:::18:::method 'test' is not defined for Hoge"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

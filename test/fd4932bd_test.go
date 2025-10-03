@@ -13,7 +13,7 @@ func TestFd4932bd(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 
-	expectedOutput := "./fd4932bd.rb::13::type mismatch: expected String, but got Integer for Hoge.test"
+	expectedOutput := "./fd4932bd.rb:::13:::type mismatch: expected String, but got Integer for Hoge.test"
 
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

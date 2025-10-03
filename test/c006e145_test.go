@@ -11,7 +11,7 @@ func TestC006e145(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./c006e145.rb::5::Union<Integer String>"
+	expectedOutput := "./c006e145.rb:::5:::Union<Integer String>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

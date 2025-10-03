@@ -11,7 +11,7 @@ func TestBde4ad5d(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./bde4ad5d.rb::11::Unknown"
+	expectedOutput := "./bde4ad5d.rb:::11:::Unknown"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

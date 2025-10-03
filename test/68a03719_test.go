@@ -11,7 +11,7 @@ func Test68a03719(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./68a03719.rb::13::Array<Integer String Array<untyped>>"
+	expectedOutput := "./68a03719.rb:::13:::Array<Integer String Array<untyped>>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -11,7 +11,7 @@ func TestDde150c2(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./dde150c2.rb::5::type mismatch: expected String, but got Integer for String.+"
+	expectedOutput := "./dde150c2.rb:::5:::type mismatch: expected String, but got Integer for String.+"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

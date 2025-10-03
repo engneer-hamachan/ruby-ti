@@ -11,7 +11,7 @@ func TestC5642685(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./c5642685.rb::16::Union<Nil Integer Array<untyped> String>"
+	expectedOutput := "./c5642685.rb:::16:::Union<Nil Integer Array<untyped> String>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

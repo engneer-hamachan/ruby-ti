@@ -11,7 +11,7 @@ func Test292763cf(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./292763cf.rb::3::Hash`
+	expectedOutput := `./292763cf.rb:::3:::Hash`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

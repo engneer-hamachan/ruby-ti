@@ -11,7 +11,7 @@ func Test6b838ff6(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./6b838ff6.rb::6::Array<String Integer>`
+	expectedOutput := `./6b838ff6.rb:::6:::Array<String Integer>`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -13,7 +13,7 @@ func Test525e7bb4(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 
-	expectedOutput := "./525e7bb4.rb::5::type mismatch: expected Union<Integer Float>, but got String for Integer.+"
+	expectedOutput := "./525e7bb4.rb:::5:::type mismatch: expected Union<Integer Float>, but got String for Integer.+"
 
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

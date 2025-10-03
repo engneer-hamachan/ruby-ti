@@ -11,7 +11,7 @@ func TestE91fe77a(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./e91fe77a.rb::13::Integer"
+	expectedOutput := "./e91fe77a.rb:::13:::Integer"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

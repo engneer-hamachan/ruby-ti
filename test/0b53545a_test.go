@@ -11,7 +11,7 @@ func Test0b53545a(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./0b53545a.rb::2::method 'abs' is not defined for String"
+	expectedOutput := "./0b53545a.rb:::2:::method 'abs' is not defined for String"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

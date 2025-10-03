@@ -257,9 +257,9 @@ func (b *Bind) Evaluation(
 		var hint string
 
 		hint += "@"
-		hint += p.FileName + "::"
+		hint += p.FileName + ":::"
 		hint += fmt.Sprintf("%d", defineRow)
-		hint += "::"
+		hint += ":::"
 
 		hint += "bind: "
 		t := p.GetLastEvaluatedT()

@@ -11,7 +11,7 @@ func TestC5b7ec06(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./c5b7ec06.rb::7::method '+' is not defined for Nil"
+	expectedOutput := "./c5b7ec06.rb:::7:::method '+' is not defined for Nil"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -11,7 +11,7 @@ func Test41a59fa1(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./41a59fa1.rb::2::type mismatch: expected Union<Integer Float>, but got Nil for Integer.+\n./41a59fa1.rb::4::type mismatch: expected Union<Integer Float>, but got String for Integer.+"
+	expectedOutput := "./41a59fa1.rb:::2:::type mismatch: expected Union<Integer Float>, but got Nil for Integer.+\n./41a59fa1.rb:::4:::type mismatch: expected Union<Integer Float>, but got String for Integer.+"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

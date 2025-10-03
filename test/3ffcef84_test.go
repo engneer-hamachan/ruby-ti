@@ -11,7 +11,7 @@ func Test3ffcef84(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./3ffcef84.rb::11::Hoge.a is read only"
+	expectedOutput := "./3ffcef84.rb:::11:::Hoge.a is read only"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

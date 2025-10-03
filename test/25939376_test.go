@@ -11,7 +11,7 @@ func Test25939376(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./25939376.rb::13::method '+' is not defined for Hash"
+	expectedOutput := "./25939376.rb:::13:::method '+' is not defined for Hash"
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
 	}

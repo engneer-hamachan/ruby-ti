@@ -11,7 +11,7 @@ func Test1380f7e0(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./1380f7e0.rb::5::type mismatch: expected Block, but got String for Array.each"
+	expectedOutput := "./1380f7e0.rb:::5:::type mismatch: expected Block, but got String for Array.each"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

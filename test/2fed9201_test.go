@@ -13,7 +13,7 @@ func Test2fed9201(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 
-	expectedOutput := "./2fed9201.rb::2::type mismatch: expected String, but got Integer for String.+"
+	expectedOutput := "./2fed9201.rb:::2:::type mismatch: expected String, but got Integer for String.+"
 
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

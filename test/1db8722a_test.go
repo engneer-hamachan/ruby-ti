@@ -11,7 +11,7 @@ func Test1db8722a(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./1db8722a.rb::7::String"
+	expectedOutput := "./1db8722a.rb:::7:::String"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -11,11 +11,11 @@ func Test8eaf6bea(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./8eaf6bea.rb::4::Integer
-./8eaf6bea.rb::5::Array<untyped>
-./8eaf6bea.rb::6::String
-./8eaf6bea.rb::7::String
-./8eaf6bea.rb::8::Integer`
+	expectedOutput := `./8eaf6bea.rb:::4:::Integer
+./8eaf6bea.rb:::5:::Array<untyped>
+./8eaf6bea.rb:::6:::String
+./8eaf6bea.rb:::7:::String
+./8eaf6bea.rb:::8:::Integer`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

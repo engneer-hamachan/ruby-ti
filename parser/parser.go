@@ -41,7 +41,7 @@ func New(lexer lexer.Lexer, file string) Parser {
 func (p *Parser) Fatal(ctx context.Context, err error) {
 	if ctx.IsCheckRound() {
 		p.Errors =
-			append(p.Errors, fmt.Errorf("%v::%d::%v", p.FileName, p.ErrorRow, err))
+			append(p.Errors, fmt.Errorf("%v:::%d:::%v", p.FileName, p.ErrorRow, err))
 	}
 }
 

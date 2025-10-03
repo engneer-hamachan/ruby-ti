@@ -11,7 +11,7 @@ func Test8139e1d4(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./8139e1d4.rb::3::Array<Integer>"
+	expectedOutput := "./8139e1d4.rb:::3:::Array<Integer>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

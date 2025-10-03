@@ -127,7 +127,7 @@ function! s:parse_all_checker_errors(output)
       let line = line[1:]  " Remove @ prefix
     endif
     
-    let parts = split(line, '::')
+    let parts = split(line, ':::')
     if len(parts) < 3
       continue
     endif

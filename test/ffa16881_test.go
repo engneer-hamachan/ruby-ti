@@ -11,7 +11,7 @@ func TestFfa16881(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./ffa16881.rb::9::Unknown"
+	expectedOutput := "./ffa16881.rb:::9:::Unknown"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

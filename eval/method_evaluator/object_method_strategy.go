@@ -60,9 +60,9 @@ func setAttrInfos(m *MethodEvaluator, props []Prop, defineRow int) {
 	var hint string
 
 	hint += "@"
-	hint += m.parser.FileName + "::"
+	hint += m.parser.FileName + ":::"
 	hint += fmt.Sprintf("%d", defineRow)
-	hint += "::"
+	hint += ":::"
 
 	var symbolInfo string
 

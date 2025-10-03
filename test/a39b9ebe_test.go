@@ -11,7 +11,7 @@ func TestA39b9ebe(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./a39b9ebe.rb::38::Hoge.test is protect method`
+	expectedOutput := `./a39b9ebe.rb:::38:::Hoge.test is protect method`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
