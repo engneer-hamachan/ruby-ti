@@ -4,4 +4,4 @@
 #this program is WIP!!#
 #######################
 
-cp ./myjson/*.json ./builtin/builtin_config/ -R
+cp ./myjson/*.json ./builtin/builtin_config/
