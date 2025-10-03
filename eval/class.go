@@ -118,6 +118,20 @@ func (c *Class) Evaluation(
 	nextFrame := c.getNextFrame(ctx)
 	class := nextT.ToString()
 
+	if nextT.IsNameSpaceIdentifier() {
+		frame, parentClass, klass := base.SeparateNameSpaces(nextT.ToString())
+		calculatedFrame := base.CalculateFrame(frame, parentClass)
+
+		switch nextFrame {
+		case "":
+			nextFrame = calculatedFrame
+		default:
+			nextFrame = nextFrame + "::" + calculatedFrame
+		}
+
+		class = klass
+	}
+
 	// include ObjectClass
 	if ctx.IsCollectRound() {
 		classNode := base.ClassNode{Frame: ctx.GetFrame(), Class: class}

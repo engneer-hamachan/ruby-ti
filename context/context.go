@@ -26,8 +26,8 @@ func GetRounds() []string {
 	return []string{"collect", "inference", "check"}
 }
 
-func (c *Context) SetFrame(class string) {
-	c.frame = class
+func (c *Context) SetFrame(frame string) {
+	c.frame = frame
 }
 
 func (c *Context) GetFrame() string {
