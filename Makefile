@@ -1,4 +1,4 @@
-.PHONY: install apply-rbs reset-apply generate-test
+.PHONY: install apply-rbs reset-apply generate-test test
 
 install:
 	sh ./shell/install.sh
@@ -15,3 +15,6 @@ reset-apply:
 
 generate-test:
 	sh ./shell/generate_test_from_sample.sh
+
+test:
+	sh ./shell/test.sh

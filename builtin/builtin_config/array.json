@@ -126,7 +126,7 @@
     },
     {
       "name": "join",
-      "arguments": [],
+      "arguments": [{"type": ["DefaultString"]}],
       "return_type": {"type": ["String"]}
     },
     {
