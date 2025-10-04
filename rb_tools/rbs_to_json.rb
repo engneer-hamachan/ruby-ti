@@ -349,6 +349,15 @@ class_decls.each do |klass_decl|
   all_outputs << output
 end
 
+
+if ARGV.include?("--test")
+  all_outputs.each do |output|
+    p JSON.pretty_generate(output)
+  end
+
+  return
+end
+
 # Create output directory
 output_dir = 'myjson'
 Dir.mkdir(output_dir) unless Dir.exist?(output_dir)
