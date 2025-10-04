@@ -6,4 +6,5 @@ test.rb
 CLAUDE.md
 todo.md
 **/*.rbs
+rbs_test/*
 builtin.json
