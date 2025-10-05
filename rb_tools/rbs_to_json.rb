@@ -15,7 +15,7 @@ def extract_type(type)
   when RBS::Types::Bases::Instance
     "Self"
   when RBS::Types::Bases::Void
-    "Void"
+    "Nil"
   when RBS::Types::Bases::Any
     "Untyped"
   when RBS::Types::ClassInstance
