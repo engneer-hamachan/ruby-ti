@@ -74,7 +74,6 @@ func (d *Do) setBlockParameters(
 				}
 
 				for idx, variant := range lastEvaluatedT.UnifyVariants().GetVariants() {
-
 					switch variant.GetType() {
 					case base.ARRAY:
 						arrayVariants := variant.GetVariants()
@@ -159,6 +158,12 @@ func (d *Do) setBlockParameters(
 				tmpArgTs := p.GetTmpEvaluaetdArgs()
 				blockParamaters = append(blockParamaters, *tmpArgTs[0].UnifyVariants())
 				continue
+			}
+
+			if t.IsNameSpaceIdentifier() {
+				frame, parentClass, class := base.SeparateNameSpaces(t.ToString())
+				t = *base.MakeObject(class)
+				t.SetFrame(base.CalculateFrame(frame, parentClass))
 			}
 
 			blockParamaters = append(blockParamaters, t)
