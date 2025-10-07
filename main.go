@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 	"ti/base"
 	_ "ti/builtin"
 	"ti/context"
@@ -53,6 +54,12 @@ func loop(p parser.Parser, round string) {
 		}
 	}
 
+	if len(base.TSignatures) > 0 && p.IsDictOut {
+		for _, sig := range base.TSignatures {
+			fmt.Println("%" + sig.Contents)
+		}
+	}
+
 	if len(p.Errors) > 0 {
 		for _, err := range p.Errors {
 			fmt.Println(err)
@@ -97,12 +104,16 @@ func main() {
 
 			p := getParser(br, file)
 
-			if len(os.Args) >= 3 && os.Args[2] == "-d" {
+			if len(os.Args) > 3 && slices.Contains(os.Args, "-d") {
 				p.Debug = true
 			}
 
-			if len(os.Args) >= 3 && os.Args[2] == "-i" {
+			if len(os.Args) > 3 && slices.Contains(os.Args, "-i") {
 				p.IsDefineInfo = true
+			}
+
+			if len(os.Args) > 3 && slices.Contains(os.Args, "-a") {
+				p.IsDictOut = true
 			}
 
 			cleanSimpleIdentifires()

@@ -23,6 +23,7 @@ type Parser struct {
 	tmpEvaluatedArgs    []*base.T
 	Debug               bool
 	IsDefineInfo        bool
+	IsDictOut           bool
 	Errors              []error
 	DefineInfos         []string
 	BeforeString        string
