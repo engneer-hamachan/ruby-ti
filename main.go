@@ -104,15 +104,15 @@ func main() {
 
 			p := getParser(br, file)
 
-			if len(os.Args) > 3 && slices.Contains(os.Args, "-d") {
+			if len(os.Args) > 0 && slices.Contains(os.Args, "-d") {
 				p.Debug = true
 			}
 
-			if len(os.Args) > 3 && slices.Contains(os.Args, "-i") {
+			if len(os.Args) > 0 && slices.Contains(os.Args, "-i") {
 				p.IsDefineInfo = true
 			}
 
-			if len(os.Args) > 3 && slices.Contains(os.Args, "-a") {
+			if len(os.Args) > 0 && slices.Contains(os.Args, "-a") {
 				p.IsDictOut = true
 			}
 
