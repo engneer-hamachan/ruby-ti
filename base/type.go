@@ -94,7 +94,7 @@ func TypeToString(t *T) string {
 	case INT:
 		return "Integer"
 	case UNKNOWN:
-		return "Unknown"
+		return t.ToString()
 	case STRING:
 		return "String"
 	case BOOL:
@@ -143,6 +143,10 @@ func TypeToString(t *T) string {
 		return "UnifiedSelfArgument"
 	case FLATTEN:
 		return "Flatten"
+	case BLOCK_RESULT_ARRAY:
+		return "BlockResultArray"
+	case KEYVALUE_ARRAY:
+		return "KeyValueArray"
 	default:
 		fmt.Println(t.tType)
 		panic("type convert error")

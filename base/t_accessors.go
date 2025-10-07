@@ -21,6 +21,10 @@ func (t *T) GetMethodName() string {
 	return t.method
 }
 
+func (t *T) GetInfo() string {
+	return t.GetFrame() + "::" + t.GetObjectClass() + "::" + t.method
+}
+
 func (t *T) GetObjectClass() string {
 	return t.objectClass
 }

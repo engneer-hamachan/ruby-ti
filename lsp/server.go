@@ -57,9 +57,9 @@ func textDocumentCompletion(context *glsp.Context, params *protocol.CompletionPa
 	// TSignaturesから補完候補を生成
 	for _, sig := range base.TSignatures {
 		items = append(items, protocol.CompletionItem{
-			Label:  sig,
+			Label:  sig.Contents,
 			Kind:   &[]protocol.CompletionItemKind{protocol.CompletionItemKindMethod}[0],
-			Detail: &[]string{"Method from ruby-ti"}[0],
+			Detail: &sig.Detail,
 		})
 	}
 

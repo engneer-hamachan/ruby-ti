@@ -5,7 +5,13 @@ import (
 )
 
 var TFrame = make(map[FrameKey]*T)
-var TSignatures = []string{}
+
+type Sig struct {
+	Contents string
+	Detail   string
+}
+
+var TSignatures = []Sig{}
 
 func DeepCopyTFrame() map[FrameKey]*T {
 	copied := make(map[FrameKey]*T)
@@ -29,7 +35,30 @@ func SetClassMethodT(
 	isPrivate bool,
 ) {
 
-	TSignatures = append(TSignatures, methodT.GetMethodName())
+	info := frame + "::" + class + "." + methodT.method
+
+	if len(methodT.GetDefineArgs()) == 0 {
+		info += "()"
+	} else {
+		var args string
+		args += "("
+		for _, mt := range methodT.GetDefineArgs() {
+			mmt := GetValueT(frame, class, methodT.GetMethodName(), mt)
+
+			if args != "(" {
+				args += " ,"
+			}
+
+			args += TypeToString(mmt)
+		}
+		args += ")"
+		info += args
+	}
+
+	info += " -> "
+	info += TypeToString(methodT)
+
+	TSignatures = append(TSignatures, Sig{methodT.GetMethodName(), info})
 
 	TFrame[classMethodTFrameKey(
 		frame,
@@ -46,8 +75,6 @@ func SetMethodT(
 	isPrivate bool,
 ) {
 
-	TSignatures = append(TSignatures, methodT.GetMethodName())
-
 	switch targetClass {
 	case "":
 		methodT.SetBeforeEvaluateCode(methodT.GetMethodName())
@@ -55,6 +82,30 @@ func SetMethodT(
 	default:
 		methodT.SetBeforeEvaluateCode(targetClass + "." + methodT.GetMethodName())
 	}
+
+	info := frame + "::" + targetClass + "." + methodT.method
+	if len(methodT.GetDefineArgs()) == 0 {
+		info += "()"
+	} else {
+		var args string
+		args += "("
+		for _, mt := range methodT.GetDefineArgs() {
+			mmt := GetValueT(frame, targetClass, methodT.GetMethodName(), mt)
+
+			if args != "(" {
+				args += " ,"
+			}
+
+			args += TypeToString(mmt)
+		}
+		args += ")"
+		info += args
+	}
+
+	info += " -> "
+	info += TypeToString(methodT)
+
+	TSignatures = append(TSignatures, Sig{methodT.GetMethodName(), info})
 
 	TFrame[methodTFrameKey(
 		frame,
