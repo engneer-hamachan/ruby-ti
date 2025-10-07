@@ -1,0 +1,23 @@
+{
+  "frame": "Builtin",
+  "class": "JS",
+  "instance_methods": [],
+  "class_methods": [
+    {
+      "name": "global",
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    },
+    {
+      "name": "document",
+      "return_type": {
+        "type": [
+          "JS::Object"
+        ]
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import (
 )
 
 var TFrame = make(map[FrameKey]*T)
+var TSignatures = []string{}
 
 func DeepCopyTFrame() map[FrameKey]*T {
 	copied := make(map[FrameKey]*T)
@@ -28,6 +29,8 @@ func SetClassMethodT(
 	isPrivate bool,
 ) {
 
+	TSignatures = append(TSignatures, methodT.GetMethodName())
+
 	TFrame[classMethodTFrameKey(
 		frame,
 		class,
@@ -42,6 +45,8 @@ func SetMethodT(
 	methodT *T,
 	isPrivate bool,
 ) {
+
+	TSignatures = append(TSignatures, methodT.GetMethodName())
 
 	switch targetClass {
 	case "":
