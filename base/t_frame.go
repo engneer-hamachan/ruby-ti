@@ -2,6 +2,7 @@ package base
 
 import (
 	"maps"
+	"slices"
 )
 
 var TFrame = make(map[FrameKey]*T)
@@ -28,13 +29,7 @@ func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 	}
 }
 
-func SetClassMethodT(
-	frame string,
-	class string,
-	methodT *T,
-	isPrivate bool,
-) {
-
+func AppendSignature(frame, class string, methodT *T) {
 	info := frame + "::" + class + "." + methodT.method
 
 	if len(methodT.GetDefineArgs()) == 0 {
@@ -58,7 +53,23 @@ func SetClassMethodT(
 	info += " -> "
 	info += TypeToString(methodT)
 
+	sig := Sig{methodT.GetMethodName(), info}
+
+	if slices.Contains(TSignatures, sig) {
+		return
+	}
+
 	TSignatures = append(TSignatures, Sig{methodT.GetMethodName(), info})
+}
+
+func SetClassMethodT(
+	frame string,
+	class string,
+	methodT *T,
+	isPrivate bool,
+) {
+
+	AppendSignature(frame, class, methodT)
 
 	TFrame[classMethodTFrameKey(
 		frame,
@@ -83,29 +94,7 @@ func SetMethodT(
 		methodT.SetBeforeEvaluateCode(targetClass + "." + methodT.GetMethodName())
 	}
 
-	info := frame + "::" + targetClass + "." + methodT.method
-	if len(methodT.GetDefineArgs()) == 0 {
-		info += "()"
-	} else {
-		var args string
-		args += "("
-		for _, mt := range methodT.GetDefineArgs() {
-			mmt := GetValueT(frame, targetClass, methodT.GetMethodName(), mt)
-
-			if args != "(" {
-				args += " ,"
-			}
-
-			args += TypeToString(mmt)
-		}
-		args += ")"
-		info += args
-	}
-
-	info += " -> "
-	info += TypeToString(methodT)
-
-	TSignatures = append(TSignatures, Sig{methodT.GetMethodName(), info})
+	AppendSignature(frame, targetClass, methodT)
 
 	TFrame[methodTFrameKey(
 		frame,

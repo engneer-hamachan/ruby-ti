@@ -1,9 +1,15 @@
 package lsp
 
 import (
+	"bufio"
 	"strings"
 	"sync"
 	"ti/base"
+	"ti/context"
+	"ti/eval"
+	"ti/lexer"
+	"ti/lexer/reader"
+	"ti/parser"
 
 	"github.com/tliron/glsp"
 	protocol "github.com/tliron/glsp/protocol_3_16"
@@ -14,8 +20,10 @@ var handler protocol.Handler
 
 // ドキュメントの内容を保持する
 var (
-	documents = make(map[string]string)
-	docMutex  sync.RWMutex
+	documents       = make(map[string]string)
+	docMutex        sync.RWMutex
+	builtinSigs     []base.Sig // ビルトインのシグネチャを保存
+	builtinSigsOnce sync.Once
 )
 
 func NewServer() *server.Server {
@@ -65,17 +73,71 @@ func setTrace(context *glsp.Context, params *protocol.SetTraceParams) error {
 	return nil
 }
 
+func analyzeContent(content string, filename string) error {
+	// 初回のみビルトインのシグネチャを保存
+	builtinSigsOnce.Do(func() {
+		builtinSigs = make([]base.Sig, len(base.TSignatures))
+		copy(builtinSigs, base.TSignatures)
+	})
+
+	// TSignaturesをビルトインのみにリセット
+	base.TSignatures = make([]base.Sig, len(builtinSigs))
+	copy(base.TSignatures, builtinSigs)
+
+	br := bufio.NewReader(strings.NewReader(content))
+
+	for _, round := range context.GetRounds() {
+		lr := reader.New(*br)
+		l := lexer.New(lr)
+		p := parser.New(l, filename)
+
+		// cleanSimpleIdentifires
+		for key, value := range base.TFrame {
+			if value.IsIdentifierType() && key.Variable() == value.ToString() {
+				delete(base.TFrame, key)
+			}
+		}
+
+		ctx := context.NewContext("", "", round)
+		evaluator := eval.Evaluator{}
+		p.Errors = []error{}
+
+		for {
+			t, err := p.Read()
+			if err != nil {
+				return err
+			}
+
+			err = evaluator.Eval(&p, ctx, t)
+			if err != nil {
+				return err
+			}
+
+			if t == nil {
+				break
+			}
+		}
+
+		// 次のラウンドのために br をリセット
+		br = bufio.NewReader(strings.NewReader(content))
+	}
+
+	return nil
+}
+
 func textDocumentDidOpen(context *glsp.Context, params *protocol.DidOpenTextDocumentParams) error {
 	docMutex.Lock()
-	defer docMutex.Unlock()
 	documents[params.TextDocument.URI] = params.TextDocument.Text
+	docMutex.Unlock()
+
+	// ドキュメントを解析してTSignaturesを更新（エラーは無視）
+	_ = analyzeContent(params.TextDocument.Text, string(params.TextDocument.URI))
+
 	return nil
 }
 
 func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeTextDocumentParams) error {
 	docMutex.Lock()
-	defer docMutex.Unlock()
-
 	uri := params.TextDocument.URI
 	for _, changeAny := range params.ContentChanges {
 		change, ok := changeAny.(protocol.TextDocumentContentChangeEvent)
@@ -91,6 +153,12 @@ func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeText
 			documents[uri] = applyChange(documents[uri], change)
 		}
 	}
+	content := documents[uri]
+	docMutex.Unlock()
+
+	// 変更後のドキュメントを解析してTSignaturesを更新（エラーは無視）
+	_ = analyzeContent(content, string(uri))
+
 	return nil
 }
 
