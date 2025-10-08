@@ -17,7 +17,6 @@ import (
 
 var handler protocol.Handler
 
-
 func NewServer() *server.Server {
 	handler = protocol.Handler{
 		Initialize:             initialize,
@@ -106,22 +105,21 @@ func analyzeContent(content string) error {
 	for scanner.Scan() {
 		line := scanner.Text()
 		// %で始まる行が補完候補（形式: %content:::detail）
-		if strings.HasPrefix(line, "%") {
-			line = strings.TrimPrefix(line, "%")
-			parts := strings.SplitN(line, ":::", 2)
-			methodName := parts[0]
-			detail := ""
-			if len(parts) == 2 {
-				detail = parts[1]
-			}
+		line, ok := strings.CutPrefix(line, "%")
+		if !ok {
+			continue
+		}
 
-			if !methodSet[methodName] {
-				methodSet[methodName] = true
-				base.TSignatures = append(base.TSignatures, base.Sig{
-					Contents: methodName,
-					Detail:   detail,
-				})
-			}
+		parts := strings.SplitN(line, ":::", 2)
+		methodName := parts[0]
+		detail := parts[1]
+
+		if !methodSet[detail] {
+			methodSet[detail] = true
+			base.TSignatures = append(base.TSignatures, base.Sig{
+				Contents: methodName,
+				Detail:   detail,
+			})
 		}
 	}
 
