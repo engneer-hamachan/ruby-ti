@@ -57,7 +57,7 @@ func loop(p parser.Parser, round string) {
 
 	if len(base.TSignatures) > 0 && p.IsDictOut {
 		for _, sig := range base.TSignatures {
-			fmt.Println("%" + sig.Contents)
+			fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
 		}
 	}
 

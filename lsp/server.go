@@ -2,14 +2,14 @@ package lsp
 
 import (
 	"bufio"
+	"context"
+	"os"
+	"os/exec"
+	"path/filepath"
 	"strings"
 	"sync"
 	"ti/base"
-	"ti/context"
-	"ti/eval"
-	"ti/lexer"
-	"ti/lexer/reader"
-	"ti/parser"
+	"time"
 
 	"github.com/tliron/glsp"
 	protocol "github.com/tliron/glsp/protocol_3_16"
@@ -20,10 +20,8 @@ var handler protocol.Handler
 
 // ドキュメントの内容を保持する
 var (
-	documents       = make(map[string]string)
-	docMutex        sync.RWMutex
-	builtinSigs     []base.Sig // ビルトインのシグネチャを保存
-	builtinSigsOnce sync.Once
+	documents = make(map[string]string)
+	docMutex  sync.RWMutex
 )
 
 func NewServer() *server.Server {
@@ -74,52 +72,64 @@ func setTrace(context *glsp.Context, params *protocol.SetTraceParams) error {
 }
 
 func analyzeContent(content string, filename string) error {
-	// 初回のみビルトインのシグネチャを保存
-	builtinSigsOnce.Do(func() {
-		builtinSigs = make([]base.Sig, len(base.TSignatures))
-		copy(builtinSigs, base.TSignatures)
-	})
+	// TSignaturesをクリア（tiコマンドの出力で完全に置き換える）
+	base.TSignatures = nil
 
-	// TSignaturesをビルトインのみにリセット
-	base.TSignatures = make([]base.Sig, len(builtinSigs))
-	copy(base.TSignatures, builtinSigs)
+	// 一時ファイルを作成
+	tmpFile, err := os.CreateTemp("", "lsp-*.rb")
+	if err != nil {
+		return nil // エラーは無視してビルトインのみ使用
+	}
+	defer os.Remove(tmpFile.Name())
+	defer tmpFile.Close()
 
-	br := bufio.NewReader(strings.NewReader(content))
+	// コンテンツを書き込み
+	if _, err := tmpFile.WriteString(content); err != nil {
+		return nil
+	}
+	tmpFile.Close()
 
-	for _, round := range context.GetRounds() {
-		lr := reader.New(*br)
-		l := lexer.New(lr)
-		p := parser.New(l, filename)
+	// tiコマンドのパスを取得（実行ファイルと同じディレクトリ）
+	exePath, err := os.Executable()
+	if err != nil {
+		return nil
+	}
+	tiPath := filepath.Join(filepath.Dir(exePath), "ti")
 
-		// cleanSimpleIdentifires
-		for key, value := range base.TFrame {
-			if value.IsIdentifierType() && key.Variable() == value.ToString() {
-				delete(base.TFrame, key)
+	// tiコマンドを実行（-aオプションで補完候補を取得）
+	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, tiPath, tmpFile.Name(), "-a")
+	output, err := cmd.Output()
+	if err != nil {
+		// タイムアウトやエラーは無視
+		return nil
+	}
+
+	// 出力を解析して補完候補を抽出（重複を除外するためにmapを使用）
+	methodSet := make(map[string]bool)
+	scanner := bufio.NewScanner(strings.NewReader(string(output)))
+	for scanner.Scan() {
+		line := scanner.Text()
+		// %で始まる行が補完候補（形式: %content:::detail）
+		if strings.HasPrefix(line, "%") {
+			line = strings.TrimPrefix(line, "%")
+			parts := strings.SplitN(line, ":::", 2)
+			methodName := parts[0]
+			detail := ""
+			if len(parts) == 2 {
+				detail = parts[1]
+			}
+
+			if !methodSet[methodName] {
+				methodSet[methodName] = true
+				base.TSignatures = append(base.TSignatures, base.Sig{
+					Contents: methodName,
+					Detail:   detail,
+				})
 			}
 		}
-
-		ctx := context.NewContext("", "", round)
-		evaluator := eval.Evaluator{}
-		p.Errors = []error{}
-
-		for {
-			t, err := p.Read()
-			if err != nil {
-				return err
-			}
-
-			err = evaluator.Eval(&p, ctx, t)
-			if err != nil {
-				return err
-			}
-
-			if t == nil {
-				break
-			}
-		}
-
-		// 次のラウンドのために br をリセット
-		br = bufio.NewReader(strings.NewReader(content))
 	}
 
 	return nil
