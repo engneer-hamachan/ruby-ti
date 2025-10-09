@@ -35,6 +35,16 @@ func NewServer() *server.Server {
 	return server
 }
 
+func logger(log string) {
+	log += "\n"
+	f, err := os.OpenFile("./lsp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return
+	}
+	defer f.Close()
+	f.WriteString(log)
+}
+
 func initialize(context *glsp.Context, params *protocol.InitializeParams) (any, error) {
 	capabilities := handler.CreateServerCapabilities()
 
@@ -76,7 +86,9 @@ func analyzeContent(content string, line uint32) error {
 	base.TSignatures = nil
 
 	// デバッグ用：コンテンツをtmp.rbに出力
-	os.WriteFile("/tmp/tmp.rb", []byte(content), 0644)
+	logger("===Save===")
+	logger(content)
+	logger("==========")
 
 	// 一時ファイルを作成
 	tmpFile, err := os.CreateTemp("", "lsp-*.rb")
@@ -145,18 +157,6 @@ func textDocumentDidOpen(context *glsp.Context, params *protocol.DidOpenTextDocu
 }
 
 func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeTextDocumentParams) error {
-	// ContentChangesの最後の要素が最新の状態
-	if len(params.ContentChanges) > 0 {
-		lastChange := params.ContentChanges[len(params.ContentChanges)-1]
-
-		// map[string]interface{} として扱う
-		if changeMap, ok := lastChange.(map[string]interface{}); ok {
-			if text, ok := changeMap["text"].(string); ok {
-				documentContents[params.TextDocument.URI] = text
-				os.WriteFile("/tmp/didchange.log", []byte(fmt.Sprintf("Updated: %d bytes\n", len(text))), 0644)
-			}
-		}
-	}
 	return nil
 }
 
@@ -186,8 +186,9 @@ func textDocumentCompletion(context *glsp.Context, params *protocol.CompletionPa
 		content = string(fileContent)
 	}
 
-	// デバッグ情報を出力
-	os.WriteFile("/tmp/completion.log", []byte(fmt.Sprintf("URI: %s\nLine: %d\nContent: %s\n", params.TextDocument.URI, params.Position.Line, content)), 0644)
+	logger("===Comp===")
+	logger(fmt.Sprintf("%d", params.Position.Line))
+	logger("==========")
 
 	// カーソル位置の行番号で解析実行
 	// Position.Lineは0ベースなので、そのまま渡す（analyzeContent内で+1される）
