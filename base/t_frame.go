@@ -2,7 +2,6 @@ package base
 
 import (
 	"maps"
-	"slices"
 )
 
 var TFrame = make(map[FrameKey]*T)
@@ -32,7 +31,7 @@ func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 }
 
 func AppendSignature(frame, class string, methodT *T) {
-	info := frame + "::" + class + "." + methodT.method
+	info := methodT.method
 
 	if len(methodT.GetDefineArgs()) == 0 {
 		info += "()"
@@ -57,11 +56,11 @@ func AppendSignature(frame, class string, methodT *T) {
 
 	sig := Sig{methodT.GetMethodName(), info, frame, class}
 
-	if slices.Contains(TSignatures, sig) {
-		return
-	}
+	//if slices.Contains(TSignatures, sig) {
+	//	return
+	//}
 
-	TSignatures = append(TSignatures, Sig{methodT.GetMethodName(), info, frame, class})
+	TSignatures = append(TSignatures, sig)
 }
 
 func SetClassMethodT(
