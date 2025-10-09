@@ -51,6 +51,10 @@ func (p *Parser) Fatal(ctx context.Context, err error) {
 func (p *Parser) SetLastEvaluatedT(some any) {
 	p.StartParsingExpression()
 	p.lastEvaluatedT = some
+
+	if p.Row-1 == p.InputRow {
+		p.Tmp = some.(*base.T).GetObjectClass()
+	}
 }
 
 func (p *Parser) GetLastEvaluatedT() base.T {

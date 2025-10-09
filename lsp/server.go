@@ -28,6 +28,7 @@ func NewServer() *server.Server {
 		TextDocumentCompletion: textDocumentCompletion,
 		TextDocumentDidOpen:    textDocumentDidOpen,
 		TextDocumentDidChange:  textDocumentDidChange,
+		TextDocumentDidSave:    textDocumentDidSave,
 	}
 
 	server := server.NewServer(&handler, "ruby-ti", false)
@@ -140,8 +141,6 @@ func analyzeContent(content string, line uint32) error {
 func textDocumentDidOpen(context *glsp.Context, params *protocol.DidOpenTextDocumentParams) error {
 	// ドキュメント内容を保存
 	documentContents[params.TextDocument.URI] = params.TextDocument.Text
-	// ファイルオープン時は行番号0を指定
-	_ = analyzeContent(params.TextDocument.Text, 0)
 	return nil
 }
 
@@ -161,16 +160,34 @@ func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeText
 	return nil
 }
 
+func textDocumentDidSave(context *glsp.Context, params *protocol.DidSaveTextDocumentParams) error {
+	content := params.Text
+
+	// ドキュメント内容を更新
+	documentContents[params.TextDocument.URI] = *content
+
+	_ = analyzeContent(*content, 0)
+
+	return nil
+}
+
 func textDocumentCompletion(context *glsp.Context, params *protocol.CompletionParams) (any, error) {
 	var items []protocol.CompletionItem
 
-	// URIからファイルパスを取得してファイルを直接読み込む
-	filePath := strings.TrimPrefix(params.TextDocument.URI, "file://")
-	fileContent, err := os.ReadFile(filePath)
-	if err != nil {
-		return items, nil
+	// キャッシュから最新のコンテンツを取得
+	content, ok := documentContents[params.TextDocument.URI]
+	if !ok {
+		// キャッシュにない場合はファイルから読み込む
+		filePath := strings.TrimPrefix(params.TextDocument.URI, "file://")
+		fileContent, err := os.ReadFile(filePath)
+		if err != nil {
+			return items, nil
+		}
+		content = string(fileContent)
 	}
-	content := string(fileContent)
+
+	// デバッグ情報を出力
+	os.WriteFile("/tmp/completion.log", []byte(fmt.Sprintf("URI: %s\nLine: %d\nContent: %s\n", params.TextDocument.URI, params.Position.Line, content)), 0644)
 
 	// カーソル位置の行番号で解析実行
 	// Position.Lineは0ベースなので、そのまま渡す（analyzeContent内で+1される）
