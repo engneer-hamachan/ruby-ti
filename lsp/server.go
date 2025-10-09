@@ -3,6 +3,7 @@ package lsp
 import (
 	"bufio"
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/exec"
@@ -85,14 +86,23 @@ func analyzeContent(content string, line uint32) error {
 	// TSignaturesをクリア（tiコマンドの出力で完全に置き換える）
 	base.TSignatures = nil
 
-	// デバッグ用：コンテンツをtmp.rbに出力
-	logger("===Save===")
-	logger(content)
-	logger("==========")
+	// カーソル位置の行を取得
+	lines := strings.Split(content, "\n")
+	if int(line) < len(lines) {
+		currentLine := lines[line]
+		// 行が . で終わっている場合、. を削除して構文を完全にする
+		trimmed := strings.TrimSpace(currentLine)
+		if strings.HasSuffix(trimmed, ".") {
+			// 末尾の . を削除
+			lines[line] = strings.TrimSuffix(currentLine, ".")
+			content = strings.Join(lines, "\n")
+		}
+	}
 
 	// 一時ファイルを作成
 	tmpFile, err := os.CreateTemp("", "lsp-*.rb")
 	if err != nil {
+		logger(fmt.Sprintf("Error creating temp file: %v", err))
 		return nil // エラーは無視してビルトインのみ使用
 	}
 	defer os.Remove(tmpFile.Name())
@@ -100,6 +110,7 @@ func analyzeContent(content string, line uint32) error {
 
 	// コンテンツを書き込み
 	if _, err := tmpFile.WriteString(content); err != nil {
+		logger(fmt.Sprintf("Error writing temp file: %v", err))
 		return nil
 	}
 	tmpFile.Close()
@@ -107,6 +118,7 @@ func analyzeContent(content string, line uint32) error {
 	// tiコマンドのパスを取得（実行ファイルと同じディレクトリ）
 	exePath, err := os.Executable()
 	if err != nil {
+		logger(fmt.Sprintf("Error getting executable path: %v", err))
 		return nil
 	}
 	tiPath := filepath.Join(filepath.Dir(exePath), "ti")
@@ -116,12 +128,22 @@ func analyzeContent(content string, line uint32) error {
 	defer cancel()
 
 	// 行番号は0ベースなので+1して1ベースに変換
+	cmdLine := fmt.Sprintf("%s %s -a %d", tiPath, tmpFile.Name(), line+1)
+	logger(fmt.Sprintf("Running command: %s", cmdLine))
+	logger(fmt.Sprintf("File content:\n%s", content))
+
 	cmd := exec.CommandContext(ctx, tiPath, tmpFile.Name(), "-a", fmt.Sprintf("%d", line+1))
 	output, err := cmd.Output()
 	if err != nil {
 		// タイムアウトやエラーは無視
+		logger(fmt.Sprintf("Error running ti command: %v", err))
 		return nil
 	}
+
+	logger(fmt.Sprintf("ti output length: %d", len(output)))
+	logger("ti output:")
+	logger(string(output))
+	logger("end ti output")
 
 	// 出力を解析して補完候補を抽出（重複を除外するためにmapを使用）
 	methodSet := make(map[string]bool)
@@ -135,6 +157,9 @@ func analyzeContent(content string, line uint32) error {
 		}
 
 		parts := strings.SplitN(line, ":::", 2)
+		if len(parts) < 2 {
+			continue
+		}
 		methodName := parts[0]
 		detail := parts[1]
 
@@ -147,6 +172,8 @@ func analyzeContent(content string, line uint32) error {
 		}
 	}
 
+	logger(fmt.Sprintf("Found %d completion candidates", len(base.TSignatures)))
+
 	return nil
 }
 
@@ -157,6 +184,29 @@ func textDocumentDidOpen(context *glsp.Context, params *protocol.DidOpenTextDocu
 }
 
 func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeTextDocumentParams) error {
+	// ContentChangesからテキストを取得して解析
+	if len(params.ContentChanges) > 0 {
+		// Full syncモードなので最初の要素に全テキストが入っている
+		change := params.ContentChanges[0]
+
+		// JSONとして再度マーシャル・アンマーシャルして構造体に変換
+		changeBytes, err := json.Marshal(change)
+		if err == nil {
+			var changeEvent struct {
+				Text string `json:"text"`
+			}
+			if err := json.Unmarshal(changeBytes, &changeEvent); err == nil {
+				text := changeEvent.Text
+				logger("===Change===")
+				logger(text)
+				logger("==========")
+
+				// ドキュメント内容を更新
+				documentContents[params.TextDocument.URI] = text
+			}
+		}
+	}
+
 	return nil
 }
 
@@ -165,8 +215,6 @@ func textDocumentDidSave(context *glsp.Context, params *protocol.DidSaveTextDocu
 
 	// ドキュメント内容を更新
 	documentContents[params.TextDocument.URI] = *content
-
-	_ = analyzeContent(*content, 0)
 
 	return nil
 }
@@ -187,12 +235,15 @@ func textDocumentCompletion(context *glsp.Context, params *protocol.CompletionPa
 	}
 
 	logger("===Comp===")
-	logger(fmt.Sprintf("%d", params.Position.Line))
+	logger(content)
 	logger("==========")
 
 	// カーソル位置の行番号で解析実行
 	// Position.Lineは0ベースなので、そのまま渡す（analyzeContent内で+1される）
-	_ = analyzeContent(content, params.Position.Line)
+	err := analyzeContent(content, params.Position.Line)
+	if err != nil {
+		logger(err.Error())
+	}
 
 	// TSignaturesから補完候補を生成（全件返す）
 	for _, sig := range base.TSignatures {
