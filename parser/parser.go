@@ -24,6 +24,8 @@ type Parser struct {
 	Debug               bool
 	IsDefineInfo        bool
 	IsDictOut           bool
+	InputRow            int
+	Tmp                 string
 	Errors              []error
 	DefineInfos         []string
 	BeforeString        string

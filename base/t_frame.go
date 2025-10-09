@@ -10,6 +10,8 @@ var TFrame = make(map[FrameKey]*T)
 type Sig struct {
 	Contents string
 	Detail   string
+	Frame    string
+	Class    string
 }
 
 var TSignatures = []Sig{}
@@ -53,13 +55,13 @@ func AppendSignature(frame, class string, methodT *T) {
 	info += " -> "
 	info += TypeToString(methodT)
 
-	sig := Sig{methodT.GetMethodName(), info}
+	sig := Sig{methodT.GetMethodName(), info, frame, class}
 
 	if slices.Contains(TSignatures, sig) {
 		return
 	}
 
-	TSignatures = append(TSignatures, Sig{methodT.GetMethodName(), info})
+	TSignatures = append(TSignatures, Sig{methodT.GetMethodName(), info, frame, class})
 }
 
 func SetClassMethodT(

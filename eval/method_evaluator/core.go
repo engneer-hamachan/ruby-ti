@@ -50,6 +50,10 @@ func NewMethodEvaluator(
 		}
 	}
 
+	if p.Row == p.InputRow {
+		p.Tmp = evaluatedObjectT.GetObjectClass()
+	}
+
 	p.SetLastEvaluatedT(evaluatedObjectT)
 
 	p.SetLastCallFrameDetails(

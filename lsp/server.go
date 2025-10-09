@@ -3,6 +3,7 @@ package lsp
 import (
 	"bufio"
 	"context"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -16,6 +17,7 @@ import (
 )
 
 var handler protocol.Handler
+var documentContents = make(map[string]string) // URI -> content のマップ
 
 func NewServer() *server.Server {
 	handler = protocol.Handler{
@@ -40,7 +42,12 @@ func initialize(context *glsp.Context, params *protocol.InitializeParams) (any, 
 	}
 
 	// ドキュメント同期の設定（Full syncで全文を受け取る）
-	capabilities.TextDocumentSync = protocol.TextDocumentSyncKindFull
+	syncKind := protocol.TextDocumentSyncKindFull
+	capabilities.TextDocumentSync = protocol.TextDocumentSyncOptions{
+		OpenClose: &[]bool{true}[0],
+		Change:    &syncKind,
+		Save:      &protocol.SaveOptions{IncludeText: &[]bool{true}[0]},
+	}
 
 	return protocol.InitializeResult{
 		Capabilities: capabilities,
@@ -63,9 +70,12 @@ func setTrace(context *glsp.Context, params *protocol.SetTraceParams) error {
 	return nil
 }
 
-func analyzeContent(content string) error {
+func analyzeContent(content string, line uint32) error {
 	// TSignaturesをクリア（tiコマンドの出力で完全に置き換える）
 	base.TSignatures = nil
+
+	// デバッグ用：コンテンツをtmp.rbに出力
+	os.WriteFile("/tmp/tmp.rb", []byte(content), 0644)
 
 	// 一時ファイルを作成
 	tmpFile, err := os.CreateTemp("", "lsp-*.rb")
@@ -88,11 +98,12 @@ func analyzeContent(content string) error {
 	}
 	tiPath := filepath.Join(filepath.Dir(exePath), "ti")
 
-	// tiコマンドを実行（-aオプションで補完候補を取得）
+	// tiコマンドを実行（-aオプションで補完候補を取得、行番号も渡す）
 	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, tiPath, tmpFile.Name(), "-a")
+	// 行番号は0ベースなので+1して1ベースに変換
+	cmd := exec.CommandContext(ctx, tiPath, tmpFile.Name(), "-a", fmt.Sprintf("%d", line+1))
 	output, err := cmd.Output()
 	if err != nil {
 		// タイムアウトやエラーは無視
@@ -127,16 +138,24 @@ func analyzeContent(content string) error {
 }
 
 func textDocumentDidOpen(context *glsp.Context, params *protocol.DidOpenTextDocumentParams) error {
-	_ = analyzeContent(params.TextDocument.Text)
+	// ドキュメント内容を保存
+	documentContents[params.TextDocument.URI] = params.TextDocument.Text
+	// ファイルオープン時は行番号0を指定
+	_ = analyzeContent(params.TextDocument.Text, 0)
 	return nil
 }
 
 func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeTextDocumentParams) error {
-	for _, changeAny := range params.ContentChanges {
-		change, ok := changeAny.(protocol.TextDocumentContentChangeEvent)
-		if ok && change.Range == nil {
-			// Full document update
-			_ = analyzeContent(change.Text)
+	// ContentChangesの最後の要素が最新の状態
+	if len(params.ContentChanges) > 0 {
+		lastChange := params.ContentChanges[len(params.ContentChanges)-1]
+
+		// map[string]interface{} として扱う
+		if changeMap, ok := lastChange.(map[string]interface{}); ok {
+			if text, ok := changeMap["text"].(string); ok {
+				documentContents[params.TextDocument.URI] = text
+				os.WriteFile("/tmp/didchange.log", []byte(fmt.Sprintf("Updated: %d bytes\n", len(text))), 0644)
+			}
 		}
 	}
 	return nil
@@ -144,6 +163,18 @@ func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeText
 
 func textDocumentCompletion(context *glsp.Context, params *protocol.CompletionParams) (any, error) {
 	var items []protocol.CompletionItem
+
+	// URIからファイルパスを取得してファイルを直接読み込む
+	filePath := strings.TrimPrefix(params.TextDocument.URI, "file://")
+	fileContent, err := os.ReadFile(filePath)
+	if err != nil {
+		return items, nil
+	}
+	content := string(fileContent)
+
+	// カーソル位置の行番号で解析実行
+	// Position.Lineは0ベースなので、そのまま渡す（analyzeContent内で+1される）
+	_ = analyzeContent(content, params.Position.Line)
 
 	// TSignaturesから補完候補を生成（全件返す）
 	for _, sig := range base.TSignatures {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"slices"
+	"strconv"
 	"strings"
 	"ti/base"
 	_ "ti/builtin"
@@ -57,7 +58,9 @@ func loop(p parser.Parser, round string) {
 
 	if len(base.TSignatures) > 0 && p.IsDictOut {
 		for _, sig := range base.TSignatures {
-			fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
+			if sig.Class == p.Tmp {
+				fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
+			}
 		}
 	}
 
@@ -150,6 +153,12 @@ func main() {
 
 			if len(os.Args) > 0 && slices.Contains(os.Args, "-a") {
 				p.IsDictOut = true
+				if len(os.Args) > 3 {
+					row, err := strconv.Atoi(os.Args[3])
+					if err == nil {
+						p.InputRow = row
+					}
+				}
 			}
 
 			cleanSimpleIdentifires()
