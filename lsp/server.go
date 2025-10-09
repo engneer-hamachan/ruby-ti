@@ -102,7 +102,6 @@ func analyzeContent(content string, line uint32) error {
 	// 一時ファイルを作成
 	tmpFile, err := os.CreateTemp("", "lsp-*.rb")
 	if err != nil {
-		logger(fmt.Sprintf("Error creating temp file: %v", err))
 		return nil // エラーは無視してビルトインのみ使用
 	}
 	defer os.Remove(tmpFile.Name())
@@ -110,7 +109,6 @@ func analyzeContent(content string, line uint32) error {
 
 	// コンテンツを書き込み
 	if _, err := tmpFile.WriteString(content); err != nil {
-		logger(fmt.Sprintf("Error writing temp file: %v", err))
 		return nil
 	}
 	tmpFile.Close()
@@ -118,7 +116,6 @@ func analyzeContent(content string, line uint32) error {
 	// tiコマンドのパスを取得（実行ファイルと同じディレクトリ）
 	exePath, err := os.Executable()
 	if err != nil {
-		logger(fmt.Sprintf("Error getting executable path: %v", err))
 		return nil
 	}
 	tiPath := filepath.Join(filepath.Dir(exePath), "ti")
@@ -128,22 +125,12 @@ func analyzeContent(content string, line uint32) error {
 	defer cancel()
 
 	// 行番号は0ベースなので+1して1ベースに変換
-	cmdLine := fmt.Sprintf("%s %s -a %d", tiPath, tmpFile.Name(), line+1)
-	logger(fmt.Sprintf("Running command: %s", cmdLine))
-	logger(fmt.Sprintf("File content:\n%s", content))
-
 	cmd := exec.CommandContext(ctx, tiPath, tmpFile.Name(), "-a", fmt.Sprintf("%d", line+1))
 	output, err := cmd.Output()
 	if err != nil {
 		// タイムアウトやエラーは無視
-		logger(fmt.Sprintf("Error running ti command: %v", err))
 		return nil
 	}
-
-	logger(fmt.Sprintf("ti output length: %d", len(output)))
-	logger("ti output:")
-	logger(string(output))
-	logger("end ti output")
 
 	// 出力を解析して補完候補を抽出（重複を除外するためにmapを使用）
 	methodSet := make(map[string]bool)
@@ -172,8 +159,6 @@ func analyzeContent(content string, line uint32) error {
 		}
 	}
 
-	logger(fmt.Sprintf("Found %d completion candidates", len(base.TSignatures)))
-
 	return nil
 }
 
@@ -197,9 +182,6 @@ func textDocumentDidChange(context *glsp.Context, params *protocol.DidChangeText
 			}
 			if err := json.Unmarshal(changeBytes, &changeEvent); err == nil {
 				text := changeEvent.Text
-				logger("===Change===")
-				logger(text)
-				logger("==========")
 
 				// ドキュメント内容を更新
 				documentContents[params.TextDocument.URI] = text
@@ -234,16 +216,9 @@ func textDocumentCompletion(context *glsp.Context, params *protocol.CompletionPa
 		content = string(fileContent)
 	}
 
-	logger("===Comp===")
-	logger(content)
-	logger("==========")
-
 	// カーソル位置の行番号で解析実行
 	// Position.Lineは0ベースなので、そのまま渡す（analyzeContent内で+1される）
-	err := analyzeContent(content, params.Position.Line)
-	if err != nil {
-		logger(err.Error())
-	}
+	analyzeContent(content, params.Position.Line)
 
 	// TSignaturesから補完候補を生成（全件返す）
 	for _, sig := range base.TSignatures {
