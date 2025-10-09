@@ -25,7 +25,7 @@ type Parser struct {
 	IsDefineInfo        bool
 	IsDictOut           bool
 	InputRow            int
-	Tmp                 string
+	Tmp                 base.T
 	Errors              []error
 	DefineInfos         []string
 	BeforeString        string
@@ -53,7 +53,7 @@ func (p *Parser) SetLastEvaluatedT(some any) {
 	p.lastEvaluatedT = some
 
 	if p.Row-1 == p.InputRow {
-		p.Tmp = some.(*base.T).GetObjectClass()
+		p.Tmp = *some.(*base.T)
 	}
 }
 

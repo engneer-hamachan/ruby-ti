@@ -11,6 +11,7 @@ type Sig struct {
 	Detail   string
 	Frame    string
 	Class    string
+	IsStatic bool
 }
 
 var TSignatures = []Sig{}
@@ -30,7 +31,7 @@ func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 	}
 }
 
-func AppendSignature(frame, class string, methodT *T) {
+func AppendSignature(frame, class string, methodT *T, IsPrivate bool) {
 	info := methodT.method
 
 	if len(methodT.GetDefineArgs()) == 0 {
@@ -54,7 +55,7 @@ func AppendSignature(frame, class string, methodT *T) {
 	info += " -> "
 	info += TypeToString(methodT)
 
-	sig := Sig{methodT.GetMethodName(), info, frame, class}
+	sig := Sig{methodT.GetMethodName(), info, frame, class, IsPrivate}
 
 	//if slices.Contains(TSignatures, sig) {
 	//	return
@@ -70,7 +71,7 @@ func SetClassMethodT(
 	isPrivate bool,
 ) {
 
-	AppendSignature(frame, class, methodT)
+	AppendSignature(frame, class, methodT, true)
 
 	TFrame[classMethodTFrameKey(
 		frame,
@@ -95,7 +96,7 @@ func SetMethodT(
 		methodT.SetBeforeEvaluateCode(targetClass + "." + methodT.GetMethodName())
 	}
 
-	AppendSignature(frame, targetClass, methodT)
+	AppendSignature(frame, targetClass, methodT, false)
 
 	TFrame[methodTFrameKey(
 		frame,

@@ -16,6 +16,7 @@ import (
 	"ti/lsp"
 	"ti/parser"
 	"time"
+	"unicode"
 	// "github.com/pkg/profile"
 )
 
@@ -58,8 +59,11 @@ func loop(p parser.Parser, round string) {
 
 	if len(base.TSignatures) > 0 && p.IsDictOut {
 		for _, sig := range base.TSignatures {
-			if sig.Class == p.Tmp {
-				fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
+			if sig.Class == p.Tmp.GetObjectClass() {
+				tmp := p.Tmp.GetBeforeEvaluateCode()
+				if unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
+					fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
+				}
 			}
 		}
 	}

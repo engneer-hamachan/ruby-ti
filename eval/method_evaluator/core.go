@@ -51,7 +51,7 @@ func NewMethodEvaluator(
 	}
 
 	if p.Row == p.InputRow {
-		p.Tmp = evaluatedObjectT.GetObjectClass()
+		p.Tmp = *evaluatedObjectT
 	}
 
 	p.SetLastEvaluatedT(evaluatedObjectT)
