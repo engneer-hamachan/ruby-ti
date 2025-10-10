@@ -33,16 +33,6 @@ func NewServer() *server.Server {
 	return server
 }
 
-func logger(log string) {
-	log += "\n"
-	f, err := os.OpenFile("./lsp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		return
-	}
-	defer f.Close()
-	f.WriteString(log)
-}
-
 func initialize(
 	ctx *glsp.Context,
 	params *protocol.InitializeParams,

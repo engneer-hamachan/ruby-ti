@@ -2,9 +2,20 @@ package lsp
 
 import (
 	"bufio"
+	"os"
 	"strings"
 	"ti/base"
 )
+
+func logger(log string) {
+	log += "\n"
+	f, err := os.OpenFile("./lsp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return
+	}
+	defer f.Close()
+	f.WriteString(log)
+}
 
 func removeTaiilDot(content string, line uint32) string {
 	lines := strings.Split(content, "\n")
