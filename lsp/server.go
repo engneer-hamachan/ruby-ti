@@ -17,6 +17,13 @@ import (
 	"github.com/tliron/glsp/server"
 )
 
+//"ruby-ti": {
+//  "command": "/home/hama/apps/ruby-ti/bin/ti",
+//  "args": ["--lsp"],
+//  "filetypes": ["ruby"],
+//  "rootPatterns": [".git", "."]
+//}
+
 var handler protocol.Handler
 var documentContents = make(map[string]string) // URI -> content のマップ
 
