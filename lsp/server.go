@@ -185,7 +185,6 @@ func textDocumentCompletion(
 	for _, sig := range base.TSignatures {
 		items = append(items, protocol.CompletionItem{
 			Label:  sig.Contents,
-			Kind:   &[]protocol.CompletionItemKind{protocol.CompletionItemKindMethod}[0],
 			Detail: &sig.Detail,
 		})
 	}
