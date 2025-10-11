@@ -16,6 +16,7 @@ import (
 
 var handler protocol.Handler
 var documentContents = make(map[string]string)
+var responseSignatures = []base.Sig{}
 
 func NewServer() *server.Server {
 	handler = protocol.Handler{
@@ -80,7 +81,7 @@ func setTrace(ctx *glsp.Context, params *protocol.SetTraceParams) error {
 }
 
 func analyzeContent(content string, line uint32) error {
-	base.TSignatures = nil
+	responseSignatures = nil
 
 	content = removeTaiilDot(content, line)
 
@@ -179,7 +180,7 @@ func textDocumentCompletion(
 
 	analyzeContent(content, params.Position.Line)
 
-	for _, sig := range base.TSignatures {
+	for _, sig := range responseSignatures {
 		items = append(items, protocol.CompletionItem{
 			Label:  sig.Contents,
 			Detail: &sig.Detail,

@@ -51,13 +51,13 @@ func loop(p parser.Parser, round string) {
 		break
 	}
 
-	if len(p.DefineInfos) > 0 && p.IsDefineInfo {
+	if len(p.DefineInfos) > 0 && p.IsDefineInfo && round == "check" {
 		for _, info := range p.DefineInfos {
 			fmt.Println(info)
 		}
 	}
 
-	if len(base.TSignatures) > 0 && p.IsDictOut {
+	if len(base.TSignatures) > 0 && p.IsDictOut && round == "check" {
 		for _, sig := range base.TSignatures {
 			objectClass := p.Tmp.GetObjectClass()
 			if objectClass == "Identifier" {

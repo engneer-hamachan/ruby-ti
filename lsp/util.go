@@ -50,7 +50,7 @@ func setTSignatures(cmdOutput []byte) {
 
 		if !methodSet[detail] {
 			methodSet[detail] = true
-			base.TSignatures = append(base.TSignatures, base.Sig{
+			responseSignatures = append(responseSignatures, base.Sig{
 				Contents: methodName,
 				Detail:   detail,
 			})

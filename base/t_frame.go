@@ -14,7 +14,7 @@ type Sig struct {
 	IsStatic bool
 }
 
-var TSignatures = []Sig{}
+var TSignatures = make(map[string]Sig)
 
 func DeepCopyTFrame() map[FrameKey]*T {
 	copied := make(map[FrameKey]*T)
@@ -56,12 +56,10 @@ func AppendSignature(frame, class string, methodT *T, IsPrivate bool) {
 	info += TypeToString(methodT)
 
 	sig := Sig{methodT.GetMethodName(), info, frame, class, IsPrivate}
+	key := frame + class + methodT.method
 
-	//if slices.Contains(TSignatures, sig) {
-	//	return
-	//}
+	TSignatures[key] = sig
 
-	TSignatures = append(TSignatures, sig)
 }
 
 func SetClassMethodT(

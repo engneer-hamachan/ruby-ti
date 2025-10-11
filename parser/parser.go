@@ -53,7 +53,10 @@ func (p *Parser) SetLastEvaluatedT(some any) {
 	p.lastEvaluatedT = some
 
 	if p.Row-1 == p.InputRow {
-		p.Tmp = *some.(*base.T)
+		switch some.(type) {
+		case *base.T:
+			p.Tmp = *some.(*base.T)
+		}
 	}
 }
 
