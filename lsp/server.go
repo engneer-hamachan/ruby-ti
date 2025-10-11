@@ -41,7 +41,7 @@ func initialize(
 	capabilities := handler.CreateServerCapabilities()
 
 	capabilities.CompletionProvider = &protocol.CompletionOptions{
-		TriggerCharacters: []string{".", "@"},
+		TriggerCharacters: []string{"."},
 	}
 
 	syncKind := protocol.TextDocumentSyncKindFull
