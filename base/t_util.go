@@ -15,11 +15,11 @@ func (t *T) ToString() string {
 	case string:
 		return t.val.(string)
 	case int64:
-		return "Integer"
+		return "integer"
 	case float64:
-		return "Float"
+		return "float"
 	default:
-		return "Unknown"
+		return "unknown"
 	}
 }
 

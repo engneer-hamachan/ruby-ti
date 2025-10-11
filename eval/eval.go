@@ -1,6 +1,7 @@
 package eval
 
 import (
+	"fmt"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -62,6 +63,7 @@ func (e *Evaluator) setLastEvaluatedT(
 			break
 		}
 
+		fmt.Println(t.ToString())
 		t.SetBeforeEvaluateCode(t.ToString())
 
 	case base.STRING:
