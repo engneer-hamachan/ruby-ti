@@ -59,7 +59,17 @@ func loop(p parser.Parser, round string) {
 
 	if len(base.TSignatures) > 0 && p.IsDictOut {
 		for _, sig := range base.TSignatures {
-			if sig.Class == p.Tmp.GetObjectClass() {
+			objectClass := p.Tmp.GetObjectClass()
+			if objectClass == "Identifier" {
+				objectClass = ""
+			}
+
+			if objectClass == "" && slices.Contains([]string{"", "Kernel"}, sig.Class) {
+				fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
+				continue
+			}
+
+			if sig.Class == objectClass {
 				tmp := p.Tmp.GetBeforeEvaluateCode()
 				if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
 					fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
