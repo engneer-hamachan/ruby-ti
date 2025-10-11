@@ -61,7 +61,7 @@ func loop(p parser.Parser, round string) {
 		for _, sig := range base.TSignatures {
 			if sig.Class == p.Tmp.GetObjectClass() {
 				tmp := p.Tmp.GetBeforeEvaluateCode()
-				if unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
+				if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
 					fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
 				}
 			}
