@@ -47,7 +47,7 @@ func appendSignature(frame, class string, methodT *T, IsPrivate bool) {
 			}
 
 			if dargT.HasDefault() {
-				args += "？"
+				args += `optional `
 			}
 
 			if dargT.IsAsteriskPrefix() {
@@ -59,7 +59,7 @@ func appendSignature(frame, class string, methodT *T, IsPrivate bool) {
 				args += UnionTypeToString(dargT.GetVariants())
 
 			case UNKNOWN:
-				args += "？"
+				args += `unknown`
 
 			default:
 				args += TypeToString(dargT)
