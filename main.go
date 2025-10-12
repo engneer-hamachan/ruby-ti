@@ -68,7 +68,12 @@ func loop(p parser.Parser, round string) {
 				continue
 			}
 
-			if sig.Class == objectClass {
+			// Check if sig.Class matches objectClass or is a parent class
+			if sig.Class == objectClass || isParentClass(sig.Frame, objectClass, sig.Class) {
+				if sig.Class == "" {
+					continue
+				}
+
 				tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
 				if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
 					fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
@@ -91,6 +96,23 @@ func cleanSimpleIdentifires() {
 			delete(base.TFrame, key)
 		}
 	}
+}
+
+func isParentClass(frame, childClass, parentClass string) bool {
+	classNode := base.ClassNode{Frame: frame, Class: childClass}
+
+	for _, parentNode := range base.ClassInheritanceMap[classNode] {
+		if parentNode.Class == parentClass {
+			return true
+		}
+
+		// Recursively check parent's parents
+		if isParentClass(parentNode.Frame, parentNode.Class, parentClass) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func main() {
