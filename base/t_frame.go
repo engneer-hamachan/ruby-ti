@@ -31,7 +31,7 @@ func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 	}
 }
 
-func AppendSignature(frame, class string, methodT *T, IsPrivate bool) {
+func appendSignature(frame, class string, methodT *T, IsPrivate bool) {
 	info := methodT.method
 
 	if len(methodT.GetDefineArgs()) == 0 {
@@ -69,7 +69,7 @@ func SetClassMethodT(
 	isPrivate bool,
 ) {
 
-	AppendSignature(frame, class, methodT, true)
+	appendSignature(frame, class, methodT, true)
 
 	TFrame[classMethodTFrameKey(
 		frame,
@@ -94,7 +94,7 @@ func SetMethodT(
 		methodT.SetBeforeEvaluateCode(targetClass + "." + methodT.GetMethodName())
 	}
 
-	AppendSignature(frame, targetClass, methodT, false)
+	appendSignature(frame, targetClass, methodT, false)
 
 	TFrame[methodTFrameKey(
 		frame,

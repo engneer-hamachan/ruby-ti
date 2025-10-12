@@ -6,7 +6,6 @@ import (
 	"os"
 	"slices"
 	"strconv"
-	"strings"
 	"ti/base"
 	_ "ti/builtin"
 	"ti/context"
@@ -92,41 +91,6 @@ func cleanSimpleIdentifires() {
 			delete(base.TFrame, key)
 		}
 	}
-}
-
-// AnalyzeContent は文字列のRubyコードを解析します（LSPから使用）
-func AnalyzeContent(content string, filename string) error {
-	br := bufio.NewReader(strings.NewReader(content))
-
-	for _, round := range context.GetRounds() {
-		p := getParser(br, filename)
-		cleanSimpleIdentifires()
-
-		ctx := context.NewContext("", "", round)
-		evaluator := eval.Evaluator{}
-		p.Errors = []error{}
-
-		for {
-			t, err := p.Read()
-			if err != nil {
-				return err
-			}
-
-			err = evaluator.Eval(&p, ctx, t)
-			if err != nil {
-				return err
-			}
-
-			if t == nil {
-				break
-			}
-		}
-
-		// 次のラウンドのために br をリセット
-		br = bufio.NewReader(strings.NewReader(content))
-	}
-
-	return nil
 }
 
 func main() {
