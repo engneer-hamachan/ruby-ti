@@ -57,9 +57,9 @@ func loop(p parser.Parser, round string) {
 		}
 	}
 
-	if len(base.TSignatures) > 0 && p.IsDictOut && round == "check" {
+	if len(base.TSignatures) > 0 && p.IsLsp && round == "check" {
 		for _, sig := range base.TSignatures {
-			objectClass := p.Tmp.GetObjectClass()
+			objectClass := p.LspSudjestTargetT.GetObjectClass()
 			if objectClass == "Identifier" {
 				objectClass = ""
 			}
@@ -70,7 +70,7 @@ func loop(p parser.Parser, round string) {
 			}
 
 			if sig.Class == objectClass {
-				tmp := p.Tmp.GetBeforeEvaluateCode()
+				tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
 				if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
 					fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
 				}
@@ -166,11 +166,11 @@ func main() {
 			}
 
 			if len(os.Args) > 0 && slices.Contains(os.Args, "-a") {
-				p.IsDictOut = true
+				p.IsLsp = true
 				if len(os.Args) > 3 {
 					row, err := strconv.Atoi(os.Args[3])
 					if err == nil {
-						p.InputRow = row
+						p.LspTargetRow = row
 					}
 				}
 			}

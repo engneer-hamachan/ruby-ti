@@ -23,9 +23,9 @@ type Parser struct {
 	tmpEvaluatedArgs    []*base.T
 	Debug               bool
 	IsDefineInfo        bool
-	IsDictOut           bool
-	InputRow            int
-	Tmp                 base.T
+	IsLsp               bool
+	LspTargetRow        int
+	LspSudjestTargetT   base.T
 	Errors              []error
 	DefineInfos         []string
 	BeforeString        string
@@ -52,10 +52,10 @@ func (p *Parser) SetLastEvaluatedT(some any) {
 	p.StartParsingExpression()
 	p.lastEvaluatedT = some
 
-	if p.Row-1 == p.InputRow {
+	if p.Row-1 == p.LspTargetRow {
 		switch some.(type) {
 		case *base.T:
-			p.Tmp = *some.(*base.T)
+			p.LspSudjestTargetT = *some.(*base.T)
 		}
 	}
 }

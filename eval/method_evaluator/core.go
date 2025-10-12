@@ -50,8 +50,8 @@ func NewMethodEvaluator(
 		}
 	}
 
-	if p.Row == p.InputRow {
-		p.Tmp = *evaluatedObjectT
+	if p.Row == p.LspTargetRow {
+		p.LspSudjestTargetT = *evaluatedObjectT
 	}
 
 	p.SetLastEvaluatedT(evaluatedObjectT)
