@@ -1,13 +1,8 @@
 package lsp
 
 import (
-	"context"
 	"encoding/json"
-	"fmt"
-	"os"
-	"os/exec"
 	"ti/base"
-	"time"
 
 	"github.com/tliron/glsp"
 	protocol "github.com/tliron/glsp/protocol_3_16"
@@ -80,49 +75,6 @@ func setTrace(ctx *glsp.Context, params *protocol.SetTraceParams) error {
 	return nil
 }
 
-func analyzeContent(content string, line uint32) error {
-	responseSignatures = nil
-
-	content = removeTaiilDot(content, line)
-
-	tmpFile, err := os.CreateTemp("", "ruby-ti-lsp-*.rb")
-	if err != nil {
-		return nil
-	}
-
-	defer os.Remove(tmpFile.Name())
-	defer tmpFile.Close()
-
-	if _, err := tmpFile.WriteString(content); err != nil {
-		return nil
-	}
-
-	tmpFile.Close()
-
-	ctx, cancel :=
-		context.WithTimeout(context.Background(), 1000*time.Millisecond)
-
-	defer cancel()
-
-	cmd :=
-		exec.CommandContext(
-			ctx,
-			"ti",
-			tmpFile.Name(),
-			"-a",
-			fmt.Sprintf("%d", line+1),
-		)
-
-	output, err := cmd.Output()
-	if err != nil {
-		return nil
-	}
-
-	setTSignatures(output)
-
-	return nil
-}
-
 func textDocumentDidOpen(
 	ctx *glsp.Context,
 	params *protocol.DidOpenTextDocumentParams,
@@ -132,24 +84,28 @@ func textDocumentDidOpen(
 	return nil
 }
 
+var changeEvent struct {
+	Text string `json:"text"`
+}
+
 func textDocumentDidChange(
 	ctx *glsp.Context,
 	params *protocol.DidChangeTextDocumentParams,
 ) error {
 
-	if len(params.ContentChanges) > 0 {
-		change := params.ContentChanges[0]
+	if len(params.ContentChanges) < 1 {
+		return nil
+	}
 
-		changeEventBytes, err := json.Marshal(change)
-		if err == nil {
-			var changeEvent struct {
-				Text string `json:"text"`
-			}
+	change := params.ContentChanges[0]
 
-			if err := json.Unmarshal(changeEventBytes, &changeEvent); err == nil {
-				documentContents[params.TextDocument.URI] = changeEvent.Text
-			}
-		}
+	changeEventBytes, err := json.Marshal(change)
+	if err != nil {
+		return nil
+	}
+
+	if err := json.Unmarshal(changeEventBytes, &changeEvent); err == nil {
+		documentContents[params.TextDocument.URI] = changeEvent.Text
 	}
 
 	return nil
@@ -181,10 +137,11 @@ func textDocumentCompletion(
 	analyzeContent(content, params.Position.Line)
 
 	for _, sig := range responseSignatures {
-		items = append(items, protocol.CompletionItem{
-			Label:  sig.Contents,
-			Detail: &sig.Detail,
-		})
+		items =
+			append(items, protocol.CompletionItem{
+				Label:  sig.Contents,
+				Detail: &sig.Detail,
+			})
 	}
 
 	return items, nil
