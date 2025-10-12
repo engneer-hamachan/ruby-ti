@@ -34,22 +34,43 @@ func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 func appendSignature(frame, class string, methodT *T, IsPrivate bool) {
 	info := methodT.method
 
-	if len(methodT.GetDefineArgs()) == 0 {
-		info += "()"
-	} else {
+	switch methodT.IsEmptyDefineArgs() {
+	case false:
 		var args string
 		args += "("
-		for _, mt := range methodT.GetDefineArgs() {
-			mmt := GetValueT(frame, class, methodT.GetMethodName(), mt)
+
+		for _, darg := range methodT.GetDefineArgs() {
+			dargT := GetValueT(frame, class, methodT.GetMethodName(), darg)
 
 			if args != "(" {
 				args += " ,"
 			}
 
-			args += TypeToString(mmt)
+			if dargT.HasDefault() {
+				args += "？"
+			}
+
+			if dargT.IsAsteriskPrefix() {
+				args += "*"
+			}
+
+			switch dargT.GetType() {
+			case UNION:
+				args += UnionTypeToString(dargT.GetVariants())
+
+			case UNKNOWN:
+				args += "？"
+
+			default:
+				args += TypeToString(dargT)
+			}
 		}
+
 		args += ")"
 		info += args
+
+	default:
+		info += "()"
 	}
 
 	info += " -> "
