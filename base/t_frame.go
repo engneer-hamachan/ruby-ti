@@ -31,47 +31,53 @@ func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 	}
 }
 
+func isKeySuffix(str string) bool {
+	return str[len(str)-1:] == ":" && len(str) >= 2
+}
+
+func removeSuffix(str string) string {
+	return str[:len(str)-1]
+}
+
 func appendSignature(frame, class string, methodT *T, IsPrivate bool) {
 	info := methodT.method
+	var args string
 
-	switch methodT.IsEmptyDefineArgs() {
-	case false:
-		var args string
-		args += "("
-
-		for _, darg := range methodT.GetDefineArgs() {
-			dargT := GetValueT(frame, class, methodT.GetMethodName(), darg)
-
-			if args != "(" {
-				args += " ,"
-			}
-
-			if dargT.HasDefault() {
-				args += `optional `
-			}
-
-			if dargT.IsAsteriskPrefix() {
-				args += "*"
-			}
-
-			switch dargT.GetType() {
-			case UNION:
-				args += UnionTypeToString(dargT.GetVariants())
-
-			case UNKNOWN:
-				args += `unknown`
-
-			default:
-				args += TypeToString(dargT)
-			}
+	args += "("
+	for _, darg := range methodT.GetDefineArgs() {
+		if args != "(" {
+			args += ", "
 		}
 
-		args += ")"
-		info += args
+		if isKeySuffix(darg) {
+			args += darg + " "
+			darg = removeSuffix(darg)
+		}
 
-	default:
-		info += "()"
+		dargT := GetValueT(frame, class, methodT.GetMethodName(), darg)
+
+		if dargT.HasDefault() {
+			args += `optional `
+		}
+
+		if dargT.IsAsteriskPrefix() {
+			args += "*"
+		}
+
+		switch dargT.GetType() {
+		case UNION:
+			args += UnionTypeToString(dargT.GetVariants())
+
+		case UNKNOWN:
+			args += `unknown`
+
+		default:
+			args += TypeToString(dargT)
+		}
 	}
+
+	args += ")"
+	info += args
 
 	info += " -> "
 	info += TypeToString(methodT)
