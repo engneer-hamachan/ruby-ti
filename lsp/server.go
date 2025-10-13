@@ -23,6 +23,7 @@ func NewServer() *server.Server {
 		TextDocumentDidOpen:    textDocumentDidOpen,
 		TextDocumentDidChange:  textDocumentDidChange,
 		TextDocumentDidSave:    textDocumentDidSave,
+		TextDocumentDefinition: textDocumentDefinition,
 	}
 
 	server := server.NewServer(&handler, "ruby-ti", false)
@@ -147,4 +148,27 @@ func textDocumentCompletion(
 	}
 
 	return items, nil
+}
+
+func textDocumentDefinition(
+	ctx *glsp.Context,
+	params *protocol.DefinitionParams,
+) (any, error) {
+
+	// メソッドジャンプのリクエストに対して0行0列を返す
+	location := protocol.Location{
+		URI: params.TextDocument.URI,
+		Range: protocol.Range{
+			Start: protocol.Position{
+				Line:      0,
+				Character: 0,
+			},
+			End: protocol.Position{
+				Line:      0,
+				Character: 0,
+			},
+		},
+	}
+
+	return location, nil
 }
