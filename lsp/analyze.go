@@ -107,11 +107,8 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	frame := parts[0]
 	class := parts[1]
 
-	// ti {file} --define で全メソッド定義を取得
-	definitions := getMethodDefinitions(tmpFile.Name())
-
-	// ti {file} --inheritance で継承情報を取得
-	inheritanceMap := getInheritanceMap(tmpFile.Name())
+	// ti {file} --define で全メソッド定義と継承情報を取得
+	definitions, inheritanceMap := getMethodDefinitionsAndInheritance(tmpFile.Name())
 
 	// ドットが入っていなくて、frameがunknownだったらtoplevelメソッド
 	searchFrame := frame
@@ -193,58 +190,41 @@ func getPrefixInfo(filename string, row int) string {
 	return ""
 }
 
-// getMethodDefinitions gets all method definitions using ti --define
-func getMethodDefinitions(filename string) []string {
+// getMethodDefinitionsAndInheritance gets all method definitions and inheritance info using ti --define
+func getMethodDefinitionsAndInheritance(filename string) ([]string, map[base.ClassNode][]base.ClassNode) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
 	defer cancel()
 
 	cmd := exec.CommandContext(ctx, "ti", filename, "--define")
 	output, err := cmd.Output()
 	if err != nil {
-		return nil
+		return nil, make(map[base.ClassNode][]base.ClassNode)
 	}
 
 	var definitions []string
+	inheritanceMap := make(map[base.ClassNode][]base.ClassNode)
+
 	lines := strings.Split(string(output), "\n")
 	for _, line := range lines {
 		if strings.HasPrefix(line, "%") {
+			// Method definition
 			definitions = append(definitions, strings.TrimPrefix(line, "%"))
+		} else if strings.HasPrefix(line, "$") {
+			// Inheritance information
+			line = strings.TrimPrefix(line, "$")
+			parts := strings.SplitN(line, ":::", 4)
+			if len(parts) < 4 {
+				continue
+			}
+
+			childNode := base.ClassNode{Frame: parts[0], Class: parts[1]}
+			parentNode := base.ClassNode{Frame: parts[2], Class: parts[3]}
+
+			inheritanceMap[childNode] = append(inheritanceMap[childNode], parentNode)
 		}
 	}
 
-	return definitions
-}
-
-// getInheritanceMap gets inheritance information using ti --inheritance
-func getInheritanceMap(filename string) map[base.ClassNode][]base.ClassNode {
-	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
-	defer cancel()
-
-	cmd := exec.CommandContext(ctx, "ti", filename, "--inheritance")
-	output, err := cmd.Output()
-	if err != nil {
-		return make(map[base.ClassNode][]base.ClassNode)
-	}
-
-	inheritanceMap := make(map[base.ClassNode][]base.ClassNode)
-	lines := strings.Split(string(output), "\n")
-	for _, line := range lines {
-		if !strings.HasPrefix(line, "$") {
-			continue
-		}
-		line = strings.TrimPrefix(line, "$")
-		parts := strings.SplitN(line, ":::", 4)
-		if len(parts) < 4 {
-			continue
-		}
-
-		childNode := base.ClassNode{Frame: parts[0], Class: parts[1]}
-		parentNode := base.ClassNode{Frame: parts[2], Class: parts[3]}
-
-		inheritanceMap[childNode] = append(inheritanceMap[childNode], parentNode)
-	}
-
-	return inheritanceMap
+	return definitions, inheritanceMap
 }
 
 // normalizeFrame normalizes empty string and "unknown" to be the same

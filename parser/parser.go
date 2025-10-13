@@ -24,7 +24,6 @@ type Parser struct {
 	Debug               bool
 	IsDefineInfo        bool
 	IsDefineAllInfo     bool
-	IsInheritanceInfo   bool
 	IsLsp               bool
 	LspTargetRow        int
 	LspSudjestTargetT   base.T

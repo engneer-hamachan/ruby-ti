@@ -71,9 +71,8 @@ func loop(p parser.Parser, round string) {
 
 			fmt.Println("%" + frame + ":::" + class + ":::" + sig.Contents + ":::" + sig.FileName + ":::" + strconv.Itoa(sig.Row))
 		}
-	}
 
-	if p.IsInheritanceInfo && round == "check" {
+		// Also output inheritance information when --define is used
 		for classNode, parents := range base.ClassInheritanceMap {
 			for _, parent := range parents {
 				fmt.Println("$" + classNode.Frame + ":::" + classNode.Class + ":::" + parent.Frame + ":::" + parent.Class)
@@ -192,10 +191,6 @@ func main() {
 
 			if len(os.Args) > 0 && slices.Contains(os.Args, "--define") {
 				p.IsDefineAllInfo = true
-			}
-
-			if len(os.Args) > 0 && slices.Contains(os.Args, "--inheritance") {
-				p.IsInheritanceInfo = true
 			}
 
 			if len(os.Args) > 0 && slices.Contains(os.Args, "-a") {
