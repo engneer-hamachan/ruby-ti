@@ -68,12 +68,7 @@ func loop(p parser.Parser, round string) {
 				continue
 			}
 
-			// Check if sig.Class matches objectClass or is a parent class
-			if sig.Class == objectClass || isParentClass(sig.Frame, objectClass, sig.Class) {
-				if sig.Class == "" {
-					continue
-				}
-
+			if isSudjest(objectClass, sig) {
 				tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
 				if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
 					fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
@@ -96,6 +91,18 @@ func cleanSimpleIdentifires() {
 			delete(base.TFrame, key)
 		}
 	}
+}
+
+func isSudjest(objectClass string, sig base.Sig) bool {
+	if sig.Class == "" {
+		return false
+	}
+
+	if sig.Class == objectClass {
+		return true
+	}
+
+	return isParentClass(sig.Frame, objectClass, sig.Class)
 }
 
 func isParentClass(frame, childClass, parentClass string) bool {
