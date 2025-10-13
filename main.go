@@ -57,7 +57,12 @@ func loop(p parser.Parser, round string) {
 	}
 
 	if len(base.TSignatures) > 0 && p.IsLsp && round == "check" {
-		fmt.Println(p.LspSudjestTargetT)
+		frame := p.LspSudjestTargetT.GetFrame()
+		if frame == "" {
+			frame = "unknown"
+		}
+		fmt.Println("@" + frame + ":::" + p.LspSudjestTargetT.GetObjectClass())
+
 		for _, sig := range base.TSignatures {
 			objectClass := p.LspSudjestTargetT.GetObjectClass()
 			if objectClass == "Identifier" {
