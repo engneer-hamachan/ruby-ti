@@ -50,10 +50,6 @@ func NewMethodEvaluator(
 		}
 	}
 
-	//	if p.Row == p.LspTargetRow {
-	//		p.LspSudjestTargetT = *evaluatedObjectT
-	//	}
-
 	p.SetLastEvaluatedT(evaluatedObjectT)
 
 	p.SetLastCallFrameDetails(
