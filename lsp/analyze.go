@@ -131,7 +131,7 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 		defFilename := defParts[3]
 		defRow := defParts[4]
 
-		if defFrame == searchFrame && defClass == searchClass && strings.HasPrefix(defMethod, methodName) {
+		if defFrame == searchFrame && defClass == searchClass && defMethod == methodName {
 			// 定義位置を返す
 			var row uint32
 			fmt.Sscanf(defRow, "%d", &row)
