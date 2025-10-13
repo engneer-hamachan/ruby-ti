@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"ti/base"
 	"time"
 
 	protocol "github.com/tliron/glsp/protocol_3_16"
@@ -109,6 +110,9 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	// ti {file} --define で全メソッド定義を取得
 	definitions := getMethodDefinitions(tmpFile.Name())
 
+	// ti {file} --inheritance で継承情報を取得
+	inheritanceMap := getInheritanceMap(tmpFile.Name())
+
 	// ドットが入っていなくて、frameがunknownだったらtoplevelメソッド
 	searchFrame := frame
 	searchClass := class
@@ -131,7 +135,8 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 		defFilename := defParts[3]
 		defRow := defParts[4]
 
-		if defFrame == searchFrame && defClass == searchClass && defMethod == methodName {
+		// Check if method matches (including parent class methods)
+		if isMethodMatch(defFrame, defClass, searchFrame, searchClass, methodName, defMethod, inheritanceMap) {
 			// 定義位置を返す
 			var row uint32
 			fmt.Sscanf(defRow, "%d", &row)
@@ -208,4 +213,91 @@ func getMethodDefinitions(filename string) []string {
 	}
 
 	return definitions
+}
+
+// getInheritanceMap gets inheritance information using ti --inheritance
+func getInheritanceMap(filename string) map[base.ClassNode][]base.ClassNode {
+	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, "ti", filename, "--inheritance")
+	output, err := cmd.Output()
+	if err != nil {
+		return make(map[base.ClassNode][]base.ClassNode)
+	}
+
+	inheritanceMap := make(map[base.ClassNode][]base.ClassNode)
+	lines := strings.Split(string(output), "\n")
+	for _, line := range lines {
+		if !strings.HasPrefix(line, "$") {
+			continue
+		}
+		line = strings.TrimPrefix(line, "$")
+		parts := strings.SplitN(line, ":::", 4)
+		if len(parts) < 4 {
+			continue
+		}
+
+		childNode := base.ClassNode{Frame: parts[0], Class: parts[1]}
+		parentNode := base.ClassNode{Frame: parts[2], Class: parts[3]}
+
+		inheritanceMap[childNode] = append(inheritanceMap[childNode], parentNode)
+	}
+
+	return inheritanceMap
+}
+
+// normalizeFrame normalizes empty string and "unknown" to be the same
+func normalizeFrame(frame string) string {
+	if frame == "" || frame == "unknown" {
+		return ""
+	}
+	return frame
+}
+
+// isParentClass checks if parentClass is a parent of childClass
+func isParentClass(frame, childClass, parentClass string, inheritanceMap map[base.ClassNode][]base.ClassNode) bool {
+	// Try with normalized frame (empty string and "unknown" are treated the same)
+	normalizedFrame := normalizeFrame(frame)
+
+	// Try both the original frame and normalized frame
+	framesToTry := []string{frame, normalizedFrame}
+	if frame == "unknown" {
+		framesToTry = append(framesToTry, "")
+	} else if frame == "" {
+		framesToTry = append(framesToTry, "unknown")
+	}
+
+	for _, tryFrame := range framesToTry {
+		classNode := base.ClassNode{Frame: tryFrame, Class: childClass}
+
+		for _, parentNode := range inheritanceMap[classNode] {
+			if parentNode.Class == parentClass {
+				return true
+			}
+
+			// Recursively check parent's parents
+			if isParentClass(parentNode.Frame, parentNode.Class, parentClass, inheritanceMap) {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+// isMethodMatch checks if the method definition matches the search criteria
+// considering inheritance
+func isMethodMatch(defFrame, defClass, searchFrame, searchClass, methodName, defMethod string, inheritanceMap map[base.ClassNode][]base.ClassNode) bool {
+	if defMethod != methodName {
+		return false
+	}
+
+	// Exact match
+	if defFrame == searchFrame && defClass == searchClass {
+		return true
+	}
+
+	// Check if defClass is a parent class of searchClass
+	return isParentClass(searchFrame, searchClass, defClass, inheritanceMap)
 }
