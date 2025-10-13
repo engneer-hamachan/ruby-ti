@@ -379,6 +379,7 @@ func (d *Def) endlessDefinition(
 	method string,
 	args []string,
 	isStatic bool,
+	row int,
 ) error {
 
 	nextT, err := p.Read()
@@ -400,10 +401,10 @@ func (d *Def) endlessDefinition(
 
 	switch isStatic {
 	case true:
-		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
+		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, row)
 
 	default:
-		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
+		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, row)
 	}
 
 	return nil
@@ -553,7 +554,7 @@ func (d *Def) Evaluation(
 
 	// def hoge = 1
 	if nextT.IsEqualIdentifier() && nextT.IsBeforeSpace {
-		return d.endlessDefinition(e, p, ctx, method, []string{}, isStatic)
+		return d.endlessDefinition(e, p, ctx, method, []string{}, isStatic, defineRow)
 	}
 
 	var args []string
@@ -575,7 +576,7 @@ func (d *Def) Evaluation(
 
 	// def hoge() = 1
 	if nextT.IsEqualIdentifier() {
-		return d.endlessDefinition(e, p, ctx, method, args, isStatic)
+		return d.endlessDefinition(e, p, ctx, method, args, isStatic, defineRow)
 	}
 
 	p.Unget()
@@ -620,7 +621,7 @@ func (d *Def) Evaluation(
 
 	switch isStatic {
 	case true:
-		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
+		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, defineRow)
 
 	default:
 		// this proccess for not instance variable override check
@@ -629,7 +630,7 @@ func (d *Def) Evaluation(
 			break
 		}
 
-		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate)
+		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, defineRow)
 	}
 
 	if ctx.IsCheckRound() {

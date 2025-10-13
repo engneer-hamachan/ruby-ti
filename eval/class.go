@@ -110,6 +110,8 @@ func (c *Class) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	defineRow := p.ErrorRow
+
 	nextT, err := p.Read()
 	if err != nil {
 		return err
@@ -246,11 +248,11 @@ func (c *Class) Evaluation(
 		returnT := base.MakeObject(class)
 		args := "*" + base.GenId()
 		methodT := base.MakeMethod(nextFrame, "new", *returnT, []string{args})
-		base.SetClassMethodT(nextFrame, class, methodT, false)
+		base.SetClassMethodT(nextFrame, class, methodT, false, p.FileName, defineRow)
 	default:
 		newMethodT = newMethodT.DeepCopy()
 		newMethodT.SetObjectClass(class)
-		base.SetClassMethodT(nextFrame, class, newMethodT, false)
+		base.SetClassMethodT(nextFrame, class, newMethodT, false, p.FileName, defineRow)
 	}
 
 	// set defined class

@@ -19,7 +19,7 @@ func init() {
 	returnT := MakeObject(class)
 	args := "*" + GenId()
 	methodT := MakeMethod("Builtin", "new", *returnT, []string{args})
-	SetClassMethodT("", class, methodT, false)
+	SetClassMethodT("", class, methodT, false, "unknown", 0)
 
 	DefinedClassTable[DefinedClass{"Builtin", class}] = true
 }

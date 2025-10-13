@@ -12,6 +12,8 @@ type Sig struct {
 	Frame    string
 	Class    string
 	IsStatic bool
+	FileName string
+	Row      int
 }
 
 var TSignatures = make(map[string]Sig)
@@ -39,7 +41,7 @@ func removeSuffix(str string) string {
 	return str[:len(str)-1]
 }
 
-func appendSignature(frame, class string, methodT *T, IsPrivate bool) {
+func appendSignature(frame, class string, methodT *T, IsPrivate bool, fileName string, row int) {
 	info := methodT.method
 	var args string
 
@@ -82,7 +84,7 @@ func appendSignature(frame, class string, methodT *T, IsPrivate bool) {
 	info += " -> "
 	info += TypeToString(methodT)
 
-	sig := Sig{methodT.GetMethodName(), info, frame, class, IsPrivate}
+	sig := Sig{methodT.GetMethodName(), info, frame, class, IsPrivate, fileName, row}
 	key := frame + class + methodT.method
 
 	TSignatures[key] = sig
@@ -94,9 +96,11 @@ func SetClassMethodT(
 	class string,
 	methodT *T,
 	isPrivate bool,
+	fileName string,
+	row int,
 ) {
 
-	appendSignature(frame, class, methodT, true)
+	appendSignature(frame, class, methodT, true, fileName, row)
 
 	TFrame[classMethodTFrameKey(
 		frame,
@@ -111,6 +115,8 @@ func SetMethodT(
 	targetClass string,
 	methodT *T,
 	isPrivate bool,
+	fileName string,
+	row int,
 ) {
 
 	switch targetClass {
@@ -121,7 +127,7 @@ func SetMethodT(
 		methodT.SetBeforeEvaluateCode(targetClass + "." + methodT.GetMethodName())
 	}
 
-	appendSignature(frame, targetClass, methodT, false)
+	appendSignature(frame, targetClass, methodT, false, fileName, row)
 
 	TFrame[methodTFrameKey(
 		frame,
