@@ -70,7 +70,8 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	targetForPrefix := extractTargetForPrefix(currentLine, int(params.Position.Character))
 
 	// ドットが含まれているかチェック（レシーバがあるか）
-	hasDot := strings.Contains(strings.Fields(currentLine)[0], ".")
+	// targetForPrefix が methodName と異なる場合、ドットがあると判断
+	hasDot := targetForPrefix != methodName
 
 	// メソッド名だけを残した行に置き換える
 	modifiedLines := make([]string, len(lines))
