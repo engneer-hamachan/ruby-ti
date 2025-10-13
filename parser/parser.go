@@ -52,7 +52,7 @@ func (p *Parser) SetLastEvaluatedT(some any) {
 	p.StartParsingExpression()
 	p.lastEvaluatedT = some
 
-	if p.Row-1 == p.LspTargetRow {
+	if p.ErrorRow == p.LspTargetRow {
 		switch some.(type) {
 		case *base.T:
 			p.LspSudjestTargetT = *some.(*base.T)
