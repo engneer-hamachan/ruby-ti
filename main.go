@@ -56,6 +56,23 @@ func loop(p parser.Parser, round string) {
 		}
 	}
 
+	if len(base.TSignatures) > 0 && p.IsDefineAllInfo && round == "check" {
+		for _, sig := range base.TSignatures {
+			frame := sig.Frame
+			class := sig.Class
+
+			if frame == "" {
+				frame = "unknown"
+			}
+
+			if class == "" {
+				class = "unknown"
+			}
+
+			fmt.Println("%" + frame + ":::" + class + ":::" + sig.Contents + ":::" + sig.FileName + ":::" + strconv.Itoa(sig.Row))
+		}
+	}
+
 	if len(base.TSignatures) > 0 && p.IsLsp && round == "check" {
 		frame := p.LspSudjestTargetT.GetFrame()
 		if frame == "" {
@@ -162,6 +179,10 @@ func main() {
 
 			if len(os.Args) > 0 && slices.Contains(os.Args, "-i") {
 				p.IsDefineInfo = true
+			}
+
+			if len(os.Args) > 0 && slices.Contains(os.Args, "--define") {
+				p.IsDefineAllInfo = true
 			}
 
 			if len(os.Args) > 0 && slices.Contains(os.Args, "-a") {

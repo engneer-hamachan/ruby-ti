@@ -23,6 +23,7 @@ type Parser struct {
 	tmpEvaluatedArgs    []*base.T
 	Debug               bool
 	IsDefineInfo        bool
+	IsDefineAllInfo     bool
 	IsLsp               bool
 	LspTargetRow        int
 	LspSudjestTargetT   base.T
