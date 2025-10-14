@@ -136,8 +136,8 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	}
 	tmpFile.Close()
 
-	// ti {file} -a {row} で @prefix を取得
-	prefixInfo := getPrefixInfo(tmpFile.Name(), int(params.Position.Line)+1)
+	// ti {file} --define {row} で型情報、全メソッド定義、継承情報を取得
+	prefixInfo, definitions, inheritanceMap := getDefinitionsWithInfo(tmpFile.Name(), int(params.Position.Line)+1)
 	if prefixInfo == "" {
 		return nil, nil
 	}
@@ -149,9 +149,6 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	}
 	frame := parts[0]
 	class := parts[1]
-
-	// ti {file} --define で全メソッド定義と継承情報を取得
-	definitions, inheritanceMap := getMethodDefinitionsAndInheritance(tmpFile.Name())
 
 	// ドットが入っていなくて、frameがunknownでclassも空だったらtoplevelメソッド
 	searchFrame := frame
@@ -212,44 +209,27 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	return nil, nil
 }
 
-// getPrefixInfo gets @prefix info using ti -a
-func getPrefixInfo(filename string, row int) string {
+// getDefinitionsWithInfo gets type info, all method definitions and inheritance info using ti --define
+func getDefinitionsWithInfo(filename string, row int) (string, []string, map[base.ClassNode][]base.ClassNode) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, "ti", filename, "-a", fmt.Sprintf("%d", row))
+	cmd := exec.CommandContext(ctx, "ti", filename, "--define", fmt.Sprintf("%d", row))
 	output, err := cmd.Output()
 	if err != nil {
-		return ""
+		return "", nil, make(map[base.ClassNode][]base.ClassNode)
 	}
 
-	lines := strings.Split(string(output), "\n")
-	for _, line := range lines {
-		if strings.HasPrefix(line, "@") {
-			return line
-		}
-	}
-
-	return ""
-}
-
-// getMethodDefinitionsAndInheritance gets all method definitions and inheritance info using ti --define
-func getMethodDefinitionsAndInheritance(filename string) ([]string, map[base.ClassNode][]base.ClassNode) {
-	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
-	defer cancel()
-
-	cmd := exec.CommandContext(ctx, "ti", filename, "--define")
-	output, err := cmd.Output()
-	if err != nil {
-		return nil, make(map[base.ClassNode][]base.ClassNode)
-	}
-
+	var prefixInfo string
 	var definitions []string
 	inheritanceMap := make(map[base.ClassNode][]base.ClassNode)
 
 	lines := strings.Split(string(output), "\n")
 	for _, line := range lines {
-		if strings.HasPrefix(line, "%") {
+		if strings.HasPrefix(line, "@") {
+			// Type info (first line)
+			prefixInfo = line
+		} else if strings.HasPrefix(line, "%") {
 			// Method definition
 			definitions = append(definitions, strings.TrimPrefix(line, "%"))
 		} else if strings.HasPrefix(line, "$") {
@@ -267,7 +247,7 @@ func getMethodDefinitionsAndInheritance(filename string) ([]string, map[base.Cla
 		}
 	}
 
-	return definitions, inheritanceMap
+	return prefixInfo, definitions, inheritanceMap
 }
 
 // normalizeFrame normalizes empty string and "unknown" to be the same
