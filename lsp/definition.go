@@ -121,9 +121,6 @@ func findDefinition(
 	targetForPrefix :=
 		extractTargetForPrefix(currentLine, int(params.Position.Character))
 
-	// ドットが含まれているかチェック（レシーバがあるか）
-	hasDot := strings.Contains(targetForPrefix, ".")
-
 	codeLines[params.Position.Line] = targetForPrefix
 	modifiedContent := strings.Join(codeLines, "\n")
 
@@ -142,7 +139,7 @@ func findDefinition(
 
 	// ti {file} --define {row} で型情報、全メソッド定義、継承情報を取得
 	prefixInfo, definitions, inheritanceMap :=
-		getDefinitionsWithInfo(tmpFile.Name(), int(params.Position.Line)+1)
+		getTiOutForDefinition(tmpFile.Name(), int(params.Position.Line)+1)
 
 	if prefixInfo == "" {
 		return nil, nil
@@ -153,16 +150,9 @@ func findDefinition(
 	if len(parts) < 2 {
 		return nil, nil
 	}
-	frame := parts[0]
-	class := parts[1]
 
-	// ドットが入っていなくて、frameがunknownでclassも空だったらtoplevelメソッド
-	searchFrame := frame
-	searchClass := class
-	if !hasDot && frame == "unknown" && class == "" {
-		searchFrame = "unknown"
-		searchClass = "unknown"
-	}
+	searchFrame := parts[0]
+	searchClass := parts[1]
 
 	// マッチするメソッド定義を検索
 	// フォーマット: %{frame}:::{class}:::{method}:::{filename}:::{row}
@@ -216,7 +206,7 @@ func findDefinition(
 }
 
 // getDefinitionsWithInfo gets type info, all method definitions and inheritance info using ti --define
-func getDefinitionsWithInfo(filename string, row int) (string, []string, map[base.ClassNode][]base.ClassNode) {
+func getTiOutForDefinition(filename string, row int) (string, []string, map[base.ClassNode][]base.ClassNode) {
 	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
 	defer cancel()
 
@@ -265,7 +255,11 @@ func normalizeFrame(frame string) string {
 }
 
 // isParentClass checks if parentClass is a parent of childClass
-func isParentClass(frame, childClass, parentClass string, inheritanceMap map[base.ClassNode][]base.ClassNode) bool {
+func isParentClass(
+	frame, childClass, parentClass string,
+	inheritanceMap map[base.ClassNode][]base.ClassNode,
+) bool {
+
 	// Try with normalized frame (empty string and "unknown" are treated the same)
 	normalizedFrame := normalizeFrame(frame)
 
@@ -295,18 +289,18 @@ func isParentClass(frame, childClass, parentClass string, inheritanceMap map[bas
 	return false
 }
 
-// isMethodMatch checks if the method definition matches the search criteria
-// considering inheritance
-func isMethodMatch(defFrame, defClass, searchFrame, searchClass, methodName, defMethod string, inheritanceMap map[base.ClassNode][]base.ClassNode) bool {
+func isMethodMatch(
+	defFrame, defClass, searchFrame, searchClass, methodName, defMethod string,
+	inheritanceMap map[base.ClassNode][]base.ClassNode,
+) bool {
+
 	if defMethod != methodName {
 		return false
 	}
 
-	// Exact match
 	if defFrame == searchFrame && defClass == searchClass {
 		return true
 	}
 
-	// Check if defClass is a parent class of searchClass
 	return isParentClass(searchFrame, searchClass, defClass, inheritanceMap)
 }
