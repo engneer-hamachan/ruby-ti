@@ -86,7 +86,7 @@ func loop(p parser.Parser, round string) {
 			frame = "unknown"
 		}
 
-		fmt.Println("@" + frame + ":::" + p.LspSudjestTargetT.GetObjectClass())
+		fmt.Println("@" + frame + ":::" + p.LspSudjestTargetT.DefinedClass)
 
 		for _, sig := range base.TSignatures {
 			objectClass := p.LspSudjestTargetT.GetObjectClass()

@@ -48,7 +48,7 @@ func setTSignatures(cmdOutput []byte) {
 }
 
 // extractMethodName extracts method name from line at cursor position
-// Examples: "h.test 1" -> "test", "test 1" -> "test"
+// Examples: "h.test 1" -> "test", "test 1" -> "test", "www?" -> "www?", "attr=" -> "attr="
 func extractMethodName(line string, col int) string {
 	if col > len(line) {
 		col = len(line)
@@ -66,6 +66,11 @@ func extractMethodName(line string, col int) string {
 		end++
 	}
 
+	// Ruby メソッド名の末尾に ?, !, = がある場合は含める
+	if end < len(line) && (line[end] == '?' || line[end] == '!' || line[end] == '=') {
+		end++
+	}
+
 	if start == end {
 		return ""
 	}
@@ -74,7 +79,7 @@ func extractMethodName(line string, col int) string {
 }
 
 // extractTargetForPrefix extracts target for -a option
-// Examples: "h.test 1" -> "h", "test 1" -> "test"
+// Examples: "h.test 1" -> "h.test", "test 1" -> "test", "h.nil?" -> "h.nil?"
 func extractTargetForPrefix(line string, col int) string {
 	if col > len(line) {
 		col = len(line)
@@ -89,6 +94,11 @@ func extractTargetForPrefix(line string, col int) string {
 	// カーソル位置の単語の終了位置を探す
 	end := col
 	for end < len(line) && isWordChar(line[end]) {
+		end++
+	}
+
+	// Ruby メソッド名の末尾に ?, !, = がある場合は含める
+	if end < len(line) && (line[end] == '?' || line[end] == '!' || line[end] == '=') {
 		end++
 	}
 
@@ -109,14 +119,14 @@ func extractTargetForPrefix(line string, col int) string {
 	}
 
 	if dotPos >= 0 {
-		// h.test の場合、h を返す
+		// h.test の場合、h.test 全体を返す
 		// ドットより前の単語を探す
 		dotStart := dotPos
 		for dotStart > 0 && isWordChar(line[dotStart-1]) {
 			dotStart--
 		}
 		if dotStart < dotPos {
-			return line[dotStart:dotPos]
+			return line[dotStart:end]
 		}
 	}
 

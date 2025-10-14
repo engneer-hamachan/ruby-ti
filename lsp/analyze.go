@@ -67,12 +67,11 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 		return nil, nil
 	}
 
-	// h.test 1 のときは h だけに、test 1 のときは test だけにする
+	// h.test 1 のときは h.test に、test 1 のときは test だけにする
 	targetForPrefix := extractTargetForPrefix(currentLine, int(params.Position.Character))
 
 	// ドットが含まれているかチェック（レシーバがあるか）
-	// targetForPrefix が methodName と異なる場合、ドットがあると判断
-	hasDot := targetForPrefix != methodName
+	hasDot := strings.Contains(targetForPrefix, ".")
 
 	// メソッド名だけを残した行に置き換える
 	modifiedLines := make([]string, len(lines))
@@ -110,10 +109,10 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	// ti {file} --define で全メソッド定義と継承情報を取得
 	definitions, inheritanceMap := getMethodDefinitionsAndInheritance(tmpFile.Name())
 
-	// ドットが入っていなくて、frameがunknownだったらtoplevelメソッド
+	// ドットが入っていなくて、frameがunknownでclassも空だったらtoplevelメソッド
 	searchFrame := frame
 	searchClass := class
-	if !hasDot && frame == "unknown" {
+	if !hasDot && frame == "unknown" && class == "" {
 		searchFrame = "unknown"
 		searchClass = "unknown"
 	}
