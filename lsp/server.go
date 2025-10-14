@@ -17,6 +17,7 @@ func NewServer() *server.Server {
 		Initialized:            initialized,
 		Shutdown:               shutdown,
 		SetTrace:               setTrace,
+		TextDocumentDidOpen:    textDocumentDidOpen,
 		TextDocumentCompletion: textDocumentCompletion,
 		TextDocumentDidChange:  textDocumentDidChange,
 		TextDocumentDefinition: textDocumentDefinition,
@@ -71,6 +72,15 @@ func shutdown(ctx *glsp.Context) error {
 }
 
 func setTrace(ctx *glsp.Context, params *protocol.SetTraceParams) error {
+	return nil
+}
+
+func textDocumentDidOpen(
+	ctx *glsp.Context,
+	params *protocol.DidOpenTextDocumentParams,
+) error {
+
+	documentContents[params.TextDocument.URI] = params.TextDocument.Text
 	return nil
 }
 
