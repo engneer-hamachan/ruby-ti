@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"slices"
 	"strings"
 	"ti/base"
 	"time"
@@ -12,72 +13,115 @@ import (
 	protocol "github.com/tliron/glsp/protocol_3_16"
 )
 
-func analyzeContent(content string, line uint32) error {
-	responseSignatures = nil
-
-	content = removeTaiilDot(content, line)
-
-	tmpFile, err := os.CreateTemp("", "ruby-ti-lsp-*.rb")
-	if err != nil {
-		return nil
+// h.test 1 -> test, test 1 -> test, test? -> test?, attr= -> attr=
+func extractMethodName(line string, col int) string {
+	if col > len(line) {
+		col = len(line)
 	}
 
-	defer os.Remove(tmpFile.Name())
-	defer tmpFile.Close()
-
-	if _, err := tmpFile.WriteString(content); err != nil {
-		return nil
+	start := col
+	for start > 0 && isWordChar(line[start-1]) {
+		start--
 	}
 
-	tmpFile.Close()
-
-	ctx, cancel :=
-		context.WithTimeout(context.Background(), 1000*time.Millisecond)
-
-	defer cancel()
-
-	cmd :=
-		exec.CommandContext(
-			ctx,
-			"ti",
-			tmpFile.Name(),
-			"-a",
-			fmt.Sprintf("%d", line+1),
-		)
-
-	output, err := cmd.Output()
-	if err != nil {
-		return nil
+	end := col
+	for end < len(line) && isWordChar(line[end]) {
+		end++
 	}
 
-	setTSignatures(output)
+	specialChars := []byte{'?', '!', '='}
+	if len(line) > end && slices.Contains(specialChars, line[end]) {
+		end++
+	}
 
-	return nil
+	if start == end {
+		return ""
+	}
+
+	return line[start:end]
+}
+
+// extractTargetForPrefix extracts target for -a option
+// Examples: "h.test 1" -> "h.test", "test 1" -> "test", "h.nil?" -> "h.nil?"
+func extractTargetForPrefix(line string, col int) string {
+	if col > len(line) {
+		col = len(line)
+	}
+
+	// カーソル位置の単語の開始位置を探す
+	start := col
+	for start > 0 && isWordChar(line[start-1]) {
+		start--
+	}
+
+	// カーソル位置の単語の終了位置を探す
+	end := col
+	for end < len(line) && isWordChar(line[end]) {
+		end++
+	}
+
+	// Ruby メソッド名の末尾に ?, !, = がある場合は含める
+	if end < len(line) && (line[end] == '?' || line[end] == '!' || line[end] == '=') {
+		end++
+	}
+
+	if start == end {
+		return ""
+	}
+
+	// ドットがあるかチェック（start より前を見る）
+	dotPos := -1
+	for i := start - 1; i >= 0; i-- {
+		if line[i] == '.' {
+			dotPos = i
+			break
+		} else if line[i] != ' ' && line[i] != '\t' {
+			// ドット以外の文字があったら終了
+			break
+		}
+	}
+
+	if dotPos >= 0 {
+		// h.test の場合、h.test 全体を返す
+		// ドットより前の単語を探す
+		dotStart := dotPos
+		for dotStart > 0 && isWordChar(line[dotStart-1]) {
+			dotStart--
+		}
+		if dotStart < dotPos {
+			return line[dotStart:end]
+		}
+	}
+
+	// ドットがない場合は、メソッド名だけを返す
+	return line[start:end]
+}
+
+// isWordChar checks if a byte is part of a word (letter, digit, underscore)
+func isWordChar(b byte) bool {
+	return (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || (b >= '0' && b <= '9') || b == '_'
 }
 
 func findDefinition(content string, params *protocol.DefinitionParams) (any, error) {
-	lines := strings.Split(content, "\n")
-	if int(params.Position.Line) >= len(lines) {
+	codeLines := strings.Split(content, "\n")
+	if int(params.Position.Line) >= len(codeLines) {
 		return nil, nil
 	}
 
-	currentLine := lines[params.Position.Line]
+	currentLine := codeLines[params.Position.Line]
 	methodName := extractMethodName(currentLine, int(params.Position.Character))
 	if methodName == "" {
 		return nil, nil
 	}
 
-	// h.test 1 のときは h.test に、test 1 のときは test だけにする
-	targetForPrefix := extractTargetForPrefix(currentLine, int(params.Position.Character))
+	targetForPrefix :=
+		extractTargetForPrefix(currentLine, int(params.Position.Character))
 
 	// ドットが含まれているかチェック（レシーバがあるか）
 	hasDot := strings.Contains(targetForPrefix, ".")
 
-	// メソッド名だけを残した行に置き換える
-	modifiedLines := make([]string, len(lines))
-	copy(modifiedLines, lines)
-	modifiedLines[params.Position.Line] = targetForPrefix
-	modifiedContent := strings.Join(modifiedLines, "\n")
+	codeLines[params.Position.Line] = targetForPrefix
+	modifiedContent := strings.Join(codeLines, "\n")
 
 	// 一時ファイルを作成
 	tmpFile, err := os.CreateTemp("", "ruby-ti-lsp-*.rb")
