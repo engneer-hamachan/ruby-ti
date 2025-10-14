@@ -14,9 +14,6 @@ var documentContents = make(map[string]string)
 func NewServer() *server.Server {
 	handler = protocol.Handler{
 		Initialize:             initialize,
-		Initialized:            initialized,
-		Shutdown:               shutdown,
-		SetTrace:               setTrace,
 		TextDocumentDidOpen:    textDocumentDidOpen,
 		TextDocumentCompletion: textDocumentCompletion,
 		TextDocumentDidChange:  textDocumentDidChange,
@@ -61,18 +58,6 @@ func initialize(
 			Version: &[]string{"beta"}[0],
 		},
 	}, nil
-}
-
-func initialized(ctx *glsp.Context, params *protocol.InitializedParams) error {
-	return nil
-}
-
-func shutdown(ctx *glsp.Context) error {
-	return nil
-}
-
-func setTrace(ctx *glsp.Context, params *protocol.SetTraceParams) error {
-	return nil
 }
 
 func textDocumentDidOpen(
