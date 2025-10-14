@@ -102,7 +102,11 @@ func isWordChar(b byte) bool {
 	return (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || (b >= '0' && b <= '9') || b == '_'
 }
 
-func findDefinition(content string, params *protocol.DefinitionParams) (any, error) {
+func findDefinition(
+	content string,
+	params *protocol.DefinitionParams,
+) (any, error) {
+
 	codeLines := strings.Split(content, "\n")
 	if int(params.Position.Line) >= len(codeLines) {
 		return nil, nil
@@ -137,7 +141,9 @@ func findDefinition(content string, params *protocol.DefinitionParams) (any, err
 	tmpFile.Close()
 
 	// ti {file} --define {row} で型情報、全メソッド定義、継承情報を取得
-	prefixInfo, definitions, inheritanceMap := getDefinitionsWithInfo(tmpFile.Name(), int(params.Position.Line)+1)
+	prefixInfo, definitions, inheritanceMap :=
+		getDefinitionsWithInfo(tmpFile.Name(), int(params.Position.Line)+1)
+
 	if prefixInfo == "" {
 		return nil, nil
 	}
