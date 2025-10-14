@@ -25,9 +25,12 @@ func removeTaiilDot(content string, line uint32) string {
 	return content
 }
 
-func setTSignatures(cmdOutput []byte) {
+func getSignatures(cmdOutput []byte) []base.Sig {
 	methodSet := make(map[string]bool)
 	scanner := bufio.NewScanner(strings.NewReader(string(cmdOutput)))
+
+	var responseSignatures []base.Sig
+
 	for scanner.Scan() {
 		line := scanner.Text()
 		line, ok := strings.CutPrefix(line, "%")
@@ -50,23 +53,23 @@ func setTSignatures(cmdOutput []byte) {
 			})
 		}
 	}
+
+	return responseSignatures
 }
 
-func analyzeContent(content string, line uint32) error {
-	responseSignatures = nil
-
+func findComplection(content string, line uint32) []base.Sig {
 	content = removeTaiilDot(content, line)
 
 	tmpFile, err := os.CreateTemp("", "ruby-ti-lsp-*.rb")
 	if err != nil {
-		return nil
+		return []base.Sig{}
 	}
 
 	defer os.Remove(tmpFile.Name())
 	defer tmpFile.Close()
 
 	if _, err := tmpFile.WriteString(content); err != nil {
-		return nil
+		return []base.Sig{}
 	}
 
 	tmpFile.Close()
@@ -87,10 +90,8 @@ func analyzeContent(content string, line uint32) error {
 
 	output, err := cmd.Output()
 	if err != nil {
-		return nil
+		return []base.Sig{}
 	}
 
-	setTSignatures(output)
-
-	return nil
+	return getSignatures(output)
 }

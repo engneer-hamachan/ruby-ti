@@ -2,7 +2,6 @@ package lsp
 
 import (
 	"encoding/json"
-	"ti/base"
 
 	"github.com/tliron/glsp"
 	protocol "github.com/tliron/glsp/protocol_3_16"
@@ -11,7 +10,6 @@ import (
 
 var handler protocol.Handler
 var documentContents = make(map[string]string)
-var responseSignatures = []base.Sig{}
 
 func NewServer() *server.Server {
 	handler = protocol.Handler{
@@ -20,9 +18,7 @@ func NewServer() *server.Server {
 		Shutdown:               shutdown,
 		SetTrace:               setTrace,
 		TextDocumentCompletion: textDocumentCompletion,
-		TextDocumentDidOpen:    textDocumentDidOpen,
 		TextDocumentDidChange:  textDocumentDidChange,
-		TextDocumentDidSave:    textDocumentDidSave,
 		TextDocumentDefinition: textDocumentDefinition,
 	}
 
@@ -78,15 +74,6 @@ func setTrace(ctx *glsp.Context, params *protocol.SetTraceParams) error {
 	return nil
 }
 
-func textDocumentDidOpen(
-	ctx *glsp.Context,
-	params *protocol.DidOpenTextDocumentParams,
-) error {
-
-	documentContents[params.TextDocument.URI] = params.TextDocument.Text
-	return nil
-}
-
 var changeEvent struct {
 	Text string `json:"text"`
 }
@@ -114,17 +101,6 @@ func textDocumentDidChange(
 	return nil
 }
 
-func textDocumentDidSave(
-	ctx *glsp.Context,
-	params *protocol.DidSaveTextDocumentParams,
-) error {
-
-	content := params.Text
-	documentContents[params.TextDocument.URI] = *content
-
-	return nil
-}
-
 func textDocumentCompletion(
 	ctx *glsp.Context,
 	params *protocol.CompletionParams,
@@ -137,9 +113,9 @@ func textDocumentCompletion(
 		return nil, nil
 	}
 
-	analyzeContent(content, params.Position.Line)
+	signatures := findComplection(content, params.Position.Line)
 
-	for _, sig := range responseSignatures {
+	for _, sig := range signatures {
 		items =
 			append(items, protocol.CompletionItem{
 				Label:  sig.Contents,
@@ -162,4 +138,3 @@ func textDocumentDefinition(
 
 	return findDefinition(content, params)
 }
-
