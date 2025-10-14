@@ -54,9 +54,9 @@ func (p *Parser) SetLastEvaluatedT(some any) {
 	p.lastEvaluatedT = some
 
 	if p.ErrorRow == p.LspTargetRow {
-		switch some.(type) {
+		switch p.lastEvaluatedT.(type) {
 		case *base.T:
-			p.LspSudjestTargetT = *some.(*base.T)
+			p.LspSudjestTargetT = *p.lastEvaluatedT.(*base.T)
 		}
 	}
 }
