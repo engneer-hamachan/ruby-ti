@@ -29,11 +29,6 @@ func extractMethodName(line string, col int) string {
 		end++
 	}
 
-	specialChars := []byte{'?', '!', '='}
-	if len(line) > end && slices.Contains(specialChars, line[end]) {
-		end++
-	}
-
 	if start == end {
 		return ""
 	}
