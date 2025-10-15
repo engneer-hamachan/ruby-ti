@@ -99,7 +99,20 @@ func extractTargetForPrefix(line string, col int) string {
 
 // isWordChar checks if a byte is part of a word (letter, digit, underscore)
 func isWordChar(b byte) bool {
-	return (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || (b >= '0' && b <= '9') || b == '_'
+	if (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') {
+		return true
+	}
+
+	if b >= '0' && b <= '9' {
+		return true
+	}
+
+	specialChars := []byte{'?', '!', '=', '_'}
+	if slices.Contains(specialChars, b) {
+		return true
+	}
+
+	return false
 }
 
 func findDefinition(
