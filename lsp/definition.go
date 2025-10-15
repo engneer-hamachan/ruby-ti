@@ -14,18 +14,18 @@ import (
 )
 
 // h.test 1 -> test, test 1 -> test, test? -> test?, attr= -> attr=
-func extractMethodName(line string, col int) string {
-	if col > len(line) {
-		col = len(line)
+func extractMethodName(code string, col int) string {
+	if col > len(code) {
+		col = len(code)
 	}
 
 	start := col
-	for start > 0 && isWordChar(line[start-1]) {
+	for start > 0 && isWordChar(code[start-1]) {
 		start--
 	}
 
 	end := col
-	for end < len(line) && isWordChar(line[end]) {
+	for end < len(code) && isWordChar(code[end]) {
 		end++
 	}
 
@@ -33,12 +33,12 @@ func extractMethodName(line string, col int) string {
 		return ""
 	}
 
-	return line[start:end]
+	return code[start:end]
 }
 
 // extractTargetForPrefix extracts target for -a option
 // Examples: "h.test 1" -> "h.test", "test 1" -> "test", "h.nil?" -> "h.nil?"
-func extractTargetForPrefix(line string, col int) string {
+func extractTargetCode(line string, col int) string {
 	if col > len(line) {
 		col = len(line)
 	}
@@ -98,11 +98,8 @@ func isWordChar(b byte) bool {
 	}
 
 	specialChars := []byte{'?', '!', '=', '_'}
-	if slices.Contains(specialChars, b) {
-		return true
-	}
 
-	return false
+	return slices.Contains(specialChars, b)
 }
 
 func findDefinition(
@@ -116,22 +113,23 @@ func findDefinition(
 	}
 
 	currentLine := codeLines[params.Position.Line]
-	methodName := extractMethodName(currentLine, int(params.Position.Character))
-	if methodName == "" {
+
+	targetCode :=
+		extractTargetCode(currentLine, int(params.Position.Character))
+	if targetCode == "" {
 		return nil, nil
 	}
 
-	targetForPrefix :=
-		extractTargetForPrefix(currentLine, int(params.Position.Character))
+	methodName := extractMethodName(targetCode, len(targetCode))
 
-	codeLines[params.Position.Line] = targetForPrefix
+	codeLines[params.Position.Line] = targetCode
 	modifiedContent := strings.Join(codeLines, "\n")
 
-	// 一時ファイルを作成
 	tmpFile, err := os.CreateTemp("", "ruby-ti-lsp-*.rb")
 	if err != nil {
 		return nil, nil
 	}
+
 	defer os.Remove(tmpFile.Name())
 	defer tmpFile.Close()
 
@@ -140,7 +138,6 @@ func findDefinition(
 	}
 	tmpFile.Close()
 
-	// ti {file} --define {row} で型情報、全メソッド定義、継承情報を取得
 	prefixInfo, definitions, inheritanceMap :=
 		getTiOutForDefinition(tmpFile.Name(), int(params.Position.Line)+1)
 
@@ -148,7 +145,6 @@ func findDefinition(
 		return nil, nil
 	}
 
-	// @{frame}:::{class} からクラス情報を抽出
 	parts := strings.SplitN(strings.TrimPrefix(prefixInfo, "@"), ":::", 2)
 	if len(parts) < 2 {
 		return nil, nil
@@ -230,21 +226,23 @@ func getTiOutForDefinition(
 		return "", nil, make(map[base.ClassNode][]base.ClassNode)
 	}
 
+	content := string(output)
+
 	var prefixInfo string
 	var definitions []string
 	inheritanceMap := make(map[base.ClassNode][]base.ClassNode)
 
-	lines := strings.Split(string(output), "\n")
+	for line := range strings.SplitSeq(content, "\n") {
+		if len(line) < 1 {
+			continue
+		}
 
-	for _, line := range lines {
-		if strings.HasPrefix(line, "@") {
-			// Type info (first line)
+		switch line[0] {
+		case '@':
 			prefixInfo = line
-		} else if strings.HasPrefix(line, "%") {
-			// Method definition
+		case '%':
 			definitions = append(definitions, strings.TrimPrefix(line, "%"))
-		} else if strings.HasPrefix(line, "$") {
-			// Inheritance information
+		case '$':
 			line = strings.TrimPrefix(line, "$")
 			parts := strings.SplitN(line, ":::", 4)
 			if len(parts) < 4 {
@@ -280,9 +278,10 @@ func isParentClass(
 
 	// Try both the original frame and normalized frame
 	framesToTry := []string{frame, normalizedFrame}
-	if frame == "unknown" {
+	switch frame {
+	case "unknown":
 		framesToTry = append(framesToTry, "")
-	} else if frame == "" {
+	case "":
 		framesToTry = append(framesToTry, "unknown")
 	}
 
