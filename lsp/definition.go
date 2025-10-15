@@ -154,8 +154,6 @@ func findDefinition(
 	searchFrame := parts[0]
 	searchClass := parts[1]
 
-	// マッチするメソッド定義を検索
-	// フォーマット: %{frame}:::{class}:::{method}:::{filename}:::{row}
 	for _, def := range definitions {
 		defParts := strings.SplitN(def, ":::", 5)
 		if len(defParts) < 5 {
@@ -168,19 +166,25 @@ func findDefinition(
 		defFilename := defParts[3]
 		defRow := defParts[4]
 
-		// Check if method matches (including parent class methods)
-		if isMethodMatch(defFrame, defClass, searchFrame, searchClass, methodName, defMethod, inheritanceMap) {
-			// 定義位置を返す
+		if isMethodMatch(
+			defFrame,
+			defClass,
+			searchFrame,
+			searchClass,
+			methodName,
+			defMethod,
+			inheritanceMap,
+		) {
+
 			var row uint32
 			fmt.Sscanf(defRow, "%d", &row)
 			if row > 0 {
-				row-- // 0-based indexing
+				// 0-based indexing
+				row--
 			}
 
-			// tmpファイルのパスの場合は、元のファイルのURIを使う
 			targetURI := params.TextDocument.URI
 			if !strings.Contains(defFilename, "ruby-ti-lsp-") {
-				// 別ファイルの定義の場合はそのパスを使う
 				targetURI = protocol.DocumentUri("file://" + defFilename)
 			}
 
@@ -205,12 +209,19 @@ func findDefinition(
 	return nil, nil
 }
 
-// getDefinitionsWithInfo gets type info, all method definitions and inheritance info using ti --define
-func getTiOutForDefinition(filename string, row int) (string, []string, map[base.ClassNode][]base.ClassNode) {
-	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
+// gets type info and all method definitions and inheritance info by ti --define
+func getTiOutForDefinition(
+	filename string,
+	row int,
+) (string, []string, map[base.ClassNode][]base.ClassNode) {
+
+	ctx, cancel :=
+		context.WithTimeout(context.Background(), 1000*time.Millisecond)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, "ti", filename, "--define", fmt.Sprintf("%d", row))
+	cmd :=
+		exec.CommandContext(ctx, "ti", filename, "--define", fmt.Sprintf("%d", row))
+
 	output, err := cmd.Output()
 	if err != nil {
 		return "", nil, make(map[base.ClassNode][]base.ClassNode)
@@ -221,6 +232,7 @@ func getTiOutForDefinition(filename string, row int) (string, []string, map[base
 	inheritanceMap := make(map[base.ClassNode][]base.ClassNode)
 
 	lines := strings.Split(string(output), "\n")
+
 	for _, line := range lines {
 		if strings.HasPrefix(line, "@") {
 			// Type info (first line)
