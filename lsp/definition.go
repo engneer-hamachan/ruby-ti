@@ -43,7 +43,6 @@ func extractTargetCode(line string, col int) string {
 		col = len(line)
 	}
 
-	// カーソル位置の単語の開始位置を探す
 	start := col
 	for start > 0 && isWordChar(line[start-1]) {
 		start--
@@ -59,35 +58,33 @@ func extractTargetCode(line string, col int) string {
 		return ""
 	}
 
-	// ドットがあるかチェック（start より前を見る）
 	dotPos := -1
+
 	for i := start - 1; i >= 0; i-- {
 		if line[i] == '.' {
 			dotPos = i
 			break
-		} else if line[i] != ' ' && line[i] != '\t' {
-			// ドット以外の文字があったら終了
+		}
+
+		if line[i] != ' ' && line[i] != '\t' {
 			break
 		}
 	}
 
 	if dotPos >= 0 {
-		// h.test の場合、h.test 全体を返す
-		// ドットより前の単語を探す
 		dotStart := dotPos
 		for dotStart > 0 && isWordChar(line[dotStart-1]) {
 			dotStart--
 		}
+
 		if dotStart < dotPos {
 			return line[dotStart:end]
 		}
 	}
 
-	// ドットがない場合は、メソッド名だけを返す
 	return line[start:end]
 }
 
-// isWordChar checks if a byte is part of a word (letter, digit, underscore)
 func isWordChar(b byte) bool {
 	if (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') {
 		return true
@@ -259,7 +256,6 @@ func getTiOutForDefinition(
 	return prefixInfo, definitions, inheritanceMap
 }
 
-// normalizeFrame normalizes empty string and "unknown" to be the same
 func normalizeFrame(frame string) string {
 	if frame == "" || frame == "unknown" {
 		return ""
@@ -267,16 +263,13 @@ func normalizeFrame(frame string) string {
 	return frame
 }
 
-// isParentClass checks if parentClass is a parent of childClass
 func isParentClass(
 	frame, childClass, parentClass string,
 	inheritanceMap map[base.ClassNode][]base.ClassNode,
 ) bool {
 
-	// Try with normalized frame (empty string and "unknown" are treated the same)
 	normalizedFrame := normalizeFrame(frame)
 
-	// Try both the original frame and normalized frame
 	framesToTry := []string{frame, normalizedFrame}
 	switch frame {
 	case "unknown":
@@ -293,8 +286,13 @@ func isParentClass(
 				return true
 			}
 
-			// Recursively check parent's parents
-			if isParentClass(parentNode.Frame, parentNode.Class, parentClass, inheritanceMap) {
+			if isParentClass(
+				parentNode.Frame,
+				parentNode.Class,
+				parentClass,
+				inheritanceMap,
+			) {
+
 				return true
 			}
 		}
