@@ -55,11 +55,6 @@ func extractTargetForPrefix(line string, col int) string {
 		end++
 	}
 
-	// Ruby メソッド名の末尾に ?, !, = がある場合は含める
-	if end < len(line) && (line[end] == '?' || line[end] == '!' || line[end] == '=') {
-		end++
-	}
-
 	if start == end {
 		return ""
 	}
