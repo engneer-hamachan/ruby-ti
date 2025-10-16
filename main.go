@@ -60,27 +60,11 @@ func loop(p parser.Parser, round string) {
 		dFrame := p.LspSudjestTargetT.DefinedFrame
 		dClass := p.LspSudjestTargetT.DefinedClass
 
-		if dFrame == "" {
-			dFrame = "unknown"
-		}
-
-		if dClass == "" {
-			dClass = "unknown"
-		}
-
 		fmt.Println("@" + dFrame + ":::" + dClass)
 
 		for _, sig := range base.TSignatures {
 			frame := sig.Frame
 			class := sig.Class
-
-			if frame == "" {
-				frame = "unknown"
-			}
-
-			if class == "" {
-				class = "unknown"
-			}
 
 			if p.LspSudjestTargetT.IsStatic == sig.IsStatic {
 				fmt.Println("%" + frame + ":::" + class + ":::" + sig.Contents + ":::" + sig.FileName + ":::" + strconv.Itoa(sig.Row))

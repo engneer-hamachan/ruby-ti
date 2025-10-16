@@ -256,45 +256,26 @@ func getTiOutForDefinition(
 	return prefixInfo, definitions, inheritanceMap
 }
 
-func normalizeFrame(frame string) string {
-	if frame == "" || frame == "unknown" {
-		return ""
-	}
-	return frame
-}
-
 func isParentClass(
 	frame, childClass, parentClass string,
 	inheritanceMap map[base.ClassNode][]base.ClassNode,
 ) bool {
 
-	normalizedFrame := normalizeFrame(frame)
+	classNode := base.ClassNode{Frame: frame, Class: childClass}
 
-	framesToTry := []string{frame, normalizedFrame}
-	switch frame {
-	case "unknown":
-		framesToTry = append(framesToTry, "")
-	case "":
-		framesToTry = append(framesToTry, "unknown")
-	}
+	for _, parentNode := range inheritanceMap[classNode] {
+		if parentNode.Class == parentClass {
+			return true
+		}
 
-	for _, tryFrame := range framesToTry {
-		classNode := base.ClassNode{Frame: tryFrame, Class: childClass}
+		if isParentClass(
+			parentNode.Frame,
+			parentNode.Class,
+			parentClass,
+			inheritanceMap,
+		) {
 
-		for _, parentNode := range inheritanceMap[classNode] {
-			if parentNode.Class == parentClass {
-				return true
-			}
-
-			if isParentClass(
-				parentNode.Frame,
-				parentNode.Class,
-				parentClass,
-				inheritanceMap,
-			) {
-
-				return true
-			}
+			return true
 		}
 	}
 
