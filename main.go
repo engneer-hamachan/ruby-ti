@@ -4,8 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"slices"
-	"strconv"
 	"ti/base"
 	_ "ti/builtin"
 	"ti/cmd"
@@ -102,43 +100,14 @@ func main() {
 		var file string
 
 		for _, round := range context.GetRounds() {
-			if len(os.Args) == 1 {
-				panic("want one argument!")
-			}
+			cmd.ValidateArgs()
 
-			file = os.Args[1]
+			file = cmd.GetTargetFile()
 			fp, _ := os.Open(file)
 			br = bufio.NewReader(fp)
 
 			p := getParser(br, file)
-
-			if len(os.Args) > 0 && slices.Contains(os.Args, "-d") {
-				p.Debug = true
-			}
-
-			if len(os.Args) > 0 && slices.Contains(os.Args, "-i") {
-				p.IsDefineInfo = true
-			}
-
-			if len(os.Args) > 0 && slices.Contains(os.Args, "--define") {
-				p.IsDefineAllInfo = true
-				if len(os.Args) > 3 {
-					row, err := strconv.Atoi(os.Args[3])
-					if err == nil {
-						p.LspTargetRow = row
-					}
-				}
-			}
-
-			if len(os.Args) > 0 && slices.Contains(os.Args, "-a") {
-				p.IsLsp = true
-				if len(os.Args) > 3 {
-					row, err := strconv.Atoi(os.Args[3])
-					if err == nil {
-						p.LspTargetRow = row
-					}
-				}
-			}
+			cmd.ParseArgs(&p)
 
 			cleanSimpleIdentifires()
 
