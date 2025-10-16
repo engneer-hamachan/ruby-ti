@@ -22,6 +22,7 @@ type T struct {
 	IsBeforeSpace       bool
 	IsBlockGiven        bool
 	IsProtected         bool
+	IsStatic            bool
 	DefinedFrame        string
 	DefinedClass        string
 }

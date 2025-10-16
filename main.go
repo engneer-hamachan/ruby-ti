@@ -82,7 +82,9 @@ func loop(p parser.Parser, round string) {
 				class = "unknown"
 			}
 
-			fmt.Println("%" + frame + ":::" + class + ":::" + sig.Contents + ":::" + sig.FileName + ":::" + strconv.Itoa(sig.Row))
+			if p.LspSudjestTargetT.IsStatic == sig.IsStatic {
+				fmt.Println("%" + frame + ":::" + class + ":::" + sig.Contents + ":::" + sig.FileName + ":::" + strconv.Itoa(sig.Row))
+			}
 		}
 
 		// Also output inheritance information when --define is used
