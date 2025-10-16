@@ -94,7 +94,7 @@ func TypeToString(t *T) string {
 	case INT:
 		return "Integer"
 	case UNKNOWN:
-		return t.ToString()
+		return "Unknown"
 	case STRING:
 		return "String"
 	case BOOL:
