@@ -24,7 +24,7 @@ func getParser(br *bufio.Reader, file string) parser.Parser {
 	return parser.New(l, file)
 }
 
-func loop(p parser.Parser, round string) {
+func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 	ctx := context.NewContext("", "", round)
 	evaluator := eval.Evaluator{}
 
@@ -48,21 +48,15 @@ func loop(p parser.Parser, round string) {
 		break
 	}
 
-	if len(p.DefineInfos) > 0 && p.IsDefineInfo && round == "check" {
+	if len(p.DefineInfos) > 0 && flags.IsDefineInfo && round == "check" {
 		cmd.PrintDefineInfos(p.DefineInfos)
 	}
 
-	if len(base.TSignatures) > 0 && p.IsDefineAllInfo && round == "check" {
-		cmd.PrintDefinitionTarget(
-			p.LspSudjestTargetT.DefinedFrame,
-			p.LspSudjestTargetT.DefinedClass,
-		)
-
-		cmd.PrintMatchingSignatures(p)
-		cmd.PrintInheritanceMap()
+	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo && round == "check" {
+		cmd.PrintAllDefinitions(p)
 	}
 
-	if len(base.TSignatures) > 0 && p.IsLsp && round == "check" {
+	if len(base.TSignatures) > 0 && flags.IsLsp && round == "check" {
 		cmd.PrintLspSuggestions(p)
 	}
 
@@ -99,19 +93,20 @@ func main() {
 		var br *bufio.Reader
 		var file string
 
-		for _, round := range context.GetRounds() {
-			cmd.ValidateArgs()
+		cmd.ValidateArgs()
+		flags := cmd.BuildFlags()
 
+		for _, round := range context.GetRounds() {
 			file = cmd.GetTargetFile()
 			fp, _ := os.Open(file)
 			br = bufio.NewReader(fp)
 
 			p := getParser(br, file)
-			cmd.ApplyFlags(&p)
+			cmd.ApplyParserFlags(&p)
 
 			cleanSimpleIdentifires()
 
-			loop(p, round)
+			loop(p, flags, round)
 		}
 
 		done <- true

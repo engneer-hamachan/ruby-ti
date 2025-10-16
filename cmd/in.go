@@ -7,22 +7,30 @@ import (
 	"ti/parser"
 )
 
-func ApplyFlags(p *parser.Parser) {
+func BuildFlags() *ExecuteFlags {
+	flags := NewExecuteFlags()
+
+	if hasFlag("-i") {
+		flags.IsDefineInfo = true
+	}
+
+	if hasFlag("--define") {
+		flags.IsDefineAllInfo = true
+	}
+
+	if hasFlag("-a") {
+		flags.IsLsp = true
+	}
+
+	return flags
+}
+
+func ApplyParserFlags(p *parser.Parser) {
 	if hasFlag("-d") {
 		p.Debug = true
 	}
 
-	if hasFlag("-i") {
-		p.IsDefineInfo = true
-	}
-
-	if hasFlag("--define") {
-		p.IsDefineAllInfo = true
-		applyTargetRow(p)
-	}
-
-	if hasFlag("-a") {
-		p.IsLsp = true
+	if hasFlag("--define") || hasFlag("-a") {
 		applyTargetRow(p)
 	}
 }

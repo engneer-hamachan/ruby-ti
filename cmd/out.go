@@ -22,11 +22,21 @@ func PrintDefineInfos(infos []string) {
 	}
 }
 
-func PrintDefinitionTarget(frame, class string) {
+func PrintAllDefinitions(p parser.Parser) {
+	printDefinitionTarget(p.LspSudjestTargetT.DefinedFrame, p.LspSudjestTargetT.DefinedClass)
+	printMatchingSignatures(p)
+	printInheritanceMap()
+}
+
+func PrintLspSuggestions(p parser.Parser) {
+	printLspSuggestions(p)
+}
+
+func printDefinitionTarget(frame, class string) {
 	fmt.Println(prefixDefinitionTarget + frame + separator + class)
 }
 
-func PrintMatchingSignatures(p parser.Parser) {
+func printMatchingSignatures(p parser.Parser) {
 	for _, sig := range base.TSignatures {
 		if p.LspSudjestTargetT.IsStatic == sig.IsStatic {
 			printSignature(sig)
@@ -34,7 +44,7 @@ func PrintMatchingSignatures(p parser.Parser) {
 	}
 }
 
-func PrintInheritanceMap() {
+func printInheritanceMap() {
 	for classNode, parents := range base.ClassInheritanceMap {
 		for _, parent := range parents {
 			printInheritance(classNode, parent)
@@ -42,7 +52,7 @@ func PrintInheritanceMap() {
 	}
 }
 
-func PrintLspSuggestions(p parser.Parser) {
+func printLspSuggestions(p parser.Parser) {
 	for _, sig := range base.TSignatures {
 		objectClass := p.LspSudjestTargetT.GetObjectClass()
 		if objectClass == "Identifier" {
