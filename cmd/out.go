@@ -48,11 +48,8 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 			continue
 		}
 
-		if isSuggest(objectClass, sig) {
-			tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
-			if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
-				printSuggestion(sig.Method, sig.Detail)
-			}
+		if isSuggest(p, objectClass, sig) {
+			printSuggestion(sig.Method, sig.Detail)
 		}
 	}
 }
@@ -132,7 +129,26 @@ func printSuggestion(contents, detail string) {
 	fmt.Println(prefixSignature + contents + separator + detail)
 }
 
-func isSuggest(objectClass string, sig base.Sig) bool {
+func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
+	tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
+
+	switch tmp {
+	case "Integer":
+		tmp = "integer"
+	case "Float":
+		tmp = "Float"
+	case "Unknown":
+		tmp = "unknown"
+	}
+
+	if len(tmp) < 1 {
+		return false
+	}
+
+	if unicode.IsUpper(rune(tmp[0])) != sig.IsStatic {
+		return false
+	}
+
 	if sig.Class == "" {
 		return false
 	}
