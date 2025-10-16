@@ -48,15 +48,19 @@ func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 		break
 	}
 
-	if len(p.DefineInfos) > 0 && flags.IsDefineInfo && round == "check" {
+	if round != "check" {
+		return
+	}
+
+	if len(p.DefineInfos) > 0 && flags.IsDefineInfo {
 		cmd.PrintDefineInfos(p.DefineInfos)
 	}
 
-	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo && round == "check" {
+	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo {
 		cmd.PrintAllDefinitions(p)
 	}
 
-	if len(base.TSignatures) > 0 && flags.IsLsp && round == "check" {
+	if len(base.TSignatures) > 0 && flags.IsLsp {
 		cmd.PrintLspSuggestions(p)
 	}
 
