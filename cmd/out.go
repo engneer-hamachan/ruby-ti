@@ -22,16 +22,16 @@ func PrintDefineInfosForPlugin(infos []string) {
 	}
 }
 
-func PrintAllDefinitionsForLsp(p parser.Parser) {
-	printDefinitionTarget(p.LspSudjestTargetT.DefinedFrame, p.LspSudjestTargetT.DefinedClass)
-	printMatchingSignatures(p)
-	printInheritanceMap()
-}
-
 func PrintAllErrorsForPlugin(p parser.Parser) {
 	for _, err := range p.Errors {
 		fmt.Println(err)
 	}
+}
+
+func PrintAllDefinitionsForLsp(p parser.Parser) {
+	printDefinitionTarget(p.LspSudjestTargetT.DefinedFrame, p.LspSudjestTargetT.DefinedClass)
+	printMatchingSignatures(p)
+	printInheritanceMap()
 }
 
 func PrintLspSuggestionsForLsp(p parser.Parser) {
