@@ -6,18 +6,6 @@ import (
 
 var TFrame = make(map[FrameKey]*T)
 
-type Sig struct {
-	Contents string
-	Detail   string
-	Frame    string
-	Class    string
-	IsStatic bool
-	FileName string
-	Row      int
-}
-
-var TSignatures = make(map[string]Sig)
-
 func DeepCopyTFrame() map[FrameKey]*T {
 	copied := make(map[FrameKey]*T)
 	maps.Copy(copied, TFrame)

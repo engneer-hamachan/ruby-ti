@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"ti/base"
 	_ "ti/builtin"
+	"ti/cmd"
 	"ti/context"
 	"ti/eval"
 	"ti/lexer"
@@ -15,7 +16,6 @@ import (
 	"ti/lsp"
 	"ti/parser"
 	"time"
-	"unicode"
 	// "github.com/pkg/profile"
 )
 
@@ -51,53 +51,21 @@ func loop(p parser.Parser, round string) {
 	}
 
 	if len(p.DefineInfos) > 0 && p.IsDefineInfo && round == "check" {
-		for _, info := range p.DefineInfos {
-			fmt.Println(info)
-		}
+		cmd.PrintDefineInfos(p.DefineInfos)
 	}
 
 	if len(base.TSignatures) > 0 && p.IsDefineAllInfo && round == "check" {
-		dFrame := p.LspSudjestTargetT.DefinedFrame
-		dClass := p.LspSudjestTargetT.DefinedClass
+		cmd.PrintDefinitionTarget(
+			p.LspSudjestTargetT.DefinedFrame,
+			p.LspSudjestTargetT.DefinedClass,
+		)
 
-		fmt.Println("@" + dFrame + ":::" + dClass)
-
-		for _, sig := range base.TSignatures {
-			frame := sig.Frame
-			class := sig.Class
-
-			if p.LspSudjestTargetT.IsStatic == sig.IsStatic {
-				fmt.Println("%" + frame + ":::" + class + ":::" + sig.Contents + ":::" + sig.FileName + ":::" + strconv.Itoa(sig.Row))
-			}
-		}
-
-		// Also output inheritance information when --define is used
-		for classNode, parents := range base.ClassInheritanceMap {
-			for _, parent := range parents {
-				fmt.Println("$" + classNode.Frame + ":::" + classNode.Class + ":::" + parent.Frame + ":::" + parent.Class)
-			}
-		}
+		cmd.PrintMatchingSignatures(p)
+		cmd.PrintInheritanceMap()
 	}
 
 	if len(base.TSignatures) > 0 && p.IsLsp && round == "check" {
-		for _, sig := range base.TSignatures {
-			objectClass := p.LspSudjestTargetT.GetObjectClass()
-			if objectClass == "Identifier" {
-				objectClass = ""
-			}
-
-			if objectClass == "" && slices.Contains([]string{"", "Kernel"}, sig.Class) {
-				fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
-				continue
-			}
-
-			if isSudjest(objectClass, sig) {
-				tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
-				if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
-					fmt.Println("%" + sig.Contents + ":::" + sig.Detail)
-				}
-			}
-		}
+		cmd.PrintLspSuggestions(p)
 	}
 
 	if len(p.Errors) > 0 {
@@ -114,35 +82,6 @@ func cleanSimpleIdentifires() {
 			delete(base.TFrame, key)
 		}
 	}
-}
-
-func isSudjest(objectClass string, sig base.Sig) bool {
-	if sig.Class == "" {
-		return false
-	}
-
-	if sig.Class == objectClass {
-		return true
-	}
-
-	return isParentClass(sig.Frame, objectClass, sig.Class)
-}
-
-func isParentClass(frame, childClass, parentClass string) bool {
-	classNode := base.ClassNode{Frame: frame, Class: childClass}
-
-	for _, parentNode := range base.ClassInheritanceMap[classNode] {
-		if parentNode.Class == parentClass {
-			return true
-		}
-
-		// Recursively check parent's parents
-		if isParentClass(parentNode.Frame, parentNode.Class, parentClass) {
-			return true
-		}
-	}
-
-	return false
 }
 
 func main() {
