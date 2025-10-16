@@ -61,7 +61,7 @@ func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 	}
 
 	if len(base.TSignatures) > 0 && flags.IsLsp {
-		cmd.PrintLspSuggestionsForLsp(p)
+		cmd.PrintSuggestionsForLsp(p)
 	}
 
 	if len(p.Errors) > 0 {

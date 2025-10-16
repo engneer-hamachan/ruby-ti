@@ -34,7 +34,7 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 	printInheritanceMap()
 }
 
-func PrintLspSuggestionsForLsp(p parser.Parser) {
+func PrintSuggestionsForLsp(p parser.Parser) {
 	for _, sig := range base.TSignatures {
 		objectClass := p.LspSudjestTargetT.GetObjectClass()
 		if objectClass == "Identifier" {
@@ -46,7 +46,7 @@ func PrintLspSuggestionsForLsp(p parser.Parser) {
 			continue
 		}
 
-		if isSudjest(objectClass, sig) {
+		if isSuggest(objectClass, sig) {
 			tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
 			if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
 				printSuggestion(sig.Method, sig.Detail)
@@ -99,7 +99,7 @@ func printSuggestion(contents, detail string) {
 	fmt.Println(prefixSignature + contents + separator + detail)
 }
 
-func isSudjest(objectClass string, sig base.Sig) bool {
+func isSuggest(objectClass string, sig base.Sig) bool {
 	if sig.Class == "" {
 		return false
 	}
