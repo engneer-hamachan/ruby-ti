@@ -107,7 +107,7 @@ func main() {
 			br = bufio.NewReader(fp)
 
 			p := getParser(br, file)
-			cmd.ParseArgs(&p)
+			cmd.ApplyFlags(&p)
 
 			cleanSimpleIdentifires()
 
