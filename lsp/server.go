@@ -113,7 +113,7 @@ func textDocumentCompletion(
 	for _, sig := range signatures {
 		items =
 			append(items, protocol.CompletionItem{
-				Label:  sig.Contents,
+				Label:  sig.Method,
 				Detail: &sig.Detail,
 			})
 	}

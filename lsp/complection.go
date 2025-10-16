@@ -48,8 +48,8 @@ func getSignatures(cmdOutput []byte) []base.Sig {
 		if !methodSet[detail] {
 			methodSet[detail] = true
 			responseSignatures = append(responseSignatures, base.Sig{
-				Contents: methodName,
-				Detail:   detail,
+				Method: methodName,
+				Detail: detail,
 			})
 		}
 	}

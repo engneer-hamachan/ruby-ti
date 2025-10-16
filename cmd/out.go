@@ -42,14 +42,14 @@ func PrintLspSuggestionsForLsp(p parser.Parser) {
 		}
 
 		if objectClass == "" && slices.Contains([]string{"", "Kernel"}, sig.Class) {
-			printSuggestion(sig.Contents, sig.Detail)
+			printSuggestion(sig.Method, sig.Detail)
 			continue
 		}
 
 		if isSudjest(objectClass, sig) {
 			tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
 			if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
-				printSuggestion(sig.Contents, sig.Detail)
+				printSuggestion(sig.Method, sig.Detail)
 			}
 		}
 	}
@@ -79,9 +79,10 @@ func printSignature(sig base.Sig) {
 	line := prefixSignature +
 		sig.Frame + separator +
 		sig.Class + separator +
-		sig.Contents + separator +
+		sig.Method + separator +
 		sig.FileName + separator +
 		strconv.Itoa(sig.Row)
+
 	fmt.Println(line)
 }
 

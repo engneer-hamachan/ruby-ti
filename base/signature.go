@@ -1,7 +1,7 @@
 package base
 
 type Sig struct {
-	Contents string
+	Method   string
 	Detail   string
 	Frame    string
 	Class    string
