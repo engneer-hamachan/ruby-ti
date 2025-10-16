@@ -16,20 +16,43 @@ const (
 	separator              = ":::"
 )
 
-func PrintDefineInfos(infos []string) {
+func PrintDefineInfosForPlugin(infos []string) {
 	for _, info := range infos {
 		fmt.Println(info)
 	}
 }
 
-func PrintAllDefinitions(p parser.Parser) {
+func PrintAllDefinitionsForLsp(p parser.Parser) {
 	printDefinitionTarget(p.LspSudjestTargetT.DefinedFrame, p.LspSudjestTargetT.DefinedClass)
 	printMatchingSignatures(p)
 	printInheritanceMap()
 }
 
-func PrintLspSuggestions(p parser.Parser) {
-	printLspSuggestions(p)
+func PrintAllErrorsForPlugin(p parser.Parser) {
+	for _, err := range p.Errors {
+		fmt.Println(err)
+	}
+}
+
+func PrintLspSuggestionsForLsp(p parser.Parser) {
+	for _, sig := range base.TSignatures {
+		objectClass := p.LspSudjestTargetT.GetObjectClass()
+		if objectClass == "Identifier" {
+			objectClass = ""
+		}
+
+		if objectClass == "" && slices.Contains([]string{"", "Kernel"}, sig.Class) {
+			printSuggestion(sig.Contents, sig.Detail)
+			continue
+		}
+
+		if isSudjest(objectClass, sig) {
+			tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
+			if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
+				printSuggestion(sig.Contents, sig.Detail)
+			}
+		}
+	}
 }
 
 func printDefinitionTarget(frame, class string) {
@@ -48,27 +71,6 @@ func printInheritanceMap() {
 	for classNode, parents := range base.ClassInheritanceMap {
 		for _, parent := range parents {
 			printInheritance(classNode, parent)
-		}
-	}
-}
-
-func printLspSuggestions(p parser.Parser) {
-	for _, sig := range base.TSignatures {
-		objectClass := p.LspSudjestTargetT.GetObjectClass()
-		if objectClass == "Identifier" {
-			objectClass = ""
-		}
-
-		if objectClass == "" && slices.Contains([]string{"", "Kernel"}, sig.Class) {
-			printSuggestion(sig.Contents, sig.Detail)
-			continue
-		}
-
-		if isSudjest(objectClass, sig) {
-			tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
-			if len(tmp) > 0 && unicode.IsUpper(rune(tmp[0])) == sig.IsStatic {
-				printSuggestion(sig.Contents, sig.Detail)
-			}
 		}
 	}
 }

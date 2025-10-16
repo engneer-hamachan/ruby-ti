@@ -53,21 +53,19 @@ func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 	}
 
 	if len(p.DefineInfos) > 0 && flags.IsDefineInfo {
-		cmd.PrintDefineInfos(p.DefineInfos)
+		cmd.PrintDefineInfosForPlugin(p.DefineInfos)
 	}
 
 	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo {
-		cmd.PrintAllDefinitions(p)
+		cmd.PrintAllDefinitionsForLsp(p)
 	}
 
 	if len(base.TSignatures) > 0 && flags.IsLsp {
-		cmd.PrintLspSuggestions(p)
+		cmd.PrintLspSuggestionsForLsp(p)
 	}
 
 	if len(p.Errors) > 0 {
-		for _, err := range p.Errors {
-			fmt.Println(err)
-		}
+		cmd.PrintAllErrorsForPlugin(p)
 		os.Exit(0)
 	}
 }
