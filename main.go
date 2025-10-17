@@ -13,7 +13,6 @@ import (
 	"ti/lexer/reader"
 	"ti/parser"
 	"time"
-	// "github.com/pkg/profile"
 )
 
 func getParser(br *bufio.Reader, file string) parser.Parser {
