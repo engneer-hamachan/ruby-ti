@@ -18,7 +18,7 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsDefineAllInfo = true
 	}
 
-	if hasFlag("-a") {
+	if hasFlag("--suggest") {
 		flags.IsLsp = true
 	}
 
@@ -30,7 +30,7 @@ func ApplyParserFlags(p *parser.Parser) {
 		p.Debug = true
 	}
 
-	if hasFlag("--define") || hasFlag("-a") {
+	if hasFlag("--define") || hasFlag("--suggest") {
 		applyTargetRow(p)
 	}
 }
