@@ -11,7 +11,6 @@ import (
 	"ti/eval"
 	"ti/lexer"
 	"ti/lexer/reader"
-	"ti/lsp"
 	"ti/parser"
 	"time"
 	// "github.com/pkg/profile"
@@ -80,13 +79,6 @@ func cleanSimpleIdentifires() {
 
 func main() {
 	//	defer profile.Start().Stop()
-
-	// Check for LSP mode
-	if len(os.Args) >= 2 && os.Args[1] == "--lsp" {
-		server := lsp.NewServer()
-		server.RunStdio()
-		return
-	}
 
 	timeout := time.After(500 * time.Millisecond)
 	done := make(chan bool)
