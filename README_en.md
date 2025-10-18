@@ -280,10 +280,22 @@ Example of a GPIO class that can be used with picoruby
 - `"SelfArgument"` - Type that returns argument as is
 - `"UnifiedSelfArgument"` - Type that unifies argument before returning
 
-## Vim Integration
+## Editor Integration
+
+### LSP (Language Server Protocol)
+An LSP server for Ruby-TI is available, providing the following features:
+
+- **Code Lens**: Inline type signature display at method definitions
+- **Code Completion**: Type-aware method auto-completion
+- **Go to Definition**: Jump to method and class definitions
+- **Diagnostics**: Real-time type error detection
+
+For more details, see [ruby-ti-lsp](https://github.com/engneer-hamachan/ruby-ti-lsp).
+
+### Vim Plugin
 Ruby-TI includes a dedicated Vim plugin as a bonus. (It's really just a bonus)
 
-### Setup
+#### Setup
 ```vim
 " Tested with NVIM v0.11.3.
 
@@ -300,7 +312,7 @@ let g:ruby_ti_config = {
 \ }
 ```
 
-### Usage
+#### Usage
 Open a Ruby file in Vim and use the following command:
 - `:RubyTiRun` - Type check the current file
 

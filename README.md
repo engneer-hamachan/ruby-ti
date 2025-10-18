@@ -25,11 +25,6 @@ Ruby-TIは、Go言語で書かれたmruby用の静的型解析器です。
   <img src="image/sample2.png" alt="Ruby-TI Sample"/>
 </p>
 
-### 例(legacy mode)
-<p align="center">
-  <img src="image/sample.png" alt="Ruby-TI Sample"/>
-</p>
-
 ## なぜRuby-TIを作ったか
 私はインタプリタ言語(とりわけRuby)が大好きです。
 
@@ -66,9 +61,9 @@ git clone https://github.com/engneer-hamachan/ruby-ti.git
 cd ruby-ti
 
 # システムにインストール
-sh ./shell/install.sh
+make install
 ```
-インストールスクリプトは`ti`バイナリをビルドして`./bin/`ディレクトリに配置します。
+`ti`バイナリをビルドして`./bin/`ディレクトリに配置します。
 
 ## 使用方法
 ```bash
@@ -76,22 +71,25 @@ sh ./shell/install.sh
 ti your_file.rb
 
 # または直接指定
-/path/to/ruby-ti/bin/ti your_file.rb
-```
+/path/to/ruby-ti/bin/ti sample.rb
 
-### 使用例
-```ruby
-a = 1
-b = "1"
-c = b
-
-a + c
-```
-
-```bash
-$ /path/to/ruby-ti/bin/ti sample.rb
+# 結果
 ./sample.rb::5::type mismatch: expected Union<Integer Float>, but got String for Integer.+
 ```
+
+
+## エディタ統合
+### LSP (Language Server Protocol)
+Ruby-TI用のLSPサーバーを作りました！！！なんとVSCodeも対応してます！
+
+- **Code Lens**: メソッド定義に型シグネチャをインライン表示
+- **Code Completion**: 型推論に基づいたメソッド補完
+- **Go to Definition**: メソッドやクラス定義へのジャンプ
+- **Diagnostics**: リアルタイム型エラー検出
+
+詳細は [ruby-ti-lsp](https://github.com/engneer-hamachan/ruby-ti-lsp) をご覧ください。
+
+
 
 ## JSON設定システム（Buitin JSON）
 Ruby-TIはJSONベースの設定システムを使用して、Rubyの組み込みメソッドの型を定義できます。
@@ -288,63 +286,23 @@ picorubyで使えるGPIOクラスの例
 - `"SelfArgument"` - 引数をそのまま返す型
 - `"UnifiedSelfArgument"` - 引数をUnifyしてから返す型
 
-## Vim統合
-Ruby-TIはおまけ程度の専用Vimプラグインを含んでいます。(本当におまけです)
-
-### セットアップ
-```vim
-" NVIM v0.11.3で動作確認はしています。
-
-" ~/.config/nvim/init.vimに追加
-set rtp+=/path/to/ruby-ti/ruby-ti.vim
-
-
-" legacy mode(検査エラーをモーダルで表示)
-" let g:ruby_ti_config = {
-"   \ 'animation_speed': 15,
-"   \ 'auto_run': 0,
-"   \ 'checker_command': 'ti',
-"   \ 'enable_animation': 1,
-"   \ 'enable_line_highlighting': 1,
-"   \ 'mark': '💎'
-" \ }
-
-
-" type comment mode(型コメント形式で表示)
-let g:ruby_ti_config = {
-  \ 'auto_run': 0,
-  \ 'checker_command': 'ti',
-  \ 'enable_type_comment': 1,
-  \ 'enable_error_info': 0,
-  \ 'enable_error_virtual_text': 1,
-\ }
-```
-
-### 使用方法
-VimでRubyファイルを開いて以下のコマンドを使用：
-- `:RubyTiRun` - 現在のファイルの型チェック
 
 ## 今後の開発
-### まずは主要なクラスやメソッドの型定義（Buitin JSON設定）を充実させたい
-現在はPicoruby DocumentのBuitin関連クラスの型定義のみ終えた状態になっています。
-更に充実させて、インストールしたらある程度は(自分でJsonを設定しなくても)使える状態を目指しています。
+### rbsをRuby-TI用のJsonに置き換える機能の開発中
+現在対応済みの型は`builtin/builtin_config/`を参照して下さい。（Picoruby DocumentのBuitin関連クラスの型定義のみ終えた状態になっています）
+今後の型拡充の為に、rbsをRuby-TI用のJsonに変換する機能を開発中ですので、
+もう少ししたら、Ruby-TIの型拡張も楽になってきそうです！
 
-### すべてのメソッドをJson設定だけで定義できるように
-Array.appendメソッド等のJson設定だけで実現できなかった一部の機能は、
-現在Ruby-TIの本体で個別に実装されています。
-
-これら全てをJsonの設定だけで賄えるようにしていきたいです。
 
 ### パースできないmrubyコードの修正(気合のパーサーからの脱却)
-現在も発見したコードは直ぐに修正していますが、感覚的にはまだ結構ありそうな気がしてます。。。
-パーサーには優れた理論や書き方が、世の中にはたくさんあるので、
-いずれかを取り入れて、 もう少し安定したパーサーを目指したいです。
+パーサーは結構安定してきました！が、まだ100%の出来ではありません。
+もしパースできないコードを見つけたら、教えるてくれると嬉しいです！
 
 ### 外部ファイル読み込み
 スクリプトみたいな小規模コードを、まずはちゃんとサポートしたい気持ちが強いので、
-requireなどの外部ファイル読み込みは現在無視するようにしています。
+requireなどの外部ファイル読み込みは無視するようにしていましたが、
 
-もう少し開発が進んだら、外部ファイル読み込み機能の追加も考えたいと思っています。
+機能も揃ってきたので、そろそろ外部ファイル読み込み機能の追加も着手したいと思っています。
 
 ## ライセンス
 このプロジェクトはMITライセンスの下でライセンスされています
