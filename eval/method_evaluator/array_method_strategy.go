@@ -76,8 +76,10 @@ func (c *concatArraystrategy) evaluate(m *MethodEvaluator) error {
 
 	arrayT := m.evaluatedObjectT
 
-	for _, variant := range evaluatedArgs[0].GetVariants() {
-		arrayT.AppendArrayVariant(variant)
+	if len(evaluatedArgs) > 0 {
+		for _, variant := range evaluatedArgs[0].GetVariants() {
+			arrayT.AppendArrayVariant(variant)
+		}
 	}
 
 	m.parser.SetLastEvaluatedT(arrayT)
