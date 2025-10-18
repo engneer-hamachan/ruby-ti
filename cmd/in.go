@@ -4,6 +4,7 @@ import (
 	"os"
 	"slices"
 	"strconv"
+	"strings"
 	"ti/parser"
 )
 
@@ -40,12 +41,21 @@ func hasFlag(flag string) bool {
 }
 
 func applyTargetRow(p *parser.Parser) {
-	if len(os.Args) > 3 {
-		row, err := strconv.Atoi(os.Args[3])
-		if err == nil {
-			p.LspTargetRow = row
+	row := getTargetRow()
+	if row > 0 {
+		p.LspTargetRow = row
+	}
+}
+
+func getTargetRow() int {
+	for _, arg := range os.Args {
+		if strings.HasPrefix(arg, "--row=") {
+			if row, err := strconv.Atoi(arg[6:]); err == nil {
+				return row
+			}
 		}
 	}
+	return 0
 }
 
 func ValidateArgs() {
