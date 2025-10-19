@@ -69,6 +69,10 @@ func appendSignature(frame, class string, methodT *T, isStatic bool, fileName st
 	args += ")"
 	info += args
 
+	if methodT.IsBlockGiven {
+		info += " <is_block_given: true>"
+	}
+
 	info += " -> "
 	info += TypeToString(methodT)
 
