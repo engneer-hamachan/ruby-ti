@@ -251,6 +251,7 @@ func (c *Class) Evaluation(
 		base.SetClassMethodT(nextFrame, class, methodT, false, p.FileName, defineRow)
 	default:
 		newMethodT = newMethodT.DeepCopy()
+		newMethodT.SetFrame(ctx.GetFrame())
 		newMethodT.SetObjectClass(class)
 		base.SetClassMethodT(nextFrame, class, newMethodT, false, p.FileName, defineRow)
 	}
