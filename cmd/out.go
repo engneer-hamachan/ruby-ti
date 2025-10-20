@@ -157,19 +157,30 @@ func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
 		return true
 	}
 
-	return isParentClass(sig.Frame, objectClass, sig.Class)
+	objectFrame := p.LspSudjestTargetT.GetFrame()
+
+	return isParentClass(sig.Frame, sig.Class, objectFrame, objectClass)
 }
 
-func isParentClass(frame, childClass, parentClass string) bool {
-	classNode := base.ClassNode{Frame: frame, Class: childClass}
+func isParentClass(
+	sigFrame,
+	sigClass,
+	frame,
+	class string,
+) bool {
+
+	if sigFrame == frame && sigClass == class {
+		return true
+	}
+
+	classNode := base.ClassNode{Frame: frame, Class: class}
 
 	for _, parentNode := range base.ClassInheritanceMap[classNode] {
-		if parentNode.Class == parentClass {
+		if parentNode.Class == sigFrame && parentNode.Frame == sigClass {
 			return true
 		}
 
-		// Recursively check parent's parents
-		if isParentClass(parentNode.Frame, parentNode.Class, parentClass) {
+		if isParentClass(sigFrame, sigClass, parentNode.Frame, parentNode.Class) {
 			return true
 		}
 	}
