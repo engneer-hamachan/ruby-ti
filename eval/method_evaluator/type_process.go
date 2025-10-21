@@ -13,10 +13,6 @@ func isAsteriskPrefix(str string) bool {
 	return str[0] == '*'
 }
 
-func isAnpersandPrefix(str string) bool {
-	return str[0] == '&'
-}
-
 func isAcceptIdx(tSlice []*base.T, idx int) bool {
 	return len(tSlice) >= (idx + 1)
 }
