@@ -30,6 +30,24 @@ func (d *Def) bindDefaultKeywordArgs(
 		return argVariables, false, err
 	}
 
+	if nextT.IsNewLineIdentifier() {
+		if ctx.IsCollectRound() {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				argT.ToRemoveSuffixString(),
+				base.MakeUnknown(),
+			)
+		}
+
+		argVariables = append(argVariables, argT.ToString())
+
+		p.Unget()
+
+		return argVariables, true, nil
+	}
+
 	if !nextT.IsCloseParentheses() && !nextT.IsCommaIdentifier() {
 		err := e.Eval(p, ctx, nextT)
 		if err != nil {
@@ -50,6 +68,7 @@ func (d *Def) bindDefaultKeywordArgs(
 		}
 
 		argVariables = append(argVariables, argT.ToString())
+
 		return argVariables, true, nil
 	}
 
