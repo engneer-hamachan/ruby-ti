@@ -376,7 +376,7 @@ func checkAndPropagateArgs(
 		if definedArgT == nil {
 			definedArgT =
 				base.GetValueT(
-					methodT.DefinedFrame,
+					methodT.GetFrame(),
 					methodT.DefinedClass,
 					m.method,
 					definedArg,
