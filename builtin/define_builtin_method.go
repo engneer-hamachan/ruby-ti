@@ -25,6 +25,7 @@ func NewDefineBuiltinMethod(
 func (d *defineBuiltinMethod) setupMethodArgs(
 	method string,
 	argTypes []base.T,
+	isStatic bool,
 ) []string {
 
 	var argIdentifiers []string
@@ -40,6 +41,7 @@ func (d *defineBuiltinMethod) setupMethodArgs(
 				method,
 				argType.GetRemoveSuffixKey(),
 				argType.GetKeyValue(),
+				isStatic,
 			)
 
 		default:
@@ -50,7 +52,7 @@ func (d *defineBuiltinMethod) setupMethodArgs(
 			}
 
 			argIdentifiers = append(argIdentifiers, id)
-			base.SetValueT(d.frame, d.targetClass, method, id, &argType)
+			base.SetValueT(d.frame, d.targetClass, method, id, &argType, isStatic)
 		}
 	}
 
@@ -64,7 +66,7 @@ func (d *defineBuiltinMethod) defineBuiltinInstanceMethod(
 	returnT base.T,
 ) {
 
-	argIdentifiers := d.setupMethodArgs(method, argTypes)
+	argIdentifiers := d.setupMethodArgs(method, argTypes, false)
 	methodT := base.MakeMethod(frame, method, returnT, argIdentifiers)
 
 	base.SetMethodT(frame, d.targetClass, methodT, false, "unknown", 0)
@@ -77,7 +79,7 @@ func (d *defineBuiltinMethod) defineBuiltinStaticMethod(
 	returnT base.T,
 ) {
 
-	argIdentifiers := d.setupMethodArgs(method, argTypes)
+	argIdentifiers := d.setupMethodArgs(method, argTypes, true)
 	methodT := base.MakeMethod(frame, method, returnT, argIdentifiers)
 
 	base.SetClassMethodT(frame, d.targetClass, methodT, false, "unknown", 0)

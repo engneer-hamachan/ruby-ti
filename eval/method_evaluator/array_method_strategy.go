@@ -47,6 +47,7 @@ func (a *arrayAppendStrategy) evaluate(m *MethodEvaluator) error {
 		m.ctx.GetMethod(),
 		arrayT.GetBeforeEvaluateCode(),
 		arrayT,
+		m.ctx.IsDefineStatic,
 	)
 
 	m.parser.SetLastEvaluatedT(arrayT)
@@ -142,6 +143,7 @@ func (r *replaceArraystrategy) evaluate(m *MethodEvaluator) error {
 		m.ctx.GetMethod(),
 		m.objectT.ToString(),
 		newArrayT,
+		m.ctx.IsDefineStatic,
 	)
 
 	return nil
@@ -197,6 +199,7 @@ func (s *sliceArrayStrategy) evaluate(m *MethodEvaluator) error {
 		m.ctx.GetMethod(),
 		m.objectT.ToString(),
 		unionT,
+		m.ctx.IsDefineStatic,
 	)
 
 	return nil

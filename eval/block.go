@@ -32,6 +32,7 @@ func (d *Do) makeRestoreFunc(
 				ctx.GetMethod(),
 				r.id,
 				r.t,
+				ctx.IsDefineStatic,
 			)
 		}
 	}
@@ -186,6 +187,7 @@ func (d *Do) setBlockParameters(
 				ctx.GetMethod(),
 				variable.ToString(),
 				base.MakeNil(),
+				ctx.IsDefineStatic,
 			)
 
 			continue
@@ -197,6 +199,7 @@ func (d *Do) setBlockParameters(
 			ctx.GetMethod(),
 			variable.ToString(),
 			&blockParameters[idx],
+			ctx.IsDefineStatic,
 		)
 	}
 }
@@ -257,6 +260,7 @@ func (d *Do) prepare(p *parser.Parser, ctx context.Context) (func(), error) {
 				ctx.GetClass(),
 				ctx.GetMethod(),
 				id.ToString(),
+				ctx.IsDefineStatic,
 			)
 
 		restoreVariables =

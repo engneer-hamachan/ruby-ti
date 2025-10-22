@@ -49,6 +49,7 @@ func (e *Evaluator) arrayReferenceEvaluation(
 				ctx.GetMethod(),
 				objectT.ToString(),
 				arrayT,
+				ctx.IsDefineStatic,
 			)
 
 			p.SetLastEvaluatedT(arrayT)
@@ -102,6 +103,7 @@ func (e *Evaluator) arrayReferenceEvaluation(
 			ctx.GetMethod(),
 			objectT.ToString(),
 			arrayT,
+			ctx.IsDefineStatic,
 		)
 
 		p.SetLastEvaluatedT(arrayT)
@@ -195,6 +197,7 @@ func (e *Evaluator) hashReferenceEvaluation(
 			ctx.GetMethod(),
 			objectT.ToString(),
 			hashT,
+			ctx.IsDefineStatic,
 		)
 
 		p.SetLastEvaluatedT(hashT)
@@ -242,6 +245,7 @@ func (e *Evaluator) stringReferenceEvaluation(
 				ctx.GetMethod(),
 				objectT.ToString(),
 				stringT,
+				ctx.IsDefineStatic,
 			)
 
 			p.SetLastEvaluatedT(stringT)
@@ -288,6 +292,7 @@ func (e *Evaluator) stringReferenceEvaluation(
 			ctx.GetMethod(),
 			objectT.ToString(),
 			stringT,
+			ctx.IsDefineStatic,
 		)
 
 		p.SetLastEvaluatedT(stringT)
@@ -361,6 +366,7 @@ func (e *Evaluator) integerReferenceEvaluation(
 			ctx.GetMethod(),
 			objectT.ToString(),
 			intT,
+			ctx.IsDefineStatic,
 		)
 
 		p.SetLastEvaluatedT(intT)

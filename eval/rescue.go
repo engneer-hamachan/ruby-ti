@@ -47,6 +47,7 @@ func (r *Rescue) Evaluation(
 			ctx.GetMethod(),
 			nextT.ToString(),
 			base.MakeObject("Bot"),
+			ctx.IsDefineStatic,
 		)
 	}
 

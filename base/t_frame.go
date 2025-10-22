@@ -44,7 +44,7 @@ func appendSignature(frame, class string, methodT *T, isStatic bool, fileName st
 			darg = removeSuffix(darg)
 		}
 
-		dargT := GetValueT(frame, class, methodT.GetMethodName(), darg)
+		dargT := GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
 
 		if dargT.HasDefault() {
 			args += `optional `
@@ -319,6 +319,7 @@ func setParentValueT(
 	method string,
 	variable string,
 	t *T,
+	isStatic bool,
 ) bool {
 
 	classNode := ClassNode{frame, class}
@@ -329,6 +330,7 @@ func setParentValueT(
 				parentNode.Class,
 				method,
 				variable,
+				isStatic,
 			)]
 
 		if ok {
@@ -337,13 +339,14 @@ func setParentValueT(
 				parentNode.Class,
 				method,
 				variable,
+				isStatic,
 			)] = t
 
 			return true
 		}
 
 		ok =
-			setParentValueT(parentNode.Frame, parentNode.Class, method, variable, t)
+			setParentValueT(parentNode.Frame, parentNode.Class, method, variable, t, isStatic)
 
 		if ok {
 			return true
@@ -359,25 +362,26 @@ func SetValueT(
 	method string,
 	variable string,
 	t *T,
+	isStatic bool,
 ) error {
 
 	if len(variable) > 0 && variable[0] == '*' {
 		variable = variable[1:]
 	}
 
-	_, ok := TFrame[valueTFrameKey(frame, class, method, variable)]
+	_, ok := TFrame[valueTFrameKey(frame, class, method, variable, isStatic)]
 	if ok {
-		TFrame[valueTFrameKey(frame, class, method, variable)] = t
+		TFrame[valueTFrameKey(frame, class, method, variable, isStatic)] = t
 
 		return nil
 	}
 
-	ok = setParentValueT(frame, class, method, variable, t)
+	ok = setParentValueT(frame, class, method, variable, t, isStatic)
 	if ok {
 		return nil
 	}
 
-	TFrame[valueTFrameKey(frame, class, method, variable)] = t
+	TFrame[valueTFrameKey(frame, class, method, variable, isStatic)] = t
 
 	return nil
 }
@@ -387,6 +391,7 @@ func getParentValueT(
 	class string,
 	method string,
 	variable string,
+	isStatic bool,
 ) *T {
 
 	classNode := ClassNode{frame, class}
@@ -398,6 +403,7 @@ func getParentValueT(
 				parentNode.Class,
 				method,
 				variable,
+				isStatic,
 			)]
 
 		if ok {
@@ -405,7 +411,7 @@ func getParentValueT(
 		}
 
 		valueT :=
-			getParentValueT(parentNode.Frame, parentNode.Class, method, variable)
+			getParentValueT(parentNode.Frame, parentNode.Class, method, variable, isStatic)
 
 		if valueT != nil {
 			return valueT
@@ -415,24 +421,24 @@ func getParentValueT(
 	return nil
 }
 
-func GetValueT(frame string, class string, method string, variable string) *T {
+func GetValueT(frame string, class string, method string, variable string, isStatic bool) *T {
 	if len(variable) > 0 && variable[0] == '*' {
 		variable = variable[1:]
 	}
 
-	t := TFrame[valueTFrameKey(frame, class, method, variable)]
+	t := TFrame[valueTFrameKey(frame, class, method, variable, isStatic)]
 
 	if t != nil {
 		return t
 	}
 
-	t = getParentValueT(frame, class, method, variable)
+	t = getParentValueT(frame, class, method, variable, isStatic)
 
 	if t != nil {
 		return t
 	}
 
-	return getParentValueT("Builtin", class, method, variable)
+	return getParentValueT("Builtin", class, method, variable, isStatic)
 }
 
 func SetInstanceValueT(
@@ -442,16 +448,16 @@ func SetInstanceValueT(
 	t *T,
 ) {
 
-	TFrame[valueTFrameKey(frame, class, "", variable)] = t
+	TFrame[valueTFrameKey(frame, class, "", variable, false)] = t
 }
 
 func GetInstanceValueT(frame string, class string, variable string) *T {
-	t := TFrame[valueTFrameKey(frame, class, "", variable)]
+	t := TFrame[valueTFrameKey(frame, class, "", variable, false)]
 	if t != nil {
 		return t
 	}
 
-	return getParentValueT(frame, class, "", variable)
+	return getParentValueT(frame, class, "", variable, false)
 }
 
 func CalculateFrame(frame string, class string) string {
@@ -500,7 +506,11 @@ func GetDynamicValueT(
 ) *T {
 
 	evaluatedObjectT :=
-		GetValueT(frame, class, method, instance)
+		GetValueT(frame, class, method, instance, false)
+
+	if evaluatedObjectT == nil {
+		evaluatedObjectT = GetValueT(frame, class, method, instance, true)
+	}
 
 	if evaluatedObjectT == nil {
 		evaluatedObjectT = GetTopLevelMethodT(frame, class, instance)

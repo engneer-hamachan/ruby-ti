@@ -87,7 +87,7 @@ func (e *Evaluator) handleIdentifier(
 		}
 
 	default:
-		valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id)
+		valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id, ctx.IsDefineStatic)
 	}
 
 	if valueT != nil {
@@ -106,6 +106,7 @@ func (e *Evaluator) handleIdentifier(
 		ctx.GetMethod(),
 		id,
 		identifierT,
+		ctx.IsDefineStatic,
 	)
 
 	e.setLastEvaluatedT(p, ctx, identifierT)

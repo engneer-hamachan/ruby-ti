@@ -65,6 +65,7 @@ func (i *IfUnless) setConditionalCtx(
 			ctx.GetMethod(),
 			object,
 			classT,
+			ctx.IsDefineStatic,
 		)
 
 		i.narrowTs[object] = append(i.narrowTs[object], *classT)
@@ -84,6 +85,7 @@ func (i *IfUnless) setConditionalCtx(
 				ctx.GetMethod(),
 				object,
 				base.MakeUnifiedT(newVariants),
+				ctx.IsDefineStatic,
 			)
 
 			i.narrowTs[object] = newVariants
@@ -98,6 +100,7 @@ func (i *IfUnless) setConditionalCtx(
 				ctx.GetMethod(),
 				object,
 				base.MakeNil(),
+				ctx.IsDefineStatic,
 			)
 
 			i.narrowTs[object] = append(i.narrowTs[object], *base.MakeNil())
@@ -234,6 +237,7 @@ func (i *IfUnless) getBackupContext(
 			ctx.GetMethod(),
 			object,
 			t,
+			ctx.IsDefineStatic,
 		)
 	}, nil
 }
@@ -373,6 +377,7 @@ func (i *IfUnless) Evaluation(
 					ctx.GetMethod(),
 					originalKey,
 					base.MakeUnifiedT(variants),
+					ctx.IsDefineStatic,
 				)
 			}
 

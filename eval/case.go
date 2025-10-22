@@ -43,6 +43,7 @@ func (c *Case) Evaluation(
 				ctx.GetMethod(),
 				objectT.ToString(),
 				&evaluatedT,
+				ctx.IsDefineStatic,
 			)
 		}()
 	}
@@ -102,6 +103,7 @@ func (c *Case) Evaluation(
 				ctx.GetMethod(),
 				objectT.ToString(),
 				&evaluatedT,
+				ctx.IsDefineStatic,
 			)
 
 		case "else":
@@ -139,6 +141,7 @@ func (c *Case) Evaluation(
 				ctx.GetMethod(),
 				objectT.ToString(),
 				unionT.UnifyVariants(),
+				ctx.IsDefineStatic,
 			)
 		}
 

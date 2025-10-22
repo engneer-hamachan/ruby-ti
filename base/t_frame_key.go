@@ -49,6 +49,7 @@ func valueTFrameKey(
 	targetClass string,
 	targetMethod string,
 	targetVariable string,
+	isStatic bool,
 ) FrameKey {
 
 	return FrameKey{
@@ -56,6 +57,7 @@ func valueTFrameKey(
 		targetClass:    targetClass,
 		targetMethod:   targetMethod,
 		targetVariable: targetVariable,
+		isStatic:       isStatic,
 	}
 }
 

@@ -102,6 +102,7 @@ func propagationForCalledTo(
 	class, definedArg string,
 	definedArgT *base.T,
 	argT *base.T,
+	isStatic bool,
 ) bool {
 
 	if argT.IsIdentifierType() {
@@ -117,6 +118,7 @@ func propagationForCalledTo(
 			m.method,
 			definedArg,
 			argT,
+			isStatic,
 		)
 
 		return true
@@ -170,6 +172,7 @@ func propagationForCalledTo(
 			m.method,
 			definedArg,
 			unionT,
+			isStatic,
 		)
 
 		return true
@@ -182,6 +185,7 @@ func propagationForCaller(
 	m *MethodEvaluator,
 	definedArgT *base.T,
 	argT *base.T,
+	isStatic bool,
 ) bool {
 
 	if definedArgT.IsAnyType() {
@@ -192,12 +196,17 @@ func propagationForCaller(
 		return false
 	}
 
+	if m.ctx.GetMethod() == "" {
+		isStatic = false
+	}
+
 	base.SetValueT(
 		m.ctx.GetFrame(),
 		m.ctx.GetClass(),
 		m.ctx.GetMethod(),
 		argT.ToString(),
 		definedArgT,
+		isStatic,
 	)
 
 	return true
@@ -271,6 +280,7 @@ func asteriskDefineProcess(
 	defineArgIdx int,
 	argTs []*base.T,
 	argIdx int,
+	isStatic bool,
 ) (int, int) {
 
 	asteriskArrayT := base.MakeAnyArray()
@@ -284,6 +294,7 @@ func asteriskDefineProcess(
 			m.method,
 			definedArgNames[defineArgIdx][1:],
 			asteriskArrayT,
+			isStatic,
 		)
 
 		defineArgIdx++
@@ -307,6 +318,7 @@ func asteriskDefineProcess(
 		m.method,
 		definedArgNames[defineArgIdx][1:],
 		asteriskArrayT,
+		isStatic,
 	)
 
 	argIdx++
@@ -352,6 +364,7 @@ func checkAndPropagateArgs(
 					defineArgIdx,
 					sortedArgTs,
 					argIdx,
+					methodT.IsStatic,
 				)
 
 			continue
@@ -370,6 +383,7 @@ func checkAndPropagateArgs(
 				class,
 				m.method,
 				definedArg,
+				methodT.IsStatic,
 			)
 
 		// TODO: design later
@@ -380,6 +394,7 @@ func checkAndPropagateArgs(
 					methodT.DefinedClass,
 					m.method,
 					definedArg,
+					methodT.IsStatic,
 				)
 		}
 
@@ -459,6 +474,7 @@ func checkAndPropagateArgs(
 			definedArg,
 			definedArgT,
 			sortedArgTs[argIdx],
+			methodT.IsStatic,
 		) {
 
 			argIdx++
@@ -467,7 +483,7 @@ func checkAndPropagateArgs(
 			continue
 		}
 
-		if propagationForCaller(m, definedArgT, sortedArgTs[argIdx]) {
+		if propagationForCaller(m, definedArgT, sortedArgTs[argIdx], methodT.IsStatic) {
 			argIdx++
 			defineArgIdx++
 

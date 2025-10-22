@@ -109,6 +109,7 @@ func (h *hashShiftStrategy) evaluate(m *MethodEvaluator) error {
 		m.ctx.GetMethod(),
 		m.objectT.ToString(),
 		hashT,
+		m.ctx.IsDefineStatic,
 	)
 
 	m.parser.SetLastEvaluatedT(arrayT)

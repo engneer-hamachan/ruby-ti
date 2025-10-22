@@ -38,6 +38,7 @@ func (d *Def) bindDefaultKeywordArgs(
 				ctx.GetMethod(),
 				argT.ToRemoveSuffixString(),
 				base.MakeUnknown(),
+				ctx.IsDefineStatic,
 			)
 		}
 
@@ -64,6 +65,7 @@ func (d *Def) bindDefaultKeywordArgs(
 				ctx.GetMethod(),
 				argT.ToRemoveSuffixString(),
 				&lastEvaluatedT,
+				ctx.IsDefineStatic,
 			)
 		}
 
@@ -109,6 +111,7 @@ func (d *Def) bindDefaultArgs(
 			ctx.GetMethod(),
 			leftT.ToString(),
 			&rightT,
+			ctx.IsDefineStatic,
 		)
 
 		return nil
@@ -214,6 +217,7 @@ func (d *Def) makeDefineArgVariables(
 				method,
 				arg[1:],
 				base.MakeObject("Proc"),
+				ctx.IsDefineStatic,
 			)
 
 			isBlockGiven = true
@@ -296,6 +300,7 @@ func (d *Def) getMethodNameAndIsStatic(
 				ctx.GetClass(),
 				ctx.GetMethod(),
 				t.ToString(),
+				ctx.IsDefineStatic,
 			)
 
 		if objectT.ID == "" {
@@ -315,6 +320,7 @@ func (d *Def) getMethodNameAndIsStatic(
 
 	if method == "initialize" {
 		method = "new"
+		isStatic = true
 	}
 
 	return method, isStatic, nil
@@ -478,6 +484,7 @@ func (d *Def) setDefineInfos(
 				ctx.GetClass(),
 				methodT.GetMethodName(),
 				definedArg,
+				methodT.IsStatic,
 			)
 
 		if definedArgT.HasDefault() && !definedArgT.IsUnionType() {
@@ -564,6 +571,7 @@ func (d *Def) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
+	ctx.IsDefineStatic = isStatic
 	ctx.SetMethod(method)
 
 	nextT, err := p.Read()

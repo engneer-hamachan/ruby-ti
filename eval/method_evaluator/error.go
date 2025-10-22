@@ -71,6 +71,7 @@ func makeDefineArgumentInfo(
 				class,
 				m.method,
 				definedArg,
+				methodT.IsStatic,
 			)
 
 		if definedArgT.HasDefault() {

@@ -234,6 +234,7 @@ func getEvaluatedDefineArgs(
 				class,
 				m.method,
 				definedArg,
+				methodT.IsStatic,
 			)
 
 		defineArgTs = append(defineArgTs, definedArgT)

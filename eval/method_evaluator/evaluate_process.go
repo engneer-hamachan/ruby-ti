@@ -230,6 +230,7 @@ func evaluateNoUnionInstanceMethod(
 			m.ctx.GetMethod(),
 			m.objectT.ToString(),
 			returnT,
+			m.ctx.IsDefineStatic,
 		)
 	}
 
