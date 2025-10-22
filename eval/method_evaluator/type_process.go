@@ -100,9 +100,9 @@ func removeSuffix(str string) string {
 func propagationForCalledTo(
 	m *MethodEvaluator,
 	class, definedArg string,
+	methodT *base.T,
 	definedArgT *base.T,
 	argT *base.T,
-	isStatic bool,
 ) bool {
 
 	if argT.IsIdentifierType() {
@@ -112,14 +112,35 @@ func propagationForCalledTo(
 	if definedArgT == nil || definedArgT.IsIdentifierType() {
 		argT.SetIsWhenCallType(true)
 
-		base.SetValueT(
-			m.evaluatedObjectT.GetFrame(),
-			class,
-			m.method,
-			definedArg,
-			argT,
-			isStatic,
-		)
+		definedArgT :=
+			base.GetValueT(
+				methodT.GetFrame(),
+				class,
+				m.method,
+				definedArg,
+				methodT.IsStatic,
+			)
+
+		switch definedArgT {
+		case nil:
+			base.SetValueT(
+				methodT.GetFrame(),
+				methodT.DefinedClass,
+				m.method,
+				definedArg,
+				argT,
+				methodT.IsStatic,
+			)
+		default:
+			base.SetValueT(
+				m.evaluatedObjectT.GetFrame(),
+				class,
+				m.method,
+				definedArg,
+				argT,
+				methodT.IsStatic,
+			)
+		}
 
 		return true
 	}
@@ -166,14 +187,35 @@ func propagationForCalledTo(
 		unionT.SetHasDefault(definedArgT.HasDefault())
 		unionT.SetIsWhenCallType(definedArgT.IsWhenCallType())
 
-		base.SetValueT(
-			m.evaluatedObjectT.GetFrame(),
-			class,
-			m.method,
-			definedArg,
-			unionT,
-			isStatic,
-		)
+		definedArgT :=
+			base.GetValueT(
+				methodT.GetFrame(),
+				class,
+				m.method,
+				definedArg,
+				methodT.IsStatic,
+			)
+
+		switch definedArgT {
+		case nil:
+			base.SetValueT(
+				methodT.GetFrame(),
+				methodT.DefinedClass,
+				m.method,
+				definedArg,
+				unionT,
+				methodT.IsStatic,
+			)
+		default:
+			base.SetValueT(
+				m.evaluatedObjectT.GetFrame(),
+				class,
+				m.method,
+				definedArg,
+				unionT,
+				methodT.IsStatic,
+			)
+		}
 
 		return true
 	}
@@ -472,9 +514,9 @@ func checkAndPropagateArgs(
 			m,
 			class,
 			definedArg,
+			methodT,
 			definedArgT,
 			sortedArgTs[argIdx],
-			methodT.IsStatic,
 		) {
 
 			argIdx++
@@ -483,7 +525,13 @@ func checkAndPropagateArgs(
 			continue
 		}
 
-		if propagationForCaller(m, definedArgT, sortedArgTs[argIdx], methodT.IsStatic) {
+		if propagationForCaller(
+			m,
+			definedArgT,
+			sortedArgTs[argIdx],
+			methodT.IsStatic,
+		) {
+
 			argIdx++
 			defineArgIdx++
 
