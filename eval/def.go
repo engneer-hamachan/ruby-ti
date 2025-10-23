@@ -622,6 +622,24 @@ func (d *Def) setDefineInfos(
 	p.DefineInfos = append(p.DefineInfos, hint)
 }
 
+func (d *Def) prepareAndReturnRow(
+	p *parser.Parser,
+	ctx *context.Context,
+	t *base.T,
+	method string,
+	isStatic bool,
+) int {
+
+	p.LastCallT = t
+	p.ConsumeLastReturnT()
+	p.SetLastEvaluatedT(base.MakeNil())
+	p.EndParsingExpression()
+	ctx.IsDefineStatic = isStatic
+	ctx.SetMethod(method)
+
+	return p.ErrorRow
+}
+
 func (d *Def) Evaluation(
 	e *Evaluator,
 	p *parser.Parser,
@@ -634,14 +652,7 @@ func (d *Def) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
-	p.LastCallT = t
-	p.ConsumeLastReturnT()
-	p.SetLastEvaluatedT(base.MakeNil())
-	p.EndParsingExpression()
-	defineRow := p.ErrorRow
-
-	ctx.IsDefineStatic = isStatic
-	ctx.SetMethod(method)
+	defineRow := d.prepareAndReturnRow(p, &ctx, t, method, isStatic)
 
 	nextT, err := p.Read()
 	if err != nil {
