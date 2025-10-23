@@ -560,16 +560,16 @@ func (d *Def) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)
+	if err != nil {
+		p.Fatal(ctx, err)
+	}
+
 	p.LastCallT = t
 	p.ConsumeLastReturnT()
 	p.SetLastEvaluatedT(base.MakeNil())
 	p.EndParsingExpression()
 	defineRow := p.ErrorRow
-
-	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)
-	if err != nil {
-		p.Fatal(ctx, err)
-	}
 
 	ctx.IsDefineStatic = isStatic
 	ctx.SetMethod(method)
@@ -581,7 +581,15 @@ func (d *Def) Evaluation(
 
 	// def hoge = 1
 	if nextT.IsEqualIdentifier() && nextT.IsBeforeSpace {
-		return d.endlessDefinition(e, p, ctx, method, []string{}, isStatic, defineRow)
+		return d.endlessDefinition(
+			e,
+			p,
+			ctx,
+			method,
+			[]string{},
+			isStatic,
+			defineRow,
+		)
 	}
 
 	var args []string
