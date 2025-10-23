@@ -658,7 +658,14 @@ func (d *Def) Evaluation(
 			break
 		}
 
-		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, defineRow)
+		base.SetMethodT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			methodT,
+			ctx.IsPrivate,
+			p.FileName,
+			defineRow,
+		)
 	}
 
 	if ctx.IsCheckRound() {

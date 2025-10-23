@@ -44,7 +44,8 @@ func appendSignature(frame, class string, methodT *T, isStatic bool, fileName st
 			darg = removeSuffix(darg)
 		}
 
-		dargT := GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
+		dargT :=
+			GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
 
 		if dargT.HasDefault() {
 			args += `optional `
@@ -78,6 +79,10 @@ func appendSignature(frame, class string, methodT *T, isStatic bool, fileName st
 
 	sig := Sig{methodT.GetMethodName(), info, frame, class, isStatic, fileName, row}
 	key := frame + class + methodT.method
+
+	if isStatic {
+		key += "static"
+	}
 
 	TSignatures[key] = sig
 
