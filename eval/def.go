@@ -419,18 +419,9 @@ func (d *Def) endlessDefinition(
 
 	returnT := p.GetLastEvaluatedT()
 
-	methodT := base.MakeMethod(ctx.GetFrame(), method, returnT, args)
-	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
+	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, false)
 
-	p.ClearTmpBlockParameters()
-
-	switch isStatic {
-	case true:
-		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, row)
-
-	default:
-		base.SetMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, row)
-	}
+	d.setDefineMethodT(p, ctx, methodT, isStatic, row)
 
 	return nil
 }
@@ -445,6 +436,84 @@ func isAsteriskPrefix(str string) bool {
 
 func removeSuffix(str string) string {
 	return str[:len(str)-1]
+}
+
+func (d *Def) makeDefineMethodT(
+	p *parser.Parser,
+	ctx context.Context,
+	method string,
+	args []string,
+	returnT base.T,
+	isBlockGiven bool,
+) *base.T {
+
+	var methodT *base.T
+
+	switch returnT.GetType() {
+	case base.OBJECT:
+		methodT = base.MakeMethod(returnT.GetFrame(), method, returnT, args)
+
+	default:
+		methodT = base.MakeMethod(ctx.GetFrame(), method, returnT, args)
+	}
+
+	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
+	methodT.IsProtected = ctx.IsProtected
+	methodT.DefinedFrame = ctx.GetFrame()
+	methodT.DefinedClass = ctx.GetClass()
+	methodT.IsStatic = ctx.IsDefineStatic
+
+	if isBlockGiven {
+		methodT.IsBlockGiven = isBlockGiven
+		methodT.SetBlockParamaters([]base.T{*base.MakeUntyped()})
+	}
+
+	p.ClearTmpBlockParameters()
+
+	return methodT
+}
+
+func (d *Def) setDefineMethodT(
+	p *parser.Parser,
+	ctx context.Context,
+	methodT *base.T,
+	isStatic bool,
+	defineRow int,
+) {
+
+	switch isStatic {
+	case true:
+		base.SetClassMethodT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			methodT,
+			ctx.IsPrivate,
+			p.FileName,
+			defineRow,
+		)
+
+	default:
+		// this proccess for not instance variable override check
+		t :=
+			base.GetInstanceValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				methodT.GetMethodName(),
+			)
+
+		if t.IsBeforeEvaluateAtmarkPrefix() && methodT.IsIdentifierType() {
+			break
+		}
+
+		base.SetMethodT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			methodT,
+			ctx.IsPrivate,
+			p.FileName,
+			defineRow,
+		)
+	}
 }
 
 func (d *Def) setDefineInfos(
@@ -632,49 +701,9 @@ func (d *Def) Evaluation(
 		returnT = d.getLastEvaluatedTWhenDefineMethod(e, p, ctx)
 	}
 
-	var methodT *base.T
+	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, isBlockGiven)
 
-	switch returnT.GetType() {
-	case base.OBJECT:
-		methodT = base.MakeMethod(returnT.GetFrame(), method, returnT, args)
-
-	default:
-		methodT = base.MakeMethod(ctx.GetFrame(), method, returnT, args)
-	}
-
-	methodT.SetBlockParamaters(p.GetTmpBlockParameters())
-	methodT.IsProtected = ctx.IsProtected
-	methodT.DefinedFrame = ctx.GetFrame()
-	methodT.DefinedClass = ctx.GetClass()
-	methodT.IsStatic = ctx.IsDefineStatic
-
-	if isBlockGiven {
-		methodT.IsBlockGiven = isBlockGiven
-		methodT.SetBlockParamaters([]base.T{*base.MakeUntyped()})
-	}
-
-	p.ClearTmpBlockParameters()
-
-	switch isStatic {
-	case true:
-		base.SetClassMethodT(ctx.GetFrame(), ctx.GetClass(), methodT, ctx.IsPrivate, p.FileName, defineRow)
-
-	default:
-		// this proccess for not instance variable override check
-		t = base.GetInstanceValueT(ctx.GetFrame(), ctx.GetClass(), method)
-		if t != nil && t.IsBeforeEvaluateAtmarkPrefix() && methodT.IsIdentifierType() {
-			break
-		}
-
-		base.SetMethodT(
-			ctx.GetFrame(),
-			ctx.GetClass(),
-			methodT,
-			ctx.IsPrivate,
-			p.FileName,
-			defineRow,
-		)
-	}
+	d.setDefineMethodT(p, ctx, methodT, isStatic, defineRow)
 
 	if ctx.IsCheckRound() {
 		d.setDefineInfos(p, ctx, methodT, isStatic, defineRow)
