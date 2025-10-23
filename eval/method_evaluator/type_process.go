@@ -529,7 +529,7 @@ func checkAndPropagateArgs(
 			m,
 			definedArgT,
 			sortedArgTs[argIdx],
-			methodT.IsStatic,
+			m.ctx.IsDefineStatic,
 		) {
 
 			argIdx++

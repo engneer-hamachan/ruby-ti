@@ -638,6 +638,7 @@ func (d *Def) Evaluation(
 	methodT.IsProtected = ctx.IsProtected
 	methodT.DefinedFrame = ctx.GetFrame()
 	methodT.DefinedClass = ctx.GetClass()
+	methodT.IsStatic = ctx.IsDefineStatic
 
 	if isBlockGiven {
 		methodT.IsBlockGiven = isBlockGiven
