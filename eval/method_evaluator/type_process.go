@@ -480,10 +480,8 @@ func checkAndPropagateArgs(
 				sortedArgTs[argIdx] = sortedArgTs[argIdx].GetKeyValue()
 
 			default:
-				if definedArgT.HasDefault() {
-					defineArgIdx++
-					continue
-				}
+				defineArgIdx++
+				continue
 			}
 		}
 

@@ -6,12 +6,13 @@ import (
 	"testing"
 )
 
-func Test3b738b47(t *testing.T) {
-	cmd := exec.Command("../ti", "./3b738b47.rb")
+func Test00bf932e(t *testing.T) {
+	cmd := exec.Command("../ti", "./00bf932e.rb")
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./3b738b47.rb:::4:::type mismatch: expected Union<Integer Float>, but got Nil for Integer.+\n./3b738b47.rb:::7:::Integer is extra argument"
+	expectedOutput := `./00bf932e.rb:::15:::Unknown
+./00bf932e.rb:::18:::x: is not defined expected (x: ?, y: Integer)`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
