@@ -30,17 +30,15 @@ func (d *Def) bindDefaultKeywordArgs(
 		return argVariables, false, err
 	}
 
-	if nextT.IsNewLineIdentifier() {
-		if ctx.IsCollectRound() {
-			base.SetValueT(
-				ctx.GetFrame(),
-				ctx.GetClass(),
-				ctx.GetMethod(),
-				argT.ToRemoveSuffixString(),
-				base.MakeUnknown(),
-				ctx.IsDefineStatic,
-			)
-		}
+	if nextT.IsNewLineIdentifier() || nextT.IsCommaIdentifier() || nextT.IsCloseParentheses() {
+		base.SetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			argT.ToRemoveSuffixString(),
+			base.MakeUnknown(),
+			ctx.IsDefineStatic,
+		)
 
 		argVariables = append(argVariables, argT.ToString())
 
@@ -696,6 +694,27 @@ func (d *Def) Evaluation(
 
 	p.Unget()
 
+	// collect
+	base.TmpTFrame = make(map[base.PubFrameKey]base.T)
+
+	for _, arg := range args {
+		currentT :=
+			base.GetValueT(ctx.GetFrame(), ctx.GetClass(), method, arg, isStatic)
+
+		if currentT != nil {
+			pubFrameKey :=
+				base.PubFrameKey{
+					Frame:          ctx.GetFrame(),
+					TargetClass:    ctx.GetClass(),
+					TargetMethod:   method,
+					TargetVariable: arg,
+					IsStatic:       isStatic,
+				}
+
+			base.TmpTFrame[pubFrameKey] = *currentT
+		}
+	}
+
 	err = d.evaluationBody(e, p, ctx)
 	if err != nil && ctx.IsCheckRound() {
 		p.Fatal(ctx, err)
@@ -715,6 +734,18 @@ func (d *Def) Evaluation(
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, isBlockGiven)
 
 	d.setDefineMethodT(p, ctx, methodT, isStatic, defineRow)
+
+	// restore
+	for key, currentT := range base.TmpTFrame {
+		base.SetValueT(
+			key.Frame,
+			key.TargetClass,
+			key.TargetMethod,
+			key.TargetVariable,
+			&currentT,
+			currentT.IsStatic,
+		)
+	}
 
 	if ctx.IsCheckRound() {
 		d.setDefineInfos(p, ctx, methodT, isStatic, defineRow)

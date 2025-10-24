@@ -5,6 +5,7 @@ import (
 )
 
 var TFrame = make(map[FrameKey]*T)
+var TmpTFrame = make(map[PubFrameKey]T)
 
 func DeepCopyTFrame() map[FrameKey]*T {
 	copied := make(map[FrameKey]*T)

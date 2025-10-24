@@ -510,6 +510,19 @@ func checkAndPropagateArgs(
 			break
 		}
 
+		if definedArgT != nil {
+			pubFrameKey :=
+				base.PubFrameKey{
+					Frame:          m.ctx.GetFrame(),
+					TargetClass:    m.ctx.GetClass(),
+					TargetMethod:   m.ctx.GetMethod(),
+					TargetVariable: sortedArgTs[argIdx].GetBeforeEvaluateCode(),
+					IsStatic:       m.ctx.IsDefineStatic,
+				}
+
+			base.TmpTFrame[pubFrameKey] = *definedArgT
+		}
+
 		if propagationForCalledTo(
 			m,
 			class,
