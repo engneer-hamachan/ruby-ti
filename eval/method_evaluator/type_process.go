@@ -518,7 +518,11 @@ func checkAndPropagateArgs(
 					IsStatic:       m.ctx.IsDefineStatic,
 				}
 
-			base.TmpTFrame[pubFrameKey] = *definedArgT
+			tmpT := sortedArgTs[argIdx].DeepCopy()
+			tmpT.SetHasDefault(definedArgT.HasDefault())
+			tmpT.SetIsWhenCallType(definedArgT.IsWhenCallType())
+
+			base.TmpTFrame[pubFrameKey] = *tmpT
 		}
 
 		if propagationForCalledTo(
