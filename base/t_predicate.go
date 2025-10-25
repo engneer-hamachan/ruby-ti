@@ -303,8 +303,23 @@ func (t *T) IsKeyValueType() bool {
 }
 
 func (t *T) IsMatchType(targetT *T) bool {
-	return t.tType == targetT.tType
+	if t.IsUnionType() && targetT.IsUnionType() {
+		targetTypes := targetT.GetVariantTypes()
 
+		for _, variantT := range t.variants {
+			if variantT.IsAnyType() {
+				continue
+			}
+
+			if !slices.Contains(targetTypes, variantT.tType) {
+				return false
+			}
+		}
+
+		return true
+	}
+
+	return t.tType == targetT.tType
 }
 
 func (t *T) IsMatchUnionType(targetT *T) bool {

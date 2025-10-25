@@ -11,7 +11,7 @@ func TestE0710e5f(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := ""
+	expectedOutput := "./e0710e5f.rb:::2:::type mismatch: expected Union<Integer Float>, but got Union<Integer String Array<untyped>> for Integer.+"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
