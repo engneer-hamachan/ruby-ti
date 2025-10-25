@@ -305,13 +305,24 @@ func (t *T) IsKeyValueType() bool {
 func (t *T) IsMatchType(targetT *T) bool {
 	if t.IsUnionType() && targetT.IsUnionType() {
 		targetTypes := targetT.GetVariantTypes()
+		tTypes := t.GetVariantTypes()
 
-		for _, variantT := range t.variants {
-			if variantT.IsAnyType() {
+		for _, tType := range tTypes {
+			if tType == UNTYPED {
 				continue
 			}
 
-			if !slices.Contains(targetTypes, variantT.tType) {
+			if !slices.Contains(targetTypes, tType) {
+				return false
+			}
+		}
+
+		for _, targetType := range targetTypes {
+			if targetType == UNTYPED {
+				continue
+			}
+
+			if !slices.Contains(tTypes, targetType) {
 				return false
 			}
 		}

@@ -508,7 +508,7 @@ func checkAndPropagateArgs(
 			break
 		}
 
-		if sortedArgTs[argIdx] != nil && methodT.GetFrame() != "Builtin" {
+		if definedArgT != nil {
 			pubFrameKey :=
 				base.PubFrameKey{
 					Frame:          m.ctx.GetFrame(),
@@ -518,8 +518,12 @@ func checkAndPropagateArgs(
 					IsStatic:       m.ctx.IsDefineStatic,
 				}
 
-			tmpT := *sortedArgTs[argIdx]
-			tmpT = *definedArgT
+			tmpT := *definedArgT.DeepCopy()
+			tmpT.SetHasDefault(sortedArgTs[argIdx].HasDefault())
+
+			if sortedArgTs[argIdx].HasDefault() {
+				tmpT.AppendVariant(*sortedArgTs[argIdx])
+			}
 
 			base.TmpTFrame[pubFrameKey] = tmpT
 		}
