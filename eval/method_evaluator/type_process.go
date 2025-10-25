@@ -508,7 +508,7 @@ func checkAndPropagateArgs(
 			break
 		}
 
-		if definedArgT != nil {
+		if sortedArgTs[argIdx] != nil && methodT.GetFrame() != "Builtin" {
 			pubFrameKey :=
 				base.PubFrameKey{
 					Frame:          m.ctx.GetFrame(),
@@ -518,11 +518,10 @@ func checkAndPropagateArgs(
 					IsStatic:       m.ctx.IsDefineStatic,
 				}
 
-			tmpT := sortedArgTs[argIdx].DeepCopy()
-			tmpT.SetHasDefault(definedArgT.HasDefault())
-			tmpT.SetIsWhenCallType(definedArgT.IsWhenCallType())
+			tmpT := *sortedArgTs[argIdx]
+			tmpT = *definedArgT
 
-			base.TmpTFrame[pubFrameKey] = *tmpT
+			base.TmpTFrame[pubFrameKey] = tmpT
 		}
 
 		if propagationForCalledTo(
