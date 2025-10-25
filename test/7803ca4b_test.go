@@ -11,7 +11,7 @@ func Test7803ca4b(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := ""
+	expectedOutput := "./7803ca4b.rb:::11:::type mismatch: expected Union<Integer Float>, but got Union<Integer String> for Integer.+"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
