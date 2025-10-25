@@ -508,18 +508,19 @@ func checkAndPropagateArgs(
 			break
 		}
 
-		if definedArgT != nil {
+		if definedArgT != nil && sortedArgTs[argIdx].IsIdentifierType() {
 			pubFrameKey :=
 				base.PubFrameKey{
 					Frame:          m.ctx.GetFrame(),
 					TargetClass:    m.ctx.GetClass(),
 					TargetMethod:   m.ctx.GetMethod(),
-					TargetVariable: sortedArgTs[argIdx].GetBeforeEvaluateCode(),
+					TargetVariable: sortedArgTs[argIdx].ToString(),
 					IsStatic:       m.ctx.IsDefineStatic,
 				}
 
 			tmpT := *definedArgT.DeepCopy()
 			tmpT.SetHasDefault(sortedArgTs[argIdx].HasDefault())
+			tmpT.SetIsWhenCallType(sortedArgTs[argIdx].IsWhenCallType())
 
 			if sortedArgTs[argIdx].HasDefault() {
 				tmpT.AppendVariant(*sortedArgTs[argIdx])

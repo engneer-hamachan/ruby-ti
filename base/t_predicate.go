@@ -337,17 +337,26 @@ func (t *T) IsMatchUnionType(targetT *T) bool {
 	switch targetT.tType {
 	case UNION:
 		targetTypes := targetT.GetVariantTypes()
+		tTypes := t.GetVariantTypes()
 
-		for _, candidateType := range t.GetVariantTypes() {
-			if candidateType == UNTYPED {
-				return true
-			}
-
-			if slices.Contains(targetTypes, candidateType) {
+		for _, tType := range tTypes {
+			if tType == UNTYPED {
 				continue
 			}
 
-			return false
+			if !slices.Contains(targetTypes, tType) {
+				return false
+			}
+		}
+
+		for _, targetType := range targetTypes {
+			if targetType == UNTYPED {
+				continue
+			}
+
+			if !slices.Contains(tTypes, targetType) {
+				return false
+			}
 		}
 
 		return true
