@@ -30,15 +30,17 @@ func (d *Def) bindDefaultKeywordArgs(
 		return argVariables, false, err
 	}
 
-	if nextT.IsNewLineIdentifier() || nextT.IsCommaIdentifier() || nextT.IsCloseParentheses() {
-		base.SetValueT(
-			ctx.GetFrame(),
-			ctx.GetClass(),
-			ctx.GetMethod(),
-			argT.ToRemoveSuffixString(),
-			base.MakeUnknown(),
-			ctx.IsDefineStatic,
-		)
+	if nextT.IsNewLineIdentifier() {
+		if ctx.IsCollectRound() {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				argT.ToRemoveSuffixString(),
+				base.MakeUnknown(),
+				ctx.IsDefineStatic,
+			)
+		}
 
 		argVariables = append(argVariables, argT.ToString())
 
