@@ -521,12 +521,16 @@ func checkAndPropagateArgs(
 			tmpT := *definedArgT.DeepCopy()
 			tmpT.SetHasDefault(sortedArgTs[argIdx].HasDefault())
 			tmpT.SetIsWhenCallType(sortedArgTs[argIdx].IsWhenCallType())
+			tmpT.SetBeforeEvaluateCode(sortedArgTs[argIdx].ToString())
 
 			if sortedArgTs[argIdx].HasDefault() {
 				tmpT.AppendVariant(*sortedArgTs[argIdx])
 			}
 
-			base.TmpTFrame[pubFrameKey] = tmpT
+			_, ok := base.TmpTFrame[pubFrameKey]
+			if ok {
+				base.TmpTFrame[pubFrameKey] = tmpT
+			}
 		}
 
 		if propagationForCalledTo(
