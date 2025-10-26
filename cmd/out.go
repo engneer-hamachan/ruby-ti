@@ -95,6 +95,7 @@ func printInheritance(child, parent base.ClassNode) {
 		child.Class + separator +
 		parent.Frame + separator +
 		parent.Class
+
 	fmt.Println(line)
 }
 

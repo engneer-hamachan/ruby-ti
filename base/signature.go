@@ -46,15 +46,13 @@ func GetSortedTSignatures() []Sig {
 	return sortedSignatures
 }
 
-func appendSignature(
+func MakeSignatureContent(
+	prefix string,
 	frame, class string,
 	methodT *T,
-	isStatic bool,
-	fileName string,
-	row int,
-) {
+) string {
 
-	info := methodT.method
+	content := prefix
 	var args string
 
 	args += "("
@@ -92,29 +90,52 @@ func appendSignature(
 	}
 
 	args += ")"
-	info += args
+	content += args
 
 	if methodT.IsBlockGiven {
-		info += " <block_params: "
+		content += " <block_params: "
 
-		snapShot := info
+		snapShot := content
 
 		for _, variant := range methodT.GetBlockParameters() {
-			if snapShot != info {
-				info += ", "
+			if snapShot != content {
+				content += ", "
 			}
 
-			info += TypeToString(&variant)
+			content += TypeToString(&variant)
 		}
 
-		info += ">"
+		content += ">"
 	}
 
-	info += " -> "
-	info += TypeToString(methodT)
+	content += " -> "
+
+	switch methodT.GetType() {
+	case UNION:
+		content += UnionTypeToString(methodT.GetVariants())
+
+	case UNKNOWN:
+		content += "?"
+
+	default:
+		content += TypeToString(methodT)
+	}
+
+	return content
+}
+
+func appendSignature(
+	frame, class string,
+	methodT *T,
+	isStatic bool,
+	fileName string,
+	row int,
+) {
+
+	content := MakeSignatureContent(methodT.method, frame, class, methodT)
 
 	sig :=
-		Sig{methodT.GetMethodName(), info, frame, class, isStatic, fileName, row}
+		Sig{methodT.GetMethodName(), content, frame, class, isStatic, fileName, row}
 
 	key := frame + class + methodT.method
 

@@ -426,18 +426,6 @@ func (d *Def) endlessDefinition(
 	return nil
 }
 
-func isKeySuffix(str string) bool {
-	return str[len(str)-1:] == ":" && len(str) >= 2
-}
-
-func isAsteriskPrefix(str string) bool {
-	return str[0] == '*'
-}
-
-func removeSuffix(str string) string {
-	return str[:len(str)-1]
-}
-
 func (d *Def) makeDefineMethodT(
 	p *parser.Parser,
 	ctx context.Context,
@@ -524,114 +512,39 @@ func (d *Def) setDefineInfos(
 	defineRow int,
 ) {
 
-	var hint string
+	var prefix string
 
-	hint += "@"
-	hint += p.FileName + ":::"
-	hint += fmt.Sprintf("%d", defineRow)
-	hint += ":::"
+	prefix += "@"
+	prefix += p.FileName + ":::"
+	prefix += fmt.Sprintf("%d", defineRow)
+	prefix += ":::"
 
-	argumentTypes := "("
+	content :=
+		base.MakeSignatureContent(prefix, ctx.GetFrame(), ctx.GetClass(), methodT)
 
-	for _, definedArg := range methodT.GetDefineArgs() {
-		if argumentTypes != "(" {
-			argumentTypes += ", "
-		}
-
-		if isKeySuffix(definedArg) {
-			argumentTypes += definedArg + " "
-			definedArg = removeSuffix(definedArg)
-		}
-
-		if isAsteriskPrefix(definedArg) {
-			argumentTypes += "*"
-		}
-
-		definedArgT :=
-			base.GetValueT(
-				methodT.GetFrame(),
-				ctx.GetClass(),
-				methodT.GetMethodName(),
-				definedArg,
-				methodT.IsStatic,
-			)
-
-		if definedArgT.HasDefault() && !definedArgT.IsUnionType() {
-			argumentTypes += "?"
-		}
-
-		if isAsteriskPrefix(definedArg) {
-			definedArgT = definedArgT.UnifyVariants()
-		}
-
-		switch definedArgT.GetType() {
-		case base.UNION:
-			argumentTypes += base.UnionTypeToString(definedArgT.GetVariants())
-
-		case base.UNKNOWN:
-			argumentTypes += "?"
-
-		default:
-			argumentTypes += base.TypeToString(definedArgT)
-		}
-	}
-
-	argumentTypes += ")"
-
-	hint += argumentTypes
-
-	if methodT.IsBlockGiven {
-		hint += " <block_params: "
-
-		snapShot := hint
-
-		for _, variant := range methodT.GetBlockParameters() {
-			if snapShot != hint {
-				hint += ", "
-			}
-
-			hint += base.TypeToString(&variant)
-		}
-
-		hint += ">"
-	}
-
-	hint += " -> "
-
-	switch methodT.GetType() {
-	case base.UNION:
-		hint += base.UnionTypeToString(methodT.GetVariants())
-
-	case base.UNKNOWN:
-		hint += "?"
-
-	default:
-		hint += base.TypeToString(methodT)
-	}
-
-	hint += " ["
+	content += " ["
 
 	switch isStatic {
 	case true:
-		hint += "c/"
+		content += "c/"
 	default:
-		hint += "i/"
+		content += "i/"
 	}
 
 	readable := [2]bool{ctx.IsPrivate, ctx.IsProtected}
 
 	switch readable {
 	case [2]bool{true, false}:
-		hint += "private"
+		content += "private"
 	case [2]bool{false, true}:
-		hint += "protected"
+		content += "protected"
 	case [2]bool{false, false}:
-		hint += "public"
+		content += "public"
 	}
 
-	hint += "]"
+	content += "]"
 
-	p.DefineInfos = append(p.DefineInfos, hint)
+	p.DefineInfos = append(p.DefineInfos, content)
 }
 
 func (d *Def) prepareAndReturnRow(
