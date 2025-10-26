@@ -581,7 +581,19 @@ func (d *Def) setDefineInfos(
 	hint += argumentTypes
 
 	if methodT.IsBlockGiven {
-		hint += " <is_block_given: true>"
+		hint += " <block_params: "
+
+		snapShot := hint
+
+		for _, variant := range methodT.GetBlockParameters() {
+			if snapShot != hint {
+				hint += ", "
+			}
+
+			hint += base.TypeToString(&variant)
+		}
+
+		hint += ">"
 	}
 
 	hint += " -> "

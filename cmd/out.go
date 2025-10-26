@@ -167,6 +167,10 @@ func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
 
 	objectFrame := p.LspSudjestTargetT.GetFrame()
 
+	if objectFrame == "" && slices.Contains(base.BuiltinClasses, objectClass) {
+		objectFrame = "Builtin"
+	}
+
 	return isParentClass(sig.Frame, sig.Class, objectFrame, objectClass)
 }
 

@@ -30,7 +30,14 @@ func removeSuffix(str string) string {
 	return str[:len(str)-1]
 }
 
-func appendSignature(frame, class string, methodT *T, isStatic bool, fileName string, row int) {
+func appendSignature(
+	frame, class string,
+	methodT *T,
+	isStatic bool,
+	fileName string,
+	row int,
+) {
+
 	info := methodT.method
 	var args string
 
@@ -90,7 +97,9 @@ func appendSignature(frame, class string, methodT *T, isStatic bool, fileName st
 	info += " -> "
 	info += TypeToString(methodT)
 
-	sig := Sig{methodT.GetMethodName(), info, frame, class, isStatic, fileName, row}
+	sig :=
+		Sig{methodT.GetMethodName(), info, frame, class, isStatic, fileName, row}
+
 	key := frame + class + methodT.method
 
 	if isStatic {
