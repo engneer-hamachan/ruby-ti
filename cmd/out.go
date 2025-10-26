@@ -39,7 +39,7 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 }
 
 func PrintSuggestionsForLsp(p parser.Parser) {
-	sortedSignatures := sortSignatures(base.TSignatures)
+	sortedSignatures := base.GetSortedTSignatures()
 
 	for _, sig := range sortedSignatures {
 		objectClass := p.LspSudjestTargetT.GetObjectClass()
@@ -56,37 +56,6 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 			printSuggestion(sig.Method, sig.Detail)
 		}
 	}
-}
-
-func sortSignatures(signatures map[string]base.Sig) []base.Sig {
-	sortedSignatures := make([]base.Sig, 0, len(signatures))
-	for _, sig := range signatures {
-		sortedSignatures = append(sortedSignatures, sig)
-	}
-
-	slices.SortFunc(sortedSignatures, func(a, b base.Sig) int {
-		if a.Method != b.Method {
-			if a.Method < b.Method {
-				return -1
-			}
-			return 1
-		}
-		if a.Class != b.Class {
-			if a.Class < b.Class {
-				return -1
-			}
-			return 1
-		}
-		if a.Frame < b.Frame {
-			return -1
-		}
-		if a.Frame > b.Frame {
-			return 1
-		}
-		return 0
-	})
-
-	return sortedSignatures
 }
 
 func printDefinitionTarget(frame, class string) {
