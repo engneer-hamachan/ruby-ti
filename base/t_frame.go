@@ -72,7 +72,19 @@ func appendSignature(frame, class string, methodT *T, isStatic bool, fileName st
 	info += args
 
 	if methodT.IsBlockGiven {
-		info += " <is_block_given: true>"
+		info += " <block_params: "
+
+		snapShot := info
+
+		for _, variant := range methodT.GetBlockParameters() {
+			if snapShot != info {
+				info += ", "
+			}
+
+			info += TypeToString(&variant)
+		}
+
+		info += ">"
 	}
 
 	info += " -> "
