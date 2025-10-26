@@ -29,7 +29,11 @@ func PrintAllErrorsForPlugin(p parser.Parser) {
 }
 
 func PrintAllDefinitionsForLsp(p parser.Parser) {
-	printDefinitionTarget(p.LspSudjestTargetT.DefinedFrame, p.LspSudjestTargetT.DefinedClass)
+	printDefinitionTarget(
+		p.LspSudjestTargetT.DefinedFrame,
+		p.LspSudjestTargetT.DefinedClass,
+	)
+
 	printMatchingSignatures(p)
 	printInheritanceMap()
 }
@@ -150,6 +154,10 @@ func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
 	}
 
 	if sig.Class == "" {
+		return false
+	}
+
+	if sig.Class == "Kernel" {
 		return false
 	}
 
