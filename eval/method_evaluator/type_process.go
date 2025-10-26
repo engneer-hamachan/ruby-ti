@@ -247,7 +247,7 @@ func propagationForCaller(
 		m.ctx.GetClass(),
 		m.ctx.GetMethod(),
 		argT.ToString(),
-		definedArgT,
+		definedArgT.DeepCopy(),
 		isStatic,
 	)
 
