@@ -4,6 +4,7 @@ bin
 sample**.rb
 test.rb
 CLAUDE.md
+CLAUDE_ja.md
 todo.md
 **/*.rbs
 rbs_test/*
