@@ -140,7 +140,7 @@ func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
 	case "Integer":
 		tmp = "integer"
 	case "Float":
-		tmp = "Float"
+		tmp = "float"
 	case "Unknown":
 		tmp = "unknown"
 	}
