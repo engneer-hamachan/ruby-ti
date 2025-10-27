@@ -61,10 +61,6 @@ func makeDefineArgumentInfo(
 			definedArg = removeSuffix(definedArg)
 		}
 
-		if isAsteriskPrefix(definedArg) {
-			argumentTypes += "*"
-		}
-
 		definedArgT :=
 			base.GetValueT(
 				methodT.GetFrame(),
@@ -74,24 +70,7 @@ func makeDefineArgumentInfo(
 				methodT.IsStatic,
 			)
 
-		if definedArgT.HasDefault() {
-			argumentTypes += "?"
-		}
-
-		if isAsteriskPrefix(definedArg) {
-			definedArgT = definedArgT.UnifyVariants()
-		}
-
-		switch definedArgT.GetType() {
-		case base.UNION:
-			argumentTypes += base.UnionTypeToString(definedArgT.GetVariants())
-
-		case base.UNKNOWN:
-			argumentTypes += "?"
-
-		default:
-			argumentTypes += base.TypeToString(definedArgT)
-		}
+		argumentTypes += base.TypeToStringForSignature(definedArgT)
 	}
 
 	argumentTypes += ")"
