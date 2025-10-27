@@ -50,7 +50,7 @@ func TypeToStringForSignature(t *T) string {
 	var content string
 
 	if t.HasDefault() {
-		content += `?`
+		content += "optional "
 	}
 
 	if t.IsAsteriskPrefix() {
@@ -59,7 +59,7 @@ func TypeToStringForSignature(t *T) string {
 
 	switch t.GetType() {
 	case UNKNOWN:
-		content += "?"
+		content += "unknown"
 
 	default:
 		content += TypeToString(t)
