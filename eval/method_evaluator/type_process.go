@@ -125,7 +125,7 @@ func propagationForCalledTo(
 			)
 		default:
 			base.SetValueT(
-				m.evaluatedObjectT.GetFrame(),
+				methodT.GetFrame(),
 				class,
 				m.method,
 				definedArg,
