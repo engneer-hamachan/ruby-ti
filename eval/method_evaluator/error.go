@@ -56,9 +56,9 @@ func makeDefineArgumentInfo(
 			argumentTypes += ", "
 		}
 
-		if isKeySuffix(definedArg) {
+		if base.IsKeySuffix(definedArg) {
 			argumentTypes += definedArg + " "
-			definedArg = removeSuffix(definedArg)
+			definedArg = base.RemoveSuffix(definedArg)
 		}
 
 		definedArgT :=

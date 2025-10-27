@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// String conversion functions
+// String utility functions
 func (t *T) ToString() string {
 	if t == nil {
 		return ""
@@ -25,6 +25,14 @@ func (t *T) ToString() string {
 
 func (t *T) ToRemoveSuffixString() string {
 	return t.ToString()[:len(t.ToString())-1]
+}
+
+func IsKeySuffix(str string) bool {
+	return str[len(str)-1:] == ":" && len(str) >= 2
+}
+
+func RemoveSuffix(str string) string {
+	return str[:len(str)-1]
 }
 
 // Type conversion functions

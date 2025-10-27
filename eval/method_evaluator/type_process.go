@@ -5,10 +5,6 @@ import (
 	"ti/base"
 )
 
-func isKeySuffix(str string) bool {
-	return str[len(str)-1:] == ":" && len(str) >= 2
-}
-
 func isAsteriskPrefix(str string) bool {
 	return str[0] == '*'
 }
@@ -91,10 +87,6 @@ func isNotDefineNamedArgError(
 	}
 
 	return true
-}
-
-func removeSuffix(str string) string {
-	return str[:len(str)-1]
 }
 
 func propagationForCalledTo(
@@ -413,10 +405,10 @@ func checkAndPropagateArgs(
 		}
 
 		//a:
-		isKeyTypeDefineArg := isKeySuffix(definedArg)
+		isKeyTypeDefineArg := base.IsKeySuffix(definedArg)
 
 		if isKeyTypeDefineArg {
-			definedArg = removeSuffix(definedArg)
+			definedArg = base.RemoveSuffix(definedArg)
 		}
 
 		definedArgT :=

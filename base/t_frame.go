@@ -22,14 +22,6 @@ func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 	}
 }
 
-func isKeySuffix(str string) bool {
-	return str[len(str)-1:] == ":" && len(str) >= 2
-}
-
-func removeSuffix(str string) string {
-	return str[:len(str)-1]
-}
-
 func SetClassMethodT(
 	frame string,
 	class string,

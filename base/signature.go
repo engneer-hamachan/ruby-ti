@@ -84,9 +84,9 @@ func MakeSignatureContent(
 			args += ", "
 		}
 
-		if isKeySuffix(darg) {
+		if IsKeySuffix(darg) {
 			args += darg + " "
-			darg = removeSuffix(darg)
+			darg = RemoveSuffix(darg)
 		}
 
 		dargT :=
