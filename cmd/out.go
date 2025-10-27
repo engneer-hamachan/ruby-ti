@@ -141,28 +141,22 @@ func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
 		objectFrame = "Builtin"
 	}
 
-	return isParentClass(sig.Frame, sig.Class, objectFrame, objectClass)
+	return isParentClass(sig, objectFrame, objectClass)
 }
 
-func isParentClass(
-	sigFrame,
-	sigClass,
-	frame,
-	class string,
-) bool {
-
-	if sigFrame == frame && sigClass == class {
+func isParentClass(sig base.Sig, frame, class string) bool {
+	if sig.Frame == frame && sig.Class == class {
 		return true
 	}
 
 	classNode := base.ClassNode{Frame: frame, Class: class}
 
 	for _, parentNode := range base.ClassInheritanceMap[classNode] {
-		if parentNode.Class == sigFrame && parentNode.Frame == sigClass {
+		if parentNode.Class == sig.Frame && parentNode.Frame == sig.Class {
 			return true
 		}
 
-		if isParentClass(sigFrame, sigClass, parentNode.Frame, parentNode.Class) {
+		if isParentClass(sig, parentNode.Frame, parentNode.Class) {
 			return true
 		}
 	}
