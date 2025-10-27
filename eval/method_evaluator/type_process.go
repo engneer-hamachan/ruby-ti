@@ -501,12 +501,18 @@ func checkAndPropagateArgs(
 		}
 
 		if definedArgT != nil && sortedArgTs[argIdx].IsIdentifierType() {
+			tmpArg := sortedArgTs[argIdx].ToString()
+
+			if tmpArg == "unknown" {
+				tmpArg = sortedArgTs[argIdx].GetBeforeEvaluateCode()
+			}
+
 			pubFrameKey :=
 				base.PubFrameKey{
 					Frame:          m.ctx.GetFrame(),
 					TargetClass:    m.ctx.GetClass(),
 					TargetMethod:   m.ctx.GetMethod(),
-					TargetVariable: sortedArgTs[argIdx].ToString(),
+					TargetVariable: tmpArg,
 					IsStatic:       m.ctx.IsDefineStatic,
 				}
 

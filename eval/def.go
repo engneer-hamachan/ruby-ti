@@ -625,6 +625,10 @@ func (d *Def) Evaluation(
 	base.TmpTFrame = make(map[base.PubFrameKey]base.T)
 
 	for _, arg := range args {
+		if base.IsKeySuffix(arg) {
+			arg = base.RemoveSuffix(arg)
+		}
+
 		currentT :=
 			base.GetValueT(ctx.GetFrame(), ctx.GetClass(), method, arg, isStatic)
 
@@ -670,7 +674,7 @@ func (d *Def) Evaluation(
 			key.TargetMethod,
 			key.TargetVariable,
 			&currentT,
-			currentT.IsStatic,
+			key.IsStatic,
 		)
 	}
 
