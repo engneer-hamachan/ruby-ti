@@ -46,6 +46,28 @@ func GetSortedTSignatures() []Sig {
 	return sortedSignatures
 }
 
+func TypeToStringForSignature(t *T) string {
+	var content string
+
+	if t.HasDefault() {
+		content += `?`
+	}
+
+	if t.IsAsteriskPrefix() {
+		content += "*"
+	}
+
+	switch t.GetType() {
+	case UNKNOWN:
+		content += "?"
+
+	default:
+		content += TypeToString(t)
+	}
+
+	return content
+}
+
 func MakeSignatureContent(
 	prefix string,
 	frame, class string,
@@ -56,6 +78,7 @@ func MakeSignatureContent(
 	var args string
 
 	args += "("
+
 	for _, darg := range methodT.GetDefineArgs() {
 		if args != "(" {
 			args += ", "
@@ -69,24 +92,7 @@ func MakeSignatureContent(
 		dargT :=
 			GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
 
-		if dargT.HasDefault() {
-			args += `optional `
-		}
-
-		if dargT.IsAsteriskPrefix() {
-			args += "*"
-		}
-
-		switch dargT.GetType() {
-		case UNION:
-			args += UnionTypeToString(dargT.GetVariants())
-
-		case UNKNOWN:
-			args += `unknown`
-
-		default:
-			args += TypeToString(dargT)
-		}
+		args += TypeToStringForSignature(dargT)
 	}
 
 	args += ")"
@@ -102,24 +108,14 @@ func MakeSignatureContent(
 				content += ", "
 			}
 
-			content += TypeToString(&variant)
+			content += TypeToStringForSignature(&variant)
 		}
 
 		content += ">"
 	}
 
 	content += " -> "
-
-	switch methodT.GetType() {
-	case UNION:
-		content += UnionTypeToString(methodT.GetVariants())
-
-	case UNKNOWN:
-		content += "?"
-
-	default:
-		content += TypeToString(methodT)
-	}
+	content += TypeToStringForSignature(methodT)
 
 	return content
 }
