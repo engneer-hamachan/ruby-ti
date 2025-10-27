@@ -145,6 +145,10 @@ func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
 }
 
 func isParentClass(sig base.Sig, frame, class string) bool {
+	if sig.Method == "new" {
+		return false
+	}
+
 	if sig.Frame == frame && sig.Class == class {
 		return true
 	}
