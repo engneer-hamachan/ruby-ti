@@ -421,15 +421,7 @@ func (t *T) IsSymbolIdentifier() bool {
 		return false
 	}
 
-	if len(t.ToString()) < 2 {
-		return false
-	}
-
-	if t.ToString()[0] == ':' {
-		return true
-	}
-
-	return false
+	return IsSymbol(t.ToString())
 }
 
 func (t *T) IsReadOnly() bool {
@@ -489,11 +481,7 @@ func (t *T) IsAsteriskPrefix() bool {
 		return false
 	}
 
-	if len(t.ToString()) < 2 {
-		return false
-	}
-
-	return t.ToString()[0] == '*'
+	return IsAsteriskPrefix(t.ToString())
 }
 
 func (t *T) IsBeforeEvaluateAsteriskPrefix() bool {
@@ -501,11 +489,7 @@ func (t *T) IsBeforeEvaluateAsteriskPrefix() bool {
 		return false
 	}
 
-	if len(t.beforeEvaluateCode) < 1 {
-		return false
-	}
-
-	return t.beforeEvaluateCode[0] == '*'
+	return IsAsteriskPrefix(t.beforeEvaluateCode)
 }
 
 func (t *T) IsBeforeEvaluateAtmarkPrefix() bool {

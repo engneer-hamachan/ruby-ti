@@ -6,6 +6,14 @@ func IsKeySuffix(str string) bool {
 	return len(str) > 1 && str[len(str)-1:] == ":"
 }
 
+func IsSymbol(str string) bool {
+	return len(str) > 1 && str[0] == ':'
+}
+
+func IsAsteriskPrefix(str string) bool {
+	return len(str) > 1 && str[0] == '*'
+}
+
 func RemoveSuffix(str string) string {
 	return str[:len(str)-1]
 }
