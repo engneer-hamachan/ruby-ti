@@ -86,11 +86,6 @@ func MakeSignatureContent(
 			args += ", "
 		}
 
-		if darg[0] == '*' {
-			args += "*untyped"
-			continue
-		}
-
 		if IsKeySuffix(darg) {
 			args += darg + " "
 			darg = RemoveSuffix(darg)
@@ -98,6 +93,10 @@ func MakeSignatureContent(
 
 		dargT :=
 			GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
+
+		if darg[0] == '*' && dargT == nil {
+			dargT = MakeAsteriskUntyped()
+		}
 
 		args += TypeToStringForSignature(dargT)
 	}

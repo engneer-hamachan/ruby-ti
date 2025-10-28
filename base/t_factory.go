@@ -183,6 +183,10 @@ func MakeUntyped() *T {
 	return NewT("Untyped", UNTYPED, "untyped")
 }
 
+func MakeAsteriskUntyped() *T {
+	return NewT("*untyped", UNTYPED, "*untyped")
+}
+
 func MakeBuiltinDefaultUntyped() *T {
 	t := NewT("Untyped", UNTYPED, "untyped")
 	t.hasDefault = true

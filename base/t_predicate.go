@@ -493,10 +493,6 @@ func (t *T) IsAsteriskPrefix() bool {
 		return false
 	}
 
-	if !t.IsIdentifierType() {
-		return false
-	}
-
 	if len(t.ToString()) < 2 {
 		return false
 	}
