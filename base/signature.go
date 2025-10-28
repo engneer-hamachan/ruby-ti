@@ -91,11 +91,14 @@ func MakeSignatureContent(
 			darg = RemoveSuffix(darg)
 		}
 
-		dargT :=
-			GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
+		var dargT *T
 
-		if darg[0] == '*' {
+		switch darg[0] {
+		case '*':
 			dargT = MakeAsteriskUntyped()
+		default:
+			dargT =
+				GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
 		}
 
 		args += TypeToStringForSignature(dargT)
