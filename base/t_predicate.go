@@ -2,7 +2,6 @@ package base
 
 import (
 	"slices"
-	"strings"
 	"unicode"
 )
 
@@ -497,11 +496,7 @@ func (t *T) IsBeforeEvaluateAtmarkPrefix() bool {
 		return false
 	}
 
-	if len(t.beforeEvaluateCode) < 1 {
-		return false
-	}
-
-	return t.beforeEvaluateCode[0] == '@'
+	return IsAtmarkPrefix(t.beforeEvaluateCode)
 }
 
 func (t *T) IsNameSpaceIdentifier() bool {
@@ -513,7 +508,7 @@ func (t *T) IsNameSpaceIdentifier() bool {
 		return false
 	}
 
-	return len(strings.Split(t.ToString(), "::")) > 1
+	return IsNameSpace(t.ToString())
 }
 
 func (t *T) IsPriorityT() bool {
