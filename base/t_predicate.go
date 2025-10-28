@@ -409,11 +409,7 @@ func (t *T) IsKeyIdentifier() bool {
 		return false
 	}
 
-	if len(t.ToString()) < 2 {
-		return false
-	}
-
-	return t.ToString()[len(t.ToString())-1:] == ":"
+	return IsKeySuffix(t.ToString())
 }
 
 func (t *T) IsSymbolIdentifier() bool {
