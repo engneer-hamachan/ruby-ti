@@ -1,6 +1,8 @@
 package base
 
-import "slices"
+import (
+	"slices"
+)
 
 type Sig struct {
 	Method   string
@@ -82,6 +84,11 @@ func MakeSignatureContent(
 	for _, darg := range methodT.GetDefineArgs() {
 		if args != "(" {
 			args += ", "
+		}
+
+		if darg[0] == '*' {
+			args += "*untyped"
+			continue
 		}
 
 		if IsKeySuffix(darg) {
