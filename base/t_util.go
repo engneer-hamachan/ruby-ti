@@ -24,15 +24,7 @@ func (t *T) ToString() string {
 }
 
 func (t *T) ToRemoveSuffixString() string {
-	return t.ToString()[:len(t.ToString())-1]
-}
-
-func IsKeySuffix(str string) bool {
-	return str[len(str)-1:] == ":" && len(str) >= 2
-}
-
-func RemoveSuffix(str string) string {
-	return str[:len(str)-1]
+	return RemoveSuffix(t.ToString())
 }
 
 // Type conversion functions
