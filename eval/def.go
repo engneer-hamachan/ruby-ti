@@ -264,7 +264,7 @@ func (d *Def) evaluationBody(
 	return nil
 }
 
-func (d *Def) getMethodNameAndIsStatic(
+func (d *Def) getMethodNameAndSetIsStatic(
 	p *parser.Parser,
 	ctx *context.Context,
 ) (string, error) {
@@ -559,7 +559,7 @@ func (d *Def) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	method, err := d.getMethodNameAndIsStatic(p, &ctx)
+	method, err := d.getMethodNameAndSetIsStatic(p, &ctx)
 	if err != nil {
 		p.Fatal(ctx, err)
 	}
