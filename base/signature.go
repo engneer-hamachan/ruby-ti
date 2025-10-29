@@ -94,7 +94,7 @@ func MakeSignatureContent(
 		dargT :=
 			GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
 
-		if darg[0] == '*' && dargT == nil {
+		if darg[0] == '*' && (dargT == nil || dargT.IsUnknownType()) {
 			dargT = MakeAsteriskUntyped()
 		}
 
