@@ -540,7 +540,7 @@ func (d *Def) setDefineInfos(
 	p.DefineInfos = append(p.DefineInfos, content)
 }
 
-func (d *Def) prepareAndReturnRow(
+func (d *Def) prepare(
 	p *parser.Parser,
 	ctx *context.Context,
 	t *base.T,
@@ -552,7 +552,6 @@ func (d *Def) prepareAndReturnRow(
 	p.SetLastEvaluatedT(base.MakeNil())
 	p.EndParsingExpression()
 	ctx.SetMethod(method)
-	base.InitArgumentSnapShot()
 
 	return p.ErrorRow
 }
@@ -564,18 +563,12 @@ func (d *Def) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	currentIsStatic := ctx.IsDefineStatic
-
-	defer func(ctx *context.Context, currentIsStatic bool) {
-		ctx.IsDefineStatic = currentIsStatic
-	}(&ctx, currentIsStatic)
-
 	method, err := d.getMethodNameAndIsStatic(p, &ctx)
 	if err != nil {
 		p.Fatal(ctx, err)
 	}
 
-	defineRow := d.prepareAndReturnRow(p, &ctx, t, method)
+	defineRow := d.prepare(p, &ctx, t, method)
 
 	nextT, err := p.Read()
 	if err != nil {
@@ -590,7 +583,7 @@ func (d *Def) Evaluation(
 	var args []string
 	var isBlockGiven bool
 
-	if nextT.IsTargetIdentifier("(") || !nextT.IsTargetIdentifier("\n") {
+	if nextT.IsOpenParentheses() || !nextT.IsNewLineIdentifier() {
 		args, isBlockGiven, err =
 			d.makeDefineArgVariables(e, p, ctx, method, nextT.IsOpenParentheses())
 
@@ -611,14 +604,14 @@ func (d *Def) Evaluation(
 
 	p.Unget()
 
-	base.CollectArgumentSnapShot(ctx, method, args)
+	base.SnapShotArgumentTypes(ctx, method, args)
 
 	err = d.evaluationBody(e, p, ctx)
 	if err != nil && ctx.IsCheckRound() {
 		p.Fatal(ctx, err)
 	}
 
-	base.RestoreArgumentSnapShot()
+	base.RestoreArgumentTypes()
 
 	var returnT base.T
 

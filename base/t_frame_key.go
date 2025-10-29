@@ -9,14 +9,6 @@ type FrameKey struct {
 	isStatic       bool
 }
 
-type PubFrameKey struct {
-	Frame          string
-	TargetClass    string
-	TargetMethod   string
-	TargetVariable string
-	IsStatic       bool
-}
-
 func (f *FrameKey) Variable() string {
 	return f.targetVariable
 }

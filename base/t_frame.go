@@ -6,7 +6,7 @@ import (
 )
 
 var TFrame = make(map[FrameKey]*T)
-var ArgumentSnapShot = make(map[PubFrameKey]T)
+var ArgumentSnapShot = make(map[FrameKey]T)
 
 func DeepCopyTFrame() map[FrameKey]*T {
 	copied := make(map[FrameKey]*T)
@@ -16,29 +16,30 @@ func DeepCopyTFrame() map[FrameKey]*T {
 }
 
 // ArgumentSnapShot management functions
-func InitArgumentSnapShot() {
-	ArgumentSnapShot = make(map[PubFrameKey]T)
+func clearArgumentSnapShot() {
+	ArgumentSnapShot = make(map[FrameKey]T)
 }
 
 func SaveArgumentSnapShot(ctx context.Context, method, variable string, t T) {
-	key := PubFrameKey{
-		Frame:          ctx.GetFrame(),
-		TargetClass:    ctx.GetClass(),
-		TargetMethod:   method,
-		TargetVariable: variable,
-		IsStatic:       ctx.IsDefineStatic,
+	key := FrameKey{
+		frame:          ctx.GetFrame(),
+		targetClass:    ctx.GetClass(),
+		targetMethod:   method,
+		targetVariable: variable,
+		isStatic:       ctx.IsDefineStatic,
 	}
 	ArgumentSnapShot[key] = t
 }
 
 func UpdateArgumentSnapShot(frame, class, method, variable string, t T, isStatic bool) bool {
-	key := PubFrameKey{
-		Frame:          frame,
-		TargetClass:    class,
-		TargetMethod:   method,
-		TargetVariable: variable,
-		IsStatic:       isStatic,
+	key := FrameKey{
+		frame:          frame,
+		targetClass:    class,
+		targetMethod:   method,
+		targetVariable: variable,
+		isStatic:       isStatic,
 	}
+
 	_, ok := ArgumentSnapShot[key]
 	if ok {
 		ArgumentSnapShot[key] = t
@@ -46,11 +47,13 @@ func UpdateArgumentSnapShot(frame, class, method, variable string, t T, isStatic
 	return ok
 }
 
-func CollectArgumentSnapShot(
+func SnapShotArgumentTypes(
 	ctx context.Context,
 	method string,
 	args []string,
 ) {
+
+	clearArgumentSnapShot()
 
 	for _, arg := range args {
 		if IsKeySuffix(arg) {
@@ -66,15 +69,15 @@ func CollectArgumentSnapShot(
 	}
 }
 
-func RestoreArgumentSnapShot() {
+func RestoreArgumentTypes() {
 	for key, currentT := range ArgumentSnapShot {
 		SetValueT(
-			key.Frame,
-			key.TargetClass,
-			key.TargetMethod,
-			key.TargetVariable,
+			key.frame,
+			key.targetClass,
+			key.targetMethod,
+			key.targetVariable,
 			currentT.DeepCopy(),
-			key.IsStatic,
+			key.isStatic,
 		)
 	}
 }
