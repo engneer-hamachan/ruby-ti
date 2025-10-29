@@ -243,7 +243,7 @@ type RestoreVariable struct {
 	t  *base.T
 }
 
-func (d *Do) prepare(p *parser.Parser, ctx context.Context) (func(), error) {
+func (d *Do) prepareBlockScope(p *parser.Parser, ctx context.Context) (func(), error) {
 	tFrame := base.DeepCopyTFrame()
 
 	blockVariables, err := d.collectBlockVariables(p)
@@ -292,12 +292,12 @@ func (d *Do) Evaluation(
 		return nil
 	}
 
-	restoreFunc, err := d.prepare(p, ctx)
+	zaorik, err := d.prepareBlockScope(p, ctx)
 	if err != nil {
 		return err
 	}
 
-	defer restoreFunc()
+	defer zaorik()
 
 	for {
 		nextT, err := p.Read()

@@ -568,7 +568,7 @@ func (d *Def) prepareParserSetting(p *parser.Parser, t *base.T) {
 	p.ConsumeLastReturnT()
 	p.EndParsingExpression()
 	p.SetLastEvaluatedT(base.MakeNil())
-	p.DefineRow = p.ErrorRow
+	p.SetDefineRow()
 	p.LastCallT = t
 }
 

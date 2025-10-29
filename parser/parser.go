@@ -171,3 +171,7 @@ func (p *Parser) GetTmpEvaluaetdArgs() []*base.T {
 func (p *Parser) ClearTmpEvaluaetdArgs() {
 	p.tmpEvaluatedArgs = []*base.T{}
 }
+
+func (p *Parser) SetDefineRow() {
+	p.DefineRow = p.ErrorRow
+}

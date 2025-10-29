@@ -244,6 +244,21 @@ func (b *Bind) handleMultipleAsigntment(
 	}
 }
 
+func (b *Bind) setDefineInfos(p *parser.Parser) {
+	var hint string
+
+	hint += "@"
+	hint += p.FileName + ":::"
+	hint += fmt.Sprintf("%d", p.DefineRow)
+	hint += ":::"
+
+	hint += "bind: "
+	t := p.GetLastEvaluatedT()
+	hint += base.TypeToString(&t)
+
+	p.DefineInfos = append(p.DefineInfos, hint)
+}
+
 func (b *Bind) Evaluation(
 	e *Evaluator,
 	p *parser.Parser,
@@ -251,22 +266,8 @@ func (b *Bind) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	defineRow := p.ErrorRow
-
-	defer func(defineRow int) {
-		var hint string
-
-		hint += "@"
-		hint += p.FileName + ":::"
-		hint += fmt.Sprintf("%d", defineRow)
-		hint += ":::"
-
-		hint += "bind: "
-		t := p.GetLastEvaluatedT()
-		hint += base.TypeToString(&t)
-
-		p.DefineInfos = append(p.DefineInfos, hint)
-	}(defineRow)
+	p.SetDefineRow()
+	defer b.setDefineInfos(p)
 
 	p.EndParsingExpression()
 
