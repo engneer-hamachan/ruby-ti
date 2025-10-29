@@ -547,6 +547,23 @@ func (d *Def) isComingArgs(t *base.T) bool {
 	return t.IsOpenParentheses() || !t.IsNewLineIdentifier()
 }
 
+func (d *Def) makeReturnT(
+	e *Evaluator,
+	p *parser.Parser,
+	ctx context.Context,
+	method string,
+) base.T {
+
+	switch method {
+	case "new":
+		ctx.IsDefineStatic = true
+		return *base.MakeObject(ctx.GetClass())
+
+	default:
+		return d.getLastEvaluatedTWhenDefineMethod(e, p, ctx)
+	}
+}
+
 func (d *Def) prepareParserSetting(
 	p *parser.Parser,
 	t *base.T,
@@ -615,17 +632,7 @@ func (d *Def) Evaluation(
 
 	base.RestoreArgumentTypes()
 
-	var returnT base.T
-
-	switch method {
-	case "new":
-		ctx.IsDefineStatic = true
-		returnT = *base.MakeObject(ctx.GetClass())
-
-	default:
-		returnT = d.getLastEvaluatedTWhenDefineMethod(e, p, ctx)
-	}
-
+	returnT := d.makeReturnT(e, p, ctx, method)
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, isBlockGiven)
 
 	d.setDefineMethodT(p, ctx, methodT)
