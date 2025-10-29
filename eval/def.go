@@ -125,10 +125,16 @@ func (d *Def) makeDefineArgVariables(
 	p *parser.Parser,
 	ctx context.Context,
 	method string,
-	isParentheses bool,
+	nextT *base.T,
 ) ([]string, bool, error) {
 
 	var argVariables []string
+
+	if !d.isComingArgs(nextT) {
+		return argVariables, false, nil
+	}
+
+	isParentheses := nextT.IsOpenParentheses()
 
 	if !isParentheses {
 		p.Unget()
@@ -537,18 +543,19 @@ func (d *Def) setDefineInfos(
 	p.DefineInfos = append(p.DefineInfos, content)
 }
 
-func (d *Def) prepare(
+func (d *Def) isComingArgs(t *base.T) bool {
+	return t.IsOpenParentheses() || !t.IsNewLineIdentifier()
+}
+
+func (d *Def) prepareParserSetting(
 	p *parser.Parser,
-	ctx *context.Context,
 	t *base.T,
-	method string,
 ) {
 
 	p.LastCallT = t
 	p.ConsumeLastReturnT()
 	p.SetLastEvaluatedT(base.MakeNil())
 	p.EndParsingExpression()
-	ctx.SetMethod(method)
 	p.DefineRow = p.ErrorRow
 }
 
@@ -564,7 +571,8 @@ func (d *Def) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
-	d.prepare(p, &ctx, t, method)
+	ctx.SetMethod(method)
+	d.prepareParserSetting(p, t)
 
 	nextT, err := p.Read()
 	if err != nil {
@@ -579,13 +587,11 @@ func (d *Def) Evaluation(
 	var args []string
 	var isBlockGiven bool
 
-	if nextT.IsOpenParentheses() || !nextT.IsNewLineIdentifier() {
-		args, isBlockGiven, err =
-			d.makeDefineArgVariables(e, p, ctx, method, nextT.IsOpenParentheses())
+	args, isBlockGiven, err =
+		d.makeDefineArgVariables(e, p, ctx, method, nextT)
 
-		if err != nil {
-			p.Fatal(ctx, err)
-		}
+	if err != nil {
+		p.Fatal(ctx, err)
 	}
 
 	nextT, err = p.Read()
