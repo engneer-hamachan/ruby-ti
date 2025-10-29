@@ -521,9 +521,9 @@ func checkAndPropagateArgs(
 				tmpT.AppendVariant(*sortedArgTs[argIdx])
 			}
 
-			_, ok := base.TmpTFrame[pubFrameKey]
+			_, ok := base.ArgumentSnapShot[pubFrameKey]
 			if ok {
-				base.TmpTFrame[pubFrameKey] = tmpT
+				base.ArgumentSnapShot[pubFrameKey] = tmpT
 			}
 		}
 

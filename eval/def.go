@@ -622,7 +622,7 @@ func (d *Def) Evaluation(
 	p.Unget()
 
 	// collect
-	base.TmpTFrame = make(map[base.PubFrameKey]base.T)
+	base.ArgumentSnapShot = make(map[base.PubFrameKey]base.T)
 
 	for _, arg := range args {
 		if base.IsKeySuffix(arg) {
@@ -642,7 +642,7 @@ func (d *Def) Evaluation(
 					IsStatic:       isStatic,
 				}
 
-			base.TmpTFrame[pubFrameKey] = *currentT
+			base.ArgumentSnapShot[pubFrameKey] = *currentT
 		}
 	}
 
@@ -667,7 +667,7 @@ func (d *Def) Evaluation(
 	d.setDefineMethodT(p, ctx, methodT, isStatic, defineRow)
 
 	// restore
-	for key, currentT := range base.TmpTFrame {
+	for key, currentT := range base.ArgumentSnapShot {
 		base.SetValueT(
 			key.Frame,
 			key.TargetClass,
