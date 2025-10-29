@@ -5,10 +5,6 @@ import (
 	"ti/base"
 )
 
-func isAsteriskPrefix(str string) bool {
-	return str[0] == '*'
-}
-
 func isAcceptIdx(tSlice []*base.T, idx int) bool {
 	return len(tSlice) >= (idx + 1)
 }
@@ -383,7 +379,7 @@ func checkAndPropagateArgs(
 		definedArg := sortedDfineArgs[defineArgIdx]
 
 		// *a
-		if isAsteriskPrefix(definedArg) {
+		if base.IsAsteriskPrefix(definedArg) {
 			if len(sortedArgTs) < argIdx {
 				break
 			}
