@@ -261,6 +261,8 @@ func (d *Def) evaluationBody(
 		}
 	}
 
+	base.RestoreArgumentSnapShot()
+
 	return nil
 }
 
@@ -561,6 +563,7 @@ func (d *Def) prepareAndReturnRow(
 	p.EndParsingExpression()
 	ctx.IsDefineStatic = isStatic
 	ctx.SetMethod(method)
+	base.InitArgumentSnapShot()
 
 	return p.ErrorRow
 }
@@ -621,30 +624,7 @@ func (d *Def) Evaluation(
 
 	p.Unget()
 
-	// collect
-	base.ArgumentSnapShot = make(map[base.PubFrameKey]base.T)
-
-	for _, arg := range args {
-		if base.IsKeySuffix(arg) {
-			arg = base.RemoveSuffix(arg)
-		}
-
-		currentT :=
-			base.GetValueT(ctx.GetFrame(), ctx.GetClass(), method, arg, isStatic)
-
-		if currentT != nil {
-			pubFrameKey :=
-				base.PubFrameKey{
-					Frame:          ctx.GetFrame(),
-					TargetClass:    ctx.GetClass(),
-					TargetMethod:   method,
-					TargetVariable: arg,
-					IsStatic:       isStatic,
-				}
-
-			base.ArgumentSnapShot[pubFrameKey] = *currentT
-		}
-	}
+	base.CollectArgumentSnapShot(ctx.GetFrame(), ctx.GetClass(), method, args, isStatic)
 
 	err = d.evaluationBody(e, p, ctx)
 	if err != nil && ctx.IsCheckRound() {
@@ -665,18 +645,6 @@ func (d *Def) Evaluation(
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, isBlockGiven)
 
 	d.setDefineMethodT(p, ctx, methodT, isStatic, defineRow)
-
-	// restore
-	for key, currentT := range base.ArgumentSnapShot {
-		base.SetValueT(
-			key.Frame,
-			key.TargetClass,
-			key.TargetMethod,
-			key.TargetVariable,
-			&currentT,
-			key.IsStatic,
-		)
-	}
 
 	if ctx.IsCheckRound() {
 		d.setDefineInfos(p, ctx, methodT, isStatic, defineRow)

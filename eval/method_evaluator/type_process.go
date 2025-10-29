@@ -503,15 +503,6 @@ func checkAndPropagateArgs(
 				tmpArg = sortedArgTs[argIdx].GetBeforeEvaluateCode()
 			}
 
-			pubFrameKey :=
-				base.PubFrameKey{
-					Frame:          m.ctx.GetFrame(),
-					TargetClass:    m.ctx.GetClass(),
-					TargetMethod:   m.ctx.GetMethod(),
-					TargetVariable: tmpArg,
-					IsStatic:       m.ctx.IsDefineStatic,
-				}
-
 			tmpT := *definedArgT.DeepCopy()
 			tmpT.SetHasDefault(sortedArgTs[argIdx].HasDefault())
 			tmpT.SetIsWhenCallType(sortedArgTs[argIdx].IsWhenCallType())
@@ -521,10 +512,14 @@ func checkAndPropagateArgs(
 				tmpT.AppendVariant(*sortedArgTs[argIdx])
 			}
 
-			_, ok := base.ArgumentSnapShot[pubFrameKey]
-			if ok {
-				base.ArgumentSnapShot[pubFrameKey] = tmpT
-			}
+			base.UpdateArgumentSnapShot(
+				m.ctx.GetFrame(),
+				m.ctx.GetClass(),
+				m.ctx.GetMethod(),
+				tmpArg,
+				tmpT,
+				m.ctx.IsDefineStatic,
+			)
 		}
 
 		if propagationForCalledTo(

@@ -14,6 +14,64 @@ func DeepCopyTFrame() map[FrameKey]*T {
 	return copied
 }
 
+// ArgumentSnapShot management functions
+func InitArgumentSnapShot() {
+	ArgumentSnapShot = make(map[PubFrameKey]T)
+}
+
+func SaveArgumentSnapShot(frame, class, method, variable string, t T, isStatic bool) {
+	key := PubFrameKey{
+		Frame:          frame,
+		TargetClass:    class,
+		TargetMethod:   method,
+		TargetVariable: variable,
+		IsStatic:       isStatic,
+	}
+	ArgumentSnapShot[key] = t
+}
+
+func UpdateArgumentSnapShot(frame, class, method, variable string, t T, isStatic bool) bool {
+	key := PubFrameKey{
+		Frame:          frame,
+		TargetClass:    class,
+		TargetMethod:   method,
+		TargetVariable: variable,
+		IsStatic:       isStatic,
+	}
+	_, ok := ArgumentSnapShot[key]
+	if ok {
+		ArgumentSnapShot[key] = t
+	}
+	return ok
+}
+
+func CollectArgumentSnapShot(frame, class, method string, args []string, isStatic bool) {
+	for _, arg := range args {
+		if IsKeySuffix(arg) {
+			arg = RemoveSuffix(arg)
+		}
+
+		currentT := GetValueT(frame, class, method, arg, isStatic)
+
+		if currentT != nil {
+			SaveArgumentSnapShot(frame, class, method, arg, *currentT, isStatic)
+		}
+	}
+}
+
+func RestoreArgumentSnapShot() {
+	for key, currentT := range ArgumentSnapShot {
+		SetValueT(
+			key.Frame,
+			key.TargetClass,
+			key.TargetMethod,
+			key.TargetVariable,
+			currentT.DeepCopy(),
+			key.IsStatic,
+		)
+	}
+}
+
 func RestoreFrame(currentFrame map[FrameKey]*T, originalFrame map[FrameKey]*T) {
 	for key := range currentFrame {
 		if _, ok := originalFrame[key]; !ok {
