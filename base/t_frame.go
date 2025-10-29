@@ -2,6 +2,7 @@ package base
 
 import (
 	"maps"
+	"ti/context"
 )
 
 var TFrame = make(map[FrameKey]*T)
@@ -19,13 +20,13 @@ func InitArgumentSnapShot() {
 	ArgumentSnapShot = make(map[PubFrameKey]T)
 }
 
-func SaveArgumentSnapShot(frame, class, method, variable string, t T, isStatic bool) {
+func SaveArgumentSnapShot(ctx context.Context, method, variable string, t T) {
 	key := PubFrameKey{
-		Frame:          frame,
-		TargetClass:    class,
+		Frame:          ctx.GetFrame(),
+		TargetClass:    ctx.GetClass(),
 		TargetMethod:   method,
 		TargetVariable: variable,
-		IsStatic:       isStatic,
+		IsStatic:       ctx.IsDefineStatic,
 	}
 	ArgumentSnapShot[key] = t
 }
@@ -45,16 +46,22 @@ func UpdateArgumentSnapShot(frame, class, method, variable string, t T, isStatic
 	return ok
 }
 
-func CollectArgumentSnapShot(frame, class, method string, args []string, isStatic bool) {
+func CollectArgumentSnapShot(
+	ctx context.Context,
+	method string,
+	args []string,
+) {
+
 	for _, arg := range args {
 		if IsKeySuffix(arg) {
 			arg = RemoveSuffix(arg)
 		}
 
-		currentT := GetValueT(frame, class, method, arg, isStatic)
+		currentT :=
+			GetValueT(ctx.GetFrame(), ctx.GetClass(), method, arg, ctx.IsDefineStatic)
 
 		if currentT != nil {
-			SaveArgumentSnapShot(frame, class, method, arg, *currentT, isStatic)
+			SaveArgumentSnapShot(ctx, method, arg, *currentT)
 		}
 	}
 }

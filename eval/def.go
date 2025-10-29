@@ -267,29 +267,25 @@ func (d *Def) evaluationBody(
 func (d *Def) getMethodNameAndIsStatic(
 	p *parser.Parser,
 	ctx *context.Context,
-) (string, bool, error) {
-
-	var isStatic bool
+) (string, error) {
 
 	t, err := p.Read()
 	if err != nil {
-		return "", false, err
+		return "", err
 	}
 
-	isStatic = ctx.IsDefineStatic
-
 	if t.IsTargetIdentifier("self") {
-		isStatic = true
+		ctx.IsDefineStatic = true
 
 		t, err = p.ReadTwice()
 		if err != nil {
-			return "", false, err
+			return "", err
 		}
 	}
 
 	nextT, err := p.ReadAhead()
 	if err != nil {
-		return "", false, err
+		return "", err
 	}
 
 	// def object.special_method
@@ -312,7 +308,7 @@ func (d *Def) getMethodNameAndIsStatic(
 
 		t, err = p.ReadTwice()
 		if err != nil {
-			return "", false, err
+			return "", err
 		}
 	}
 
@@ -320,10 +316,10 @@ func (d *Def) getMethodNameAndIsStatic(
 
 	if method == "initialize" {
 		method = "new"
-		isStatic = true
+		ctx.IsDefineStatic = true
 	}
 
-	return method, isStatic, nil
+	return method, nil
 }
 
 func (d *Def) getChainMethodReturnType(
@@ -403,7 +399,6 @@ func (d *Def) endlessDefinition(
 	ctx context.Context,
 	method string,
 	args []string,
-	isStatic bool,
 	row int,
 ) error {
 
@@ -421,7 +416,7 @@ func (d *Def) endlessDefinition(
 
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, false)
 
-	d.setDefineMethodT(p, ctx, methodT, isStatic, row)
+	d.setDefineMethodT(p, ctx, methodT, row)
 
 	return nil
 }
@@ -465,11 +460,10 @@ func (d *Def) setDefineMethodT(
 	p *parser.Parser,
 	ctx context.Context,
 	methodT *base.T,
-	isStatic bool,
 	defineRow int,
 ) {
 
-	switch isStatic {
+	switch ctx.IsDefineStatic {
 	case true:
 		base.SetClassMethodT(
 			ctx.GetFrame(),
@@ -508,7 +502,6 @@ func (d *Def) setDefineInfos(
 	p *parser.Parser,
 	ctx context.Context,
 	methodT *base.T,
-	isStatic bool,
 	defineRow int,
 ) {
 
@@ -524,7 +517,7 @@ func (d *Def) setDefineInfos(
 
 	content += " ["
 
-	switch isStatic {
+	switch ctx.IsDefineStatic {
 	case true:
 		content += "c/"
 	default:
@@ -552,14 +545,12 @@ func (d *Def) prepareAndReturnRow(
 	ctx *context.Context,
 	t *base.T,
 	method string,
-	isStatic bool,
 ) int {
 
 	p.LastCallT = t
 	p.ConsumeLastReturnT()
 	p.SetLastEvaluatedT(base.MakeNil())
 	p.EndParsingExpression()
-	ctx.IsDefineStatic = isStatic
 	ctx.SetMethod(method)
 	base.InitArgumentSnapShot()
 
@@ -573,12 +564,18 @@ func (d *Def) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	method, isStatic, err := d.getMethodNameAndIsStatic(p, &ctx)
+	currentIsStatic := ctx.IsDefineStatic
+
+	defer func(ctx *context.Context, currentIsStatic bool) {
+		ctx.IsDefineStatic = currentIsStatic
+	}(&ctx, currentIsStatic)
+
+	method, err := d.getMethodNameAndIsStatic(p, &ctx)
 	if err != nil {
 		p.Fatal(ctx, err)
 	}
 
-	defineRow := d.prepareAndReturnRow(p, &ctx, t, method, isStatic)
+	defineRow := d.prepareAndReturnRow(p, &ctx, t, method)
 
 	nextT, err := p.Read()
 	if err != nil {
@@ -587,15 +584,7 @@ func (d *Def) Evaluation(
 
 	// def hoge = 1
 	if nextT.IsEqualIdentifier() && nextT.IsBeforeSpace {
-		return d.endlessDefinition(
-			e,
-			p,
-			ctx,
-			method,
-			[]string{},
-			isStatic,
-			defineRow,
-		)
+		return d.endlessDefinition(e, p, ctx, method, []string{}, defineRow)
 	}
 
 	var args []string
@@ -617,12 +606,12 @@ func (d *Def) Evaluation(
 
 	// def hoge() = 1
 	if nextT.IsEqualIdentifier() {
-		return d.endlessDefinition(e, p, ctx, method, args, isStatic, defineRow)
+		return d.endlessDefinition(e, p, ctx, method, args, defineRow)
 	}
 
 	p.Unget()
 
-	base.CollectArgumentSnapShot(ctx.GetFrame(), ctx.GetClass(), method, args, isStatic)
+	base.CollectArgumentSnapShot(ctx, method, args)
 
 	err = d.evaluationBody(e, p, ctx)
 	if err != nil && ctx.IsCheckRound() {
@@ -635,7 +624,7 @@ func (d *Def) Evaluation(
 
 	switch method {
 	case "new":
-		isStatic = true
+		ctx.IsDefineStatic = true
 		returnT = *base.MakeObject(ctx.GetClass())
 
 	default:
@@ -644,10 +633,10 @@ func (d *Def) Evaluation(
 
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, isBlockGiven)
 
-	d.setDefineMethodT(p, ctx, methodT, isStatic, defineRow)
+	d.setDefineMethodT(p, ctx, methodT, defineRow)
 
 	if ctx.IsCheckRound() {
-		d.setDefineInfos(p, ctx, methodT, isStatic, defineRow)
+		d.setDefineInfos(p, ctx, methodT, defineRow)
 	}
 
 	return nil
