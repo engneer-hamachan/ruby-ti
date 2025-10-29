@@ -399,7 +399,6 @@ func (d *Def) endlessDefinition(
 	ctx context.Context,
 	method string,
 	args []string,
-	row int,
 ) error {
 
 	nextT, err := p.Read()
@@ -416,7 +415,7 @@ func (d *Def) endlessDefinition(
 
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, false)
 
-	d.setDefineMethodT(p, ctx, methodT, row)
+	d.setDefineMethodT(p, ctx, methodT)
 
 	return nil
 }
@@ -460,7 +459,6 @@ func (d *Def) setDefineMethodT(
 	p *parser.Parser,
 	ctx context.Context,
 	methodT *base.T,
-	defineRow int,
 ) {
 
 	switch ctx.IsDefineStatic {
@@ -471,7 +469,7 @@ func (d *Def) setDefineMethodT(
 			methodT,
 			ctx.IsPrivate,
 			p.FileName,
-			defineRow,
+			p.DefineRow,
 		)
 
 	default:
@@ -493,7 +491,7 @@ func (d *Def) setDefineMethodT(
 			methodT,
 			ctx.IsPrivate,
 			p.FileName,
-			defineRow,
+			p.DefineRow,
 		)
 	}
 }
@@ -502,14 +500,13 @@ func (d *Def) setDefineInfos(
 	p *parser.Parser,
 	ctx context.Context,
 	methodT *base.T,
-	defineRow int,
 ) {
 
 	var prefix string
 
 	prefix += "@"
 	prefix += p.FileName + ":::"
-	prefix += fmt.Sprintf("%d", defineRow)
+	prefix += fmt.Sprintf("%d", p.DefineRow)
 	prefix += ":::"
 
 	content :=
@@ -545,15 +542,14 @@ func (d *Def) prepare(
 	ctx *context.Context,
 	t *base.T,
 	method string,
-) int {
+) {
 
 	p.LastCallT = t
 	p.ConsumeLastReturnT()
 	p.SetLastEvaluatedT(base.MakeNil())
 	p.EndParsingExpression()
 	ctx.SetMethod(method)
-
-	return p.ErrorRow
+	p.DefineRow = p.ErrorRow
 }
 
 func (d *Def) Evaluation(
@@ -568,7 +564,7 @@ func (d *Def) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
-	defineRow := d.prepare(p, &ctx, t, method)
+	d.prepare(p, &ctx, t, method)
 
 	nextT, err := p.Read()
 	if err != nil {
@@ -577,7 +573,7 @@ func (d *Def) Evaluation(
 
 	// def hoge = 1
 	if nextT.IsEqualIdentifier() && nextT.IsBeforeSpace {
-		return d.endlessDefinition(e, p, ctx, method, []string{}, defineRow)
+		return d.endlessDefinition(e, p, ctx, method, []string{})
 	}
 
 	var args []string
@@ -599,7 +595,7 @@ func (d *Def) Evaluation(
 
 	// def hoge() = 1
 	if nextT.IsEqualIdentifier() {
-		return d.endlessDefinition(e, p, ctx, method, args, defineRow)
+		return d.endlessDefinition(e, p, ctx, method, args)
 	}
 
 	p.Unget()
@@ -626,10 +622,10 @@ func (d *Def) Evaluation(
 
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, isBlockGiven)
 
-	d.setDefineMethodT(p, ctx, methodT, defineRow)
+	d.setDefineMethodT(p, ctx, methodT)
 
 	if ctx.IsCheckRound() {
-		d.setDefineInfos(p, ctx, methodT, defineRow)
+		d.setDefineInfos(p, ctx, methodT)
 	}
 
 	return nil

@@ -14,6 +14,7 @@ type Parser struct {
 	FileName            string
 	Row                 int
 	ErrorRow            int
+	DefineRow           int
 	lastEvaluatedT      any
 	LastCallT           *base.T
 	lastCallFrame       [3]string
