@@ -261,8 +261,6 @@ func (d *Def) evaluationBody(
 		}
 	}
 
-	base.RestoreArgumentSnapShot()
-
 	return nil
 }
 
@@ -630,6 +628,8 @@ func (d *Def) Evaluation(
 	if err != nil && ctx.IsCheckRound() {
 		p.Fatal(ctx, err)
 	}
+
+	base.RestoreArgumentSnapShot()
 
 	var returnT base.T
 
