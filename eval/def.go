@@ -17,6 +17,10 @@ func init() {
 	DynamicEvaluators["def"] = NewDef()
 }
 
+func (d *Def) isComingArgs(t *base.T) bool {
+	return t.IsOpenParentheses() || !t.IsNewLineIdentifier()
+}
+
 func (d *Def) bindDefaultKeywordArgs(
 	e *Evaluator,
 	p *parser.Parser,
@@ -543,10 +547,6 @@ func (d *Def) setDefineInfos(
 	p.DefineInfos = append(p.DefineInfos, content)
 }
 
-func (d *Def) isComingArgs(t *base.T) bool {
-	return t.IsOpenParentheses() || !t.IsNewLineIdentifier()
-}
-
 func (d *Def) makeReturnT(
 	e *Evaluator,
 	p *parser.Parser,
@@ -564,16 +564,12 @@ func (d *Def) makeReturnT(
 	}
 }
 
-func (d *Def) prepareParserSetting(
-	p *parser.Parser,
-	t *base.T,
-) {
-
-	p.LastCallT = t
+func (d *Def) prepareParserSetting(p *parser.Parser, t *base.T) {
 	p.ConsumeLastReturnT()
-	p.SetLastEvaluatedT(base.MakeNil())
 	p.EndParsingExpression()
+	p.SetLastEvaluatedT(base.MakeNil())
 	p.DefineRow = p.ErrorRow
+	p.LastCallT = t
 }
 
 func (d *Def) Evaluation(
