@@ -1,6 +1,7 @@
 package eval
 
 import (
+	"fmt"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -210,6 +211,14 @@ func (e *Evaluator) Eval(
 
 		objectT := p.GetLastEvaluatedT()
 		return e.handleEvaluateMethod(p, ctx, &objectT, nextT, false)
+
+	case t.IsClassType():
+		if !base.IsClassDefined([]string{ctx.GetFrame()}, t.ToString()) {
+			return fmt.Errorf("class '%s' is not defined", t.ToString())
+		}
+
+		p.Unget()
+		e.setLastEvaluatedT(p, ctx, t)
 
 	// 1
 	case t.IsImmediate():
