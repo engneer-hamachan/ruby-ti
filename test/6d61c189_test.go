@@ -11,7 +11,7 @@ func Test6d61c189(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./6d61c189.rb:::17:::method 'test2' is not defined for Hoge
+	expectedOutput := `./6d61c189.rb:::17:::class method 'test2' is not defined for Hoge
 ./6d61c189.rb:::17:::Unknown`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

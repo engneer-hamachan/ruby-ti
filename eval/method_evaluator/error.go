@@ -29,14 +29,14 @@ func makeTypeError(
 }
 
 func (m *MethodEvaluator) makeNotDefinedMethodError(
-	class, method string,
+	class, method, kind string,
 ) error {
 
 	if class == "" {
-		return fmt.Errorf("method '%s' is not defined", method)
+		return fmt.Errorf("%s method '%s' is not defined", kind, method)
 	}
 
-	return fmt.Errorf("method '%s' is not defined for %s", method, class)
+	return fmt.Errorf("%s method '%s' is not defined for %s", kind, method, class)
 }
 
 func (m *MethodEvaluator) makeNotDefinedClassError(class string) error {

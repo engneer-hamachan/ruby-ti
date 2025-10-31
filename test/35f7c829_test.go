@@ -11,7 +11,7 @@ func Test35f7c829(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./35f7c829.rb:::15:::method 'test' is not defined for Fuga`
+	expectedOutput := `./35f7c829.rb:::15:::instance method 'test' is not defined for Fuga`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

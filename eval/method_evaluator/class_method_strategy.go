@@ -53,7 +53,7 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 	}
 
 	if methodT == nil {
-		return "", nil, m.makeNotDefinedMethodError(class, m.method)
+		return "", nil, m.makeNotDefinedMethodError(class, m.method, "class")
 	}
 	// ここまで
 

@@ -28,7 +28,7 @@ func (t *topLevelMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		base.GetTopLevelMethodT(m.ctx.GetFrame(), class, m.method)
 
 	if methodT == nil {
-		return "", nil, m.makeNotDefinedMethodError("", m.method)
+		return "", nil, m.makeNotDefinedMethodError("", m.method, "")
 	}
 
 	return class, methodT, nil

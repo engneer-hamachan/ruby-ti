@@ -11,7 +11,7 @@ func TestAcefa800(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./acefa800.rb:::9:::method 'special_ability' is not defined for Array"
+	expectedOutput := "./acefa800.rb:::9:::instance method 'special_ability' is not defined for Array"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

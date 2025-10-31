@@ -14,7 +14,7 @@ func (k *kernelYieldStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Kernel", "yield", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Kernel", "yield")
+		return m.makeNotDefinedMethodError("Kernel", "yield", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)

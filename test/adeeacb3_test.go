@@ -11,7 +11,7 @@ func TestAdeeacb3(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./adeeacb3.rb:::128:::method 'read_object' is not defined for JsonSan"
+	expectedOutput := "./adeeacb3.rb:::128:::class method 'read_object' is not defined for JsonSan"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

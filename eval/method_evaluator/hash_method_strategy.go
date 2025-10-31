@@ -19,7 +19,7 @@ func (h *hashMergeStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Hash", "merge", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Hash", "merge")
+		return m.makeNotDefinedMethodError("Hash", "merge", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
@@ -48,7 +48,7 @@ func (h *hashDestructionMergeStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Hash", "merge!", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Hash", "merge!")
+		return m.makeNotDefinedMethodError("Hash", "merge!", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
@@ -77,7 +77,7 @@ func (h *hashShiftStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Hash", "shift", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Hash", "shift")
+		return m.makeNotDefinedMethodError("Hash", "shift", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)

@@ -105,5 +105,5 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return class, methodT, nil
 	}
 
-	return "", nil, m.makeNotDefinedMethodError(class, m.method)
+	return "", nil, m.makeNotDefinedMethodError(class, m.method, "instance")
 }

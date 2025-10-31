@@ -22,7 +22,7 @@ func (a *arrayAppendStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Array", "push", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Array", "push")
+		return m.makeNotDefinedMethodError("Array", "push", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
@@ -62,7 +62,7 @@ func (c *concatArraystrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Array", "concat", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Array", "concat")
+		return m.makeNotDefinedMethodError("Array", "concat", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
@@ -94,7 +94,7 @@ func (u *unshiftArraystrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Array", "unshift", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Array", "unshift")
+		return m.makeNotDefinedMethodError("Array", "unshift", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
@@ -119,7 +119,7 @@ func (r *replaceArraystrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Array", "replace", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Array", "replace")
+		return m.makeNotDefinedMethodError("Array", "replace", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
@@ -155,7 +155,7 @@ func (s *sliceArrayStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Array", "slice", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Array", "slice")
+		return m.makeNotDefinedMethodError("Array", "slice", "instance")
 	}
 
 	arrayT := m.evaluatedObjectT
@@ -211,7 +211,7 @@ func (a *addArrayStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "Array", "+", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("Array", "+")
+		return m.makeNotDefinedMethodError("Array", "+", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)

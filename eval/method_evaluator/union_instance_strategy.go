@@ -87,7 +87,7 @@ func (u *unionInstanceStrategy) getRequiredValues(m *MethodEvaluator) (
 			continue
 		}
 
-		err = m.makeNotDefinedMethodError(class, m.method)
+		err = m.makeNotDefinedMethodError(class, m.method, "instance")
 
 		return []string{}, []*base.T{}, err
 

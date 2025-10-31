@@ -211,7 +211,7 @@ func (o *objectClassStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "", "class", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("", "class")
+		return m.makeNotDefinedMethodError("", "class", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
@@ -236,7 +236,7 @@ func (o *objectRaiseStrategy) evaluate(m *MethodEvaluator) error {
 	methodT := base.GetMethodT("Builtin", "", "raise", false)
 
 	if methodT == nil {
-		return m.makeNotDefinedMethodError("", "raise")
+		return m.makeNotDefinedMethodError("", "raise", "instance")
 	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
