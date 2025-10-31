@@ -89,6 +89,12 @@ func main() {
 		cmd.ValidateArgs()
 		flags := cmd.BuildFlags()
 
+		if flags.IsAllType {
+			cmd.PrintAllTypes()
+			done <- true
+			return
+		}
+
 		for _, round := range context.GetRounds() {
 			file = cmd.GetTargetFile()
 			fp, _ := os.Open(file)

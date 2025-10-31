@@ -23,6 +23,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsLsp = true
 	}
 
+	if hasFlag("--all-type") {
+		flags.IsAllType = true
+	}
+
 	return flags
 }
 
@@ -59,6 +63,10 @@ func getTargetRow() int {
 }
 
 func ValidateArgs() {
+	if hasFlag("--all-type") {
+		return
+	}
+
 	if len(os.Args) == 1 {
 		panic("want one argument!")
 	}

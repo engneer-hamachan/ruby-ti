@@ -70,6 +70,43 @@ func parseReturnType(returnType MethodReturn) base.T {
 	return t
 }
 
+var AllTypeNames = []string{
+	"Nil",
+	"Symbol",
+	"Bool",
+	"Block",
+	"DefaultBlock",
+	"Range",
+	"Untyped",
+	"DefaultUntyped",
+	"String",
+	"DefaultString",
+	"OptionalString",
+	"Int",
+	"DefaultInt",
+	"OptionalInt",
+	"Float",
+	"DefaultFloat",
+	"OptionalFloat",
+	"Array",
+	"Hash",
+	"StringArray",
+	"IntArray",
+	"FloatArray",
+	"Self",
+	"Number",
+	"IntInt",
+	"Unify",
+	"OptionalUnify",
+	"BlockResultArray",
+	"SelfConvertArray",
+	"SelfArgument",
+	"KeyArray",
+	"KeyValueArray",
+	"UnifiedSelfArgument",
+	"Flatten",
+}
+
 func parseTypeString(typeStr string) base.T {
 	switch typeStr {
 	case "Nil":

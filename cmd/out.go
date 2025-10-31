@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 	"slices"
+	"sort"
 	"strconv"
 	"ti/base"
+	"ti/builtin"
 	"ti/parser"
 	"unicode"
 )
@@ -166,4 +168,14 @@ func isParentClass(sig base.Sig, frame, class string) bool {
 	}
 
 	return false
+}
+
+func PrintAllTypes() {
+	sorted := make([]string, len(builtin.AllTypeNames))
+	copy(sorted, builtin.AllTypeNames)
+	sort.Strings(sorted)
+
+	for _, name := range sorted {
+		fmt.Println(name)
+	}
 }
