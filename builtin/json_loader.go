@@ -215,6 +215,10 @@ func loadBuiltinFromJSON(configFS fs.FS, configDir string) error {
 			return fmt.Errorf("failed to read %s: %w", match, err)
 		}
 
+		if len(jsonData) == 0 {
+			continue
+		}
+
 		var classDef ClassDefinition
 		if err := json.Unmarshal(jsonData, &classDef); err != nil {
 			return fmt.Errorf("failed to parse %s: %w", match, err)
