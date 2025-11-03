@@ -197,7 +197,20 @@ func parseArguments(args []MethodArgument) []base.T {
 			baseType = NilT
 
 		case 1:
-			baseType = parseTypeString(arg.Type[0])
+			switch arg.Type[0][0] {
+			case '*':
+				arg.IsAsterisk = true
+				arg.Type[0] = arg.Type[0][1:]
+				baseType = parseTypeString(arg.Type[0])
+
+			case '?':
+				arg.Type[0] = arg.Type[0][1:]
+				baseType = parseTypeString(arg.Type[0])
+				baseType.SetHasDefault(true)
+
+			default:
+				baseType = parseTypeString(arg.Type[0])
+			}
 
 		default:
 			var types []base.T
