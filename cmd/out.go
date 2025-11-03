@@ -43,12 +43,12 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 func PrintSuggestionsForLsp(p parser.Parser) {
 	sortedSignatures := base.GetSortedTSignatures()
 
-	for _, sig := range sortedSignatures {
-		objectClass := p.LspSudjestTargetT.GetObjectClass()
-		if objectClass == "Identifier" {
-			objectClass = ""
-		}
+	objectClass := p.LspSudjestTargetT.GetObjectClass()
+	if objectClass == "Identifier" {
+		objectClass = ""
+	}
 
+	for _, sig := range sortedSignatures {
 		if objectClass == "" && slices.Contains([]string{"", "Kernel"}, sig.Class) {
 			printSuggestion(sig.Method, sig.Detail)
 			continue
@@ -115,6 +115,11 @@ func isSuggest(p parser.Parser, objectClass string, sig base.Sig) bool {
 		tmp = "float"
 	case "Unknown":
 		tmp = "unknown"
+	case "":
+		tmp = p.LspSudjestTargetT.ToString()
+		objectClass = tmp
+	default:
+		objectClass = p.LspSudjestTargetT.GetObjectClass()
 	}
 
 	if len(tmp) < 1 {
