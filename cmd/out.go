@@ -43,15 +43,15 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 func PrintSuggestionsForLsp(p parser.Parser) {
 	sortedSignatures := base.GetSortedTSignatures()
 
-	objectVariable := p.LspSudjestTargetT.ToString()
+	targetT := p.LspSudjestTargetT
 
 	for _, sig := range sortedSignatures {
-		if isSuggestForKernelOrObjectClass(objectVariable, sig.Class) {
+		if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
 			printSuggestion(sig.Method, sig.Detail)
 			continue
 		}
 
-		if isSuggest(p, sig) {
+		if isSuggest(targetT, sig) {
 			printSuggestion(sig.Method, sig.Detail)
 		}
 	}
@@ -102,37 +102,40 @@ func printSuggestion(contents, detail string) {
 	fmt.Println(prefixSignature + contents + separator + detail)
 }
 
-func isSuggestForKernelOrObjectClass(targetClass string, sigClass string) bool {
-	if unicode.IsUpper(rune(targetClass[0])) {
+func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
+	if unicode.IsUpper(rune(targetT.ToString()[0])) {
 		return false
 	}
 
 	return slices.Contains([]string{"", "Kernel"}, sigClass)
 }
 
-func isSuggest(p parser.Parser, sig base.Sig) bool {
+func isSuggest(targetT base.T, sig base.Sig) bool {
 	var objectClass string
-	tmp := p.LspSudjestTargetT.GetBeforeEvaluateCode()
+	var isStaticTarget bool
 
-	switch tmp {
-	case "Integer":
-		tmp = "integer"
-	case "Float":
-		tmp = "float"
-	case "Unknown":
-		tmp = "unknown"
+	switch targetT.GetBeforeEvaluateCode() {
+	// example: 1, 1.1, hoge
+	case "Integer", "Float", "Unknown":
+		objectClass = targetT.GetBeforeEvaluateCode()
+		isStaticTarget = false
+
+	// example: Hoge
 	case "":
-		tmp = p.LspSudjestTargetT.ToString()
-		objectClass = tmp
+		objectClass = targetT.ToString()
+		isStaticTarget = unicode.IsUpper(rune(objectClass[0]))
+
+	// example: x, 'x', [], {}, and more...
 	default:
-		objectClass = p.LspSudjestTargetT.GetObjectClass()
+		isStaticTarget = unicode.IsUpper(rune(targetT.GetBeforeEvaluateCode()[0]))
+		objectClass = targetT.GetObjectClass()
 	}
 
-	if len(tmp) < 1 {
+	if len(objectClass) < 1 {
 		return false
 	}
 
-	if unicode.IsUpper(rune(tmp[0])) != sig.IsStatic {
+	if isStaticTarget != sig.IsStatic {
 		return false
 	}
 
@@ -148,7 +151,7 @@ func isSuggest(p parser.Parser, sig base.Sig) bool {
 		return true
 	}
 
-	objectFrame := p.LspSudjestTargetT.GetFrame()
+	objectFrame := targetT.GetFrame()
 
 	if objectFrame == "" && slices.Contains(base.BuiltinClasses, objectClass) {
 		objectFrame = "Builtin"
