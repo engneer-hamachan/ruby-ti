@@ -46,7 +46,7 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 	objectVariable := p.LspSudjestTargetT.ToString()
 
 	for _, sig := range sortedSignatures {
-		if unicode.IsLower(rune(objectVariable[0])) && slices.Contains([]string{"", "Kernel"}, sig.Class) {
+		if isSuggestForKernelOrObjectClass(objectVariable, sig.Class) {
 			printSuggestion(sig.Method, sig.Detail)
 			continue
 		}
@@ -100,6 +100,14 @@ func printInheritance(child, parent base.ClassNode) {
 
 func printSuggestion(contents, detail string) {
 	fmt.Println(prefixSignature + contents + separator + detail)
+}
+
+func isSuggestForKernelOrObjectClass(targetClass string, sigClass string) bool {
+	if unicode.IsUpper(rune(targetClass[0])) {
+		return false
+	}
+
+	return slices.Contains([]string{"", "Kernel"}, sigClass)
 }
 
 func isSuggest(p parser.Parser, sig base.Sig) bool {
