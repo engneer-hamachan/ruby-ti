@@ -62,7 +62,7 @@ func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 		cmd.PrintSuggestionsForLsp(p)
 	}
 
-	if len(p.Errors) > 0 {
+	if len(p.Errors) > 0 && !flags.IsExtends {
 		cmd.PrintAllErrorsForPlugin(p)
 		os.Exit(0)
 	}
