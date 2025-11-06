@@ -200,12 +200,14 @@ func PrintTargetClassExtends() {
 	for classNode, parents := range base.ClassInheritanceMap {
 		if classNode.Class == className {
 			for _, parent := range parents {
-				if parent.Class == "" {
+				switch parent.Class {
+				case "":
 					fmt.Println("Object")
-				} else {
+				default:
 					fmt.Println(parent.Class)
 				}
 			}
+
 			return
 		}
 	}
