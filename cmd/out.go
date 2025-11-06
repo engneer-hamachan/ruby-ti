@@ -193,3 +193,18 @@ func PrintAllTypes() {
 		fmt.Println(name)
 	}
 }
+
+func PrintExtends(className string) {
+	for classNode, parents := range base.ClassInheritanceMap {
+		if classNode.Class == className {
+			for _, parent := range parents {
+				if parent.Class == "" {
+					fmt.Println("Object")
+				} else {
+					fmt.Println(parent.Class)
+				}
+			}
+			return
+		}
+	}
+}

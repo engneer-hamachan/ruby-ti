@@ -27,6 +27,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsAllType = true
 	}
 
+	if hasFlag("--extends") {
+		flags.IsExtends = true
+	}
+
 	return flags
 }
 
@@ -67,6 +71,10 @@ func ValidateArgs() {
 		return
 	}
 
+	if hasFlag("--extends") {
+		return
+	}
+
 	if len(os.Args) == 1 {
 		panic("want one argument!")
 	}
@@ -74,4 +82,13 @@ func ValidateArgs() {
 
 func GetTargetFile() string {
 	return os.Args[1]
+}
+
+func GetTargetClassName() string {
+	for i, arg := range os.Args {
+		if arg == "--extends" && i+1 < len(os.Args) {
+			return os.Args[i+1]
+		}
+	}
+	return ""
 }

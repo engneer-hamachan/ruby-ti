@@ -108,6 +108,11 @@ func main() {
 			loop(p, flags, round)
 		}
 
+		if flags.IsExtends {
+			className := cmd.GetTargetClassName()
+			cmd.PrintExtends(className)
+		}
+
 		done <- true
 	}()
 

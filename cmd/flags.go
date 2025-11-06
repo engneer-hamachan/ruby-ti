@@ -5,6 +5,7 @@ type ExecuteFlags struct {
 	IsDefineAllInfo bool
 	IsLsp           bool
 	IsAllType       bool
+	IsExtends       bool
 }
 
 func NewExecuteFlags() *ExecuteFlags {
