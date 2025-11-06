@@ -62,7 +62,12 @@ func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 		cmd.PrintSuggestionsForLsp(p)
 	}
 
-	if len(p.Errors) > 0 && !flags.IsExtends {
+	if flags.IsExtends {
+		cmd.PrintTargetClassExtends()
+		os.Exit(0)
+	}
+
+	if len(p.Errors) > 0 {
 		cmd.PrintAllErrorsForPlugin(p)
 		os.Exit(0)
 	}
@@ -106,11 +111,6 @@ func main() {
 			cleanSimpleIdentifires()
 
 			loop(p, flags, round)
-		}
-
-		if flags.IsExtends {
-			className := cmd.GetTargetClassName()
-			cmd.PrintExtends(className)
 		}
 
 		done <- true

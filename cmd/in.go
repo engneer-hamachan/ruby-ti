@@ -66,6 +66,15 @@ func getTargetRow() int {
 	return 0
 }
 
+func getTargetClass() string {
+	for _, arg := range os.Args {
+		if strings.HasPrefix(arg, "--class=") {
+			return arg[8:]
+		}
+	}
+	return ""
+}
+
 func ValidateArgs() {
 	if hasFlag("--all-type") {
 		return
@@ -82,13 +91,4 @@ func ValidateArgs() {
 
 func GetTargetFile() string {
 	return os.Args[1]
-}
-
-func GetTargetClassName() string {
-	for i, arg := range os.Args {
-		if arg == "--extends" && i+1 < len(os.Args) {
-			return os.Args[i+1]
-		}
-	}
-	return ""
 }

@@ -194,7 +194,9 @@ func PrintAllTypes() {
 	}
 }
 
-func PrintExtends(className string) {
+func PrintTargetClassExtends() {
+	className := getTargetClass()
+
 	for classNode, parents := range base.ClassInheritanceMap {
 		if classNode.Class == className {
 			for _, parent := range parents {
