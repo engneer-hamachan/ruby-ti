@@ -428,6 +428,17 @@ func checkAndPropagateArgs(
 				)
 		}
 
+		if definedArgT == nil {
+			definedArgT =
+				base.GetValueT(
+					m.evaluatedObjectT.GetFrame(),
+					class,
+					m.method,
+					definedArg,
+					methodT.IsStatic,
+				)
+		}
+
 		if isNotDefineNamedArgError(
 			isKeyTypeDefineArg,
 			definedArgT,
