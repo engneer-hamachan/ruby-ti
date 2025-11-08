@@ -458,7 +458,6 @@ func (d *Def) makeDefineMethodT(
 
 	if isBlockGiven {
 		methodT.IsBlockGiven = isBlockGiven
-		methodT.SetBlockParamaters([]base.T{*base.MakeUntyped()})
 	}
 
 	p.ClearTmpBlockParameters()
