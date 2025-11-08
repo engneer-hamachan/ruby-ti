@@ -1,126 +1,321 @@
 {
   "frame": "Builtin",
   "class": "Hash",
-  "extends": ["Enumerable"],
+  "extends": [
+    "Enumerable"
+  ],
   "instance_methods": [
     {
       "name": "<",
-      "arguments": [{"type": ["Hash"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Hash"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "<=",
-      "arguments": [{"type": ["Hash"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Hash"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "==",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": ">",
-      "arguments": [{"type": ["Hash"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Hash"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": ">=",
-      "arguments": [{"type": ["Hash"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Hash"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "[]",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Self"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
     },
     {
       "name": "[]=",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Self"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
     },
     {
       "name": "clear",
       "arguments": [],
-      "return_type": {"type": ["Hash"]}
+      "return_type": {
+        "type": [
+          "Hash"
+        ]
+      }
     },
     {
       "name": "delete",
-      "arguments": [{"type": ["String", "Symbol"]}],
-      "return_type": {"type": ["Unify", "Nil"]}
+      "arguments": [
+        {
+          "type": [
+            "String",
+            "Symbol"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Unify",
+          "Nil"
+        ]
+      }
     },
     {
       "name": "each",
-      "block_parameters": ["Symbol", "Unify"],
-      "return_type": {"type": ["Self"]}
+      "block_parameters": [
+        "Symbol",
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
     },
     {
       "name": "empty?",
       "arguments": [],
-      "return_type": {"type": ["Bool"]}
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "has_key?",
-      "arguments": [{"type": ["String", "Symbol"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "String",
+            "Symbol"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "has_value?",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "inspect",
       "arguments": [],
-      "return_type": {"type": ["String"]}
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
     },
     {
       "name": "key",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["String", "Symbol", "Nil"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "String",
+          "Symbol",
+          "Nil"
+        ]
+      }
     },
     {
       "name": "keys",
       "arguments": [],
-      "return_type": {"type": ["KeyArray"]}
+      "return_type": {
+        "type": [
+          "KeyArray"
+        ]
+      }
     },
     {
       "name": "length",
       "arguments": [],
-      "return_type": {"type": ["Bool"]}
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "merge",
-      "arguments": [{"type": ["Hash"]}],
-      "block_parameters": ["Symbol", "Unify", "UnifiedSelfArgument"],
-      "return_type": {"type": ["Self"]}
+      "arguments": [
+        {
+          "type": [
+            "Hash"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Symbol",
+        "Unify",
+        "UnifiedSelfArgument"
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
     },
     {
       "name": "merge!",
-      "arguments": [{"type": ["Hash"]}],
-      "block_parameters": ["Symbol", "Unify", "UnifiedSelfArgument"],
-      "return_type": {"type": ["Self"], "is_destructive": true}
+      "arguments": [
+        {
+          "type": [
+            "Hash"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Symbol",
+        "Unify",
+        "UnifiedSelfArgument"
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ],
+        "is_destructive": true
+      }
     },
     {
       "name": "shift",
       "arguments": [],
-      "return_type": {"type": ["Array"]}
+      "return_type": {
+        "type": [
+          "Array"
+        ]
+      }
     },
     {
       "name": "to_h",
       "arguments": [],
-      "return_type": {"type": ["Self"]}
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
     },
     {
       "name": "values",
       "arguments": [],
-      "return_type": {"type": ["KeyValueArray"]}
+      "return_type": {
+        "type": [
+          "KeyValueArray"
+        ]
+      }
     }
   ],
   "class_methods": [
     {
       "name": "new",
-      "arguments": [{"type": ["DefaultUntyped"]}],
-      "return_type": {"type": ["Hash"]}
+      "arguments": [
+        {
+          "type": [
+            "DefaultUntyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Hash"
+        ]
+      }
     }
   ]
 }

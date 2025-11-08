@@ -5,49 +5,115 @@
   "class_methods": [
     {
       "name": "asterisk",
-      "arguments": [{"is_asterisk": true}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "is_asterisk": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "test",
-      "arguments": [{"type": ["Int"]}, {"type": ["String"]}],
-      "return_type": {"type": ["String"]}
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
     },
     {
       "name": "any",
       "arguments": [],
-      "return_type": {"type": ["Untyped"]}
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
     },
     {
       "name": "union",
       "arguments": [],
-      "return_type": {"type": ["Int", "String"]}
+      "return_type": {
+        "type": [
+          "Int",
+          "String"
+        ]
+      }
     },
     {
       "name": "union2",
       "arguments": [],
-      "return_type": {"type": ["IntInt"]}
+      "return_type": {
+        "type": [
+          "IntInt"
+        ]
+      }
     },
     {
       "name": "keyword_json_test",
-      "arguments": [{"key": "name:", "type": ["DefaultInt"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "key": "name:",
+          "type": [
+            "DefaultInt"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "keyword_json_test2",
-      "arguments": [{"key": "name:", "type": ["Int"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "key": "name:",
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "hogefuga",
       "arguments": [],
-      "return_type": {"type": ["Hoge::Fuga"]}
+      "return_type": {
+        "type": [
+          "Hoge::Fuga"
+        ]
+      }
     }
   ],
   "constants": [
     {
       "name": "TEST",
-      "return_type": {"type": ["Float"]}
+      "return_type": {
+        "type": [
+          "Float"
+        ]
+      }
     }
   ]
 }

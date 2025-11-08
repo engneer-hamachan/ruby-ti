@@ -4,7 +4,11 @@
   "instance_methods": [
     {
       "name": "name",
-      "return_type": {"type": ["String"]}
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
     }
   ]
 }

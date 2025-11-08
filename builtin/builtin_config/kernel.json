@@ -4,40 +4,105 @@
   "instance_methods": [
     {
       "name": "p",
-      "arguments": [{"type": ["DefaultUntyped"], "is_asterisk": true}],
-      "return_type": {"type": ["SelfArgument"]}
+      "arguments": [
+        {
+          "type": [
+            "DefaultUntyped"
+          ],
+          "is_asterisk": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "SelfArgument"
+        ]
+      }
     },
     {
       "name": "print",
-      "arguments": [{"type": ["DefaultUntyped"]}],
-      "return_type": {"type": ["Nil"]}
+      "arguments": [
+        {
+          "type": [
+            "DefaultUntyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      }
     },
     {
       "name": "puts",
-      "arguments": [{"type": ["DefaultUntyped"], "is_asterisk": true}],
-      "return_type": {"type": ["Nil"]}
+      "arguments": [
+        {
+          "type": [
+            "DefaultUntyped"
+          ],
+          "is_asterisk": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      }
     },
     {
       "name": "system",
-      "arguments": [{"type": ["String"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "yield",
-      "arguments": [{"type": ["DefaultUntyped"], "is_asterisk": true}],
-      "return_type": {"type": ["SelfArgument"]}
+      "arguments": [
+        {
+          "type": [
+            "DefaultUntyped"
+          ],
+          "is_asterisk": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "SelfArgument"
+        ]
+      }
     },
     {
       "name": "proc",
       "arguments": [],
-      "block_parameters": ["Untyped"],
-      "return_type": {"type": ["Proc"]}
+      "block_parameters": [
+        "Untyped"
+      ],
+      "return_type": {
+        "type": [
+          "Proc"
+        ]
+      }
     },
     {
       "name": "lambda",
       "arguments": [],
-      "block_parameters": ["Untyped"],
-      "return_type": {"type": ["Proc"]}
+      "block_parameters": [
+        "Untyped"
+      ],
+      "return_type": {
+        "type": [
+          "Proc"
+        ]
+      }
     }
   ],
   "class_methods": []

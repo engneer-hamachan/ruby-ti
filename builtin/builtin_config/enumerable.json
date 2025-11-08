@@ -6,14 +6,27 @@
     {
       "name": "collect",
       "arguments": [],
-      "block_parameters": ["Unify"],
-      "return_type": {"type": ["BlockResultArray"]}
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "BlockResultArray"
+        ]
+      }
     },
     {
       "name": "each_with_index",
       "arguments": [],
-      "block_parameters": ["Unify", "Int"],
-      "return_type": {"type": ["Self"]}
+      "block_parameters": [
+        "Unify",
+        "Int"
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
     }
   ],
   "class_methods": []

@@ -5,57 +5,125 @@
     {
       "name": "!",
       "arguments": [],
-      "return_type": {"type": ["Bool"]}
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "&",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "===",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "^",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "inspect",
       "arguments": [],
-      "return_type": {"type": ["String"]}
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
     },
     {
       "name": "nil?",
       "arguments": [],
-      "return_type": {"type": ["Bool"]}
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "to_f",
       "arguments": [],
-      "return_type": {"type": ["Float"]}
+      "return_type": {
+        "type": [
+          "Float"
+        ]
+      }
     },
     {
       "name": "to_h",
       "arguments": [],
-      "return_type": {"type": ["Hash"]}
+      "return_type": {
+        "type": [
+          "Hash"
+        ]
+      }
     },
     {
       "name": "to_i",
       "arguments": [],
-      "return_type": {"type": ["Int"]}
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      }
     },
     {
       "name": "to_s",
       "arguments": [],
-      "return_type": {"type": ["String"]}
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
     },
     {
       "name": "|",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     }
   ],
   "class_methods": []

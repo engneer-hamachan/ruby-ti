@@ -5,32 +5,80 @@
     {
       "name": "!",
       "arguments": [],
-      "return_type": {"type": ["Bool"]}
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "&",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "===",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "^",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     },
     {
       "name": "to_s",
       "arguments": [],
-      "return_type": {"type": ["String"]}
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
     },
     {
       "name": "|",
-      "arguments": [{"type": ["Untyped"]}],
-      "return_type": {"type": ["Bool"]}
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
     }
   ],
   "class_methods": []
