@@ -205,15 +205,13 @@ func (d *Do) setBlockParameters(
 }
 
 func (d *Do) collectBlockVariables(p *parser.Parser) ([]*base.T, error) {
-	nextT, ok, err := p.ReadWithCheck("|")
+	_, ok, err := p.ReadWithCheck("|")
 	if err != nil {
 		return []*base.T{}, err
 	}
 
 	if !ok {
-		if nextT.IsNewLineIdentifier() {
-			p.Unget()
-		}
+		p.Unget()
 
 		return []*base.T{}, err
 	}
