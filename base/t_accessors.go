@@ -56,6 +56,8 @@ func (t *T) GetKeyValue() *T {
 
 // Block parameter accessors
 func (t *T) SetBlockParamaters(blockParamaters []T) {
+	t.blockParamaters = []T{}
+
 	for _, parameter := range blockParamaters {
 		t.blockParamaters = append(t.blockParamaters, parameter)
 	}

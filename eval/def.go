@@ -562,7 +562,11 @@ func (d *Def) makeReturnT(
 		return *base.MakeObject(ctx.GetClass())
 
 	default:
-		return d.getLastEvaluatedTWhenDefineMethod(e, p, ctx)
+		returnT := d.getLastEvaluatedTWhenDefineMethod(e, p, ctx)
+		returnT.SetBlockParamaters([]base.T{})
+		returnT.IsBlockGiven = false
+
+		return returnT
 	}
 }
 

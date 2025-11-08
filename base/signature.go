@@ -109,6 +109,10 @@ func MakeSignatureContent(
 
 		snapShot := content
 
+		if len(methodT.GetBlockParameters()) == 0 {
+			content += "void"
+		}
+
 		for _, variant := range methodT.GetBlockParameters() {
 			if snapShot != content {
 				content += ", "
