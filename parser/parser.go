@@ -14,7 +14,6 @@ type Parser struct {
 	FileName            string
 	Row                 int
 	ErrorRow            int
-	DefineRow           int
 	lastEvaluatedT      any
 	LastCallT           *base.T
 	lastCallFrame       [3]string
@@ -170,8 +169,4 @@ func (p *Parser) GetTmpEvaluaetdArgs() []*base.T {
 
 func (p *Parser) ClearTmpEvaluaetdArgs() {
 	p.tmpEvaluatedArgs = []*base.T{}
-}
-
-func (p *Parser) SetDefineRow() {
-	p.DefineRow = p.ErrorRow
 }

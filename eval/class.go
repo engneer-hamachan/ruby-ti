@@ -110,7 +110,7 @@ func (c *Class) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	p.SetDefineRow()
+	defineRow := p.ErrorRow
 
 	nextT, err := p.Read()
 	if err != nil {
@@ -260,7 +260,7 @@ func (c *Class) Evaluation(
 			methodT,
 			false,
 			p.FileName,
-			p.DefineRow,
+			defineRow,
 		)
 
 	default:
@@ -274,7 +274,7 @@ func (c *Class) Evaluation(
 			newMethodT,
 			false,
 			p.FileName,
-			p.DefineRow,
+			defineRow,
 		)
 	}
 
