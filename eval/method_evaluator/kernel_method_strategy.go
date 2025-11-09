@@ -78,7 +78,7 @@ func (k *kernelPrintStrategy) evaluate(m *MethodEvaluator) error {
 	hint += fmt.Sprintf("%d", defineRow)
 	hint += ":::"
 
-	hint += "print: "
+	hint += "output: "
 	t := m.parser.GetLastEvaluatedT()
 	hint += base.TypeToString(&t)
 
