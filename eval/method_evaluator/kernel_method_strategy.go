@@ -1,11 +1,13 @@
 package method_evaluator
 
 import (
+	"fmt"
 	"ti/base"
 )
 
 func init() {
 	dynamicStrategies[[2]string{"Kernel", "yield"}] = &kernelYieldStrategy{}
+	dynamicStrategies[[2]string{"Kernel", "p"}] = &kernelPrintStrategy{}
 }
 
 type kernelYieldStrategy struct{}
@@ -46,4 +48,58 @@ func (k *kernelYieldStrategy) evaluate(m *MethodEvaluator) error {
 
 	return nil
 
+}
+
+type kernelPrintStrategy struct{}
+
+func (k *kernelPrintStrategy) evaluate(m *MethodEvaluator) error {
+	defineRow := m.parser.ErrorRow
+
+	methodT := base.GetMethodT("Builtin", "Kernel", "p", false)
+
+	if methodT == nil {
+		return m.makeNotDefinedMethodError("Kernel", "p", "instance")
+	}
+
+	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	if err != nil {
+		return err
+	}
+
+	err = checkAndPropagateArgs(m, "Kernel", methodT, evaluatedArgs)
+	if err != nil {
+		return err
+	}
+
+	var hint string
+
+	hint += "@"
+	hint += m.parser.FileName + ":::"
+	hint += fmt.Sprintf("%d", defineRow)
+	hint += ":::"
+
+	hint += "print: "
+	t := m.parser.GetLastEvaluatedT()
+	hint += base.TypeToString(&t)
+
+	m.parser.DefineInfos = append(m.parser.DefineInfos, hint)
+
+	switch len(evaluatedArgs) {
+	case 0:
+		nilT := base.MakeNil()
+		m.parser.SetLastEvaluatedT(nilT)
+
+	case 1:
+		t := evaluatedArgs[0]
+		m.parser.SetLastEvaluatedT(t)
+
+	default:
+		arrayT := base.MakeAnyArray()
+		for _, variant := range evaluatedArgs {
+			arrayT.AppendArrayVariant(*variant)
+		}
+		m.parser.SetLastEvaluatedT(arrayT)
+	}
+
+	return nil
 }
