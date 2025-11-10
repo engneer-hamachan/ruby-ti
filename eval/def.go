@@ -184,6 +184,26 @@ func (d *Def) makeDefineArgVariables(
 		}
 
 		if argT.IsDoubleAsteriskPrefix() {
+			currentT :=
+				base.GetValueT(
+					ctx.GetFrame(),
+					ctx.GetClass(),
+					method,
+					argT.ToString()[2:],
+					ctx.IsDefineStatic,
+				)
+
+			if currentT == nil {
+				base.SetValueT(
+					ctx.GetFrame(),
+					ctx.GetClass(),
+					method,
+					argT.ToString()[2:],
+					base.MakeAnyHash(),
+					ctx.IsDefineStatic,
+				)
+			}
+
 			doubleAsteriskCount++
 		}
 

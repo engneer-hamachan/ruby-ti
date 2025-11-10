@@ -12,7 +12,7 @@ func TestF34f7f5e(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 	expectedOutput := `./f34f7f5e.rb:::2:::Integer
-./f34f7f5e.rb:::3:::Unknown
+./f34f7f5e.rb:::3:::Hash
 ./f34f7f5e.rb:::6:::expected keyvalue argument for **kwargs parameter`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
