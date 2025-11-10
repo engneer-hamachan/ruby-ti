@@ -148,6 +148,7 @@ func (d *Def) makeDefineArgVariables(
 	defer ctx.EndDefineArg()
 
 	var asteriskCount int
+	var doubleAsteriskCount int
 	isBlockGiven := false
 
 	for {
@@ -174,7 +175,19 @@ func (d *Def) makeDefineArgVariables(
 			break
 		}
 
-		if argT.ToString()[0] == '*' {
+		if doubleAsteriskCount > 0 && !argT.IsAmpersandPrefix() {
+			p.Skip()
+			return argVariables, false, fmt.Errorf(
+				"can not define variable after '**' for  %s",
+				ctx.GetMethod(),
+			)
+		}
+
+		if argT.IsDoubleAsteriskPrefix() {
+			doubleAsteriskCount++
+		}
+
+		if argT.IsAsteriskPrefix() {
 			asteriskCount++
 
 			if asteriskCount > 1 {

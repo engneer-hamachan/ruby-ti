@@ -311,7 +311,7 @@ func doubleAsteriskDefineProcess(
 	argTs []*base.T,
 	argIdx int,
 	isStatic bool,
-) (int, int) {
+) (int, int, error) {
 
 	asteriskHashT := base.MakeAnyHash()
 
@@ -323,7 +323,7 @@ func doubleAsteriskDefineProcess(
 		keyvalueT := argTs[argIdx]
 
 		if !keyvalueT.IsKeyValueType() {
-			break
+			return defineArgIdx, argIdx, fmt.Errorf("wrong **kwargs")
 		}
 
 		asteriskHashT.AppendHashVariant(*keyvalueT)
@@ -342,7 +342,7 @@ func doubleAsteriskDefineProcess(
 
 	defineArgIdx++
 
-	return defineArgIdx, argIdx
+	return defineArgIdx, argIdx, nil
 }
 
 func asteriskDefineProcess(
@@ -428,7 +428,7 @@ func checkAndPropagateArgs(
 
 			isAsterisk = true
 
-			defineArgIdx, argIdx =
+			defineArgIdx, argIdx, err =
 				doubleAsteriskDefineProcess(
 					m,
 					class,
@@ -438,6 +438,10 @@ func checkAndPropagateArgs(
 					argIdx,
 					methodT.IsStatic,
 				)
+
+			if err != nil {
+				return err
+			}
 
 			continue
 		}

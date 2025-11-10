@@ -22,6 +22,10 @@ func IsAtmarkPrefix(str string) bool {
 	return len(str) > 1 && str[0] == '@'
 }
 
+func IsAmpersandPrefix(str string) bool {
+	return len(str) > 1 && str[0] == '&'
+}
+
 func IsNameSpace(str string) bool {
 	return len(strings.Split(str, "::")) > 1
 }

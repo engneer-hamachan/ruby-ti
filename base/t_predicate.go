@@ -507,6 +507,14 @@ func (t *T) IsBeforeEvaluateAtmarkPrefix() bool {
 	return IsAtmarkPrefix(t.beforeEvaluateCode)
 }
 
+func (t *T) IsAmpersandPrefix() bool {
+	if t == nil {
+		return false
+	}
+
+	return IsAmpersandPrefix(t.ToString())
+}
+
 func (t *T) IsNameSpaceIdentifier() bool {
 	if t == nil {
 		return false
