@@ -102,7 +102,7 @@ func MakeSignatureContent(
 		if darg[0] == '*' && (dargT == nil || dargT.IsUnknownType()) {
 			switch darg[1] {
 			case '*':
-				dargT = MakeDoubleAsteriskUntyped()
+				dargT = MakeDoubleAsteriskKeyValue()
 
 			default:
 				dargT = MakeAsteriskUntyped()

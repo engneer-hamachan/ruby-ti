@@ -126,7 +126,7 @@ func TypeToString(t *T) string {
 	case SYMBOL:
 		return "Symbol"
 	case KEYVALUE:
-		return "Keyword"
+		return "KeyValue"
 	case CONST:
 		return "Const"
 	case RANGE:
