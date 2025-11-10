@@ -10,6 +10,10 @@ func IsSymbol(str string) bool {
 	return len(str) > 1 && str[0] == ':'
 }
 
+func IsDoubleAsteriskPrefix(str string) bool {
+	return len(str) > 2 && str[0] == '*' && str[1] == '*'
+}
+
 func IsAsteriskPrefix(str string) bool {
 	return len(str) > 1 && str[0] == '*'
 }

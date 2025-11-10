@@ -303,6 +303,48 @@ func checkArgType(
 	}
 }
 
+func doubleAsteriskDefineProcess(
+	m *MethodEvaluator,
+	class string,
+	definedArgNames []string,
+	defineArgIdx int,
+	argTs []*base.T,
+	argIdx int,
+	isStatic bool,
+) (int, int) {
+
+	asteriskHashT := base.MakeAnyHash()
+
+	for {
+		if len(argTs) <= argIdx {
+			break
+		}
+
+		keyvalueT := argTs[argIdx]
+
+		if !keyvalueT.IsKeyValueType() {
+			break
+		}
+
+		asteriskHashT.AppendHashVariant(*keyvalueT)
+
+		argIdx++
+	}
+
+	base.SetValueT(
+		m.evaluatedObjectT.GetFrame(),
+		class,
+		m.method,
+		definedArgNames[defineArgIdx][2:],
+		asteriskHashT,
+		isStatic,
+	)
+
+	defineArgIdx++
+
+	return defineArgIdx, argIdx
+}
+
 func asteriskDefineProcess(
 	m *MethodEvaluator,
 	class string,
@@ -377,6 +419,28 @@ func checkAndPropagateArgs(
 		}
 
 		definedArg := sortedDfineArgs[defineArgIdx]
+
+		// **a
+		if base.IsDoubleAsteriskPrefix(definedArg) {
+			if len(sortedArgTs) < argIdx {
+				break
+			}
+
+			isAsterisk = true
+
+			defineArgIdx, argIdx =
+				doubleAsteriskDefineProcess(
+					m,
+					class,
+					sortedDfineArgs,
+					defineArgIdx,
+					sortedArgTs,
+					argIdx,
+					methodT.IsStatic,
+				)
+
+			continue
+		}
 
 		// *a
 		if base.IsAsteriskPrefix(definedArg) {

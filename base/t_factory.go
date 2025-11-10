@@ -183,6 +183,10 @@ func MakeUntyped() *T {
 	return NewT("Untyped", UNTYPED, "untyped")
 }
 
+func MakeDoubleAsteriskUntyped() *T {
+	return NewT("**untyped", UNTYPED, "**untyped")
+}
+
 func MakeAsteriskUntyped() *T {
 	return NewT("*untyped", UNTYPED, "*untyped")
 }

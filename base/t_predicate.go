@@ -475,12 +475,20 @@ func (t *T) IsAnyType() bool {
 	return t.tType == UNTYPED
 }
 
+func (t *T) IsDoubleAsteriskPrefix() bool {
+	if t == nil {
+		return false
+	}
+
+	return IsDoubleAsteriskPrefix(t.ToString())
+}
+
 func (t *T) IsAsteriskPrefix() bool {
 	if t == nil {
 		return false
 	}
 
-	return IsAsteriskPrefix(t.ToString())
+	return IsAsteriskPrefix(t.ToString()) && !IsDoubleAsteriskPrefix(t.ToString())
 }
 
 func (t *T) IsBeforeEvaluateAsteriskPrefix() bool {
@@ -488,7 +496,7 @@ func (t *T) IsBeforeEvaluateAsteriskPrefix() bool {
 		return false
 	}
 
-	return IsAsteriskPrefix(t.beforeEvaluateCode)
+	return IsAsteriskPrefix(t.beforeEvaluateCode) && !IsDoubleAsteriskPrefix(t.beforeEvaluateCode)
 }
 
 func (t *T) IsBeforeEvaluateAtmarkPrefix() bool {
