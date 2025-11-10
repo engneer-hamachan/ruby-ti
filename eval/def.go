@@ -178,7 +178,7 @@ func (d *Def) makeDefineArgVariables(
 		if doubleAsteriskCount > 0 && !argT.IsAmpersandPrefix() {
 			p.Skip()
 			return argVariables, false, fmt.Errorf(
-				"can not define variable after '**' for  %s",
+				"cannot define parameter after '**' for %s",
 				ctx.GetMethod(),
 			)
 		}

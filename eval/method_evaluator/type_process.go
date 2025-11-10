@@ -323,7 +323,7 @@ func doubleAsteriskDefineProcess(
 		keyvalueT := argTs[argIdx]
 
 		if !keyvalueT.IsKeyValueType() {
-			return defineArgIdx, argIdx, fmt.Errorf("wrong **kwargs")
+			return defineArgIdx, argIdx, fmt.Errorf("expected keyvalue argument for **kwargs parameter")
 		}
 
 		asteriskHashT.AppendHashVariant(*keyvalueT)
