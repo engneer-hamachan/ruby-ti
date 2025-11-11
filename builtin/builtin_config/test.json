@@ -1,7 +1,63 @@
 {
   "frame": "Builtin",
   "class": "Test",
-  "instance_methods": [],
+  "instance_methods": [
+    {
+      "name": "compact_optional",
+      "arguments": [
+        {
+          "type": "?String"
+        }
+      ],
+      "return_type": {
+        "type": "String"
+      }
+    },
+    {
+      "name": "compact_asterisk",
+      "arguments": [
+        {
+          "type": "*String"
+        }
+      ],
+      "return_type": {
+        "type": "String"
+      }
+    },
+    {
+      "name": "compact_union",
+      "arguments": [
+        {
+          "type": "String|Int"
+        }
+      ],
+      "return_type": {
+        "type": "String|Int"
+      }
+    },
+    {
+      "name": "compact_array",
+      "arguments": [
+        {
+          "type": "[String]"
+        }
+      ],
+      "return_type": {
+        "type": "[String]"
+      }
+    },
+    {
+      "name": "compact_complex",
+      "arguments": [
+        {
+          "type": "[String|Int]"
+        }
+      ],
+      "return_type": {
+        "type": "?[String]"
+      }
+    }
+  ],
   "class_methods": [
     {
       "name": "asterisk",
