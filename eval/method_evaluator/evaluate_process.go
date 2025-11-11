@@ -73,7 +73,7 @@ func conditioningMethodReturn(
 	return methodT
 }
 
-func setLastEvaluatedTAndReturn(
+func calculateExecutionType(
 	m *MethodEvaluator,
 	methodT *base.T,
 	args []*base.T,
@@ -81,7 +81,6 @@ func setLastEvaluatedTAndReturn(
 
 	switch methodT.GetType() {
 	case base.BLOCK:
-		m.parser.SetLastEvaluatedT(methodT.GetVal())
 		return methodT.GetVal().(*base.T)
 
 	case base.UNION:
@@ -97,12 +96,10 @@ func setLastEvaluatedTAndReturn(
 		}
 
 		unionT := base.MakeUnifiedT(newVariants)
-		m.parser.SetLastEvaluatedT(unionT)
 
 		return unionT
 
 	case base.SELF:
-		m.parser.SetLastEvaluatedT(m.evaluatedObjectT)
 		return m.evaluatedObjectT
 
 	case base.SELF_CONVERT_ARRAY:
@@ -112,15 +109,12 @@ func setLastEvaluatedTAndReturn(
 			arrayT.AppendArrayVariant(variant)
 		}
 
-		m.parser.SetLastEvaluatedT(arrayT)
-
 		return arrayT
 
 	case base.SELF_ARGUMENT:
 		switch len(args) {
 		case 0:
 			nilT := base.MakeNil()
-			m.parser.SetLastEvaluatedT(nilT)
 			return nilT
 
 		case 1:
@@ -133,21 +127,16 @@ func setLastEvaluatedTAndReturn(
 			for _, variant := range args {
 				arrayT.AppendArrayVariant(*variant)
 			}
-			m.parser.SetLastEvaluatedT(arrayT)
 			return arrayT
 		}
 
 	case base.UNIFY:
 		unifiedT := m.evaluatedObjectT.UnifyVariants()
-		m.parser.SetLastEvaluatedT(unifiedT)
-
 		return unifiedT
 
 	case base.OPTIONAL_UNIFY:
 		m.evaluatedObjectT.AppendVariant(*base.MakeNil())
-
 		unifiedT := base.MakeUnifiedT(m.evaluatedObjectT.GetVariants())
-		m.parser.SetLastEvaluatedT(unifiedT)
 
 		return unifiedT
 
@@ -157,8 +146,6 @@ func setLastEvaluatedTAndReturn(
 
 		arrayT := base.MakeArray()
 		arrayT.AppendArrayVariant(*blockResultT)
-
-		m.parser.SetLastEvaluatedT(arrayT)
 
 		return arrayT
 
@@ -170,7 +157,6 @@ func setLastEvaluatedTAndReturn(
 			arrayT.AppendArrayVariant(*variants.GetKeyValue())
 		}
 
-		m.parser.SetLastEvaluatedT(arrayT)
 		return arrayT
 
 	default:
@@ -183,7 +169,6 @@ func setLastEvaluatedTAndReturn(
 			methodT = t
 		}
 
-		m.parser.SetLastEvaluatedT(methodT)
 		return methodT
 	}
 }
@@ -208,7 +193,8 @@ func evaluateNoUnionInstanceMethod(
 		methodT = conditioningMethodReturn(m, class, methodT, evaluatedArgs)
 	}
 
-	returnT := setLastEvaluatedTAndReturn(m, methodT, evaluatedArgs)
+	returnT := calculateExecutionType(m, methodT, evaluatedArgs)
+	m.parser.SetLastEvaluatedT(returnT)
 
 	// a&.b
 	if m.isAmpersand {
