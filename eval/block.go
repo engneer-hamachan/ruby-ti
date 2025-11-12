@@ -88,20 +88,21 @@ func (d *Do) setBlockParameters(
 		var blockParamaters []base.T
 
 		for _, t := range methodT.GetBlockParameters() {
-			if t.GetType() == base.ARRAY || t.GetType() == base.UNION {
+
+			switch t.GetType() {
+			case base.ARRAY, base.UNION:
 				processedT := calculateBlockParameterType(t, &lastEvaluatedT)
 				blockParamaters = append(blockParamaters, processedT)
-				continue
-			}
 
-			if t.GetType() == base.UNIFY {
+				continue
+
+			case base.UNIFY:
 				blockParamaters =
 					append(blockParamaters, *lastEvaluatedT.UnifyVariants())
 
 				continue
-			}
 
-			if t.GetType() == base.ITEM {
+			case base.ITEM:
 				switch lastEvaluatedT.GetType() {
 				case base.HASH:
 					symbolT := base.MakeSymbol(base.GenId())
@@ -117,9 +118,8 @@ func (d *Do) setBlockParameters(
 				}
 
 				continue
-			}
 
-			if t.GetType() == base.FLATTEN {
+			case base.FLATTEN:
 				tmpParameters := [20]*base.T{}
 
 				if len(lastEvaluatedT.UnifyVariants().GetVariants()) == 0 {
@@ -203,26 +203,28 @@ func (d *Do) setBlockParameters(
 				blockParamaters = newParameters
 
 				continue
-			}
 
-			if t.GetType() == base.SELF {
+			case base.SELF:
 				blockParamaters = append(blockParamaters, lastEvaluatedT)
-				continue
-			}
 
-			if t.GetType() == base.UNIFIED_SELF_ARGUMENT {
+				continue
+
+			case base.UNIFIED_SELF_ARGUMENT:
 				tmpArgTs := p.GetTmpEvaluaetdArgs()
 				blockParamaters = append(blockParamaters, *tmpArgTs[0].UnifyVariants())
 				continue
-			}
 
-			if t.IsNameSpaceIdentifier() {
-				frame, parentClass, class := base.SeparateNameSpaces(t.ToString())
-				t = *base.MakeObject(class)
-				t.SetFrame(base.CalculateFrame(frame, parentClass))
-			}
+			default:
+				if t.IsNameSpaceIdentifier() {
+					frame, parentClass, class := base.SeparateNameSpaces(t.ToString())
+					t = *base.MakeObject(class)
+					t.SetFrame(base.CalculateFrame(frame, parentClass))
+				}
 
-			blockParamaters = append(blockParamaters, t)
+				blockParamaters = append(blockParamaters, t)
+
+				continue
+			}
 		}
 
 		lastEvaluatedT.SetBlockParamaters(blockParamaters)
