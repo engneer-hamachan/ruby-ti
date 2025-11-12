@@ -37,7 +37,6 @@ func ArrayTypeToString(t *T) string {
 
 	unifiedT := t.UnifyVariants()
 
-	// If UnifyVariants returns a single non-Union type, wrap it in a slice
 	if unifiedT.GetType() != UNION {
 		str += TypeToString(unifiedT)
 		str += ">"

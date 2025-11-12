@@ -86,7 +86,6 @@ func calculateExecutionType(
 	case base.UNION:
 		var newVariants []base.T
 		for _, variant := range methodT.GetVariants() {
-			// Recursively process each variant
 			processedT := calculateExecutionType(m, &variant, args)
 			newVariants = append(newVariants, *processedT)
 		}
@@ -127,7 +126,6 @@ func calculateExecutionType(
 		}
 
 	case base.ARRAY:
-		// Recursively process array inner types
 		var newVariants []base.T
 		for _, variant := range methodT.GetVariants() {
 			processedT := calculateExecutionType(m, &variant, args)

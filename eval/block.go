@@ -44,7 +44,6 @@ func calculateBlockParameterType(paramT base.T, evaluatedObjectT *base.T) base.T
 		return *evaluatedObjectT.UnifyVariants()
 
 	case base.ARRAY:
-		// Recursively process array inner types
 		var newVariants []base.T
 		for _, variant := range paramT.GetVariants() {
 			processedT := calculateBlockParameterType(variant, evaluatedObjectT)
@@ -58,7 +57,6 @@ func calculateBlockParameterType(paramT base.T, evaluatedObjectT *base.T) base.T
 		return *arrayT
 
 	case base.UNION:
-		// Recursively process union variants
 		var newVariants []base.T
 		for _, variant := range paramT.GetVariants() {
 			processedT := calculateBlockParameterType(variant, evaluatedObjectT)
@@ -90,7 +88,6 @@ func (d *Do) setBlockParameters(
 		var blockParamaters []base.T
 
 		for _, t := range methodT.GetBlockParameters() {
-			// Handle ARRAY and UNION with inner Unify
 			if t.GetType() == base.ARRAY || t.GetType() == base.UNION {
 				processedT := calculateBlockParameterType(t, &lastEvaluatedT)
 				blockParamaters = append(blockParamaters, processedT)

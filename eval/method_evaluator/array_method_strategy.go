@@ -38,11 +38,7 @@ func (a *arrayAppendStrategy) evaluate(m *MethodEvaluator) error {
 	arrayT := m.evaluatedObjectT
 
 	if len(evaluatedArgs) > 0 {
-		argT := evaluatedArgs[0]
-
-		// If the argument is an array, append it as a single element (don't expand its variants)
-		// Otherwise, append it as-is
-		arrayT.AppendArrayVariant(*argT)
+		arrayT.AppendArrayVariant(*evaluatedArgs[0])
 	}
 
 	base.SetValueT(
