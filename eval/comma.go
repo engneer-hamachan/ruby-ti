@@ -69,7 +69,7 @@ func (d *Comma) Evaluation(
 		break
 	}
 
-	arrayT := base.MakeArray()
+	arrayT := base.MakeAnyArray()
 
 	// x, *y, z
 	for _, t := range tArray {

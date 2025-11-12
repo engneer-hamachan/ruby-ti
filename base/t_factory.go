@@ -70,8 +70,10 @@ func MakeBuiltinDefaultString() *T {
 	return t
 }
 
-func MakeArray() *T {
-	return NewT("Array", ARRAY, "array")
+func MakeArray(variants []T) *T {
+	t := NewT("Array", ARRAY, "array")
+	t.variants = variants
+	return t
 }
 
 func MakeStringArray() *T {

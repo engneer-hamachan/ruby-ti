@@ -398,7 +398,7 @@ func (e *Evaluator) makeArray(
 	defer ctx.EndArrayCollect()
 
 	var isParentheses bool
-	arrayT := base.MakeArray()
+	arrayT := base.MakeAnyArray()
 
 	if t.IsTargetIdentifier("[") {
 		isParentheses = true

@@ -38,6 +38,39 @@ func (d *Do) makeRestoreFunc(
 	}
 }
 
+func calculateBlockParameterType(paramT base.T, evaluatedObjectT *base.T) base.T {
+	switch paramT.GetType() {
+	case base.UNIFY:
+		return *evaluatedObjectT.UnifyVariants()
+
+	case base.ARRAY:
+		// Recursively process array inner types
+		var newVariants []base.T
+		for _, variant := range paramT.GetVariants() {
+			processedT := calculateBlockParameterType(variant, evaluatedObjectT)
+			newVariants = append(newVariants, processedT)
+		}
+
+		arrayT := base.MakeAnyArray()
+		for _, variant := range newVariants {
+			arrayT.AppendArrayVariant(variant)
+		}
+		return *arrayT
+
+	case base.UNION:
+		// Recursively process union variants
+		var newVariants []base.T
+		for _, variant := range paramT.GetVariants() {
+			processedT := calculateBlockParameterType(variant, evaluatedObjectT)
+			newVariants = append(newVariants, processedT)
+		}
+		return *base.MakeUnifiedT(newVariants)
+
+	default:
+		return paramT
+	}
+}
+
 func (d *Do) setBlockParameters(
 	p *parser.Parser,
 	ctx context.Context,
@@ -57,6 +90,13 @@ func (d *Do) setBlockParameters(
 		var blockParamaters []base.T
 
 		for _, t := range methodT.GetBlockParameters() {
+			// Handle ARRAY and UNION with inner Unify
+			if t.GetType() == base.ARRAY || t.GetType() == base.UNION {
+				processedT := calculateBlockParameterType(t, &lastEvaluatedT)
+				blockParamaters = append(blockParamaters, processedT)
+				continue
+			}
+
 			if t.GetType() == base.UNIFY {
 				blockParamaters =
 					append(blockParamaters, *lastEvaluatedT.UnifyVariants())

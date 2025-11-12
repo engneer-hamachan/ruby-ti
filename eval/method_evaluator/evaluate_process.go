@@ -86,13 +86,9 @@ func calculateExecutionType(
 	case base.UNION:
 		var newVariants []base.T
 		for _, variant := range methodT.GetVariants() {
-			if variant.GetType() == base.UNIFY {
-				unifiedT := m.evaluatedObjectT.UnifyVariants()
-				newVariants = append(newVariants, *unifiedT)
-				continue
-			}
-
-			newVariants = append(newVariants, variant)
+			// Recursively process each variant
+			processedT := calculateExecutionType(m, &variant, args)
+			newVariants = append(newVariants, *processedT)
 		}
 
 		unionT := base.MakeUnifiedT(newVariants)
@@ -130,6 +126,20 @@ func calculateExecutionType(
 			return arrayT
 		}
 
+	case base.ARRAY:
+		// Recursively process array inner types
+		var newVariants []base.T
+		for _, variant := range methodT.GetVariants() {
+			processedT := calculateExecutionType(m, &variant, args)
+			newVariants = append(newVariants, *processedT)
+		}
+
+		arrayT := base.MakeAnyArray()
+		for _, variant := range newVariants {
+			arrayT.AppendArrayVariant(variant)
+		}
+		return arrayT
+
 	case base.UNIFY:
 		unifiedT := m.evaluatedObjectT.UnifyVariants()
 		return unifiedT
@@ -144,7 +154,7 @@ func calculateExecutionType(
 		blockT := m.parser.GetLastEvaluatedT()
 		blockResultT := blockT.GetVal().(*base.T)
 
-		arrayT := base.MakeArray()
+		arrayT := base.MakeAnyArray()
 		arrayT.AppendArrayVariant(*blockResultT)
 
 		return arrayT

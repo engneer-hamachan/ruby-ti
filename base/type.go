@@ -35,14 +35,23 @@ const (
 func ArrayTypeToString(t *T) string {
 	str := "Array<"
 
-	variants := t.UnifyVariants().GetVariants()
+	unifiedT := t.UnifyVariants()
+
+	// If UnifyVariants returns a single non-Union type, wrap it in a slice
+	if unifiedT.GetType() != UNION {
+		str += TypeToString(unifiedT)
+		str += ">"
+		return str
+	}
+
+	variants := unifiedT.GetVariants()
 
 	switch len(variants) {
 	case 0:
-		str += TypeToString(t.UnifyVariants())
+		str += "untyped"
 
 	default:
-		for _, variantT := range t.UnifyVariants().GetVariants() {
+		for _, variantT := range variants {
 			switch variantT.GetType() {
 			case UNION:
 				str += UnionTypeToString(variantT.variants)

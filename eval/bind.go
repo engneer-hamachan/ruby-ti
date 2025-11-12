@@ -187,7 +187,7 @@ func (b *Bind) handleMultipleToMultipleAsigntment(
 
 		// *x, y = 1, 2, 3
 		if leftTs[leftIdx].IsBeforeEvaluateAsteriskPrefix() {
-			arrayT := base.MakeArray()
+			arrayT := base.MakeAnyArray()
 
 			for {
 				if rightIdx > (rightLen - len(leftTs[leftIdx:])) {

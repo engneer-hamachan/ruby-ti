@@ -28,7 +28,7 @@ var (
 	DefaultFloatT  = *base.MakeBuiltinDefaultFloat()
 	OptionalFloatT = *base.MakeUnion([]base.T{FloatT, NilT})
 	//Array
-	ArrayT       = *base.MakeArray()
+	ArrayT       = *base.MakeAnyArray()
 	StringArrayT = *base.MakeStringArray()
 	IntArrayT    = *base.MakeIntArray()
 	FloatArrayT  = *base.MakeFloatArray()

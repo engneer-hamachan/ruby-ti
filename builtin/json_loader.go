@@ -158,7 +158,7 @@ func parseTypeString(typeStr string) base.T {
 			return FloatArrayT
 		default:
 			// Generic array with element type info in variants
-			arrayType := *base.MakeArray()
+			arrayType := *base.MakeAnyArray()
 			arrayType.AppendArrayVariant(innerType)
 			return arrayType
 		}
