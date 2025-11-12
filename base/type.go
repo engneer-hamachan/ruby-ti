@@ -30,6 +30,7 @@ const (
 	UNIFIED_SELF_ARGUMENT = 279
 	KEYVALUE_ARRAY        = 280
 	FLATTEN               = 281
+	ITEM                  = 282
 )
 
 func ArrayTypeToString(t *T) string {
@@ -155,6 +156,8 @@ func TypeToString(t *T) string {
 		return "BlockResultArray"
 	case KEYVALUE_ARRAY:
 		return "KeyValueArray"
+	case ITEM:
+		return "Item"
 	default:
 		fmt.Println(t.tType)
 		panic("type convert error")

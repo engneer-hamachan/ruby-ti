@@ -7,7 +7,7 @@
       "name": "collect",
       "arguments": [],
       "block_parameters": [
-        "Unify"
+        "Item"
       ],
       "return_type": {
         "type": [

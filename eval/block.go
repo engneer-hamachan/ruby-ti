@@ -101,6 +101,24 @@ func (d *Do) setBlockParameters(
 				continue
 			}
 
+			if t.GetType() == base.ITEM {
+				switch lastEvaluatedT.GetType() {
+				case base.HASH:
+					symbolT := base.MakeSymbol(base.GenId())
+					unifiedT := lastEvaluatedT.UnifyVariants()
+
+					arrayT := base.MakeArray([]base.T{*symbolT, *unifiedT})
+
+					blockParamaters = append(blockParamaters, *arrayT)
+
+				default:
+					blockParamaters =
+						append(blockParamaters, *lastEvaluatedT.UnifyVariants())
+				}
+
+				continue
+			}
+
 			if t.GetType() == base.FLATTEN {
 				tmpParameters := [20]*base.T{}
 

@@ -244,6 +244,8 @@ func parseTypeString(typeStr string) base.T {
 		return UnifiedSelfArgumentT
 	case "Flatten":
 		return FlattenT
+	case "Item":
+		return ItemT
 	default:
 		if len(strings.Split(typeStr, "::")) > 1 {
 			return *base.MakeIdentifier(typeStr)

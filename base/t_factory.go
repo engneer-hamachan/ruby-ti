@@ -284,3 +284,7 @@ func MakeEos() *T {
 func MakeFlatten() *T {
 	return NewT("FLATTEN", FLATTEN, "flatten")
 }
+
+func MakeItem() *T {
+	return NewT("ITEM", ITEM, "Item")
+}
