@@ -38,7 +38,7 @@ func (d *Do) makeRestoreFunc(
 	}
 }
 
-func calculateBlockParameterType(paramT base.T, evaluatedObjectT *base.T) base.T {
+func recursiveCalculateType(paramT base.T, evaluatedObjectT *base.T) base.T {
 	switch paramT.GetType() {
 	case base.UNIFY:
 		return *evaluatedObjectT.UnifyVariants()
@@ -46,7 +46,7 @@ func calculateBlockParameterType(paramT base.T, evaluatedObjectT *base.T) base.T
 	case base.ARRAY:
 		var newVariants []base.T
 		for _, variant := range paramT.GetVariants() {
-			processedT := calculateBlockParameterType(variant, evaluatedObjectT)
+			processedT := recursiveCalculateType(variant, evaluatedObjectT)
 			newVariants = append(newVariants, processedT)
 		}
 
@@ -59,13 +59,158 @@ func calculateBlockParameterType(paramT base.T, evaluatedObjectT *base.T) base.T
 	case base.UNION:
 		var newVariants []base.T
 		for _, variant := range paramT.GetVariants() {
-			processedT := calculateBlockParameterType(variant, evaluatedObjectT)
+			processedT := recursiveCalculateType(variant, evaluatedObjectT)
 			newVariants = append(newVariants, processedT)
 		}
 		return *base.MakeUnifiedT(newVariants)
 
 	default:
 		return paramT
+	}
+}
+
+func (d *Do) appendParameterBeforeTypeCalculate(
+	p *parser.Parser,
+	t base.T,
+	lastEvaluatedT base.T,
+	blockParamaters []base.T,
+) []base.T {
+
+	switch t.GetType() {
+	case base.ARRAY, base.UNION:
+		processedT := recursiveCalculateType(t, &lastEvaluatedT)
+		blockParamaters = append(blockParamaters, processedT)
+
+		return blockParamaters
+
+	case base.UNIFY:
+		blockParamaters =
+			append(blockParamaters, *lastEvaluatedT.UnifyVariants())
+
+		return blockParamaters
+
+	case base.ITEM:
+		switch lastEvaluatedT.GetType() {
+		case base.HASH:
+			symbolT := base.MakeSymbol(base.GenId())
+			unifiedT := lastEvaluatedT.UnifyVariants()
+
+			arrayT := base.MakeArray([]base.T{*symbolT, *unifiedT})
+
+			blockParamaters = append(blockParamaters, *arrayT)
+
+		default:
+			blockParamaters =
+				append(blockParamaters, *lastEvaluatedT.UnifyVariants())
+		}
+
+		return blockParamaters
+
+	case base.FLATTEN:
+		tmpParameters := [20]*base.T{}
+
+		if len(lastEvaluatedT.UnifyVariants().GetVariants()) == 0 {
+			blockParamaters =
+				append(blockParamaters, *lastEvaluatedT.UnifyVariants())
+
+			return blockParamaters
+		}
+
+		for idx, variant := range lastEvaluatedT.UnifyVariants().GetVariants() {
+			switch variant.GetType() {
+			case base.ARRAY:
+				arrayVariants := variant.GetVariants()
+
+				for idx, arrayVariant := range arrayVariants {
+					if tmpParameters[idx] == nil {
+						arrayT := base.MakeAnyArray()
+						tmpParameters[idx] = arrayT
+					}
+
+					tmpParameters[idx].AppendArrayVariant(arrayVariant)
+				}
+
+			case base.KEYVALUE:
+				hashT := base.MakeAnyHash()
+				hashT.AppendHashVariant(variant)
+				tmpParameters[idx] = hashT
+				continue
+
+			case base.OBJECT:
+				if tmpParameters[idx] == nil {
+					arrayT := base.MakeAnyArray()
+					tmpParameters[idx] = arrayT
+				}
+
+				tmpParameters[idx].AppendArrayVariant(variant)
+
+			default:
+				if tmpParameters[0] == nil {
+					unionT := base.MakeUnion([]base.T{variant})
+					tmpParameters[0] = unionT
+					continue
+				}
+
+				tmpParameters[0].AppendVariant(variant)
+			}
+		}
+
+		// max
+		var maxLength int
+		for _, variant := range tmpParameters {
+			if variant != nil && len(variant.GetVariants()) > maxLength {
+				maxLength = len(variant.GetVariants())
+			}
+		}
+
+		var newParameters []base.T
+
+		for _, variant := range tmpParameters {
+			if variant == nil {
+				continue
+			}
+
+			if variant.IsArrayType() && len(variant.GetVariants()) < maxLength {
+				variant.AppendArrayVariant(*base.MakeNil())
+			}
+
+			if variant.IsHashType() {
+				newParameters = append(newParameters, *variant)
+				continue
+			}
+
+			switch len(variant.GetVariants()) {
+			case 0:
+				newParameters = append(newParameters, *variant)
+			default:
+				newParameters = append(newParameters, *variant.UnifyVariants())
+			}
+		}
+
+		blockParamaters = newParameters
+
+		return blockParamaters
+
+	case base.SELF:
+		blockParamaters = append(blockParamaters, lastEvaluatedT)
+
+		return blockParamaters
+
+	case base.UNIFIED_SELF_ARGUMENT:
+		tmpArgTs := p.GetTmpEvaluaetdArgs()
+		blockParamaters = append(blockParamaters, *tmpArgTs[0].UnifyVariants())
+		return blockParamaters
+
+	default:
+		if t.IsNameSpaceIdentifier() {
+			frame, parentClass, class := base.SeparateNameSpaces(t.ToString())
+			t = *base.MakeObject(class)
+			t.SetFrame(base.CalculateFrame(frame, parentClass))
+		}
+
+		blockParamaters = append(blockParamaters, t)
+
+		return blockParamaters
 	}
 }
 
@@ -88,143 +233,13 @@ func (d *Do) setBlockParameters(
 		var blockParamaters []base.T
 
 		for _, t := range methodT.GetBlockParameters() {
-
-			switch t.GetType() {
-			case base.ARRAY, base.UNION:
-				processedT := calculateBlockParameterType(t, &lastEvaluatedT)
-				blockParamaters = append(blockParamaters, processedT)
-
-				continue
-
-			case base.UNIFY:
-				blockParamaters =
-					append(blockParamaters, *lastEvaluatedT.UnifyVariants())
-
-				continue
-
-			case base.ITEM:
-				switch lastEvaluatedT.GetType() {
-				case base.HASH:
-					symbolT := base.MakeSymbol(base.GenId())
-					unifiedT := lastEvaluatedT.UnifyVariants()
-
-					arrayT := base.MakeArray([]base.T{*symbolT, *unifiedT})
-
-					blockParamaters = append(blockParamaters, *arrayT)
-
-				default:
-					blockParamaters =
-						append(blockParamaters, *lastEvaluatedT.UnifyVariants())
-				}
-
-				continue
-
-			case base.FLATTEN:
-				tmpParameters := [20]*base.T{}
-
-				if len(lastEvaluatedT.UnifyVariants().GetVariants()) == 0 {
-					blockParamaters =
-						append(blockParamaters, *lastEvaluatedT.UnifyVariants())
-
-					continue
-				}
-
-				for idx, variant := range lastEvaluatedT.UnifyVariants().GetVariants() {
-					switch variant.GetType() {
-					case base.ARRAY:
-						arrayVariants := variant.GetVariants()
-
-						for idx, arrayVariant := range arrayVariants {
-							if tmpParameters[idx] == nil {
-								arrayT := base.MakeAnyArray()
-								tmpParameters[idx] = arrayT
-							}
-
-							tmpParameters[idx].AppendArrayVariant(arrayVariant)
-						}
-
-					case base.KEYVALUE:
-						hashT := base.MakeAnyHash()
-						hashT.AppendHashVariant(variant)
-						tmpParameters[idx] = hashT
-						continue
-
-					case base.OBJECT:
-						if tmpParameters[idx] == nil {
-							arrayT := base.MakeAnyArray()
-							tmpParameters[idx] = arrayT
-						}
-
-						tmpParameters[idx].AppendArrayVariant(variant)
-
-					default:
-						if tmpParameters[0] == nil {
-							unionT := base.MakeUnion([]base.T{variant})
-							tmpParameters[0] = unionT
-							continue
-						}
-
-						tmpParameters[0].AppendVariant(variant)
-					}
-				}
-
-				// max
-				var maxLength int
-				for _, variant := range tmpParameters {
-					if variant != nil && len(variant.GetVariants()) > maxLength {
-						maxLength = len(variant.GetVariants())
-					}
-				}
-
-				var newParameters []base.T
-
-				for _, variant := range tmpParameters {
-					if variant == nil {
-						continue
-					}
-
-					if variant.IsArrayType() && len(variant.GetVariants()) < maxLength {
-						variant.AppendArrayVariant(*base.MakeNil())
-					}
-
-					if variant.IsHashType() {
-						newParameters = append(newParameters, *variant)
-						continue
-					}
-
-					switch len(variant.GetVariants()) {
-					case 0:
-						newParameters = append(newParameters, *variant)
-					default:
-						newParameters = append(newParameters, *variant.UnifyVariants())
-					}
-				}
-
-				blockParamaters = newParameters
-
-				continue
-
-			case base.SELF:
-				blockParamaters = append(blockParamaters, lastEvaluatedT)
-
-				continue
-
-			case base.UNIFIED_SELF_ARGUMENT:
-				tmpArgTs := p.GetTmpEvaluaetdArgs()
-				blockParamaters = append(blockParamaters, *tmpArgTs[0].UnifyVariants())
-				continue
-
-			default:
-				if t.IsNameSpaceIdentifier() {
-					frame, parentClass, class := base.SeparateNameSpaces(t.ToString())
-					t = *base.MakeObject(class)
-					t.SetFrame(base.CalculateFrame(frame, parentClass))
-				}
-
-				blockParamaters = append(blockParamaters, t)
-
-				continue
-			}
+			blockParamaters =
+				d.appendParameterBeforeTypeCalculate(
+					p,
+					t,
+					lastEvaluatedT,
+					blockParamaters,
+				)
 		}
 
 		lastEvaluatedT.SetBlockParamaters(blockParamaters)
