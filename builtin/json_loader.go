@@ -125,6 +125,7 @@ var AllTypeNames = []string{
 	"KeyValueArray",
 	"UnifiedSelfArgument",
 	"Flatten",
+	"Item",
 }
 
 func parseTypeString(typeStr string) base.T {
