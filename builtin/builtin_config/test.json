@@ -1,63 +1,7 @@
 {
   "frame": "Builtin",
   "class": "Test",
-  "instance_methods": [
-    {
-      "name": "compact_optional",
-      "arguments": [
-        {
-          "type": "?String"
-        }
-      ],
-      "return_type": {
-        "type": "String"
-      }
-    },
-    {
-      "name": "compact_asterisk",
-      "arguments": [
-        {
-          "type": "*String"
-        }
-      ],
-      "return_type": {
-        "type": "String"
-      }
-    },
-    {
-      "name": "compact_union",
-      "arguments": [
-        {
-          "type": "String|Int"
-        }
-      ],
-      "return_type": {
-        "type": "String|Int"
-      }
-    },
-    {
-      "name": "compact_array",
-      "arguments": [
-        {
-          "type": "[String]"
-        }
-      ],
-      "return_type": {
-        "type": "[String]"
-      }
-    },
-    {
-      "name": "compact_complex",
-      "arguments": [
-        {
-          "type": "[String|Int]"
-        }
-      ],
-      "return_type": {
-        "type": "?[String]"
-      }
-    }
-  ],
+  "instance_methods": [],
   "class_methods": [
     {
       "name": "asterisk",
@@ -159,6 +103,61 @@
         "type": [
           "Hoge::Fuga"
         ]
+      }
+    },
+    {
+      "name": "compact_optional",
+      "arguments": [
+        {
+          "type": "?String"
+        }
+      ],
+      "return_type": {
+        "type": "String"
+      }
+    },
+    {
+      "name": "compact_asterisk",
+      "arguments": [
+        {
+          "type": "*String"
+        }
+      ],
+      "return_type": {
+        "type": "String"
+      }
+    },
+    {
+      "name": "compact_union",
+      "arguments": [
+        {
+          "type": "String|Int"
+        }
+      ],
+      "return_type": {
+        "type": "String|Int"
+      }
+    },
+    {
+      "name": "compact_array",
+      "arguments": [
+        {
+          "type": "[String]"
+        }
+      ],
+      "return_type": {
+        "type": "[String]"
+      }
+    },
+    {
+      "name": "compact_complex",
+      "arguments": [
+        {
+          "type": "[String|Int]"
+        }
+      ],
+      "return_type": {
+        "type": "?[String]"
       }
     }
   ],
