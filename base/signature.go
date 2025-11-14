@@ -99,7 +99,7 @@ func MakeSignatureContent(
 			GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
 
 		// *a or **a
-		if darg[0] == '*' && (dargT == nil || dargT.IsUnknownType()) {
+		if darg[0] == '*' {
 			switch darg[1] {
 			case '*':
 				dargT = MakeDoubleAsteriskKeyValue()

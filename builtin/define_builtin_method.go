@@ -80,6 +80,7 @@ func (d *defineBuiltinMethod) defineBuiltinStaticMethod(
 ) {
 
 	argIdentifiers := d.setupMethodArgs(method, argTypes, true)
+
 	methodT := base.MakeMethod(frame, method, returnT, argIdentifiers)
 
 	base.SetClassMethodT(frame, d.targetClass, methodT, false, "unknown", 0)
