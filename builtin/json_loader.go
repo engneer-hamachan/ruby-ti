@@ -146,23 +146,12 @@ func parseTypeString(typeStr string) base.T {
 
 	// Array type: [String] -> Array<String>
 	if len(typeStr) > 2 && typeStr[0] == '[' && typeStr[len(typeStr)-1] == ']' {
-		innerTypeStr := typeStr[1 : len(typeStr)-1]
-		innerType := parseTypeString(innerTypeStr)
+		innerType := typeStr[1 : len(typeStr)-1]
+		innerT := parseTypeString(innerType)
 
-		// Create specialized array types
-		switch innerType.GetType() {
-		case base.STRING:
-			return StringArrayT
-		case base.INT:
-			return IntArrayT
-		case base.FLOAT:
-			return FloatArrayT
-		default:
-			// Generic array with element type info in variants
-			arrayType := *base.MakeAnyArray()
-			arrayType.AppendArrayVariant(innerType)
-			return arrayType
-		}
+		arrayT := *base.MakeArray([]base.T{innerT})
+
+		return arrayT
 	}
 
 	// Union type: String|Int -> Union<String, Int>
