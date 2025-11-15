@@ -264,6 +264,15 @@ func GetTopLevelMethodT(
 		return methodT
 	}
 
+	methodT = getParentMethodT(frame, class, method, false, true)
+	if methodT != nil {
+		return methodT
+	}
+
+	if ok {
+		return methodT
+	}
+
 	methodT, ok =
 		TFrame[methodTFrameKey("Builtin", "", method, false)]
 
