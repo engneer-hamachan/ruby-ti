@@ -70,6 +70,28 @@ func makeDefineArgumentInfo(
 				methodT.IsStatic,
 			)
 
+		if definedArgT == nil {
+			definedArgT =
+				base.GetValueT(
+					methodT.GetFrame(),
+					methodT.DefinedClass,
+					m.method,
+					definedArg,
+					methodT.IsStatic,
+				)
+		}
+
+		if definedArgT == nil {
+			definedArgT =
+				base.GetValueT(
+					m.evaluatedObjectT.GetFrame(),
+					class,
+					m.method,
+					definedArg,
+					methodT.IsStatic,
+				)
+		}
+
 		argumentTypes += base.TypeToStringForSignature(definedArgT)
 	}
 
