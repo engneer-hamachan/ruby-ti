@@ -399,6 +399,48 @@ func asteriskDefineProcess(
 	return defineArgIdx, argIdx
 }
 
+func getDefinedArgT(
+	m *MethodEvaluator,
+	methodT *base.T,
+	class string,
+	definedArg string,
+) *base.T {
+
+	definedArgT :=
+		base.GetValueT(
+			methodT.GetFrame(),
+			class,
+			m.method,
+			definedArg,
+			methodT.IsStatic,
+		)
+
+	// TODO: design later
+	if definedArgT == nil {
+		definedArgT =
+			base.GetValueT(
+				methodT.GetFrame(),
+				methodT.DefinedClass,
+				m.method,
+				definedArg,
+				methodT.IsStatic,
+			)
+	}
+
+	if definedArgT == nil {
+		definedArgT =
+			base.GetValueT(
+				m.evaluatedObjectT.GetFrame(),
+				class,
+				m.method,
+				definedArg,
+				methodT.IsStatic,
+			)
+	}
+
+	return definedArgT
+}
+
 func checkAndPropagateArgs(
 	m *MethodEvaluator,
 	class string,
@@ -475,37 +517,7 @@ func checkAndPropagateArgs(
 			definedArg = base.RemoveSuffix(definedArg)
 		}
 
-		definedArgT :=
-			base.GetValueT(
-				methodT.GetFrame(),
-				class,
-				m.method,
-				definedArg,
-				methodT.IsStatic,
-			)
-
-		// TODO: design later
-		if definedArgT == nil {
-			definedArgT =
-				base.GetValueT(
-					methodT.GetFrame(),
-					methodT.DefinedClass,
-					m.method,
-					definedArg,
-					methodT.IsStatic,
-				)
-		}
-
-		if definedArgT == nil {
-			definedArgT =
-				base.GetValueT(
-					m.evaluatedObjectT.GetFrame(),
-					class,
-					m.method,
-					definedArg,
-					methodT.IsStatic,
-				)
-		}
+		definedArgT := getDefinedArgT(m, methodT, class, definedArg)
 
 		if isNotDefineNamedArgError(
 			isKeyTypeDefineArg,

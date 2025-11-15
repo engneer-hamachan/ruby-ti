@@ -61,36 +61,7 @@ func makeDefineArgumentInfo(
 			definedArg = base.RemoveSuffix(definedArg)
 		}
 
-		definedArgT :=
-			base.GetValueT(
-				methodT.GetFrame(),
-				class,
-				m.method,
-				definedArg,
-				methodT.IsStatic,
-			)
-
-		if definedArgT == nil {
-			definedArgT =
-				base.GetValueT(
-					methodT.GetFrame(),
-					methodT.DefinedClass,
-					m.method,
-					definedArg,
-					methodT.IsStatic,
-				)
-		}
-
-		if definedArgT == nil {
-			definedArgT =
-				base.GetValueT(
-					m.evaluatedObjectT.GetFrame(),
-					class,
-					m.method,
-					definedArg,
-					methodT.IsStatic,
-				)
-		}
+		definedArgT := getDefinedArgT(m, methodT, class, definedArg)
 
 		argumentTypes += base.TypeToStringForSignature(definedArgT)
 	}
