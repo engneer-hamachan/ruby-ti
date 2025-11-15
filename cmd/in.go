@@ -20,7 +20,7 @@ func BuildFlags() *ExecuteFlags {
 	}
 
 	if hasFlag("--suggest") {
-		flags.IsLsp = true
+		flags.IsSuggest = true
 	}
 
 	if hasFlag("--all-type") {

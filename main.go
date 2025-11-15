@@ -58,7 +58,7 @@ func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 		cmd.PrintAllDefinitionsForLsp(p)
 	}
 
-	if len(base.TSignatures) > 0 && flags.IsLsp {
+	if len(base.TSignatures) > 0 && flags.IsSuggest {
 		cmd.PrintSuggestionsForLsp(p)
 	}
 

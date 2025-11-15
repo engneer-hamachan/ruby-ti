@@ -3,7 +3,7 @@ package cmd
 type ExecuteFlags struct {
 	IsDefineInfo    bool
 	IsDefineAllInfo bool
-	IsLsp           bool
+	IsSuggest       bool
 	IsAllType       bool
 	IsExtends       bool
 }
