@@ -131,6 +131,11 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		objectClass = targetT.GetObjectClass()
 	}
 
+	if targetT.IsIdentifierType() {
+		isStaticTarget = true
+		objectClass = targetT.DefinedClass
+	}
+
 	if len(objectClass) < 1 {
 		return false
 	}

@@ -25,6 +25,7 @@ type T struct {
 	IsStatic            bool
 	DefinedFrame        string
 	DefinedClass        string
+	DefinedMethod       string
 }
 
 func (t *T) DeepCopy() *T {

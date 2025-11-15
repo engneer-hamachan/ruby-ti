@@ -100,6 +100,10 @@ func (e *Evaluator) handleIdentifier(
 
 	identifierT := base.MakeIdentifier(id)
 
+	identifierT.DefinedFrame = ctx.GetFrame()
+	identifierT.DefinedClass = ctx.GetClass()
+	identifierT.DefinedMethod = ctx.GetMethod()
+
 	base.SetValueT(
 		ctx.GetFrame(),
 		ctx.GetClass(),
