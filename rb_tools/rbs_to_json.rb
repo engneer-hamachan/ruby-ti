@@ -126,17 +126,33 @@ def parse_rbs_file(file_path)
 end
 
 def extract_module_and_classes(decls)
-  module_decl = decls.find { |d| d.is_a?(RBS::AST::Declarations::Module) }
+  module_decls = decls.select { |d| d.is_a?(RBS::AST::Declarations::Module) }
 
-  if module_decl
-    frame_name = module_decl.name.name.to_s
-    class_decls = module_decl.members.select { |m| m.is_a?(RBS::AST::Declarations::Class) }
+  if module_decls.any?
+    frame_name = module_decls.first.name.name.to_s
+
+    all_class_decls = []
+    module_decls.each do |mod_decl|
+      all_class_decls.concat(mod_decl.members.select { |m| m.is_a?(RBS::AST::Declarations::Class) })
+    end
+
+    { module: module_decls.first, classes: all_class_decls, frame: frame_name }
   else
     frame_name = "Builtin"
     class_decls = decls.select { |d| d.is_a?(RBS::AST::Declarations::Class) }
+    { module: nil, classes: class_decls, frame: frame_name }
+  end
+end
+
+# Collect instance methods from nested Methods module
+def collect_nested_instance_methods_from_methods_module(klass_decl)
+  methods_module = klass_decl.members.find do |m|
+    m.is_a?(RBS::AST::Declarations::Module) && m.name.name.to_s == "Methods"
   end
 
-  { module: module_decl, classes: class_decls, frame: frame_name }
+  return [] unless methods_module
+
+  collect_instance_methods(methods_module)
 end
 
 # Instance method collection
@@ -283,12 +299,23 @@ def collect_singleton_methods(klass_decl)
   methods
 end
 
+def collect_nested_class_methods_from_class_methods_module(klass_decl)
+  class_methods_module = klass_decl.members.find do |m|
+    m.is_a?(RBS::AST::Declarations::Module) && m.name.name.to_s == "ClassMethods"
+  end
+
+  return [] unless class_methods_module
+
+  collect_instance_methods(class_methods_module)
+end
+
 def collect_class_methods(klass_decl)
   methods = []
   initialize_method = find_initialize_method(klass_decl)
   new_method = build_new_method(klass_decl, initialize_method)
   methods << new_method if new_method
   methods.concat(collect_singleton_methods(klass_decl))
+  methods.concat(collect_nested_class_methods_from_class_methods_module(klass_decl))
   methods
 end
 
@@ -311,7 +338,10 @@ def build_class_output(klass_decl, frame_name)
   extends = collect_extends(klass_decl)
   output["extends"] = extends unless extends.empty?
 
-  output["instance_methods"] = collect_instance_methods(klass_decl)
+  instance_methods = collect_instance_methods(klass_decl)
+  nested_methods = collect_nested_instance_methods_from_methods_module(klass_decl)
+  all_instance_methods = instance_methods + nested_methods
+  output["instance_methods"] = all_instance_methods
 
   class_methods = collect_class_methods(klass_decl)
   output["class_methods"] = class_methods unless class_methods.empty?
@@ -367,9 +397,41 @@ if parsed[:module]
   all_outputs << module_output if module_output
 end
 
-# Process all classes
+# Group classes by name to merge duplicates
+classes_by_name = {}
 parsed[:classes].each do |klass_decl|
-  all_outputs << build_class_output(klass_decl, parsed[:frame])
+  class_name = klass_decl.name.name.to_s
+  classes_by_name[class_name] ||= []
+  classes_by_name[class_name] << klass_decl
+end
+
+# Process all classes (merge duplicates)
+classes_by_name.each do |class_name, klass_decls|
+  if klass_decls.size == 1
+    all_outputs << build_class_output(klass_decls.first, parsed[:frame])
+  else
+    all_instance_methods = []
+    all_class_methods = []
+    all_extends = []
+
+    klass_decls.each do |klass_decl|
+      single_output = build_class_output(klass_decl, parsed[:frame])
+      all_instance_methods.concat(single_output["instance_methods"])
+      all_class_methods.concat(single_output["class_methods"] || [])
+      all_extends.concat(single_output["extends"] || [])
+    end
+
+    merged_output = {
+      "frame" => parsed[:frame],
+      "class" => class_name,
+      "instance_methods" => all_instance_methods.uniq { |m| m["name"] },
+      "class_methods" => all_class_methods.uniq { |m| m["name"] }
+    }
+    merged_output["extends"] = all_extends.uniq unless all_extends.empty?
+    merged_output.delete("class_methods") if merged_output["class_methods"].empty?
+
+    all_outputs << merged_output
+  end
 end
 
 # Execute output
