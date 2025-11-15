@@ -103,6 +103,18 @@
           "Proc"
         ]
       }
+    },
+    {
+      "name": "->",
+      "arguments": [],
+      "block_parameters": [
+        "Untyped"
+      ],
+      "return_type": {
+        "type": [
+          "Proc"
+        ]
+      }
     }
   ],
   "class_methods": []
