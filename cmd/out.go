@@ -142,6 +142,7 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 	var objectClass string
 	var isStaticTarget bool
 
+	// TODO: refact start
 	switch targetT.GetBeforeEvaluateCode() {
 	// example: 1, 1.1, hoge
 	case "Integer", "Float", "Unknown":
@@ -163,6 +164,11 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		isStaticTarget = true
 		objectClass = targetT.DefinedClass
 	}
+
+	if targetT.GetType() == base.OBJECT {
+		isStaticTarget = false
+	}
+	// TODO: refact end
 
 	if len(objectClass) < 1 {
 		return false
