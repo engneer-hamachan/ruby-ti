@@ -41,11 +41,9 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 }
 
 func PrintSuggestionsForLsp(p parser.Parser) {
-	sortedSignatures := base.GetSortedTSignatures()
-
 	targetT := p.LspSudjestTargetT
 
-	for _, sig := range sortedSignatures {
+	for _, sig := range base.GetSortedTSignatures() {
 		if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
 			printSuggestion(sig.Method, sig.Detail)
 			continue
@@ -54,6 +52,34 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 		if isSuggest(targetT, sig) {
 			printSuggestion(sig.Method, sig.Detail)
 		}
+	}
+
+	if targetT.IsIdentifierType() && unicode.IsUpper(rune(targetT.ToString()[0])) {
+		printAllClasses()
+	}
+}
+
+func printAllClasses() {
+	classSet := make(map[string]bool)
+
+	for classNode := range base.ClassInheritanceMap {
+		if classNode.Class != "" {
+			classSet[classNode.Class] = true
+		}
+	}
+
+	for _, className := range base.BuiltinClasses {
+		classSet[className] = true
+	}
+
+	classes := make([]string, 0, len(classSet))
+	for className := range classSet {
+		classes = append(classes, className)
+	}
+	sort.Strings(classes)
+
+	for _, className := range classes {
+		fmt.Println(prefixSignature + className + separator + className)
 	}
 }
 
