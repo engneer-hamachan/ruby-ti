@@ -62,20 +62,22 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 func printAllClasses() {
 	classSet := make(map[string]bool)
 
-	for classNode := range base.ClassInheritanceMap {
-		if classNode.Class != "" {
-			classSet[classNode.Class] = true
+	for _, sig := range base.TSignatures {
+		if sig.Class != "" && sig.Class != "Kernel" {
+			switch sig.Frame {
+			case "", "Builtin":
+				classSet[sig.Class] = true
+			default:
+				classSet[sig.Frame+"::"+sig.Class] = true
+			}
 		}
-	}
-
-	for _, className := range base.BuiltinClasses {
-		classSet[className] = true
 	}
 
 	classes := make([]string, 0, len(classSet))
 	for className := range classSet {
 		classes = append(classes, className)
 	}
+
 	sort.Strings(classes)
 
 	for _, className := range classes {
