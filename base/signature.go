@@ -65,6 +65,11 @@ func TypeToStringForSignature(t *T) string {
 
 	switch t.GetType() {
 	case UNKNOWN:
+		if t.IsUpperPrefix() {
+			content += t.ToString()
+			break
+		}
+
 		content += "unknown"
 
 	default:

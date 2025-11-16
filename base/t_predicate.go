@@ -534,3 +534,7 @@ func (t *T) IsPriorityT() bool {
 func (t *T) IsRefferenceAbleT() bool {
 	return !t.IsTargetIdentifier("[") && !t.IsTargetIdentifier("\n")
 }
+
+func (t *T) IsUpperPrefix() bool {
+	return IsUpper(t.ToString())
+}

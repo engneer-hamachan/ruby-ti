@@ -1,6 +1,9 @@
 package base
 
-import "strings"
+import (
+	"strings"
+	"unicode"
+)
 
 func IsKeySuffix(str string) bool {
 	return len(str) > 1 && str[len(str)-1:] == ":"
@@ -28,6 +31,14 @@ func IsAmpersandPrefix(str string) bool {
 
 func IsNameSpace(str string) bool {
 	return len(strings.Split(str, "::")) > 1
+}
+
+func IsUpper(str string) bool {
+	if len(str) < 1 {
+		return false
+	}
+
+	return unicode.IsUpper(rune(str[0]))
 }
 
 func RemoveSuffix(str string) string {
