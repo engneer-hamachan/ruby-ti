@@ -131,7 +131,7 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		objectClass = targetT.GetObjectClass()
 	}
 
-	if targetT.IsIdentifierType() {
+	if targetT.IsIdentifierType() && unicode.IsLower(rune(targetT.ToString()[0])) {
 		isStaticTarget = true
 		objectClass = targetT.DefinedClass
 	}
