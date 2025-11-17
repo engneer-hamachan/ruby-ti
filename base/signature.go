@@ -140,6 +140,92 @@ func MakeSignatureContent(
 		content += ">"
 	}
 
+	if methodT.IsConditionalReturn {
+		returnVariants := methodT.GetVariants()
+
+		snapShot := content
+
+		for _, darg := range methodT.GetDefineArgs() {
+			if snapShot != content {
+				content += " | "
+			}
+
+			dargCopy := darg
+
+			if IsKeySuffix(dargCopy) {
+				dargCopy = RemoveSuffix(dargCopy)
+			}
+
+			dargT :=
+				GetValueT(frame, class, methodT.GetMethodName(), dargCopy, methodT.IsStatic)
+
+			if dargT.IsUnionType() {
+				for idx, variant := range dargT.GetVariants() {
+					if idx > 0 {
+						content += "  |  "
+					}
+
+					content += "("
+					content += TypeToStringForSignature(&variant)
+					content += ") -> "
+
+					if idx < len(returnVariants) {
+						content += TypeToStringForSignature(&returnVariants[idx])
+					} else {
+						content += TypeToStringForSignature(methodT)
+					}
+				}
+
+				return content
+			}
+		}
+
+		for i, returnVariant := range returnVariants {
+			if snapShot != content {
+				content += "  |  "
+			}
+
+			content += "("
+
+			argIdx := 0
+			if i < len(methodT.GetDefineArgs()) {
+				argIdx = i
+			}
+
+			for j, darg := range methodT.GetDefineArgs() {
+				if j > 0 {
+					content += ", "
+				}
+
+				if j == argIdx {
+					content += TypeToStringForSignature(&returnVariant)
+				} else {
+					dargCopy := darg
+
+					if IsKeySuffix(dargCopy) {
+						dargCopy = RemoveSuffix(dargCopy)
+					}
+
+					dargT :=
+						GetValueT(
+							frame,
+							class,
+							methodT.GetMethodName(),
+							dargCopy,
+							methodT.IsStatic,
+						)
+
+					content += TypeToStringForSignature(dargT)
+				}
+			}
+
+			content += ") -> "
+			content += TypeToStringForSignature(&returnVariant)
+		}
+
+		return content
+	}
+
 	content += " -> "
 	content += TypeToStringForSignature(methodT)
 
