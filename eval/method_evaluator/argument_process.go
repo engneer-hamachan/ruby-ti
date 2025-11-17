@@ -228,14 +228,7 @@ func getEvaluatedDefineArgs(
 	var defineArgTs []*base.T
 
 	for _, definedArg := range methodT.GetDefineArgs() {
-		definedArgT :=
-			base.GetValueT(
-				methodT.GetFrame(),
-				class,
-				m.method,
-				definedArg,
-				methodT.IsStatic,
-			)
+		definedArgT := getDefinedArgT(m, methodT, class, definedArg)
 
 		defineArgTs = append(defineArgTs, definedArgT)
 	}
