@@ -88,36 +88,43 @@ func MakeSignatureContent(
 	content := prefix
 	var args string
 
-	args += "("
+	//TODO: refact start
+	if methodT.IsConditionalReturn {
+		args += "(Match) =>"
+	} else {
 
-	for _, darg := range methodT.GetDefineArgs() {
-		if args != "(" {
-			args += ", "
-		}
+		args += "("
 
-		if IsKeySuffix(darg) {
-			args += darg + " "
-			darg = RemoveSuffix(darg)
-		}
-
-		dargT :=
-			GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
-
-		// *a or **a
-		if darg[0] == '*' {
-			switch darg[1] {
-			case '*':
-				dargT = MakeDoubleAsteriskKeyValue()
-
-			default:
-				dargT = MakeAsteriskUntyped()
+		for _, darg := range methodT.GetDefineArgs() {
+			if args != "(" {
+				args += ", "
 			}
+
+			if IsKeySuffix(darg) {
+				args += darg + " "
+				darg = RemoveSuffix(darg)
+			}
+
+			dargT :=
+				GetValueT(frame, class, methodT.GetMethodName(), darg, methodT.IsStatic)
+
+			// *a or **a
+			if darg[0] == '*' {
+				switch darg[1] {
+				case '*':
+					dargT = MakeDoubleAsteriskKeyValue()
+
+				default:
+					dargT = MakeAsteriskUntyped()
+				}
+			}
+
+			args += TypeToStringForSignature(dargT)
 		}
 
-		args += TypeToStringForSignature(dargT)
+		args += ")"
 	}
 
-	args += ")"
 	content += args
 
 	if methodT.IsBlockGiven {
@@ -141,13 +148,15 @@ func MakeSignatureContent(
 	}
 
 	if methodT.IsConditionalReturn {
+		content += " "
+
 		returnVariants := methodT.GetVariants()
 
 		snapShot := content
 
 		for _, darg := range methodT.GetDefineArgs() {
 			if snapShot != content {
-				content += " | "
+				content += ", "
 			}
 
 			dargCopy := darg
@@ -162,12 +171,13 @@ func MakeSignatureContent(
 			if dargT.IsUnionType() {
 				for idx, variant := range dargT.GetVariants() {
 					if idx > 0 {
-						content += "  |  "
+						content += ", "
 					}
 
 					content += "("
 					content += TypeToStringForSignature(&variant)
-					content += ") -> "
+					content += ")"
+					content += " -> "
 
 					if idx < len(returnVariants) {
 						content += TypeToStringForSignature(&returnVariants[idx])
@@ -182,7 +192,7 @@ func MakeSignatureContent(
 
 		for i, returnVariant := range returnVariants {
 			if snapShot != content {
-				content += "  |  "
+				content += ", "
 			}
 
 			content += "("
@@ -225,6 +235,7 @@ func MakeSignatureContent(
 
 		return content
 	}
+	//TODO: refact end
 
 	content += " -> "
 	content += TypeToStringForSignature(methodT)
