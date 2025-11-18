@@ -62,6 +62,10 @@ func (t *T) IsPowerUp(otherT *T) bool {
 }
 
 func (t *T) GetPower() int8 {
+	if t == nil {
+		return 0
+	}
+
 	power, ok := tPower[t.ToString()]
 	if ok {
 		return power

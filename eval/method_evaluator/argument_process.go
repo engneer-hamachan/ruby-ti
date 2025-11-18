@@ -350,23 +350,19 @@ func getEvaluatedArgs(
 			return argTs, err
 		}
 
-		nextT, err = m.parser.Read()
-		if err != nil {
-			return argTs, err
-		}
-
 		for {
+			nextT, err = m.parser.Read()
+			if err != nil {
+				return argTs, err
+			}
+
 			if m.parser.LastCallT.IsPowerUp(nextT) {
 				err = m.outerEval.Eval(m.parser, m.ctx, nextT)
 				if err != nil {
 					return argTs, err
 				}
 
-				nextT, err = m.parser.Read()
-				if err != nil {
-					return argTs, err
-				}
-
+				continue
 			} else {
 				m.parser.Unget()
 				break
