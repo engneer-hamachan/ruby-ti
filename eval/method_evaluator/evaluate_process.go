@@ -214,7 +214,12 @@ func evaluateNoUnionInstanceMethod(
 		if m.evaluatedObjectT.GetOwnerT() != nil {
 			returnT.SetOwnerT(m.evaluatedObjectT.GetOwnerT())
 		} else {
-			returnT.SetOwnerT(m.evaluatedObjectT)
+			if m.evaluatedObjectT.ToString() == "" {
+				objectT := base.MakeObject(m.ctx.GetClass())
+				returnT.SetOwnerT(objectT)
+			} else {
+				returnT.SetOwnerT(m.evaluatedObjectT)
+			}
 		}
 	}
 
