@@ -288,3 +288,7 @@ func MakeFlatten() *T {
 func MakeItem() *T {
 	return NewT("ITEM", ITEM, "Item")
 }
+
+func MakeBaseClass() *T {
+	return NewT("BaseClass", BASE_CLASS, "BaseClass")
+}

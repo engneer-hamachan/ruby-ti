@@ -167,6 +167,13 @@ func calculateExecutionType(
 
 		return arrayT
 
+	case base.BASE_CLASS:
+		if m.parser.BaseClass == nil {
+			return base.MakeUnknown()
+		}
+
+		return m.parser.BaseClass
+
 	default:
 		if methodT.IsNameSpaceIdentifier() {
 			frame, parentClass, class :=

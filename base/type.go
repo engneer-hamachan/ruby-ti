@@ -31,6 +31,7 @@ const (
 	KEYVALUE_ARRAY        = 280
 	FLATTEN               = 281
 	ITEM                  = 282
+	BASE_CLASS            = 283
 )
 
 func ArrayTypeToString(t *T) string {
@@ -158,6 +159,8 @@ func TypeToString(t *T) string {
 		return "KeyValueArray"
 	case ITEM:
 		return "Item"
+	case BASE_CLASS:
+		return "BaseClass"
 	default:
 		fmt.Println(t.tType)
 		panic("type convert error")
