@@ -32,7 +32,8 @@
       "return_type": {
         "type": [
           "ActiveRecord::Relation"
-        ]
+        ],
+        "is_capture_owner": true
       }
     },
     {

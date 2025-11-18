@@ -201,5 +201,9 @@ func (t *T) SetOwnerT(ownerT *T) {
 }
 
 func (t *T) GetOwnerT() *T {
+	if t.owner == nil {
+		return nil
+	}
+
 	return t.owner.(*T)
 }

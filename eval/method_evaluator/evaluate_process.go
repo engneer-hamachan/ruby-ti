@@ -168,11 +168,11 @@ func calculateExecutionType(
 		return arrayT
 
 	case base.BASE_CLASS:
-		if m.parser.BaseClass == nil {
+		if m.evaluatedObjectT.GetOwnerT() == nil {
 			return base.MakeUnknown()
 		}
 
-		return m.parser.BaseClass
+		return m.evaluatedObjectT.GetOwnerT()
 
 	default:
 		if methodT.IsNameSpaceIdentifier() {
@@ -209,6 +209,15 @@ func evaluateNoUnionInstanceMethod(
 	}
 
 	returnT := calculateExecutionType(m, methodT, evaluatedArgs)
+
+	if methodT.IsCaptureOwner {
+		if m.evaluatedObjectT.GetOwnerT() != nil {
+			returnT.SetOwnerT(m.evaluatedObjectT.GetOwnerT())
+		} else {
+			returnT.SetOwnerT(m.evaluatedObjectT)
+		}
+	}
+
 	m.parser.SetLastEvaluatedT(returnT)
 
 	// a&.b

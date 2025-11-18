@@ -52,6 +52,8 @@ func (t *T) DeepCopy() *T {
 		IsProtected:        t.IsProtected,
 		DefinedFrame:       t.DefinedFrame,
 		DefinedClass:       t.DefinedClass,
+		owner:              t.owner,
+		IsCaptureOwner:     t.IsCaptureOwner,
 	}
 
 	if t.defineArgs != nil {

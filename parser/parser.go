@@ -30,7 +30,6 @@ type Parser struct {
 	Errors              []error
 	DefineInfos         []string
 	BeforeString        string
-	BaseClass           *base.T
 }
 
 func New(lexer lexer.Lexer, file string) Parser {
@@ -170,12 +169,4 @@ func (p *Parser) GetTmpEvaluaetdArgs() []*base.T {
 
 func (p *Parser) ClearTmpEvaluaetdArgs() {
 	p.tmpEvaluatedArgs = []*base.T{}
-}
-
-func (p *Parser) ClearBaseClass() {
-	p.BaseClass = nil
-}
-
-func (p *Parser) SetBaseClass(t *base.T) {
-	p.BaseClass = t
 }

@@ -50,10 +50,6 @@ func NewMethodEvaluator(
 		}
 	}
 
-	if !p.IsParsingExpression() {
-		p.SetBaseClass(evaluatedObjectT)
-	}
-
 	p.SetLastEvaluatedT(evaluatedObjectT)
 
 	p.SetLastCallFrameDetails(
