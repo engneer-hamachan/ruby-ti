@@ -78,7 +78,11 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
-	if t.IsIdentifierType() && t.GetPower() > 0 && !t.IsTargetIdentifier("!") {
+	if t.IsTargetIdentifier("!") {
+		return false
+	}
+
+	if t.IsIdentifierType() && t.GetPower() > 0 {
 		m.parser.Unget()
 		return true
 	}
@@ -351,15 +355,22 @@ func getEvaluatedArgs(
 			return argTs, err
 		}
 
-		switch m.parser.LastCallT.IsPowerUp(nextT) {
-		case true:
-			err = m.outerEval.Eval(m.parser, m.ctx, nextT)
-			if err != nil {
-				return argTs, err
-			}
+		for {
+			if m.parser.LastCallT.IsPowerUp(nextT) {
+				err = m.outerEval.Eval(m.parser, m.ctx, nextT)
+				if err != nil {
+					return argTs, err
+				}
 
-		default:
-			m.parser.Unget()
+				nextT, err = m.parser.Read()
+				if err != nil {
+					return argTs, err
+				}
+
+			} else {
+				m.parser.Unget()
+				break
+			}
 		}
 
 		lastEvaluatedT := m.parser.GetLastEvaluatedT()
