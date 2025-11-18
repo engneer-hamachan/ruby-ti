@@ -79,6 +79,101 @@ func TypeToStringForSignature(t *T) string {
 	return content
 }
 
+func makeConditionalReturnContent(
+	frame string,
+	class string,
+	methodT *T,
+	content string,
+) string {
+
+	content += " "
+
+	returnVariants := methodT.GetVariants()
+
+	snapShot := content
+
+	for _, darg := range methodT.GetDefineArgs() {
+		if snapShot != content {
+			content += ", "
+		}
+
+		dargCopy := darg
+
+		if IsKeySuffix(dargCopy) {
+			dargCopy = RemoveSuffix(dargCopy)
+		}
+
+		dargT :=
+			GetValueT(frame, class, methodT.GetMethodName(), dargCopy, methodT.IsStatic)
+
+		if dargT.IsUnionType() {
+			for idx, variant := range dargT.GetVariants() {
+				if idx > 0 {
+					content += ", "
+				}
+
+				content += "("
+				content += TypeToStringForSignature(&variant)
+				content += ")"
+				content += " -> "
+
+				if idx < len(returnVariants) {
+					content += TypeToStringForSignature(&returnVariants[idx])
+				} else {
+					content += TypeToStringForSignature(methodT)
+				}
+			}
+
+			return content
+		}
+	}
+
+	for i, returnVariant := range returnVariants {
+		if snapShot != content {
+			content += ", "
+		}
+
+		content += "("
+
+		argIdx := 0
+		if i < len(methodT.GetDefineArgs()) {
+			argIdx = i
+		}
+
+		for j, darg := range methodT.GetDefineArgs() {
+			if j > 0 {
+				content += ", "
+			}
+
+			if j == argIdx {
+				content += TypeToStringForSignature(&returnVariant)
+			} else {
+				dargCopy := darg
+
+				if IsKeySuffix(dargCopy) {
+					dargCopy = RemoveSuffix(dargCopy)
+				}
+
+				dargT :=
+					GetValueT(
+						frame,
+						class,
+						methodT.GetMethodName(),
+						dargCopy,
+						methodT.IsStatic,
+					)
+
+				content += TypeToStringForSignature(dargT)
+			}
+		}
+
+		content += ") -> "
+		content += TypeToStringForSignature(&returnVariant)
+	}
+
+	return content
+}
+
 func MakeSignatureContent(
 	prefix string,
 	frame, class string,
@@ -88,11 +183,11 @@ func MakeSignatureContent(
 	content := prefix
 	var args string
 
-	//TODO: refact start
-	if methodT.IsConditionalReturn {
+	switch methodT.IsConditionalReturn {
+	case true:
 		args += "(Match) =>"
-	} else {
 
+	default:
 		args += "("
 
 		for _, darg := range methodT.GetDefineArgs() {
@@ -148,94 +243,8 @@ func MakeSignatureContent(
 	}
 
 	if methodT.IsConditionalReturn {
-		content += " "
-
-		returnVariants := methodT.GetVariants()
-
-		snapShot := content
-
-		for _, darg := range methodT.GetDefineArgs() {
-			if snapShot != content {
-				content += ", "
-			}
-
-			dargCopy := darg
-
-			if IsKeySuffix(dargCopy) {
-				dargCopy = RemoveSuffix(dargCopy)
-			}
-
-			dargT :=
-				GetValueT(frame, class, methodT.GetMethodName(), dargCopy, methodT.IsStatic)
-
-			if dargT.IsUnionType() {
-				for idx, variant := range dargT.GetVariants() {
-					if idx > 0 {
-						content += ", "
-					}
-
-					content += "("
-					content += TypeToStringForSignature(&variant)
-					content += ")"
-					content += " -> "
-
-					if idx < len(returnVariants) {
-						content += TypeToStringForSignature(&returnVariants[idx])
-					} else {
-						content += TypeToStringForSignature(methodT)
-					}
-				}
-
-				return content
-			}
-		}
-
-		for i, returnVariant := range returnVariants {
-			if snapShot != content {
-				content += ", "
-			}
-
-			content += "("
-
-			argIdx := 0
-			if i < len(methodT.GetDefineArgs()) {
-				argIdx = i
-			}
-
-			for j, darg := range methodT.GetDefineArgs() {
-				if j > 0 {
-					content += ", "
-				}
-
-				if j == argIdx {
-					content += TypeToStringForSignature(&returnVariant)
-				} else {
-					dargCopy := darg
-
-					if IsKeySuffix(dargCopy) {
-						dargCopy = RemoveSuffix(dargCopy)
-					}
-
-					dargT :=
-						GetValueT(
-							frame,
-							class,
-							methodT.GetMethodName(),
-							dargCopy,
-							methodT.IsStatic,
-						)
-
-					content += TypeToStringForSignature(dargT)
-				}
-			}
-
-			content += ") -> "
-			content += TypeToStringForSignature(&returnVariant)
-		}
-
-		return content
+		return makeConditionalReturnContent(frame, class, methodT, content)
 	}
-	//TODO: refact end
 
 	content += " -> "
 	content += TypeToStringForSignature(methodT)
