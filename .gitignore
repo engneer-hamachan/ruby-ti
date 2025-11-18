@@ -9,4 +9,3 @@ todo.md
 **/*.rbs
 rbs_test/*
 builtin.json
-activerecord_*.json
