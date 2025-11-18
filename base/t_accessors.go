@@ -58,9 +58,7 @@ func (t *T) GetKeyValue() *T {
 func (t *T) SetBlockParamaters(blockParamaters []T) {
 	t.blockParamaters = []T{}
 
-	for _, parameter := range blockParamaters {
-		t.blockParamaters = append(t.blockParamaters, parameter)
-	}
+	t.blockParamaters = append(t.blockParamaters, blockParamaters...)
 
 	if len(t.blockParamaters) > 0 {
 		t.IsBlockGiven = true
@@ -196,4 +194,12 @@ func (t *T) AppendHashVariant(keyvalueT T) {
 	}
 
 	t.variants = append(t.variants, keyvalueT)
+}
+
+func (t *T) SetOwnerT(ownerT *T) {
+	t.owner = ownerT
+}
+
+func (t *T) GetOwnerT() *T {
+	return t.owner.(*T)
 }

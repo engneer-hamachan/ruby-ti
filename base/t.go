@@ -26,6 +26,8 @@ type T struct {
 	DefinedFrame        string
 	DefinedClass        string
 	DefinedMethod       string
+	IsCaptureOwner      bool
+	owner               any
 }
 
 func (t *T) DeepCopy() *T {

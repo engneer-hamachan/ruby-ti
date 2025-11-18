@@ -21,6 +21,7 @@ type MethodReturn struct {
 	Type                TypeSpec `json:"type,omitempty"`
 	IsConditionalReturn bool     `json:"is_conditional,omitempty"`
 	IsDestructive       bool     `json:"is_destructive,omitempty"`
+	IsCaptureOwner      bool     `json:"is_capture_owner,omitempty"`
 }
 
 // TypeSpec handles both string and array type specifications
@@ -86,6 +87,7 @@ func parseReturnType(returnType MethodReturn) base.T {
 
 	t.IsConditionalReturn = returnType.IsConditionalReturn
 	t.IsDestructive = returnType.IsDestructive
+	t.IsCaptureOwner = returnType.IsCaptureOwner
 
 	return t
 }
