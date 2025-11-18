@@ -350,6 +350,7 @@ func getEvaluatedArgs(
 			return argTs, err
 		}
 
+		// x.abc.def.ghi
 		for {
 			nextT, err = m.parser.Read()
 			if err != nil {
@@ -363,10 +364,10 @@ func getEvaluatedArgs(
 				}
 
 				continue
-			} else {
-				m.parser.Unget()
-				break
 			}
+
+			m.parser.Unget()
+			break
 		}
 
 		lastEvaluatedT := m.parser.GetLastEvaluatedT()
