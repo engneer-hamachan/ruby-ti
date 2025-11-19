@@ -7,6 +7,7 @@ import (
 )
 
 func TestDdf01cd6(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./ddf01cd6.rb")
 
 	output, _ := cmd.CombinedOutput()

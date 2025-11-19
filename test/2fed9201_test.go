@@ -7,6 +7,7 @@ import (
 )
 
 func Test2fed9201(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./2fed9201.rb")
 
 

@@ -7,6 +7,7 @@ import (
 )
 
 func TestDebc0cf3(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./debc0cf3.rb")
 
 	output, _ := cmd.CombinedOutput()

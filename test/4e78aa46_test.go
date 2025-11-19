@@ -7,6 +7,7 @@ import (
 )
 
 func Test4e78aa46(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./4e78aa46.rb")
 
 	output, _ := cmd.CombinedOutput()

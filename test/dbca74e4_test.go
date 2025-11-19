@@ -7,6 +7,7 @@ import (
 )
 
 func TestDbca74e4(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./dbca74e4.rb")
 
 	output, _ := cmd.CombinedOutput()

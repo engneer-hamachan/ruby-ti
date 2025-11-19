@@ -51,6 +51,7 @@ import (
 )
 
 func Test$(echo ${test_name:0:1} | tr '[:lower:]' '[:upper:]')${test_name:1}(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./${test_name}.rb")
 
 	output, _ := cmd.CombinedOutput()

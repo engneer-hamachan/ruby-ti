@@ -7,6 +7,7 @@ import (
 )
 
 func Test9666fadb(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./9666fadb.rb")
 
 	output, _ := cmd.CombinedOutput()

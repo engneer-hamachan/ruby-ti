@@ -7,6 +7,7 @@ import (
 )
 
 func TestAcefa800(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./acefa800.rb")
 
 	output, _ := cmd.CombinedOutput()

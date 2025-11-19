@@ -7,6 +7,7 @@ import (
 )
 
 func TestCdac48ca(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./cdac48ca.rb")
 
 	output, _ := cmd.CombinedOutput()

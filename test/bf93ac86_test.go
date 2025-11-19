@@ -7,6 +7,7 @@ import (
 )
 
 func TestBf93ac86(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./bf93ac86.rb")
 
 	output, _ := cmd.CombinedOutput()

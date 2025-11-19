@@ -7,6 +7,7 @@ import (
 )
 
 func Test885f9cdb(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./885f9cdb.rb")
 
 	output, _ := cmd.CombinedOutput()

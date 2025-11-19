@@ -7,6 +7,7 @@ import (
 )
 
 func TestEdb15682(t *testing.T) {
+	t.Parallel()
 	cmd := exec.Command("../ti", "./edb15682.rb")
 
 	output, _ := cmd.CombinedOutput()
