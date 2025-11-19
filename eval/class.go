@@ -165,12 +165,8 @@ func (c *Class) Evaluation(
 			base.SeparateNameSpaces(nextT.ToString())
 
 		if slices.Contains(base.BuiltinClasses, parentClass) && parentNamespace == "" {
-			if registeredFrame, ok := base.BuiltinClassFrames[parentClass]; ok {
-				parentFrame = registeredFrame
-			}
-		}
-
-		if parentNamespace != "" {
+			parentFrame = "Builtin"
+		} else {
 			parentFrame = base.CalculateFrame(parentFrame, parentNamespace)
 		}
 
