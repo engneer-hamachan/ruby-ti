@@ -42,15 +42,14 @@
       "arguments": [
         {
           "type": [
-            "Untyped"
+            "**Untyped"
           ]
         }
       ],
       "return_type": {
         "type": [
           "Self"
-        ],
-        "is_destructive": true
+        ]
       }
     },
     {
@@ -807,7 +806,12 @@
       "arguments": [
         {
           "type": [
-            "Untyped"
+            "Symbol"
+          ]
+        },
+        {
+          "type": [
+            "*Untyped"
           ]
         }
       ],
