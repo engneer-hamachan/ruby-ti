@@ -1,1 +1,1 @@
-go build -o ti . && go test ./test/... -count=1 -parallel=8 && rm ti
+go build -o ti . && go test ./test/... -count=1 -parallel=4 && rm ti
