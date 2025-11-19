@@ -36,6 +36,10 @@ func NewMethodEvaluator(
 	switch instance {
 	case "self":
 		evaluatedObjectT = base.MakeObject(ctx.GetClass())
+
+		if ctx.IsDefineStatic {
+			objectT = base.MakeClass(ctx.GetClass())
+		}
 	default:
 		evaluatedObjectT = objectT
 
