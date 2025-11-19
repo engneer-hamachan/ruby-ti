@@ -359,6 +359,11 @@ func loadBuiltinFromJSON(configFS fs.FS, configDir string) error {
 
 		base.BuiltinClasses = append(base.BuiltinClasses, classDef.Class)
 
+		if base.BuiltinClassFrames == nil {
+			base.BuiltinClassFrames = make(map[string]string)
+		}
+		base.BuiltinClassFrames[classDef.Class] = classDef.Frame
+
 		for _, method := range classDef.InstanceMethods {
 			args := parseArguments(method.Arguments)
 			returnType := parseReturnType(method.ReturnType)
