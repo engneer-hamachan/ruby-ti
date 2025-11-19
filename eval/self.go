@@ -23,7 +23,15 @@ func (s *Self) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	p.SetLastEvaluatedT(base.MakeSelf())
+	var selfT *base.T
+	switch ctx.IsDefineStatic {
+	case true:
+		selfT = base.MakeClass(ctx.GetClass())
+	default:
+		selfT = base.MakeSelf()
+	}
+
+	p.SetLastEvaluatedT(selfT)
 
 	return nil
 }
