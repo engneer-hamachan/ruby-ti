@@ -112,7 +112,7 @@ func propagationForCalledTo(
 		switch definedArgT {
 		case nil:
 			base.SetValueT(
-				methodT.GetFrame(),
+				methodT.DefinedFrame,
 				methodT.DefinedClass,
 				m.method,
 				definedArg,
@@ -187,7 +187,7 @@ func propagationForCalledTo(
 		switch definedArgT {
 		case nil:
 			base.SetValueT(
-				methodT.GetFrame(),
+				methodT.DefinedFrame,
 				methodT.DefinedClass,
 				m.method,
 				definedArg,
@@ -419,7 +419,7 @@ func getDefinedArgT(
 	if definedArgT == nil {
 		definedArgT =
 			base.GetValueT(
-				methodT.GetFrame(),
+				methodT.DefinedFrame,
 				methodT.DefinedClass,
 				m.method,
 				definedArg,
