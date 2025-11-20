@@ -94,7 +94,11 @@
     },
     {
       "name": "lambda",
-      "arguments": [],
+      "arguments": [
+        {
+          "type": ["?Untyped"]
+        }
+      ],
       "block_parameters": [
         "Untyped"
       ],
@@ -106,7 +110,11 @@
     },
     {
       "name": "->",
-      "arguments": [],
+      "arguments": [
+        {
+          "type": ["?Untyped"]
+        }
+      ],
       "block_parameters": [
         "Untyped"
       ],
