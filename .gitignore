@@ -9,3 +9,4 @@ todo.md
 **/*.rbs
 rbs_test/*
 builtin.json
+feature-*.md
