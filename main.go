@@ -2,8 +2,10 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"ti/base"
 	_ "ti/builtin"
 	"ti/cmd"
@@ -81,6 +83,54 @@ func cleanSimpleIdentifires() {
 	}
 }
 
+type TiIncludeConfig struct {
+	Preload []string `json:"preload"`
+}
+
+func getPreloadFiles() []string {
+	configPath := ".ti-include.json"
+
+	data, err := os.ReadFile(configPath)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return []string{}
+		}
+		fmt.Fprintf(os.Stderr, "Error reading %s: %v\n", configPath, err)
+		os.Exit(1)
+	}
+
+	var config TiIncludeConfig
+	if err := json.Unmarshal(data, &config); err != nil {
+		fmt.Fprintf(os.Stderr, "Error parsing %s: %v\n", configPath, err)
+		os.Exit(1)
+	}
+
+	configDir, _ := os.Getwd()
+
+	resolvedFiles := make([]string, len(config.Preload))
+	for i, file := range config.Preload {
+		if filepath.IsAbs(file) {
+			resolvedFiles[i] = file
+		} else {
+			resolvedFiles[i] = filepath.Join(configDir, file)
+		}
+	}
+
+	return resolvedFiles
+}
+
+func preload(round string, flags *cmd.ExecuteFlags) {
+	for _, preloadFile := range getPreloadFiles() {
+		if fp, err := os.Open(preloadFile); err == nil {
+			br := bufio.NewReader(fp)
+			p := getParser(br, preloadFile)
+			cmd.ApplyParserFlags(&p)
+			loop(p, flags, round)
+			fp.Close()
+		}
+	}
+}
+
 func main() {
 	//	defer profile.Start().Stop()
 
@@ -101,6 +151,8 @@ func main() {
 		}
 
 		for _, round := range context.GetRounds() {
+			preload(round, flags)
+
 			file = cmd.GetTargetFile()
 			fp, _ := os.Open(file)
 			br = bufio.NewReader(fp)
