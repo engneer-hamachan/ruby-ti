@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 	"ti/base"
 	_ "ti/builtin"
 	"ti/cmd"
@@ -102,15 +101,9 @@ func main() {
 		}
 
 		for _, round := range context.GetRounds() {
-			code := cmd.GetCode()
-			if code != "" {
-				file = "<code>"
-				br = bufio.NewReader(strings.NewReader(code))
-			} else {
-				file = cmd.GetTargetFile()
-				fp, _ := os.Open(file)
-				br = bufio.NewReader(fp)
-			}
+			file = cmd.GetTargetFile()
+			fp, _ := os.Open(file)
+			br = bufio.NewReader(fp)
 
 			p := getParser(br, file)
 			cmd.ApplyParserFlags(&p)

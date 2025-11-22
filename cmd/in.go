@@ -84,10 +84,6 @@ func ValidateArgs() {
 		return
 	}
 
-	if GetCode() != "" {
-		return
-	}
-
 	if len(os.Args) == 1 {
 		panic("want one argument!")
 	}
@@ -95,13 +91,4 @@ func ValidateArgs() {
 
 func GetTargetFile() string {
 	return os.Args[1]
-}
-
-func GetCode() string {
-	for _, arg := range os.Args {
-		if strings.HasPrefix(arg, "--code=") {
-			return arg[7:]
-		}
-	}
-	return ""
 }
