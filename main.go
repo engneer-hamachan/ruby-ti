@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"path/filepath"
 	"ti/base"
 	_ "ti/builtin"
 	"ti/cmd"
@@ -49,6 +48,10 @@ func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 	}
 
 	if round != "check" {
+		return
+	}
+
+	if p.IsPreload {
 		return
 	}
 
@@ -105,18 +108,7 @@ func getPreloadFiles() []string {
 		os.Exit(1)
 	}
 
-	configDir, _ := os.Getwd()
-
-	resolvedFiles := make([]string, len(config.Preload))
-	for i, file := range config.Preload {
-		if filepath.IsAbs(file) {
-			resolvedFiles[i] = file
-		} else {
-			resolvedFiles[i] = filepath.Join(configDir, file)
-		}
-	}
-
-	return resolvedFiles
+	return config.Preload
 }
 
 func preload(round string, flags *cmd.ExecuteFlags) {
@@ -124,16 +116,18 @@ func preload(round string, flags *cmd.ExecuteFlags) {
 		if fp, err := os.Open(preloadFile); err == nil {
 			br := bufio.NewReader(fp)
 			p := getParser(br, preloadFile)
+			p.IsPreload = true
+
 			cmd.ApplyParserFlags(&p)
+
 			loop(p, flags, round)
+
 			fp.Close()
 		}
 	}
 }
 
 func main() {
-	//	defer profile.Start().Stop()
-
 	timeout := time.After(500 * time.Millisecond)
 	done := make(chan bool)
 

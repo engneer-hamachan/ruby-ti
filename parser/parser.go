@@ -25,6 +25,7 @@ type Parser struct {
 	IsDefineInfo        bool
 	IsDefineAllInfo     bool
 	IsLsp               bool
+	IsPreload           bool
 	LspTargetRow        int
 	LspSudjestTargetT   base.T
 	Errors              []error
