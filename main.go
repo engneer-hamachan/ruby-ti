@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"os"
 	"ti/base"
@@ -12,6 +11,7 @@ import (
 	"ti/eval"
 	"ti/lexer"
 	"ti/lexer/reader"
+	"ti/loader"
 	"ti/parser"
 	"time"
 )
@@ -23,7 +23,7 @@ func getParser(br *bufio.Reader, file string) parser.Parser {
 	return parser.New(l, file)
 }
 
-func loop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
+func evaluationLoop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 	ctx := context.NewContext("", "", round)
 	evaluator := eval.Evaluator{}
 
@@ -86,33 +86,8 @@ func cleanSimpleIdentifires() {
 	}
 }
 
-type TiIncludeConfig struct {
-	Preload []string `json:"preload"`
-}
-
-func getPreloadFiles() []string {
-	configPath := ".ti-include.json"
-
-	data, err := os.ReadFile(configPath)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return []string{}
-		}
-		fmt.Fprintf(os.Stderr, "Error reading %s: %v\n", configPath, err)
-		os.Exit(1)
-	}
-
-	var config TiIncludeConfig
-	if err := json.Unmarshal(data, &config); err != nil {
-		fmt.Fprintf(os.Stderr, "Error parsing %s: %v\n", configPath, err)
-		os.Exit(1)
-	}
-
-	return config.Preload
-}
-
 func preload(round string, flags *cmd.ExecuteFlags) {
-	for _, preloadFile := range getPreloadFiles() {
+	for _, preloadFile := range loader.GetPreloadFiles() {
 		if fp, err := os.Open(preloadFile); err == nil {
 			br := bufio.NewReader(fp)
 			p := getParser(br, preloadFile)
@@ -120,7 +95,7 @@ func preload(round string, flags *cmd.ExecuteFlags) {
 
 			cmd.ApplyParserFlags(&p)
 
-			loop(p, flags, round)
+			evaluationLoop(p, flags, round)
 
 			fp.Close()
 		}
@@ -156,7 +131,7 @@ func main() {
 
 			cleanSimpleIdentifires()
 
-			loop(p, flags, round)
+			evaluationLoop(p, flags, round)
 		}
 
 		done <- true

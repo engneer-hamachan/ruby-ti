@@ -10,4 +10,4 @@ todo.md
 rbs_test/*
 builtin.json
 feature-*.md
-.ti-include.json
+.ti-loader.json
