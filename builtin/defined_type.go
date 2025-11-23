@@ -46,7 +46,7 @@ var (
 	UnifiedSelfArgumentT = *base.MakeUnifiedSelfArgument()
 	FlattenT             = *base.MakeFlatten()
 	ItemT                = *base.MakeItem()
-	BaseClassT           = *base.MakeBaseClass()
+	OwnerT               = *base.MakeOwner()
 	//ForTest
 	IntIntT = *base.MakeUnion([]base.T{IntT, IntT})
 )

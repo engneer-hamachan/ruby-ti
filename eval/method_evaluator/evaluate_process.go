@@ -167,7 +167,7 @@ func calculateExecutionType(
 
 		return arrayT
 
-	case base.BASE_CLASS:
+	case base.OWNER:
 		if m.evaluatedObjectT.GetOwnerT() == nil {
 			return base.MakeUnknown()
 		}

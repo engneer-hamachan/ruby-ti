@@ -238,8 +238,8 @@ func parseTypeString(typeStr string) base.T {
 		return FlattenT
 	case "Item":
 		return ItemT
-	case "BaseClass":
-		return BaseClassT
+	case "Owner":
+		return OwnerT
 	default:
 		if len(strings.Split(typeStr, "::")) > 1 {
 			return *base.MakeIdentifier(typeStr)

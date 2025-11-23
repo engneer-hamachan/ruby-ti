@@ -463,7 +463,7 @@
       "arguments": [],
       "return_type": {
         "type": [
-          "BaseClass"
+          "Owner"
         ]
       }
     },
