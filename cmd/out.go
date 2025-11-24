@@ -138,32 +138,27 @@ func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 	return slices.Contains([]string{"", "Kernel"}, sigClass)
 }
 
-func isSuggest(targetT base.T, sig base.Sig) bool {
+func determineObjectClassAndStaticTarget(targetT base.T) (string, bool) {
 	var objectClass string
 	var isStaticTarget bool
 
-	// TODO: refact start
 	switch targetT.GetBeforeEvaluateCode() {
-	// example: 1, 1.1, hoge
 	case "Integer", "Float", "Unknown":
 		objectClass = targetT.GetBeforeEvaluateCode()
 		isStaticTarget = false
 
-	// example: Hoge
 	case "":
 		objectClass = targetT.ToString()
 		isStaticTarget = unicode.IsUpper(rune(objectClass[0]))
 
-	// example: x, 'x', [], {}, and more...
 	default:
 		isStaticTarget = unicode.IsUpper(rune(targetT.ToString()[0]))
 
 		if isStaticTarget {
 			objectClass = targetT.ToString()
-			break
+		} else {
+			objectClass = targetT.GetObjectClass()
 		}
-
-		objectClass = targetT.GetObjectClass()
 	}
 
 	if targetT.IsIdentifierType() && unicode.IsLower(rune(targetT.ToString()[0])) {
@@ -174,7 +169,12 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 	if targetT.GetType() == base.OBJECT {
 		isStaticTarget = false
 	}
-	// TODO: refact end
+
+	return objectClass, isStaticTarget
+}
+
+func isSuggest(targetT base.T, sig base.Sig) bool {
+	objectClass, isStaticTarget := determineObjectClassAndStaticTarget(targetT)
 
 	if len(objectClass) < 1 {
 		return false
