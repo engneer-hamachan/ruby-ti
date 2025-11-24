@@ -157,6 +157,12 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 	// example: x, 'x', [], {}, and more...
 	default:
 		isStaticTarget = unicode.IsUpper(rune(targetT.GetBeforeEvaluateCode()[0]))
+
+		if isStaticTarget {
+			objectClass = targetT.GetBeforeEvaluateCode()
+			break
+		}
+
 		objectClass = targetT.GetObjectClass()
 	}
 
