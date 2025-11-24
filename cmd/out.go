@@ -138,7 +138,7 @@ func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 	return slices.Contains([]string{"", "Kernel"}, sigClass)
 }
 
-func determineObjectClassAndStaticTarget(targetT base.T) (string, bool) {
+func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	var objectClass string
 	var isStaticTarget bool
 
@@ -174,7 +174,7 @@ func determineObjectClassAndStaticTarget(targetT base.T) (string, bool) {
 }
 
 func isSuggest(targetT base.T, sig base.Sig) bool {
-	objectClass, isStaticTarget := determineObjectClassAndStaticTarget(targetT)
+	objectClass, isStaticTarget := calculateObjectClassAndIsStatic(targetT)
 
 	if len(objectClass) < 1 {
 		return false
