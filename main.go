@@ -23,7 +23,13 @@ func getParser(br *bufio.Reader, file string) parser.Parser {
 	return parser.New(l, file)
 }
 
-func evaluationLoop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
+func evaluationLoop(
+	p parser.Parser,
+	flags *cmd.ExecuteFlags,
+	round string,
+	isLoad bool,
+) {
+
 	ctx := context.NewContext("", "", round)
 	evaluator := eval.Evaluator{}
 
@@ -51,7 +57,7 @@ func evaluationLoop(p parser.Parser, flags *cmd.ExecuteFlags, round string) {
 		return
 	}
 
-	if p.IsPreload {
+	if isLoad {
 		return
 	}
 
@@ -91,11 +97,10 @@ func preload(round string, flags *cmd.ExecuteFlags) {
 		if fp, err := os.Open(preloadFile); err == nil {
 			br := bufio.NewReader(fp)
 			p := getParser(br, preloadFile)
-			p.IsPreload = true
 
 			cmd.ApplyParserFlags(&p)
 
-			evaluationLoop(p, flags, round)
+			evaluationLoop(p, flags, round, true)
 
 			fp.Close()
 		}
@@ -120,8 +125,6 @@ func main() {
 		}
 
 		for _, round := range context.GetRounds() {
-			preload(round, flags)
-
 			file = cmd.GetTargetFile()
 			fp, _ := os.Open(file)
 			br = bufio.NewReader(fp)
@@ -131,7 +134,8 @@ func main() {
 
 			cleanSimpleIdentifires()
 
-			evaluationLoop(p, flags, round)
+			preload(round, flags)
+			evaluationLoop(p, flags, round, false)
 		}
 
 		done <- true
