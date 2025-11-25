@@ -149,10 +149,14 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 		isStaticTarget = unicode.IsUpper(rune(target[0]))
 	}
 
-	switch beforeCode {
-	case "Integer", "Float", "Unknown":
-		objectClass = beforeCode
+	primitiveClasses :=
+		[]string{"Integer", "Float", "String", "Unknown"}
 
+	if slices.Contains(primitiveClasses, beforeCode) {
+		return beforeCode, isStaticTarget
+	}
+
+	switch beforeCode {
 	case "":
 		objectClass = target
 
