@@ -140,22 +140,23 @@ func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 
 func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	var objectClass string
-	var isStaticTarget bool
 
 	target := targetT.ToString()
 	beforeCode := targetT.GetBeforeEvaluateCode()
+	isStaticTarget := unicode.IsUpper(rune(target[0]))
+
+	if targetT.IsIdentifierType() && !isStaticTarget {
+		return targetT.DefinedClass, true
+	}
 
 	switch beforeCode {
 	case "Integer", "Float", "Unknown":
 		objectClass = beforeCode
 
 	case "":
-		objectClass = targetT.ToString()
-		isStaticTarget = unicode.IsUpper(rune(objectClass[0]))
+		objectClass = target
 
 	default:
-		isStaticTarget = unicode.IsUpper(rune(target[0]))
-
 		if isStaticTarget {
 			objectClass = target
 		} else {
@@ -165,11 +166,6 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 
 	if targetT.GetType() == base.OBJECT {
 		return objectClass, false
-	}
-
-	if targetT.IsIdentifierType() && unicode.IsLower(rune(target[0])) {
-		isStaticTarget = true
-		objectClass = targetT.DefinedClass
 	}
 
 	return objectClass, isStaticTarget
