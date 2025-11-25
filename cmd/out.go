@@ -146,7 +146,7 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	beforeCode := targetT.GetBeforeEvaluateCode()
 
 	if beforeCode == "" {
-		isStaticTarget = unicode.IsUpper(rune(target[0]))
+		return target, unicode.IsUpper(rune(target[0]))
 	}
 
 	primitiveClasses :=
