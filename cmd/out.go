@@ -177,6 +177,14 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 }
 
 func isSuggest(targetT base.T, sig base.Sig) bool {
+	if sig.Class == "" {
+		return false
+	}
+
+	if sig.Class == "Kernel" {
+		return false
+	}
+
 	objectClass, isStaticTarget := calculateObjectClassAndIsStatic(targetT)
 
 	if len(objectClass) < 1 {
@@ -187,30 +195,20 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		return false
 	}
 
-	if sig.Class == "" {
-		return false
-	}
-
-	if sig.Class == "Kernel" {
-		return false
-	}
-
 	if sig.Class == objectClass {
 		return true
 	}
 
-	objectFrame := targetT.GetFrame()
-
-	if objectFrame == "" && slices.Contains(base.BuiltinClasses, objectClass) {
-		objectFrame = "Builtin"
-	}
-
-	return isParentClass(sig, objectFrame, objectClass)
+	return isParentClass(sig, targetT.GetFrame(), objectClass)
 }
 
 func isParentClass(sig base.Sig, frame, class string) bool {
 	if sig.Method == "new" {
 		return false
+	}
+
+	if frame == "" && slices.Contains(base.BuiltinClasses, class) {
+		frame = "Builtin"
 	}
 
 	if sig.Frame == frame && sig.Class == class {
