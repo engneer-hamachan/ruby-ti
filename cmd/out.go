@@ -145,22 +145,18 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	target := targetT.ToString()
 	beforeCode := targetT.GetBeforeEvaluateCode()
 
-	if beforeCode == "" {
-		return target, unicode.IsUpper(rune(target[0]))
-	}
-
-	primitiveClasses :=
-		[]string{"Integer", "Float", "String", "Unknown"}
-
-	if slices.Contains(primitiveClasses, beforeCode) {
-		return beforeCode, isStaticTarget
-	}
-
 	switch beforeCode {
+	case "Integer", "Float", "Unknown":
+		objectClass = beforeCode
+		isStaticTarget = false
+
 	case "":
-		objectClass = target
+		objectClass = targetT.ToString()
+		isStaticTarget = unicode.IsUpper(rune(objectClass[0]))
 
 	default:
+		isStaticTarget = unicode.IsUpper(rune(target[0]))
+
 		if isStaticTarget {
 			objectClass = target
 		} else {
@@ -168,9 +164,13 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 		}
 	}
 
-	if targetT.IsIdentifierType() && !isStaticTarget {
+	if targetT.IsIdentifierType() && unicode.IsLower(rune(target[0])) {
 		isStaticTarget = true
 		objectClass = targetT.DefinedClass
+	}
+
+	if targetT.GetType() == base.OBJECT {
+		isStaticTarget = false
 	}
 
 	return objectClass, isStaticTarget
