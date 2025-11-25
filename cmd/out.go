@@ -152,7 +152,6 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	switch beforeCode {
 	case "Integer", "Float", "Unknown":
 		objectClass = beforeCode
-		isStaticTarget = false
 
 	case "":
 		objectClass = target
