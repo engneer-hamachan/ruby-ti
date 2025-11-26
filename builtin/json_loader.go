@@ -3,7 +3,7 @@ package builtin
 import (
 	"encoding/json"
 	"fmt"
-	"io/fs"
+	"os"
 	"path/filepath"
 	"slices"
 	"strings"
@@ -332,16 +332,21 @@ func appendBlockParameters(returnType *base.T, method MethodDefinition) {
 	returnType.SetBlockParamaters(blockParameters)
 }
 
-func loadBuiltinFromJSON(configFS fs.FS, configDir string) error {
+func init() {
+	loadBuiltinFromJSON()
+}
+
+func loadBuiltinFromJSON() error {
+	configDir := ".ti-config"
 	pattern := filepath.Join(configDir, "*.json")
 
-	matches, err := fs.Glob(configFS, pattern)
+	matches, err := filepath.Glob(pattern)
 	if err != nil {
-		return fmt.Errorf("failed to find JSON config files: %w", err)
+		return fmt.Errorf("failed to find JSON config files in %s: %w", configDir, err)
 	}
 
 	for _, match := range matches {
-		jsonData, err := fs.ReadFile(configFS, match)
+		jsonData, err := os.ReadFile(match)
 		if err != nil {
 			return fmt.Errorf("failed to read %s: %w", match, err)
 		}

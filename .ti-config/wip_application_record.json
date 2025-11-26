@@ -1,0 +1,7 @@
+{
+  "frame": "Builtin",
+  "class": "ApplicationRecord",
+  "extends": ["ActiveRecord::Base"],
+  "instance_methods": [],
+  "class_methods": []
+}

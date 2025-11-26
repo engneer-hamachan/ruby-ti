@@ -1,0 +1,73 @@
+{
+  "frame": "Builtin",
+  "class": "Symbol",
+  "instance_methods": [
+    {
+      "name": "<=>",
+      "arguments": [
+        {
+          "type": [
+            "Symbol",
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int",
+          "OptionalInt"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "==",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "===",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "inspect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      }
+    },
+    {
+      "name": "to_sym",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Symbol"
+        ]
+      }
+    }
+  ],
+  "class_methods": []
+}
