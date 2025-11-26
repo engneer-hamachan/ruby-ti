@@ -142,14 +142,13 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	target := targetT.ToString()
 	beforeCode := targetT.GetBeforeEvaluateCode()
 
-	// 1, '1', 1.1, and more...
-	primitiveClasses := []string{"Integer", "Float", "Unknwon"}
-	if slices.Contains(primitiveClasses, beforeCode) {
-		return beforeCode, false
-	}
+	// 1, '1', 1.1, [], {} and more...
 
-	// []
-	if targetT.GetType() == base.ARRAY {
+	switch targetT.GetType() {
+	case base.INT, base.FLOAT:
+		return beforeCode, false
+
+	case base.ARRAY, base.HASH, base.STRING:
 		return targetT.GetObjectClass(), false
 	}
 
