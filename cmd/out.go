@@ -143,7 +143,6 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	beforeCode := targetT.GetBeforeEvaluateCode()
 
 	// 1, '1', 1.1, [], {} and more...
-
 	switch targetT.GetType() {
 	case base.INT, base.FLOAT:
 		return beforeCode, false
@@ -159,17 +158,11 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 		return targetT.DefinedClass, true
 	}
 
-	if beforeCode == "" {
+	if beforeCode == "" || isStaticTarget {
 		return target, isStaticTarget
 	}
 
-	objectClass := target
-
-	if !isStaticTarget {
-		objectClass = targetT.GetObjectClass()
-	}
-
-	return objectClass, isStaticTarget
+	return targetT.GetObjectClass(), isStaticTarget
 }
 
 func isSuggest(targetT base.T, sig base.Sig) bool {
