@@ -148,6 +148,11 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 		return beforeCode, false
 	}
 
+	// []
+	if targetT.GetType() == base.ARRAY {
+		return targetT.GetObjectClass(), false
+	}
+
 	isStaticTarget := unicode.IsUpper(rune(target[0]))
 
 	// static top level method in class
