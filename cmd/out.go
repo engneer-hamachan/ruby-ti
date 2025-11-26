@@ -139,32 +139,35 @@ func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 }
 
 func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
-	var objectClass string
-
 	target := targetT.ToString()
 	beforeCode := targetT.GetBeforeEvaluateCode()
-	isStaticTarget := unicode.IsUpper(rune(target[0]))
 
+	// 1, '1', 1.1, and more...
 	primitiveClasses := []string{"Integer", "Float", "Unknwon"}
 	if slices.Contains(primitiveClasses, beforeCode) {
 		return beforeCode, false
 	}
 
-	switch beforeCode {
-	case "":
-		objectClass = target
+	isStaticTarget := unicode.IsUpper(rune(target[0]))
 
+	// static top level method in class
+	if targetT.IsIdentifierType() && !isStaticTarget {
+		return targetT.DefinedClass, true
+	}
+
+	if beforeCode == "" {
+		return target, isStaticTarget
+	}
+
+	var objectClass string
+
+	switch beforeCode {
 	default:
 		if isStaticTarget {
 			objectClass = target
 		} else {
 			objectClass = targetT.GetObjectClass()
 		}
-	}
-
-	if targetT.IsIdentifierType() && unicode.IsLower(rune(target[0])) {
-		isStaticTarget = true
-		objectClass = targetT.DefinedClass
 	}
 
 	if targetT.GetType() == base.OBJECT {
