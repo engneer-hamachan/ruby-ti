@@ -148,7 +148,7 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	case base.INT, base.FLOAT:
 		return beforeCode, false
 
-	case base.ARRAY, base.HASH, base.STRING:
+	case base.ARRAY, base.HASH, base.STRING, base.OBJECT:
 		return targetT.GetObjectClass(), false
 	}
 
@@ -169,13 +169,7 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 		objectClass = targetT.GetObjectClass()
 	}
 
-	switch targetT.GetType() {
-	case base.OBJECT:
-		return objectClass, false
-
-	default:
-		return objectClass, isStaticTarget
-	}
+	return objectClass, isStaticTarget
 }
 
 func isSuggest(targetT base.T, sig base.Sig) bool {
