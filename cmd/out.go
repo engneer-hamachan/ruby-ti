@@ -159,22 +159,19 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 		return target, isStaticTarget
 	}
 
-	var objectClass string
+	objectClass := target
 
-	switch beforeCode {
+	if !isStaticTarget {
+		objectClass = targetT.GetObjectClass()
+	}
+
+	switch targetT.GetType() {
+	case base.OBJECT:
+		return objectClass, false
+
 	default:
-		if isStaticTarget {
-			objectClass = target
-		} else {
-			objectClass = targetT.GetObjectClass()
-		}
+		return objectClass, isStaticTarget
 	}
-
-	if targetT.GetType() == base.OBJECT {
-		isStaticTarget = false
-	}
-
-	return objectClass, isStaticTarget
 }
 
 func isSuggest(targetT base.T, sig base.Sig) bool {
