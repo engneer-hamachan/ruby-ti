@@ -333,7 +333,10 @@ func appendBlockParameters(returnType *base.T, method MethodDefinition) {
 }
 
 func init() {
-	loadBuiltinFromJSON()
+	err := loadBuiltinFromJSON()
+	if err != nil {
+		panic("json loading error!")
+	}
 }
 
 func loadBuiltinFromJSON() error {
