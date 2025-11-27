@@ -223,6 +223,48 @@ func GetMethodT(frame, targetClass, targetMethod string, isPrivate bool) *T {
 	return methodT
 }
 
+func GetTopLevelClassMethodT(frame string, class, method string) *T {
+	methodT, ok :=
+		TFrame[classMethodTFrameKey(frame, class, method, false)]
+	if ok {
+		return methodT
+	}
+
+	methodT, ok =
+		TFrame[classMethodTFrameKey(frame, class, method, true)]
+
+	if ok {
+		return methodT
+	}
+
+	methodT = getParentMethodT(frame, class, method, false, true)
+	if methodT != nil {
+		return methodT
+	}
+
+	if ok {
+		return methodT
+	}
+
+	methodT, ok =
+		TFrame[methodTFrameKey("Builtin", "", method, false)]
+
+	if ok {
+		return methodT
+	}
+
+	methodT = getParentMethodT("Builtin", "", method, false, false)
+	if methodT != nil {
+		return methodT
+	}
+
+	if ok {
+		return methodT
+	}
+
+	return nil
+}
+
 func GetTopLevelMethodT(
 	frame string,
 	class, method string,
