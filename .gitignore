@@ -11,3 +11,4 @@ rbs_test/*
 builtin.json
 feature-*.md
 .ti-loader.json
+.ti-config
