@@ -181,6 +181,7 @@
     {
       "name": "loop",
       "arguments": [],
+      "block_parameters": ["Nil"],
       "return_type": {
         "type": [
           "Nil"

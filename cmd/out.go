@@ -42,16 +42,23 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 
 func PrintSuggestionsForLsp(p parser.Parser) {
 	targetT := p.LspSudjestTargetT
+	isPrinted := false
 
 	for _, sig := range base.GetSortedTSignatures() {
 		if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
 			printSuggestion(sig.Method, sig.Detail)
+			isPrinted = true
 			continue
 		}
 
 		if isSuggest(targetT, sig) {
 			printSuggestion(sig.Method, sig.Detail)
+			isPrinted = true
 		}
+	}
+
+	if isPrinted {
+		return
 	}
 
 	if targetT.IsIdentifierType() && unicode.IsUpper(rune(targetT.ToString()[0])) {
