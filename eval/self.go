@@ -29,6 +29,8 @@ func (s *Self) Evaluation(
 		selfT = base.MakeClass(ctx.GetClass())
 	default:
 		selfT = base.MakeSelf()
+		selfT.DefinedFrame = ctx.GetFrame()
+		selfT.DefinedClass = ctx.GetClass()
 	}
 
 	p.SetLastEvaluatedT(selfT)

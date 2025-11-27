@@ -87,7 +87,14 @@ func (e *Evaluator) handleIdentifier(
 		}
 
 	default:
-		valueT = base.GetValueT(ctx.GetFrame(), ctx.GetClass(), ctx.GetMethod(), id, ctx.IsDefineStatic)
+		valueT =
+			base.GetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				id,
+				ctx.IsDefineStatic,
+			)
 	}
 
 	if valueT != nil {

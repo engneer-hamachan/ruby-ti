@@ -150,6 +150,10 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	beforeCode := targetT.GetBeforeEvaluateCode()
 	isStaticTarget := unicode.IsUpper(rune(target[0]))
 
+	if targetT.GetType() == base.SELF && !isStaticTarget {
+		return targetT.DefinedClass, false
+	}
+
 	// 1, '1', 1.1, [], {} and more...
 	switch targetT.GetType() {
 	case base.INT, base.FLOAT:
