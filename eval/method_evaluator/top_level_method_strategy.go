@@ -34,7 +34,6 @@ func (t *topLevelMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 			methodT =
 				base.GetTopLevelMethodT(m.ctx.GetFrame(), class, m.method)
 		}
-
 		// TODO: refact end
 	default:
 		methodT =
