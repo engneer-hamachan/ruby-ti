@@ -110,6 +110,7 @@ func (e *Evaluator) handleIdentifier(
 	identifierT.DefinedFrame = ctx.GetFrame()
 	identifierT.DefinedClass = ctx.GetClass()
 	identifierT.DefinedMethod = ctx.GetMethod()
+	identifierT.IsStatic = ctx.IsDefineStatic
 
 	base.SetValueT(
 		ctx.GetFrame(),
