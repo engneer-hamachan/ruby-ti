@@ -165,6 +165,10 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	case base.UNKNOWN:
 		// static top level method in class
 		if !isStaticTarget {
+			if targetT.DefinedMethod == "" {
+				return targetT.DefinedClass, true
+			}
+
 			return targetT.DefinedClass, targetT.IsStatic
 		}
 	}
