@@ -142,7 +142,7 @@ func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 		return false
 	}
 
-	return slices.Contains([]string{"", "Kernel"}, sigClass)
+	return slices.Contains([]string{"Kernel"}, sigClass)
 }
 
 func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
