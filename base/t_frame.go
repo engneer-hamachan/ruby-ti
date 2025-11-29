@@ -253,7 +253,7 @@ func GetTopLevelClassMethodT(frame string, class, method string) *T {
 		return methodT
 	}
 
-	methodT = getParentMethodT("Builtin", "", method, false, false)
+	methodT = getParentMethodT("Builtin", "", method, false, true)
 	if methodT != nil {
 		return methodT
 	}
