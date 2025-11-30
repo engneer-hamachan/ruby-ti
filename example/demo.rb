@@ -7,7 +7,7 @@ u =
     1, 2, 3
   end
 
-dbtp u 
+p u 
 
 
 module Hoge
@@ -29,4 +29,4 @@ f = Hoge::Fuga.new
 
 hash = f.test
 
-dbtp f.test(1)[:a]
+p f.test(1)[:a]
