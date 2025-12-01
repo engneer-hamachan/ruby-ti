@@ -13,3 +13,4 @@ feature-*.md
 .ti-loader.json
 .ti-config/*
 README_draft.md
+doc/*
