@@ -156,10 +156,7 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 
 	// 1, '1', 1.1, [], {} and more...
 	switch targetT.GetType() {
-	case base.INT, base.FLOAT:
-		return beforeCode, false
-
-	case base.ARRAY, base.HASH, base.STRING, base.OBJECT:
+	case base.INT, base.FLOAT, base.ARRAY, base.HASH, base.STRING, base.OBJECT:
 		return targetT.GetObjectClass(), false
 
 	case base.UNKNOWN:
