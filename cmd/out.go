@@ -148,7 +148,7 @@ func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	target := targetT.ToString()
 	beforeCode := targetT.GetBeforeEvaluateCode()
-	isStaticTarget := unicode.IsUpper(rune(target[0]))
+	isStaticTarget := unicode.IsUpper(rune(beforeCode[0]))
 
 	if targetT.GetType() == base.SELF && !isStaticTarget {
 		return targetT.DefinedClass, false

@@ -178,11 +178,10 @@ func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
 
 		default:
 			if !nextT.IsSymbolType() && m.ctx.IsCheckRound() {
-				return fmt.Errorf("Expected symbol, but got '%s'", nextT.ToString())
+				return fmt.Errorf("expected symbol, but got '%s'", nextT.ToString())
 			}
 
 			identifier := strings.TrimPrefix(nextT.ToString(), ":")
-			nilT := base.MakeNil()
 
 			currentT :=
 				base.GetInstanceValueT(
@@ -199,7 +198,7 @@ func (o *objectAttrAccessorStrategy) evaluate(m *MethodEvaluator) error {
 				m.ctx.GetFrame(),
 				m.ctx.GetClass(),
 				identifier,
-				nilT,
+				base.MakeUnknown(),
 			)
 		}
 	}

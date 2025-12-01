@@ -52,7 +52,9 @@ func conditioningMethodReturn(
 		if defineArgT.IsUnionType() {
 			for idx, variant := range defineArgT.GetVariants() {
 				for _, argT := range evaluatedArgs {
-					if variant.GetType() == argT.GetType() || (variant.IsAnyType()) {
+					isAny := variant.IsAnyType() || argT.IsAnyType()
+
+					if variant.GetType() == argT.GetType() || (isAny) {
 						variants := methodT.GetVariants()
 						return &variants[idx]
 					}
@@ -63,7 +65,9 @@ func conditioningMethodReturn(
 		}
 
 		for idx, argT := range evaluatedArgs {
-			if defineArgT.GetType() == argT.GetType() || (defineArgT.IsAnyType()) {
+			isAny := defineArgT.IsAnyType() || argT.IsAnyType()
+
+			if defineArgT.GetType() == argT.GetType() || (isAny) {
 				variants := methodT.GetVariants()
 				return &variants[idx]
 			}
