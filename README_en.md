@@ -276,9 +276,9 @@ Example of a GPIO class that can be used with picoruby
 - `"Unify"` - Union type that unifies Hash, Array, and Union types
 - `"OptionalUnify"` - Nil or Unify
 - `"BlockResultArray"` - Type that converts block results to array
-- `"SelfConvertArray"` - Type that converts instance object to array
-- `"SelfArgument"` - Type that returns argument as is
-- `"UnifiedSelfArgument"` - Type that unifies argument before returning
+- `"SelfArray"` - Type that converts instance object to array
+- `"Argument"` - Type that returns argument as is
+- `"UnifyArgument"` - Type that unifies argument before returning
 
 ## Editor Integration
 

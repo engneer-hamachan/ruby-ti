@@ -3,35 +3,35 @@ package base
 import "fmt"
 
 const (
-	EOS                   = -1
-	NIL                   = 0
-	INT                   = 257
-	UNKNOWN               = 258
-	STRING                = 259
-	BOOL                  = 260
-	FLOAT                 = 261
-	UNTYPED               = 262
-	ARRAY                 = 263
-	HASH                  = 264
-	UNION                 = 265
-	OBJECT                = 266
-	BLOCK                 = 267
-	CLASS                 = 268
-	SELF                  = 269
-	SYMBOL                = 270
-	KEYVALUE              = 271
-	CONST                 = 272
-	RANGE                 = 273
-	UNIFY                 = 274
-	OPTIONAL_UNIFY        = 275
-	BLOCK_RESULT_ARRAY    = 276
-	SELF_CONVERT_ARRAY    = 277
-	SELF_ARGUMENT         = 278
-	UNIFIED_SELF_ARGUMENT = 279
-	KEYVALUE_ARRAY        = 280
-	FLATTEN               = 281
-	ITEM                  = 282
-	OWNER                 = 283
+	EOS                = -1
+	NIL                = 0
+	INT                = 257
+	UNKNOWN            = 258
+	STRING             = 259
+	BOOL               = 260
+	FLOAT              = 261
+	UNTYPED            = 262
+	ARRAY              = 263
+	HASH               = 264
+	UNION              = 265
+	OBJECT             = 266
+	BLOCK              = 267
+	CLASS              = 268
+	SELF               = 269
+	SYMBOL             = 270
+	KEYVALUE           = 271
+	CONST              = 272
+	RANGE              = 273
+	UNIFY              = 274
+	OPTIONAL_UNIFY     = 275
+	BLOCK_RESULT_ARRAY = 276
+	SELF_ARRAY         = 277
+	ARGUMENT           = 278
+	UNIFY_ARGUMENT     = 279
+	KEYVALUE_ARRAY     = 280
+	FLATTEN            = 281
+	ITEM               = 282
+	OWNER              = 283
 )
 
 func ArrayTypeToString(t *T) string {
@@ -145,12 +145,12 @@ func TypeToString(t *T) string {
 		return "Unify"
 	case OPTIONAL_UNIFY:
 		return "OptiionalUnify"
-	case SELF_CONVERT_ARRAY:
-		return "SelfConvertArray"
-	case SELF_ARGUMENT:
-		return "SelfArgument"
-	case UNIFIED_SELF_ARGUMENT:
-		return "UnifiedSelfArgument"
+	case SELF_ARRAY:
+		return "SelfArray"
+	case ARGUMENT:
+		return "Argument"
+	case UNIFY_ARGUMENT:
+		return "UnifyArgument"
 	case FLATTEN:
 		return "Flatten"
 	case BLOCK_RESULT_ARRAY:

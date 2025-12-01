@@ -213,19 +213,19 @@ func MakeOptionalUnify() *T {
 	return NewT("OptiionalUnify", OPTIONAL_UNIFY, "optionalUnify")
 }
 
-func MakeSelfConvertArray() *T {
-	return NewT("SelfConvertArray", SELF_CONVERT_ARRAY, "selfConvertArray")
+func MakeSelfArray() *T {
+	return NewT("SelfArray", SELF_ARRAY, "selfArray")
 }
 
-func MakeSelfArgument() *T {
-	return NewT("SelfArgument", SELF_ARGUMENT, "selfArgument")
+func MakeArgument() *T {
+	return NewT("Argument", ARGUMENT, "argument")
 }
 
-func MakeUnifiedSelfArgument() *T {
+func MakeUnifyArgument() *T {
 	return NewT(
-		"UnifiedSelfArgument",
-		UNIFIED_SELF_ARGUMENT,
-		"unifiedSelfArgument",
+		"UnifyArgument",
+		UNIFY_ARGUMENT,
+		"unifyArgument",
 	)
 }
 

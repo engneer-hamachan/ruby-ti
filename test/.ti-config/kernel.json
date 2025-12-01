@@ -14,7 +14,7 @@
       ],
       "return_type": {
         "type": [
-          "SelfArgument"
+          "Argument"
         ]
       }
     },
@@ -76,7 +76,7 @@
       ],
       "return_type": {
         "type": [
-          "SelfArgument"
+          "Argument"
         ]
       }
     },

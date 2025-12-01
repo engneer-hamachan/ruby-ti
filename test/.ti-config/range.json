@@ -56,7 +56,7 @@
       "return_type": {
         "type": [
           "OptionalUnify",
-          "SelfConvertArray"
+          "SelfArray"
         ],
         "is_conditional": true
       }
@@ -82,7 +82,7 @@
       "return_type": {
         "type": [
           "OptionalUnify",
-          "SelfConvertArray"
+          "SelfArray"
         ],
         "is_conditional": true
       }

@@ -278,9 +278,9 @@ picorubyで使えるGPIOクラスの例
 - `"Unify"` - Hash・Array・Union型をUnifyしたUnion型
 - `"OptionalUnify"` - NilもしくはUnify
 - `"BlockResultArray"` - ブロックの結果を配列にする型
-- `"SelfConvertArray"` - インスタンスオブジェクトを配列に変換する型
-- `"SelfArgument"` - 引数をそのまま返す型
-- `"UnifiedSelfArgument"` - 引数をUnifyしてから返す型
+- `"SelfArray"` - インスタンスオブジェクトを配列に変換する型
+- `"Argument"` - 引数をそのまま返す型
+- `"UnifyArgument"` - 引数をUnifyしてから返す型
 
 ## ライセンス
 このプロジェクトはMITライセンスの下でライセンスされています

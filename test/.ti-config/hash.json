@@ -244,7 +244,7 @@
       "block_parameters": [
         "Symbol",
         "Unify",
-        "UnifiedSelfArgument"
+        "UnifyArgument"
       ],
       "return_type": {
         "type": [
@@ -264,7 +264,7 @@
       "block_parameters": [
         "Symbol",
         "Unify",
-        "UnifiedSelfArgument"
+        "UnifyArgument"
       ],
       "return_type": {
         "type": [

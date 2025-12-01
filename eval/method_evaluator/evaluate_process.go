@@ -97,7 +97,7 @@ func calculateExecutionType(
 	case base.SELF:
 		return m.evaluatedObjectT
 
-	case base.SELF_CONVERT_ARRAY:
+	case base.SELF_ARRAY:
 		arrayT := base.MakeAnyArray()
 
 		for _, variant := range m.evaluatedObjectT.GetVariants() {
@@ -106,7 +106,7 @@ func calculateExecutionType(
 
 		return arrayT
 
-	case base.SELF_ARGUMENT:
+	case base.ARGUMENT:
 		switch len(args) {
 		case 0:
 			nilT := base.MakeNil()

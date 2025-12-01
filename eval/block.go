@@ -196,7 +196,7 @@ func (d *Do) appendParameterBeforeTypeCalculate(
 
 		return blockParamaters
 
-	case base.UNIFIED_SELF_ARGUMENT:
+	case base.UNIFY_ARGUMENT:
 		tmpArgTs := p.GetTmpEvaluaetdArgs()
 		blockParamaters = append(blockParamaters, *tmpArgTs[0].UnifyVariants())
 		return blockParamaters

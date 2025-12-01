@@ -121,11 +121,11 @@ var AllTypeNames = []string{
 	"Unify",
 	"OptionalUnify",
 	"BlockResultArray",
-	"SelfConvertArray",
-	"SelfArgument",
+	"SelfArray",
+	"Argument",
 	"KeyArray",
 	"KeyValueArray",
-	"UnifiedSelfArgument",
+	"UnifyArgument",
 	"Flatten",
 	"Item",
 }
@@ -224,16 +224,16 @@ func parseTypeString(typeStr string) base.T {
 		return OptionalUnifyT
 	case "BlockResultArray":
 		return BlockResultArrayT
-	case "SelfConvertArray":
-		return SelfConvertArrayT
-	case "SelfArgument":
-		return SelfArgumentT
+	case "SelfArray":
+		return SelfArrayT
+	case "Argument":
+		return ArgumentT
 	case "KeyArray":
 		return KeyArrayT
 	case "KeyValueArray":
 		return KeyValueArrayT
-	case "UnifiedSelfArgument":
-		return UnifiedSelfArgumentT
+	case "UnifyArgument":
+		return UnifyArgumentT
 	case "Flatten":
 		return FlattenT
 	case "Item":
