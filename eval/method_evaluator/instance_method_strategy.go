@@ -101,7 +101,7 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return class, methodT, nil
 	}
 
-	if class == "Identifier" {
+	if class == "Identifier" || class == "Untyped" {
 		return class, methodT, nil
 	}
 
