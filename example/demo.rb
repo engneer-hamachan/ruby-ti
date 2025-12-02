@@ -7,6 +7,12 @@ u =
     1, 2, 3
   end
 
+u + 1
+
+if u.is_a?(Integer)
+  u + 1
+end
+
 p u 
 
 
