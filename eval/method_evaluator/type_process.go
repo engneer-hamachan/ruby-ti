@@ -650,6 +650,10 @@ func checkAndPropagateArgs(
 		defineArgIdx++
 	}
 
+	if methodT.IsAnyType() {
+		return nil
+	}
+
 	if len(sortedArgTs) > len(methodT.GetDefineArgs()) && !isAsterisk {
 		err =
 			fmt.Errorf("too many arguments for %s", methodT.GetBeforeEvaluateCode())
