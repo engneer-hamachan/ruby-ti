@@ -116,13 +116,22 @@ func (m *MethodEvaluator) parseKeyIdentifierToKeyWordT(
 	nextT *base.T,
 ) (*base.T, error) {
 
+	var endIdentifier string
+
+	switch m.isParentheses {
+	case true:
+		endIdentifier = ")"
+	default:
+		endIdentifier = "\n"
+	}
+
 	t, err := m.parser.Read()
 	if err != nil {
 		return nil, err
 	}
 
 	// test(a: 1)
-	if !t.IsCloseParentheses() && !t.IsCommaIdentifier() {
+	if !t.IsTargetIdentifier(endIdentifier) && !t.IsCommaIdentifier() {
 		err = m.outerEval.Eval(m.parser, m.ctx, t)
 		if err != nil {
 			return nil, err
