@@ -243,10 +243,6 @@ func parseTypeString(typeStr string) base.T {
 		return ItemT
 	case "Owner":
 		return OwnerT
-	case "SymbolToMethod":
-		return SymbolToMethodT
-	case "SymbolToMethods":
-		return SymbolToMethodsT
 	default:
 		if len(strings.Split(typeStr, "::")) > 1 {
 			return *base.MakeIdentifier(typeStr)

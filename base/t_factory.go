@@ -292,11 +292,3 @@ func MakeItem() *T {
 func MakeOwner() *T {
 	return NewT("Owner", OWNER, "Owner")
 }
-
-func MakeSymbolToMethod() *T {
-	return NewT("SymbolToMethod", SYMOBL_TO_METHOD, "SymbolToMethod")
-}
-
-func MakeSymbolToMethods() *T {
-	return NewT("SymbolToMethods", SYMOBL_TO_METHODS, "SymbolToMethods")
-}

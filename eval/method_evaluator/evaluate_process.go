@@ -1,38 +1,8 @@
 package method_evaluator
 
 import (
-	"strings"
 	"ti/base"
-	"unicode"
 )
-
-func toSingular(s string) string {
-	if strings.HasSuffix(s, "ies") {
-		return s[:len(s)-3] + "y"
-	}
-	if strings.HasSuffix(s, "oes") {
-		return s[:len(s)-2]
-	}
-	if strings.HasSuffix(s, "ses") || strings.HasSuffix(s, "xes") || strings.HasSuffix(s, "zes") || strings.HasSuffix(s, "ches") || strings.HasSuffix(s, "shes") {
-		return s[:len(s)-2]
-	}
-	if strings.HasSuffix(s, "s") && !strings.HasSuffix(s, "ss") {
-		return s[:len(s)-1]
-	}
-	return s
-}
-
-func toUpperCamel(s string) string {
-	words := strings.Split(s, "_")
-	for i, word := range words {
-		if len(word) > 0 {
-			runes := []rune(word)
-			runes[0] = unicode.ToUpper(runes[0])
-			words[i] = string(runes)
-		}
-	}
-	return strings.Join(words, "")
-}
 
 func handleRefference(m *MethodEvaluator) error {
 	nextT, err := m.parser.Read()
@@ -207,55 +177,6 @@ func calculateExecutionType(
 		}
 
 		return m.evaluatedObjectT.GetOwnerT()
-
-	case base.SYMOBL_TO_METHOD:
-		method := args[0].ToString()[1:]
-
-		objectName := toUpperCamel(method)
-
-		defineMethodT :=
-			base.MakeMethod(
-				m.ctx.GetFrame(),
-				method,
-				*base.MakeObject(objectName),
-				[]string{},
-			)
-
-		base.SetMethodT(
-			m.ctx.GetFrame(),
-			m.ctx.GetClass(),
-			defineMethodT,
-			false,
-			m.parser.FileName,
-			m.parser.Row,
-		)
-
-		return methodT
-
-	case base.SYMOBL_TO_METHODS:
-		method := args[0].ToString()[1:]
-
-		objectName := toSingular(toUpperCamel(method))
-
-		arrayT :=
-			base.MakeArray([]base.T{*base.MakeObject(objectName)})
-
-		defineMethodT :=
-			base.MakeMethod(
-				m.ctx.GetFrame(),
-				method,
-				*arrayT,
-				[]string{},
-			)
-
-		base.SetMethodT(
-			m.ctx.GetFrame(),
-			m.ctx.GetClass(),
-			defineMethodT,
-			false,
-			m.parser.FileName,
-			m.parser.Row,
-		)
 
 		return methodT
 
