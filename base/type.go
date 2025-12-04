@@ -32,6 +32,8 @@ const (
 	FLATTEN            = 281
 	ITEM               = 282
 	OWNER              = 283
+	SYMOBL_TO_METHOD   = 284
+	SYMOBL_TO_METHODS  = 285
 )
 
 func ArrayTypeToString(t *T) string {
@@ -161,6 +163,10 @@ func TypeToString(t *T) string {
 		return "Item"
 	case OWNER:
 		return "Owner"
+	case SYMOBL_TO_METHOD:
+		return "SymbolToMethod"
+	case SYMOBL_TO_METHODS:
+		return "SymbolToMethods"
 	default:
 		fmt.Println(t.tType)
 		panic("type convert error")
