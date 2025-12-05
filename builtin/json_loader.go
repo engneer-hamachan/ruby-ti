@@ -49,6 +49,7 @@ type MethodDefinition struct {
 	BlockParameters []string         `json:"block_parameters"`
 	Arguments       []MethodArgument `json:"arguments"`
 	ReturnType      MethodReturn     `json:"return_type"`
+	Document        string           `json:"document"`
 }
 
 type ConstDefinition struct {
@@ -377,6 +378,9 @@ func loadBuiltinFromJSON() error {
 			if len(method.BlockParameters) > 0 {
 				appendBlockParameters(&returnType, method)
 			}
+
+			key := classDef.Frame + classDef.Class + method.Name
+			base.TSignatureDocument[key] = method.Document
 
 			d.defineBuiltinInstanceMethod(
 				classDef.Frame,

@@ -46,13 +46,13 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 
 	for _, sig := range base.GetSortedTSignatures() {
 		if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
-			printSuggestion(sig.Method, sig.Detail)
+			printSuggestion(sig.Method, sig.Detail, sig.Document)
 			isPrinted = true
 			continue
 		}
 
 		if isSuggest(targetT, sig) {
-			printSuggestion(sig.Method, sig.Detail)
+			printSuggestion(sig.Method, sig.Detail, sig.Document)
 			isPrinted = true
 		}
 	}
@@ -133,8 +133,8 @@ func printInheritance(child, parent base.ClassNode) {
 	fmt.Println(line)
 }
 
-func printSuggestion(contents, detail string) {
-	fmt.Println(prefixSignature + contents + separator + detail)
+func printSuggestion(contents, detail string, document string) {
+	fmt.Println(prefixSignature + contents + separator + detail + separator + document)
 }
 
 func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {

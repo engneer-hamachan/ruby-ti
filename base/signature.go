@@ -12,9 +12,11 @@ type Sig struct {
 	IsStatic bool
 	FileName string
 	Row      int
+	Document string
 }
 
 var TSignatures = make(map[string]Sig)
+var TSignatureDocument = make(map[string]string)
 
 func GetSortedTSignatures() []Sig {
 	sortedSignatures := make([]Sig, 0, len(TSignatures))
@@ -260,16 +262,16 @@ func appendSignature(
 	row int,
 ) {
 
-	content := MakeSignatureContent(methodT.method, frame, class, methodT)
-
-	sig :=
-		Sig{methodT.GetMethodName(), content, frame, class, isStatic, fileName, row}
-
 	key := frame + class + methodT.method
-
 	if isStatic {
 		key += "static"
 	}
+
+	content := MakeSignatureContent(methodT.method, frame, class, methodT)
+	document := TSignatureDocument[key]
+
+	sig :=
+		Sig{methodT.GetMethodName(), content, frame, class, isStatic, fileName, row, document}
 
 	TSignatures[key] = sig
 }
