@@ -134,7 +134,9 @@ func printInheritance(child, parent base.ClassNode) {
 }
 
 func printSuggestion(contents, detail string, document string) {
-	fmt.Println(prefixSignature + contents + separator + detail + separator + document)
+	fmt.Println(
+		prefixSignature + contents + separator + detail + separator + document,
+	)
 }
 
 func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
