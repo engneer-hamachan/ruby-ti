@@ -398,6 +398,9 @@ func loadBuiltinFromJSON() error {
 				appendBlockParameters(&returnType, method)
 			}
 
+			key := classDef.Frame + classDef.Class + method.Name
+			base.TSignatureDocument[key] = method.Document
+
 			d.defineBuiltinStaticMethod(
 				classDef.Frame,
 				method.Name,
