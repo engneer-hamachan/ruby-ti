@@ -92,6 +92,29 @@ func (l *Lexer) lexToNotIdentifierTokenEat(currentChar rune) strings.Builder {
 	}
 }
 
+func (l *Lexer) lexHexDigits(currentChar rune) strings.Builder {
+	var buf strings.Builder
+
+	buf.WriteRune(currentChar)
+
+	for {
+		char := l.reader.Read()
+
+		if char == 'x' || char == 'o' || char == 'b' {
+			buf.WriteRune(char)
+			continue
+		}
+
+		if !((char >= '0' && char <= '9') || (char >= 'a' && char <= 'f') || (char >= 'A' && char <= 'F')) {
+			l.reader.Unread()
+
+			return buf
+		}
+
+		buf.WriteRune(char)
+	}
+}
+
 func (l *Lexer) lexDigit() {
 	var buf strings.Builder
 
@@ -105,7 +128,7 @@ func (l *Lexer) lexDigit() {
 
 			l.tok = base.UNKNOWN
 
-			l.lexToSpaceTokenEat(char)
+			l.lexHexDigits(char)
 
 			l.val = int64(0)
 			l.tok = base.INT
