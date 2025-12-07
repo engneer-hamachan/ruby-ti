@@ -170,3 +170,10 @@ func (p *Parser) GetTmpEvaluaetdArgs() []*base.T {
 func (p *Parser) ClearTmpEvaluaetdArgs() {
 	p.tmpEvaluatedArgs = []*base.T{}
 }
+
+func (p *Parser) ConsumeTiComment() string {
+	comment := p.Lexer.LastComment
+	p.Lexer.LastComment = ""
+
+	return comment
+}

@@ -505,6 +505,9 @@ func (d *Def) setDefineMethodT(
 	defineRow int,
 ) {
 
+	key := ctx.GetFrame() + ctx.GetClass() + methodT.GetMethodName()
+	base.TSignatureDocument[key] = p.ConsumeTiComment()
+
 	switch ctx.IsDefineStatic {
 	case true:
 		base.SetClassMethodT(

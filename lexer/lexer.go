@@ -14,6 +14,7 @@ type Lexer struct {
 	IsSpace     bool
 	IsSpacePrev bool
 	reader      reader.LexerReader
+	LastComment string
 }
 
 var reserved map[string]any = make(map[string]any)
@@ -239,6 +240,7 @@ func (l *Lexer) skipSpace() {
 
 func (l *Lexer) skipLineComment() {
 	var char rune
+	var buf strings.Builder
 
 	for {
 		char = l.reader.Read()
@@ -246,6 +248,13 @@ func (l *Lexer) skipLineComment() {
 		if char == '\n' {
 			break
 		}
+
+		buf.WriteRune(char)
+	}
+
+	comment := buf.String()
+	if strings.Contains(comment, "ti-doc:") {
+		l.LastComment = strings.TrimSpace(strings.Replace(comment, "ti-doc:", "", 1))
 	}
 
 	l.reader.Unread()
