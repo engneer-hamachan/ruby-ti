@@ -43,7 +43,7 @@ func ApplyParserFlags(p *parser.Parser) {
 		p.Debug = true
 	}
 
-	if hasFlag("--define") || hasFlag("--suggest") {
+	if hasFlag("--define") || hasFlag("--suggest") || hasFlag("--hover") {
 		applyTargetRow(p)
 	}
 }

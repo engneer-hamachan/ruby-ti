@@ -68,6 +68,9 @@ func (d *defineBuiltinMethod) defineBuiltinInstanceMethod(
 
 	argIdentifiers := d.setupMethodArgs(method, argTypes, false)
 	methodT := base.MakeMethod(frame, method, returnT, argIdentifiers)
+	methodT.DefinedFrame = frame
+	methodT.DefinedClass = d.targetClass
+	methodT.IsStatic = false
 
 	base.SetMethodT(frame, d.targetClass, methodT, false, "unknown", 0)
 }
@@ -82,6 +85,9 @@ func (d *defineBuiltinMethod) defineBuiltinStaticMethod(
 	argIdentifiers := d.setupMethodArgs(method, argTypes, true)
 
 	methodT := base.MakeMethod(frame, method, returnT, argIdentifiers)
+	methodT.DefinedFrame = frame
+	methodT.DefinedClass = d.targetClass
+	methodT.IsStatic = true
 
 	methodT.SetBeforeEvaluateCode(
 		base.CalculateFrame(frame, d.targetClass) + "::" + method,

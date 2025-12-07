@@ -3,6 +3,7 @@ package method_evaluator
 import (
 	"fmt"
 	"ti/base"
+	"ti/parser"
 )
 
 type instanceMethodStrategy struct{}
@@ -22,6 +23,10 @@ func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 
 	if methodT == nil {
 		return nil
+	}
+
+	if m.parser.LspTargetRow == m.parser.ErrorRow {
+		parser.GlobT = *methodT
 	}
 
 	// protect check

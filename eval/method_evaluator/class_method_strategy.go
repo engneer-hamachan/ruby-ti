@@ -2,6 +2,7 @@ package method_evaluator
 
 import (
 	"ti/base"
+	"ti/parser"
 )
 
 type classMethodStrategy struct{}
@@ -11,6 +12,10 @@ func (c *classMethodStrategy) evaluate(m *MethodEvaluator) error {
 	if err != nil {
 		m.errorResolve()
 		return err
+	}
+
+	if m.parser.LspTargetRow == m.parser.ErrorRow {
+		parser.GlobT = *methodT
 	}
 
 	return evaluateNoUnionInstanceMethod(m, class, methodT)

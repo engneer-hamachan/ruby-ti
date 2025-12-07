@@ -7,6 +7,8 @@ import (
 	"ti/lexer"
 )
 
+var GlobT base.T
+
 type Parser struct {
 	Lexer               lexer.Lexer
 	token               rune

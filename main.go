@@ -73,6 +73,10 @@ func evaluationLoop(
 		cmd.PrintSuggestionsForLsp(p)
 	}
 
+	if flags.IsHover {
+		cmd.PrintHover(p)
+	}
+
 	if flags.IsExtends {
 		cmd.PrintTargetClassExtends()
 		os.Exit(0)
