@@ -31,6 +31,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsExtends = true
 	}
 
+	if hasFlag("--hover") {
+		flags.IsHover = true
+	}
+
 	return flags
 }
 

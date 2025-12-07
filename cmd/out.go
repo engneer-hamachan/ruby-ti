@@ -32,8 +32,8 @@ func PrintAllErrorsForPlugin(p parser.Parser) {
 
 func PrintAllDefinitionsForLsp(p parser.Parser) {
 	printDefinitionTarget(
-		p.LspSudjestTargetT.DefinedFrame,
-		p.LspSudjestTargetT.DefinedClass,
+		p.LspSuggestTargetT.DefinedFrame,
+		p.LspSuggestTargetT.DefinedClass,
 	)
 
 	printMatchingSignatures(p)
@@ -41,7 +41,7 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 }
 
 func PrintSuggestionsForLsp(p parser.Parser) {
-	targetT := p.LspSudjestTargetT
+	targetT := p.LspSuggestTargetT
 	isPrinted := false
 
 	for _, sig := range base.GetSortedTSignatures() {
@@ -98,7 +98,7 @@ func printDefinitionTarget(frame, class string) {
 
 func printMatchingSignatures(p parser.Parser) {
 	for _, sig := range base.TSignatures {
-		if p.LspSudjestTargetT.IsStatic == sig.IsStatic {
+		if p.LspSuggestTargetT.IsStatic == sig.IsStatic {
 			printSignature(sig)
 		}
 	}

@@ -26,7 +26,7 @@ type Parser struct {
 	IsDefineAllInfo     bool
 	IsLsp               bool
 	LspTargetRow        int
-	LspSudjestTargetT   base.T
+	LspSuggestTargetT   base.T
 	Errors              []error
 	DefineInfos         []string
 	BeforeString        string
@@ -56,7 +56,7 @@ func (p *Parser) SetLastEvaluatedT(some any) {
 	if p.ErrorRow == p.LspTargetRow {
 		switch p.lastEvaluatedT.(type) {
 		case *base.T:
-			p.LspSudjestTargetT = *p.lastEvaluatedT.(*base.T)
+			p.LspSuggestTargetT = *p.lastEvaluatedT.(*base.T)
 		}
 	}
 }

@@ -6,6 +6,7 @@ type ExecuteFlags struct {
 	IsSuggest       bool
 	IsAllType       bool
 	IsExtends       bool
+	IsHover         bool
 }
 
 func NewExecuteFlags() *ExecuteFlags {
