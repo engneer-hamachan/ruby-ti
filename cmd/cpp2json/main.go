@@ -26,11 +26,11 @@ type Method struct {
 }
 
 type JSONConfig struct {
-	Frame          string   `json:"frame"`
-	Class          string   `json:"class"`
-	Extends        []string `json:"extends,omitempty"`
-	Constants      []any    `json:"constants,omitempty"`
-	ClassMethods   []Method `json:"class_methods,omitempty"`
+	Frame           string   `json:"frame"`
+	Class           string   `json:"class"`
+	Extends         []string `json:"extends,omitempty"`
+	Constants       []any    `json:"constants,omitempty"`
+	ClassMethods    []Method `json:"class_methods,omitempty"`
 	InstanceMethods []Method `json:"instance_methods,omitempty"`
 }
 
@@ -173,11 +173,7 @@ func analyzeFunction(funcInfo FunctionInfo, methodName string) Method {
 
 	arguments := inferArguments(funcInfo.Body)
 	method.Arguments = arguments
-
-	document := extractDocument(funcInfo.Body)
-	if document != "" {
-		method.Document = document
-	}
+	method.Document = ""
 
 	return method
 }
@@ -287,23 +283,4 @@ func inferArguments(body string) []Argument {
 	}
 
 	return arguments
-}
-
-func extractDocument(body string) string {
-	docRe := regexp.MustCompile(`/\*[^*]*\*\s*Method:\s*[^*]+\s*\*([^*]+)\*`)
-	if match := docRe.FindStringSubmatch(body); match != nil {
-		return strings.TrimSpace(match[1])
-	}
-
-	lines := strings.Split(body, "\n")
-	for _, line := range lines {
-		if strings.Contains(line, "//") {
-			comment := strings.TrimSpace(strings.SplitN(line, "//", 2)[1])
-			if comment != "" && !strings.HasPrefix(comment, "TODO") {
-				return comment
-			}
-		}
-	}
-
-	return ""
 }
