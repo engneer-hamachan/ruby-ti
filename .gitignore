@@ -12,6 +12,7 @@ builtin.json
 feature-*.md
 .ti-loader.json
 .ti-config/*
+.ti-config-test/*
 .ti-config.bak/*
 README_draft.md
 docs/*
