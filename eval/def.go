@@ -506,7 +506,6 @@ func (d *Def) setDefineMethodT(
 ) {
 
 	key := ctx.GetFrame() + ctx.GetClass() + methodT.GetMethodName()
-	base.TSignatureDocument[key] = p.ConsumeTiComment()
 
 	switch ctx.IsDefineStatic {
 	case true:
@@ -518,6 +517,8 @@ func (d *Def) setDefineMethodT(
 			p.FileName,
 			defineRow,
 		)
+
+		key += "static"
 
 	default:
 		// this proccess for not instance variable override check
@@ -541,6 +542,8 @@ func (d *Def) setDefineMethodT(
 			defineRow,
 		)
 	}
+
+	base.TSignatureDocument[key] = p.ConsumeTiComment()
 }
 
 func (d *Def) setDefineInfos(
