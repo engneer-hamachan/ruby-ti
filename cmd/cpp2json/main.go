@@ -44,18 +44,11 @@ type FunctionInfo struct {
 	Body string
 }
 
-func main() {
-	output := flag.String("o", "", "output JSON file path")
-	className := flag.String("class", "", "class or module name")
-	isModule := flag.Bool("module", false, "define as module (use class_methods)")
-	flag.Parse()
+func isValidCmdArgumentCount() bool {
+	return flag.NArg() >= 1
+}
 
-	if flag.NArg() < 1 {
-		fmt.Fprintf(os.Stderr, "Usage: cpp2json [options] <input.cpp>\n")
-		flag.PrintDefaults()
-		os.Exit(1)
-	}
-
+func getCFileContent() string {
 	inputFile := flag.Arg(0)
 
 	content, err := os.ReadFile(inputFile)
@@ -64,22 +57,43 @@ func main() {
 		os.Exit(1)
 	}
 
-	config := parseFile(string(content), *className, *isModule)
+	return string(content)
+}
 
-	jsonData, err := json.MarshalIndent(config, "", "  ")
+func main() {
+	flag.Parse()
+
+	if !isValidCmdArgumentCount() {
+		fmt.Fprintf(os.Stderr, "Usage: cpp2json [options] <input.cpp>\n")
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
+
+	content := getCFileContent()
+	className := flag.String("class", "", "class or module name")
+	isModule := flag.Bool("module", false, "define as module (use class_methods)")
+
+	tiConfig := parseFile(content, *className, *isModule)
+
+	jsonData, err := json.MarshalIndent(tiConfig, "", "  ")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error generating JSON: %v\n", err)
 		os.Exit(1)
 	}
 
-	if *output != "" {
+	output := flag.String("o", "", "output JSON file path")
+
+	switch *output {
+	case "":
+		fmt.Println(string(jsonData))
+
+	default:
 		if err := os.WriteFile(*output, jsonData, 0644); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing output file: %v\n", err)
 			os.Exit(1)
 		}
+
 		fmt.Printf("Generated: %s\n", *output)
-	} else {
-		fmt.Println(string(jsonData))
 	}
 }
 
@@ -121,9 +135,9 @@ func parseFile(content string, className string, isModule bool) TiClassConfig {
 }
 
 func extractClassName(content string) string {
-	moduleRe := regexp.MustCompile(`mrbc_define_(?:module|class)\s*\(\s*\w+\s*,\s*"([^"]+)"`)
-	if match := moduleRe.FindStringSubmatch(content); match != nil {
-		return match[1]
+	classOrModulePattern := regexp.MustCompile(`mrbc_define_(?:module|class)\s*\(\s*\w+\s*,\s*"([^"]+)"`)
+	if matches := classOrModulePattern.FindStringSubmatch(content); matches != nil {
+		return matches[1]
 	}
 	return "Unknown"
 }
@@ -138,57 +152,57 @@ type MethodDefinition struct {
 func extractMethods(content string) []MethodDefinition {
 	var methods []MethodDefinition
 
-	mrbcDefineRe := regexp.MustCompile(`mrbc_define_(method|class_method)\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*\)`)
-	matches := mrbcDefineRe.FindAllStringSubmatch(content, -1)
+	mrbcDefinePattern := regexp.MustCompile(`mrbc_define_(method|class_method)\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*\)`)
+	mrbcMatches := mrbcDefinePattern.FindAllStringSubmatch(content, -1)
 
-	for _, match := range matches {
+	for _, matchGroups := range mrbcMatches {
 		methodType := "instance"
-		if match[1] == "class_method" {
+		if matchGroups[1] == "class_method" {
 			methodType = "class"
 		}
 		methods = append(methods, MethodDefinition{
-			MethodName: match[2],
-			FuncName:   match[3],
+			MethodName: matchGroups[2],
+			FuncName:   matchGroups[3],
 			MethodType: methodType,
 		})
 	}
 
-	mrbDefineIdRe := regexp.MustCompile(`mrb_define_(class_)?method_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM(_Q)?\((\w+)\)\s*,\s*(\w+)\s*,\s*([^)]+\))`)
-	mrbIdMatches := mrbDefineIdRe.FindAllStringSubmatch(content, -1)
+	mrbDefineIdPattern := regexp.MustCompile(`mrb_define_(class_)?method_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM(_Q)?\((\w+)\)\s*,\s*(\w+)\s*,\s*([^)]+\))`)
+	mrbIdMatches := mrbDefineIdPattern.FindAllStringSubmatch(content, -1)
 
-	for _, match := range mrbIdMatches {
+	for _, matchGroups := range mrbIdMatches {
 		methodType := "instance"
-		if match[1] == "class_" {
+		if matchGroups[1] == "class_" {
 			methodType = "class"
 		}
-		methodName := match[3]
-		if match[2] == "_Q" {
+		methodName := matchGroups[3]
+		if matchGroups[2] == "_Q" {
 			methodName += "?"
 		}
-		argsSpec := match[5]
+		argumentsSpec := matchGroups[5]
 		methods = append(methods, MethodDefinition{
 			MethodName: methodName,
-			FuncName:   match[4],
+			FuncName:   matchGroups[4],
 			MethodType: methodType,
-			ArgsSpec:   argsSpec,
+			ArgsSpec:   argumentsSpec,
 		})
 	}
 
-	mrbDefineRe := regexp.MustCompile(`mrb_define_(class_)?method\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*,\s*([^)]+\))`)
-	mrbMatches := mrbDefineRe.FindAllStringSubmatch(content, -1)
+	mrbDefinePattern := regexp.MustCompile(`mrb_define_(class_)?method\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*,\s*([^)]+\))`)
+	mrbMatches := mrbDefinePattern.FindAllStringSubmatch(content, -1)
 
-	for _, match := range mrbMatches {
+	for _, matchGroups := range mrbMatches {
 		methodType := "instance"
-		if match[1] == "class_" {
+		if matchGroups[1] == "class_" {
 			methodType = "class"
 		}
-		methodName := match[2]
-		argsSpec := match[4]
+		methodName := matchGroups[2]
+		argumentsSpec := matchGroups[4]
 		methods = append(methods, MethodDefinition{
 			MethodName: methodName,
-			FuncName:   match[3],
+			FuncName:   matchGroups[3],
 			MethodType: methodType,
-			ArgsSpec:   argsSpec,
+			ArgsSpec:   argumentsSpec,
 		})
 	}
 
@@ -198,64 +212,36 @@ func extractMethods(content string) []MethodDefinition {
 func extractConstants(content string) []TiConstantType {
 	var constants []TiConstantType
 
-	constIdRe := regexp.MustCompile(`mrb_define_const_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM\((\w+)\)\s*,\s*mrb_(\w+)_value\(`)
-	constIdMatches := constIdRe.FindAllStringSubmatch(content, -1)
+	constIdPattern := regexp.MustCompile(`mrb_define_const_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM\((\w+)\)\s*,\s*mrb_(\w+)_value\(`)
+	constIdMatches := constIdPattern.FindAllStringSubmatch(content, -1)
 
-	for _, match := range constIdMatches {
-		constName := match[1]
-		valueType := match[2]
+	for _, matchGroups := range constIdMatches {
+		constantName := matchGroups[1]
+		mrubyValueType := matchGroups[2]
 
-		typeName := "Untyped"
-		switch valueType {
-		case "fixnum", "int":
-			typeName = "Int"
-		case "float":
-			typeName = "Float"
-		case "true", "false":
-			typeName = "Bool"
-		case "nil":
-			typeName = "Nil"
-		case "str":
-			typeName = "String"
-		case "symbol":
-			typeName = "Symbol"
-		}
+		rubyTiTypeName := convertMrubyValueTypeToRubyTiType(mrubyValueType)
 
 		constants = append(constants, TiConstantType{
-			Name: constName,
+			Name: constantName,
 			ReturnType: TiReturnType{
-				Type: []string{typeName},
+				Type: []string{rubyTiTypeName},
 			},
 		})
 	}
 
-	constRe := regexp.MustCompile(`mrb_define_const\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*mrb_(\w+)_value\(`)
-	constMatches := constRe.FindAllStringSubmatch(content, -1)
+	constPattern := regexp.MustCompile(`mrb_define_const\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*mrb_(\w+)_value\(`)
+	constMatches := constPattern.FindAllStringSubmatch(content, -1)
 
-	for _, match := range constMatches {
-		constName := match[1]
-		valueType := match[2]
+	for _, matchGroups := range constMatches {
+		constantName := matchGroups[1]
+		mrubyValueType := matchGroups[2]
 
-		typeName := "Untyped"
-		switch valueType {
-		case "fixnum", "int":
-			typeName = "Int"
-		case "float":
-			typeName = "Float"
-		case "true", "false":
-			typeName = "Bool"
-		case "nil":
-			typeName = "Nil"
-		case "str":
-			typeName = "String"
-		case "symbol":
-			typeName = "Symbol"
-		}
+		rubyTiTypeName := convertMrubyValueTypeToRubyTiType(mrubyValueType)
 
 		constants = append(constants, TiConstantType{
-			Name: constName,
+			Name: constantName,
 			ReturnType: TiReturnType{
-				Type: []string{typeName},
+				Type: []string{rubyTiTypeName},
 			},
 		})
 	}
@@ -263,88 +249,125 @@ func extractConstants(content string) []TiConstantType {
 	return constants
 }
 
+func convertMrubyValueTypeToRubyTiType(mrubyValueType string) string {
+	switch mrubyValueType {
+	case "fixnum", "int":
+		return "Int"
+	case "float":
+		return "Float"
+	case "true", "false":
+		return "Bool"
+	case "nil":
+		return "Nil"
+	case "str":
+		return "String"
+	case "symbol":
+		return "Symbol"
+	default:
+		return "Untyped"
+	}
+}
+
 func extractFunctions(content string) map[string]FunctionInfo {
-	functions := make(map[string]FunctionInfo)
+	functionsByName := make(map[string]FunctionInfo)
 
-	funcRe := regexp.MustCompile(`(?s)(void|static\s+mrb_value)\s+(\w+)\s*\([^)]*\)\s*\{(.*?)\n\}`)
-	matches := funcRe.FindAllStringSubmatch(content, -1)
+	functionPattern := regexp.MustCompile(`(?s)(void|static\s+mrb_value)\s+(\w+)\s*\([^)]*\)\s*\{(.*?)\n\}`)
+	allMatches := functionPattern.FindAllStringSubmatch(content, -1)
 
-	for _, match := range matches {
-		funcName := match[2]
-		funcBody := match[3]
-		functions[funcName] = FunctionInfo{
-			Name: funcName,
-			Body: funcBody,
+	for _, matchGroups := range allMatches {
+		functionName := matchGroups[2]
+		functionBody := matchGroups[3]
+		functionsByName[functionName] = FunctionInfo{
+			Name: functionName,
+			Body: functionBody,
 		}
 	}
 
-	return functions
+	return functionsByName
 }
 
-func analyzeFunction(funcInfo FunctionInfo, methodName string, argsSpec string) TiMethod {
+func analyzeFunction(functionInfo FunctionInfo, methodName string, argumentsSpec string) TiMethod {
+	inferredReturnType := inferReturnType(functionInfo.Body, methodName)
+	inferredArguments := inferArguments(functionInfo.Body, argumentsSpec)
+
 	method := TiMethod{
-		Name:      methodName,
-		Arguments: []TiArgument{},
+		Name:       methodName,
+		Arguments:  inferredArguments,
+		ReturnType: TiReturnType{Type: []string{inferredReturnType}},
+		Document:   "",
 	}
-
-	returnType := inferReturnType(funcInfo.Body, methodName)
-	method.ReturnType = TiReturnType{Type: []string{returnType}}
-
-	arguments := inferArguments(funcInfo.Body, argsSpec)
-	method.Arguments = arguments
-	method.Document = ""
 
 	return method
 }
 
-func inferReturnType(body string, methodName string) string {
-	if strings.Contains(body, "SET_NIL_RETURN()") || strings.Contains(body, "return mrb_nil_value()") ||
-	   strings.Contains(body, "return mrbc_nil_value()") {
+func inferReturnType(functionBody string, methodName string) string {
+	if strings.Contains(functionBody, "SET_NIL_RETURN()") ||
+		strings.Contains(functionBody, "return mrb_nil_value()") ||
+		strings.Contains(functionBody, "return mrbc_nil_value()") {
 		return "Nil"
 	}
-	if strings.Contains(body, "SET_INT_RETURN(") || strings.Contains(body, "return mrb_fixnum_value(") ||
-	   strings.Contains(body, "return mrb_int_value(") || strings.Contains(body, "return mrbc_integer_value(") {
+
+	if strings.Contains(functionBody, "SET_INT_RETURN(") ||
+		strings.Contains(functionBody, "return mrb_fixnum_value(") ||
+		strings.Contains(functionBody, "return mrb_int_value(") ||
+		strings.Contains(functionBody, "return mrbc_integer_value(") {
 		return "Int"
 	}
-	if strings.Contains(body, "SET_FLOAT_RETURN(") || strings.Contains(body, "return mrb_float_value(") ||
-	   strings.Contains(body, "return mrbc_float_value(") {
+
+	if strings.Contains(functionBody, "SET_FLOAT_RETURN(") ||
+		strings.Contains(functionBody, "return mrb_float_value(") ||
+		strings.Contains(functionBody, "return mrbc_float_value(") {
 		return "Float"
 	}
-	if strings.Contains(body, "SET_TRUE_RETURN()") || strings.Contains(body, "SET_FALSE_RETURN()") ||
-	   strings.Contains(body, "SET_BOOL_RETURN(") || strings.Contains(body, "return mrb_true_value()") ||
-	   strings.Contains(body, "return mrb_false_value()") || strings.Contains(body, "return mrbc_true_value()") ||
-	   strings.Contains(body, "return mrbc_false_value()") {
+
+	if strings.Contains(functionBody, "SET_TRUE_RETURN()") ||
+		strings.Contains(functionBody, "SET_FALSE_RETURN()") ||
+		strings.Contains(functionBody, "SET_BOOL_RETURN(") ||
+		strings.Contains(functionBody, "return mrb_true_value()") ||
+		strings.Contains(functionBody, "return mrb_false_value()") ||
+		strings.Contains(functionBody, "return mrbc_true_value()") ||
+		strings.Contains(functionBody, "return mrbc_false_value()") {
 		return "Bool"
 	}
-	if strings.Contains(body, "return mrb_str_new(") || strings.Contains(body, "return mrb_str_new_cstr(") ||
-	   strings.Contains(body, "return mrb_str_new_lit(") || strings.Contains(body, "return mrbc_string_new(") ||
-	   strings.Contains(body, "return mrbc_string_new_cstr(") {
+
+	if strings.Contains(functionBody, "return mrb_str_new(") ||
+		strings.Contains(functionBody, "return mrb_str_new_cstr(") ||
+		strings.Contains(functionBody, "return mrb_str_new_lit(") ||
+		strings.Contains(functionBody, "return mrbc_string_new(") ||
+		strings.Contains(functionBody, "return mrbc_string_new_cstr(") {
 		return "String"
 	}
-	if strings.Contains(body, "return mrb_symbol_value(") || strings.Contains(body, "return mrbc_symbol_value(") {
+
+	if strings.Contains(functionBody, "return mrb_symbol_value(") ||
+		strings.Contains(functionBody, "return mrbc_symbol_value(") {
 		return "Symbol"
 	}
-	if strings.Contains(body, "return mrb_ary_new(") || strings.Contains(body, "return mrb_ary_new_capa(") ||
-	   strings.Contains(body, "return mrbc_array_new(") {
+
+	if strings.Contains(functionBody, "return mrb_ary_new(") ||
+		strings.Contains(functionBody, "return mrb_ary_new_capa(") ||
+		strings.Contains(functionBody, "return mrbc_array_new(") {
 		return "Array"
 	}
-	if strings.Contains(body, "return mrb_hash_new(") || strings.Contains(body, "return mrbc_hash_new(") {
+
+	if strings.Contains(functionBody, "return mrb_hash_new(") ||
+		strings.Contains(functionBody, "return mrbc_hash_new(") {
 		return "Hash"
 	}
 
-	instanceNewRe := regexp.MustCompile(`mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+)`)
-	if match := instanceNewRe.FindStringSubmatch(body); match != nil {
-		className := match[1]
-		return normalizeClassName(className)
+	instanceNewPattern := regexp.MustCompile(`mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+)`)
+	if matches := instanceNewPattern.FindStringSubmatch(functionBody); matches != nil {
+		rawClassName := matches[1]
+		return normalizeClassName(rawClassName)
 	}
 
-	setReturnRe := regexp.MustCompile(`SET_RETURN\s*\(\s*mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+)`)
-	if match := setReturnRe.FindStringSubmatch(body); match != nil {
-		className := match[1]
-		return normalizeClassName(className)
+	setReturnPattern := regexp.MustCompile(`SET_RETURN\s*\(\s*mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+)`)
+	if matches := setReturnPattern.FindStringSubmatch(functionBody); matches != nil {
+		rawClassName := matches[1]
+		return normalizeClassName(rawClassName)
 	}
 
-	if strings.Contains(body, "return self") || strings.Contains(body, "return mrb_obj_value(") {
+	if strings.Contains(functionBody, "return self") ||
+		strings.Contains(functionBody, "return mrb_obj_value(") {
 		return "Self"
 	}
 
@@ -355,24 +378,24 @@ func inferReturnType(body string, methodName string) string {
 	return "Untyped"
 }
 
-func normalizeClassName(name string) string {
-	if len(name) == 0 {
-		return name
+func normalizeClassName(rawClassName string) string {
+	if len(rawClassName) == 0 {
+		return rawClassName
 	}
-	if len(name) <= 2 {
-		return strings.ToUpper(name)
+	if len(rawClassName) <= 2 {
+		return strings.ToUpper(rawClassName)
 	}
-	return strings.ToUpper(name[:1]) + name[1:]
+	return strings.ToUpper(rawClassName[:1]) + rawClassName[1:]
 }
 
-func inferArguments(body string, argsSpec string) []TiArgument {
+func inferArguments(functionBody string, argumentsSpec string) []TiArgument {
 	arguments := []TiArgument{}
 
-	if strings.Contains(argsSpec, "MRB_ARGS_NONE()") {
+	if strings.Contains(argumentsSpec, "MRB_ARGS_NONE()") {
 		return arguments
 	}
 
-	if strings.Contains(argsSpec, "MRB_ARGS_ANY()") {
+	if strings.Contains(argumentsSpec, "MRB_ARGS_ANY()") {
 		arguments = append(arguments, TiArgument{
 			Type: []string{"Untyped"},
 			Key:  "*args",
@@ -380,104 +403,98 @@ func inferArguments(body string, argsSpec string) []TiArgument {
 		return arguments
 	}
 
-	numRequired := 0
-	numOptional := 0
-	hasRest := false
-	numPost := 0
-	hasBlock := false
+	requiredArgumentsCount := 0
+	optionalArgumentsCount := 0
+	hasRestArguments := false
+	postArgumentsCount := 0
+	hasBlockArgument := false
 
-	argsReqRe := regexp.MustCompile(`MRB_ARGS_REQ\((\d+)\)`)
-	if match := argsReqRe.FindStringSubmatch(argsSpec); match != nil {
-		fmt.Sscanf(match[1], "%d", &numRequired)
+	requiredArgsPattern := regexp.MustCompile(`MRB_ARGS_REQ\((\d+)\)`)
+	if matches := requiredArgsPattern.FindStringSubmatch(argumentsSpec); matches != nil {
+		fmt.Sscanf(matches[1], "%d", &requiredArgumentsCount)
 	}
 
-	argsOptRe := regexp.MustCompile(`MRB_ARGS_OPT\((\d+)\)`)
-	if match := argsOptRe.FindStringSubmatch(argsSpec); match != nil {
-		fmt.Sscanf(match[1], "%d", &numOptional)
+	optionalArgsPattern := regexp.MustCompile(`MRB_ARGS_OPT\((\d+)\)`)
+	if matches := optionalArgsPattern.FindStringSubmatch(argumentsSpec); matches != nil {
+		fmt.Sscanf(matches[1], "%d", &optionalArgumentsCount)
 	}
 
-	if strings.Contains(argsSpec, "MRB_ARGS_REST()") {
-		hasRest = true
+	if strings.Contains(argumentsSpec, "MRB_ARGS_REST()") {
+		hasRestArguments = true
 	}
 
-	argsPostRe := regexp.MustCompile(`MRB_ARGS_POST\((\d+)\)`)
-	if match := argsPostRe.FindStringSubmatch(argsSpec); match != nil {
-		fmt.Sscanf(match[1], "%d", &numPost)
+	postArgsPattern := regexp.MustCompile(`MRB_ARGS_POST\((\d+)\)`)
+	if matches := postArgsPattern.FindStringSubmatch(argumentsSpec); matches != nil {
+		fmt.Sscanf(matches[1], "%d", &postArgumentsCount)
 	}
 
-	if strings.Contains(argsSpec, "MRB_ARGS_BLOCK()") {
-		hasBlock = true
+	if strings.Contains(argumentsSpec, "MRB_ARGS_BLOCK()") {
+		hasBlockArgument = true
 	}
 
-	getArgsRe := regexp.MustCompile(`mrb_get_args\s*\(\s*\w+\s*,\s*"([^"]+)"`)
-	if match := getArgsRe.FindStringSubmatch(body); match != nil {
-		formatStr := match[1]
-		inOptional := false
+	getArgsPattern := regexp.MustCompile(`mrb_get_args\s*\(\s*\w+\s*,\s*"([^"]+)"`)
+	if matches := getArgsPattern.FindStringSubmatch(functionBody); matches != nil {
+		formatString := matches[1]
+		isInOptionalSection := false
 
-		for _, ch := range formatStr {
-			switch ch {
+		for _, formatCharacter := range formatString {
+			switch formatCharacter {
 			case 'i':
-				argType := "Int"
-				if inOptional {
-					argType = "DefaultInt"
+				argumentType := "Int"
+				if isInOptionalSection {
+					argumentType = "DefaultInt"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'f':
-				argType := "Float"
-				if inOptional {
-					argType = "DefaultFloat"
+				argumentType := "Float"
+				if isInOptionalSection {
+					argumentType = "DefaultFloat"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 's', 'z':
-				argType := "String"
-				if inOptional {
-					argType = "DefaultString"
+				argumentType := "String"
+				if isInOptionalSection {
+					argumentType = "DefaultString"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'S':
-				argType := "String"
-				if inOptional {
-					argType = "DefaultString"
+				argumentType := "String"
+				if isInOptionalSection {
+					argumentType = "DefaultString"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
-			case 'A':
-				argType := "Array"
-				if inOptional {
-					argType = "DefaultUntyped"
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
+			case 'A', 'a':
+				argumentType := "Array"
+				if isInOptionalSection {
+					argumentType = "DefaultUntyped"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'H':
-				argType := "Hash"
-				if inOptional {
-					argType = "DefaultUntyped"
+				argumentType := "Hash"
+				if isInOptionalSection {
+					argumentType = "DefaultUntyped"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
-			case 'a':
-				argType := "Array"
-				if inOptional {
-					argType = "DefaultUntyped"
-				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'b':
-				argType := "Bool"
-				if inOptional {
-					argType = "DefaultUntyped"
+				argumentType := "Bool"
+				if isInOptionalSection {
+					argumentType = "DefaultUntyped"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'n':
-				argType := "Symbol"
-				if inOptional {
-					argType = "DefaultUntyped"
+				argumentType := "Symbol"
+				if isInOptionalSection {
+					argumentType = "DefaultUntyped"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'C', 'o':
-				argType := "Untyped"
-				if inOptional {
-					argType = "DefaultUntyped"
+				argumentType := "Untyped"
+				if isInOptionalSection {
+					argumentType = "DefaultUntyped"
 				}
-				arguments = append(arguments, TiArgument{Type: []string{argType}})
+				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case '|':
-				inOptional = true
+				isInOptionalSection = true
 			case '*':
 				arguments = append(arguments, TiArgument{Type: []string{"Untyped"}, Key: "*args"})
 			case '&':
@@ -488,95 +505,96 @@ func inferArguments(body string, argsSpec string) []TiArgument {
 		return arguments
 	}
 
-	if numRequired == 0 && numOptional == 0 && !hasRest && numPost == 0 && !hasBlock {
-		getArgTypeRe := regexp.MustCompile(`GET_(\w+)_ARG\s*\(\s*(\d+)\s*\)`)
-		getArgMatches := getArgTypeRe.FindAllStringSubmatch(body, -1)
-		argTypes := make(map[int]string)
+	hasNoArgumentSpec := requiredArgumentsCount == 0 && optionalArgumentsCount == 0 && !hasRestArguments && postArgumentsCount == 0 && !hasBlockArgument
+	if hasNoArgumentSpec {
+		getArgTypePattern := regexp.MustCompile(`GET_(\w+)_ARG\s*\(\s*(\d+)\s*\)`)
+		getArgTypeMatches := getArgTypePattern.FindAllStringSubmatch(functionBody, -1)
+		argumentTypesByIndex := make(map[int]string)
 
-		for _, match := range getArgMatches {
-			argType := match[1]
-			argIndex := 0
-			fmt.Sscanf(match[2], "%d", &argIndex)
+		for _, matchGroups := range getArgTypeMatches {
+			mrubyArgumentType := matchGroups[1]
+			argumentIndex := 0
+			fmt.Sscanf(matchGroups[2], "%d", &argumentIndex)
 
-			switch argType {
+			switch mrubyArgumentType {
 			case "INT":
-				argTypes[argIndex] = "Int"
+				argumentTypesByIndex[argumentIndex] = "Int"
 			case "FLOAT":
-				argTypes[argIndex] = "Float"
+				argumentTypesByIndex[argumentIndex] = "Float"
 			case "STRING":
-				argTypes[argIndex] = "String"
+				argumentTypesByIndex[argumentIndex] = "String"
 			default:
-				argTypes[argIndex] = "Untyped"
+				argumentTypesByIndex[argumentIndex] = "Untyped"
 			}
 		}
 
-		argCheckRe := regexp.MustCompile(`if\s*\(\s*argc\s*>=\s*(\d+)\s*\)`)
-		argCheckMatches := argCheckRe.FindAllStringSubmatch(body, -1)
-		maxArgc := 0
-		for _, match := range argCheckMatches {
-			argc := 0
-			fmt.Sscanf(match[1], "%d", &argc)
-			if argc > maxArgc {
-				maxArgc = argc
+		argcCheckPattern := regexp.MustCompile(`if\s*\(\s*argc\s*>=\s*(\d+)\s*\)`)
+		argcCheckMatches := argcCheckPattern.FindAllStringSubmatch(functionBody, -1)
+		minimumRequiredArgc := 0
+		for _, matchGroups := range argcCheckMatches {
+			argcValue := 0
+			fmt.Sscanf(matchGroups[1], "%d", &argcValue)
+			if argcValue > minimumRequiredArgc {
+				minimumRequiredArgc = argcValue
 			}
 		}
 
-		if len(argTypes) > 0 {
-			maxIdx := 0
-			for idx := range argTypes {
-				if idx > maxIdx {
-					maxIdx = idx
+		if len(argumentTypesByIndex) > 0 {
+			maxArgumentIndex := 0
+			for argumentIndex := range argumentTypesByIndex {
+				if argumentIndex > maxArgumentIndex {
+					maxArgumentIndex = argumentIndex
 				}
 			}
 
-			for i := 1; i <= maxIdx; i++ {
-				argType := "Untyped"
-				if t, ok := argTypes[i]; ok {
-					argType = t
+			for currentIndex := 1; currentIndex <= maxArgumentIndex; currentIndex++ {
+				argumentType := "Untyped"
+				if inferredType, exists := argumentTypesByIndex[currentIndex]; exists {
+					argumentType = inferredType
 				}
 
-				if maxArgc > 0 && i >= maxArgc {
-					if argType == "Untyped" {
-						argType = "DefaultUntyped"
+				if minimumRequiredArgc > 0 && currentIndex >= minimumRequiredArgc {
+					if argumentType == "Untyped" {
+						argumentType = "DefaultUntyped"
 					} else {
-						argType = "Default" + argType
+						argumentType = "Default" + argumentType
 					}
 				}
 
 				arguments = append(arguments, TiArgument{
-					Type: []string{argType},
+					Type: []string{argumentType},
 				})
 			}
 			return arguments
 		}
 	}
 
-	for i := 0; i < numRequired; i++ {
+	for i := 0; i < requiredArgumentsCount; i++ {
 		arguments = append(arguments, TiArgument{
 			Type: []string{"Untyped"},
 		})
 	}
 
-	for i := 0; i < numOptional; i++ {
+	for i := 0; i < optionalArgumentsCount; i++ {
 		arguments = append(arguments, TiArgument{
 			Type: []string{"DefaultUntyped"},
 		})
 	}
 
-	if hasRest {
+	if hasRestArguments {
 		arguments = append(arguments, TiArgument{
 			Type: []string{"Untyped"},
 			Key:  "*args",
 		})
 	}
 
-	for i := 0; i < numPost; i++ {
+	for i := 0; i < postArgumentsCount; i++ {
 		arguments = append(arguments, TiArgument{
 			Type: []string{"Untyped"},
 		})
 	}
 
-	if hasBlock {
+	if hasBlockArgument {
 		arguments = append(arguments, TiArgument{
 			Type: []string{"DefaultBlock"},
 		})
