@@ -24,3 +24,5 @@ if [ ! -d .ti-config ]; then
   cp test/.ti-config/symbol.json .ti-config/symbol.json
   cp test/.ti-config/untyped.json .ti-config/untyped.json
 fi
+
+go build -o ./bin/cpp2json ./cmd/cpp2json/main.go
