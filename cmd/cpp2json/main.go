@@ -57,7 +57,6 @@ func getCExpContent() string {
 }
 
 func isValidCmdArgumentCount() bool {
-	flag.Parse()
 	return flag.NArg() >= 1
 }
 
@@ -65,6 +64,9 @@ func main() {
 	output := flag.String("o", "", "output JSON file path")
 	className := flag.String("class", "", "class or module name")
 	isModule := flag.Bool("module", false, "define as module (use class_methods)")
+
+	// parse cmd argument
+	flag.Parse()
 
 	if !isValidCmdArgumentCount() {
 		fmt.Fprintf(os.Stderr, "Usage: cpp2json [options] <input.cpp>\n")
