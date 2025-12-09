@@ -61,11 +61,12 @@ func isValidCmdArgumentCount() bool {
 }
 
 func main() {
+	// flag parse setting
 	output := flag.String("o", "", "output JSON file path")
 	className := flag.String("class", "", "class or module name")
 	isModule := flag.Bool("module", false, "define as module (use class_methods)")
 
-	// parse cmd argument
+	// flag parse exec
 	flag.Parse()
 
 	if !isValidCmdArgumentCount() {
@@ -139,6 +140,7 @@ func extractClassName(content string, className string) string {
 	if matches := classOrModulePattern.FindStringSubmatch(content); matches != nil {
 		return matches[1]
 	}
+
 	return "Unknown"
 }
 
