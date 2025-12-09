@@ -44,13 +44,17 @@ type FunctionInfo struct {
 	Body string
 }
 
+func isValidCmdArgumentCount() bool {
+	flag.Parse()
+	return flag.NArg() >= 1
+}
+
 func main() {
 	output := flag.String("o", "", "output JSON file path")
 	className := flag.String("class", "", "class or module name")
 	isModule := flag.Bool("module", false, "define as module (use class_methods)")
-	flag.Parse()
 
-	if flag.NArg() < 1 {
+	if !isValidCmdArgumentCount() {
 		fmt.Fprintf(os.Stderr, "Usage: cpp2json [options] <input.cpp>\n")
 		flag.PrintDefaults()
 		os.Exit(1)
