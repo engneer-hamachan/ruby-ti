@@ -99,10 +99,7 @@ func parseFile(content string, className string, isModule bool) TiClassConfig {
 		Frame: "Builtin",
 	}
 
-	if className == "" {
-		className = extractClassName(content)
-	}
-	config.Class = className
+	config.Class = extractClassName(content, className)
 
 	functions := extractFunctions(content)
 	methods := extractMethods(content)
@@ -131,7 +128,11 @@ func parseFile(content string, className string, isModule bool) TiClassConfig {
 	return config
 }
 
-func extractClassName(content string) string {
+func extractClassName(content string, className string) string {
+	if className != "" {
+		return className
+	}
+
 	classOrModulePattern := regexp.MustCompile(`mrbc_define_(?:module|class)\s*\(\s*\w+\s*,\s*"([^"]+)"`)
 	if matches := classOrModulePattern.FindStringSubmatch(content); matches != nil {
 		return matches[1]
