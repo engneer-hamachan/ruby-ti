@@ -44,6 +44,18 @@ type FunctionInfo struct {
 	Body string
 }
 
+func getCExpContent() string {
+	inputFile := flag.Arg(0)
+
+	content, err := os.ReadFile(inputFile)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error reading file: %v\n", err)
+		os.Exit(1)
+	}
+
+	return string(content)
+}
+
 func isValidCmdArgumentCount() bool {
 	flag.Parse()
 	return flag.NArg() >= 1
@@ -60,15 +72,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	inputFile := flag.Arg(0)
-
-	content, err := os.ReadFile(inputFile)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error reading file: %v\n", err)
-		os.Exit(1)
-	}
-
-	config := parseFile(string(content), *className, *isModule)
+	config := parseFile(string(getCExpContent()), *className, *isModule)
 
 	jsonData, err := json.MarshalIndent(config, "", "  ")
 	if err != nil {
