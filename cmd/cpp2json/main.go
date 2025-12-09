@@ -118,14 +118,12 @@ func parseFile(content string, className string, isModule bool) TiClassConfig {
 
 		methodDef := analyzeMethod(methodInfo, method.MethodName, method.ArgsSpec)
 
-		if method.MethodName == "_init" {
-			methodDef.Name = "new"
+		if isModule || method.MethodType == "class" {
 			config.ClassMethods = append(config.ClassMethods, methodDef)
-		} else if isModule || method.MethodType == "class" {
-			config.ClassMethods = append(config.ClassMethods, methodDef)
-		} else {
-			config.InstanceMethods = append(config.InstanceMethods, methodDef)
+			continue
 		}
+
+		config.InstanceMethods = append(config.InstanceMethods, methodDef)
 	}
 
 	return config
