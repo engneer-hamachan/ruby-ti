@@ -89,6 +89,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Error writing output file: %v\n", err)
 			os.Exit(1)
 		}
+
 		fmt.Printf("Generated: %s\n", *output)
 	}
 }
