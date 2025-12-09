@@ -39,7 +39,7 @@ type TiClassConfig struct {
 	InstanceMethods []TiMethod       `json:"instance_methods,omitempty"`
 }
 
-type FunctionInfo struct {
+type MethodInfo struct {
 	Name string
 	Body string
 }
@@ -116,7 +116,7 @@ func parseFile(content string, className string, isModule bool) TiClassConfig {
 			continue
 		}
 
-		methodDef := analyzeFunction(methodInfo, method.MethodName, method.ArgsSpec)
+		methodDef := analyzeMethod(methodInfo, method.MethodName, method.ArgsSpec)
 
 		if method.MethodName == "_init" {
 			methodDef.Name = "new"
@@ -271,25 +271,25 @@ func convertMrubyValueTypeToRubyTiType(mrubyValueType string) string {
 	}
 }
 
-func extractMethodBody(content string) map[string]FunctionInfo {
-	functionsByName := make(map[string]FunctionInfo)
+func extractMethodBody(content string) map[string]MethodInfo {
+	methodsByName := make(map[string]MethodInfo)
 
-	functionPattern := regexp.MustCompile(`(?s)(void|static\s+mrb_value)\s+(\w+)\s*\([^)]*\)\s*\{(.*?)\n\}`)
-	allMatches := functionPattern.FindAllStringSubmatch(content, -1)
+	methodPattern := regexp.MustCompile(`(?s)(void|static\s+mrb_value)\s+(\w+)\s*\([^)]*\)\s*\{(.*?)\n\}`)
+	allMatches := methodPattern.FindAllStringSubmatch(content, -1)
 
 	for _, matchGroups := range allMatches {
-		functionName := matchGroups[2]
-		functionBody := matchGroups[3]
-		functionsByName[functionName] = FunctionInfo{
-			Name: functionName,
-			Body: functionBody,
+		methodName := matchGroups[2]
+		methodBody := matchGroups[3]
+		methodsByName[methodName] = MethodInfo{
+			Name: methodName,
+			Body: methodBody,
 		}
 	}
 
-	return functionsByName
+	return methodsByName
 }
 
-func analyzeFunction(functionInfo FunctionInfo, methodName string, argumentsSpec string) TiMethod {
+func analyzeMethod(functionInfo MethodInfo, methodName string, argumentsSpec string) TiMethod {
 	inferredReturnType := inferReturnType(functionInfo.Body, methodName)
 	inferredArguments := inferArguments(functionInfo.Body, argumentsSpec)
 
