@@ -104,19 +104,19 @@ func parseFile(content string, className string, isModule bool) TiClassConfig {
 
 	config.Class = extractClassName(content, className)
 
-	functions := extractFunctions(content)
-	methods := extractMethods(content)
-	constants := extractConstants(content)
+	methodBodies := extractMethodBody(content)
+	defineMethods := extractDefineMethod(content)
+	constants := extractDefineConstant(content)
 
 	config.Constants = constants
 
-	for _, method := range methods {
-		funcInfo, found := functions[method.FuncName]
+	for _, method := range defineMethods {
+		methodInfo, found := methodBodies[method.FuncName]
 		if !found {
 			continue
 		}
 
-		methodDef := analyzeFunction(funcInfo, method.MethodName, method.ArgsSpec)
+		methodDef := analyzeFunction(methodInfo, method.MethodName, method.ArgsSpec)
 
 		if method.MethodName == "_init" {
 			methodDef.Name = "new"
@@ -151,7 +151,7 @@ type MethodDefinition struct {
 	ArgsSpec   string
 }
 
-func extractMethods(content string) []MethodDefinition {
+func extractDefineMethod(content string) []MethodDefinition {
 	var methods []MethodDefinition
 
 	mrbcDefinePattern := regexp.MustCompile(`mrbc_define_(method|class_method)\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*\)`)
@@ -162,6 +162,7 @@ func extractMethods(content string) []MethodDefinition {
 		if matchGroups[1] == "class_method" {
 			methodType = "class"
 		}
+
 		methods = append(methods, MethodDefinition{
 			MethodName: matchGroups[2],
 			FuncName:   matchGroups[3],
@@ -211,7 +212,7 @@ func extractMethods(content string) []MethodDefinition {
 	return methods
 }
 
-func extractConstants(content string) []TiConstantType {
+func extractDefineConstant(content string) []TiConstantType {
 	var constants []TiConstantType
 
 	constIdPattern := regexp.MustCompile(`mrb_define_const_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM\((\w+)\)\s*,\s*mrb_(\w+)_value\(`)
@@ -270,7 +271,7 @@ func convertMrubyValueTypeToRubyTiType(mrubyValueType string) string {
 	}
 }
 
-func extractFunctions(content string) map[string]FunctionInfo {
+func extractMethodBody(content string) map[string]FunctionInfo {
 	functionsByName := make(map[string]FunctionInfo)
 
 	functionPattern := regexp.MustCompile(`(?s)(void|static\s+mrb_value)\s+(\w+)\s*\([^)]*\)\s*\{(.*?)\n\}`)
