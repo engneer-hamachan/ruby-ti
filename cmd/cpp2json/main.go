@@ -72,22 +72,24 @@ func main() {
 		os.Exit(1)
 	}
 
-	config := parseFile(string(getCExpContent()), *className, *isModule)
+	tiConfig := parseFile(string(getCExpContent()), *className, *isModule)
 
-	jsonData, err := json.MarshalIndent(config, "", "  ")
+	jsonData, err := json.MarshalIndent(tiConfig, "", "  ")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error generating JSON: %v\n", err)
 		os.Exit(1)
 	}
 
-	if *output != "" {
+	switch *output {
+	case "":
+		fmt.Println(string(jsonData))
+
+	default:
 		if err := os.WriteFile(*output, jsonData, 0644); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing output file: %v\n", err)
 			os.Exit(1)
 		}
 		fmt.Printf("Generated: %s\n", *output)
-	} else {
-		fmt.Println(string(jsonData))
 	}
 }
 
