@@ -44,11 +44,18 @@ type FunctionInfo struct {
 	Body string
 }
 
-func isValidCmdArgumentCount() bool {
-	return flag.NArg() >= 1
-}
+func main() {
+	output := flag.String("o", "", "output JSON file path")
+	className := flag.String("class", "", "class or module name")
+	isModule := flag.Bool("module", false, "define as module (use class_methods)")
+	flag.Parse()
 
-func getCFileContent() string {
+	if flag.NArg() < 1 {
+		fmt.Fprintf(os.Stderr, "Usage: cpp2json [options] <input.cpp>\n")
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
+
 	inputFile := flag.Arg(0)
 
 	content, err := os.ReadFile(inputFile)
@@ -57,43 +64,22 @@ func getCFileContent() string {
 		os.Exit(1)
 	}
 
-	return string(content)
-}
+	config := parseFile(string(content), *className, *isModule)
 
-func main() {
-	flag.Parse()
-
-	if !isValidCmdArgumentCount() {
-		fmt.Fprintf(os.Stderr, "Usage: cpp2json [options] <input.cpp>\n")
-		flag.PrintDefaults()
-		os.Exit(1)
-	}
-
-	content := getCFileContent()
-	className := flag.String("class", "", "class or module name")
-	isModule := flag.Bool("module", false, "define as module (use class_methods)")
-
-	tiConfig := parseFile(content, *className, *isModule)
-
-	jsonData, err := json.MarshalIndent(tiConfig, "", "  ")
+	jsonData, err := json.MarshalIndent(config, "", "  ")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error generating JSON: %v\n", err)
 		os.Exit(1)
 	}
 
-	output := flag.String("o", "", "output JSON file path")
-
-	switch *output {
-	case "":
-		fmt.Println(string(jsonData))
-
-	default:
+	if *output != "" {
 		if err := os.WriteFile(*output, jsonData, 0644); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing output file: %v\n", err)
 			os.Exit(1)
 		}
-
 		fmt.Printf("Generated: %s\n", *output)
+	} else {
+		fmt.Println(string(jsonData))
 	}
 }
 
