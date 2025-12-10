@@ -620,7 +620,7 @@ func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 
 	for i := 0; i < optionalArgumentsCount; i++ {
 		arguments = append(arguments, TiArgument{
-			Type: []string{"DefaultUntyped"},
+			Type: []string{"?Untyped"},
 		})
 	}
 
@@ -639,7 +639,7 @@ func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 
 	if hasBlockArgument {
 		arguments = append(arguments, TiArgument{
-			Type: []string{"DefaultBlock"},
+			Type: []string{"?Block"},
 		})
 	}
 
