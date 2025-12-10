@@ -439,6 +439,7 @@ func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 			Type: []string{"Untyped"},
 			Key:  "*args",
 		})
+
 		return arguments
 	}
 
@@ -481,55 +482,55 @@ func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 			case 'i':
 				argumentType := "Int"
 				if isInOptionalSection {
-					argumentType = "DefaultInt"
+					argumentType = "?Int"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'f':
 				argumentType := "Float"
 				if isInOptionalSection {
-					argumentType = "DefaultFloat"
+					argumentType = "?Float"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 's', 'z':
 				argumentType := "String"
 				if isInOptionalSection {
-					argumentType = "DefaultString"
+					argumentType = "?String"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'S':
 				argumentType := "String"
 				if isInOptionalSection {
-					argumentType = "DefaultString"
+					argumentType = "?String"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'A', 'a':
 				argumentType := "Array"
 				if isInOptionalSection {
-					argumentType = "DefaultUntyped"
+					argumentType = "?Array"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'H':
 				argumentType := "Hash"
 				if isInOptionalSection {
-					argumentType = "DefaultUntyped"
+					argumentType = "?Hash"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'b':
 				argumentType := "Bool"
 				if isInOptionalSection {
-					argumentType = "DefaultUntyped"
+					argumentType = "?Bool"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'n':
 				argumentType := "Symbol"
 				if isInOptionalSection {
-					argumentType = "DefaultUntyped"
+					argumentType = "?Symbol"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case 'C', 'o':
 				argumentType := "Untyped"
 				if isInOptionalSection {
-					argumentType = "DefaultUntyped"
+					argumentType = "?Untyped"
 				}
 				arguments = append(arguments, TiArgument{Type: []string{argumentType}})
 			case '|':
@@ -593,11 +594,7 @@ func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 				}
 
 				if minimumRequiredArgc > 0 && currentIndex >= minimumRequiredArgc {
-					if argumentType == "Untyped" {
-						argumentType = "DefaultUntyped"
-					} else {
-						argumentType = "Default" + argumentType
-					}
+					argumentType = "?" + argumentType
 				}
 
 				arguments = append(arguments, TiArgument{
