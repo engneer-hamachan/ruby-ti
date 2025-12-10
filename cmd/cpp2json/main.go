@@ -134,7 +134,9 @@ func extractClassName(content string, className string) string {
 		return className
 	}
 
-	classOrModulePattern := regexp.MustCompile(`mrbc_define_(?:module|class)\s*\(\s*\w+\s*,\s*"([^"]+)"`)
+	classOrModulePattern :=
+		regexp.MustCompile(`mrbc_define_(?:module|class)\s*\(\s*\w+\s*,\s*"([^"]+)"`)
+
 	if matches := classOrModulePattern.FindStringSubmatch(content); matches != nil {
 		return matches[1]
 	}
@@ -152,11 +154,16 @@ type MethodDefinition struct {
 func extractDefineMethod(content string) []MethodDefinition {
 	var methods []MethodDefinition
 
-	mrbcDefinePattern := regexp.MustCompile(`mrbc_define_(method|class_method)\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*\)`)
+	mrbcDefinePattern :=
+		regexp.MustCompile(
+			`mrbc_define_(method|class_method)\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*\)`,
+		)
+
 	mrbcMatches := mrbcDefinePattern.FindAllStringSubmatch(content, -1)
 
 	for _, matchGroups := range mrbcMatches {
 		methodType := "instance"
+
 		if matchGroups[1] == "class_method" {
 			methodType = "class"
 		}
@@ -168,7 +175,11 @@ func extractDefineMethod(content string) []MethodDefinition {
 		})
 	}
 
-	mrbDefineIdPattern := regexp.MustCompile(`mrb_define_(class_)?method_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM(_Q)?\((\w+)\)\s*,\s*(\w+)\s*,\s*([^)]+\))`)
+	mrbDefineIdPattern :=
+		regexp.MustCompile(
+			`mrb_define_(class_)?method_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM(_Q)?\((\w+)\)\s*,\s*(\w+)\s*,\s*([^)]+\))`,
+		)
+
 	mrbIdMatches := mrbDefineIdPattern.FindAllStringSubmatch(content, -1)
 
 	for _, matchGroups := range mrbIdMatches {
@@ -189,7 +200,11 @@ func extractDefineMethod(content string) []MethodDefinition {
 		})
 	}
 
-	mrbDefinePattern := regexp.MustCompile(`mrb_define_(class_)?method\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*,\s*([^)]+\))`)
+	mrbDefinePattern :=
+		regexp.MustCompile(
+			`mrb_define_(class_)?method\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*(\w+)\s*,\s*([^)]+\))`,
+		)
+
 	mrbMatches := mrbDefinePattern.FindAllStringSubmatch(content, -1)
 
 	for _, matchGroups := range mrbMatches {
@@ -213,7 +228,11 @@ func extractDefineMethod(content string) []MethodDefinition {
 func extractDefineConstant(content string) []TiConstantType {
 	var constants []TiConstantType
 
-	constIdPattern := regexp.MustCompile(`mrb_define_const_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM\((\w+)\)\s*,\s*mrb_(\w+)_value\(`)
+	constIdPattern :=
+		regexp.MustCompile(
+			`mrb_define_const_id\s*\(\s*\w+\s*,\s*\w+\s*,\s*MRB_SYM\((\w+)\)\s*,\s*mrb_(\w+)_value\(`,
+		)
+
 	constIdMatches := constIdPattern.FindAllStringSubmatch(content, -1)
 
 	for _, matchGroups := range constIdMatches {
@@ -230,7 +249,11 @@ func extractDefineConstant(content string) []TiConstantType {
 		})
 	}
 
-	constPattern := regexp.MustCompile(`mrb_define_const\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*mrb_(\w+)_value\(`)
+	constPattern :=
+		regexp.MustCompile(
+			`mrb_define_const\s*\(\s*\w+\s*,\s*\w+\s*,\s*"([^"]+)"\s*,\s*mrb_(\w+)_value\(`,
+		)
+
 	constMatches := constPattern.FindAllStringSubmatch(content, -1)
 
 	for _, matchGroups := range constMatches {
@@ -272,7 +295,11 @@ func convertMrubyValueTypeToRubyTiType(mrubyValueType string) string {
 func extractMethodBody(content string) map[string]MethodInfo {
 	methodsByName := make(map[string]MethodInfo)
 
-	methodPattern := regexp.MustCompile(`(?s)(void|static\s+mrb_value)\s+(\w+)\s*\([^)]*\)\s*\{(.*?)\n\}`)
+	methodPattern :=
+		regexp.MustCompile(
+			`(?s)(void|static\s+mrb_value)\s+(\w+)\s*\([^)]*\)\s*\{(.*?)\n\}`,
+		)
+
 	allMatches := methodPattern.FindAllStringSubmatch(content, -1)
 
 	for _, matchGroups := range allMatches {
@@ -287,9 +314,14 @@ func extractMethodBody(content string) map[string]MethodInfo {
 	return methodsByName
 }
 
-func analyzeMethod(functionInfo MethodInfo, methodName string, argumentsSpec string) TiMethod {
-	inferredReturnType := inferReturnType(functionInfo.Body, methodName)
-	inferredArguments := inferArguments(functionInfo.Body, argumentsSpec)
+func analyzeMethod(
+	methodInfo MethodInfo,
+	methodName string,
+	argumentsSpec string,
+) TiMethod {
+
+	inferredReturnType := inferReturnType(methodInfo.Body, methodName)
+	inferredArguments := inferArguments(methodInfo.Body, argumentsSpec)
 
 	method := TiMethod{
 		Name:       methodName,
@@ -301,74 +333,80 @@ func analyzeMethod(functionInfo MethodInfo, methodName string, argumentsSpec str
 	return method
 }
 
-func inferReturnType(functionBody string, methodName string) string {
-	if strings.Contains(functionBody, "SET_NIL_RETURN()") ||
-		strings.Contains(functionBody, "return mrb_nil_value()") ||
-		strings.Contains(functionBody, "return mrbc_nil_value()") {
+func inferReturnType(methodBody string, methodName string) string {
+	if strings.Contains(methodBody, "SET_NIL_RETURN()") ||
+		strings.Contains(methodBody, "return mrb_nil_value()") ||
+		strings.Contains(methodBody, "return mrbc_nil_value()") {
 		return "Nil"
 	}
 
-	if strings.Contains(functionBody, "SET_INT_RETURN(") ||
-		strings.Contains(functionBody, "return mrb_fixnum_value(") ||
-		strings.Contains(functionBody, "return mrb_int_value(") ||
-		strings.Contains(functionBody, "return mrbc_integer_value(") {
+	if strings.Contains(methodBody, "SET_INT_RETURN(") ||
+		strings.Contains(methodBody, "return mrb_fixnum_value(") ||
+		strings.Contains(methodBody, "return mrb_int_value(") ||
+		strings.Contains(methodBody, "return mrbc_integer_value(") {
 		return "Int"
 	}
 
-	if strings.Contains(functionBody, "SET_FLOAT_RETURN(") ||
-		strings.Contains(functionBody, "return mrb_float_value(") ||
-		strings.Contains(functionBody, "return mrbc_float_value(") {
+	if strings.Contains(methodBody, "SET_FLOAT_RETURN(") ||
+		strings.Contains(methodBody, "return mrb_float_value(") ||
+		strings.Contains(methodBody, "return mrbc_float_value(") {
 		return "Float"
 	}
 
-	if strings.Contains(functionBody, "SET_TRUE_RETURN()") ||
-		strings.Contains(functionBody, "SET_FALSE_RETURN()") ||
-		strings.Contains(functionBody, "SET_BOOL_RETURN(") ||
-		strings.Contains(functionBody, "return mrb_true_value()") ||
-		strings.Contains(functionBody, "return mrb_false_value()") ||
-		strings.Contains(functionBody, "return mrbc_true_value()") ||
-		strings.Contains(functionBody, "return mrbc_false_value()") {
+	if strings.Contains(methodBody, "SET_TRUE_RETURN()") ||
+		strings.Contains(methodBody, "SET_FALSE_RETURN()") ||
+		strings.Contains(methodBody, "SET_BOOL_RETURN(") ||
+		strings.Contains(methodBody, "return mrb_true_value()") ||
+		strings.Contains(methodBody, "return mrb_false_value()") ||
+		strings.Contains(methodBody, "return mrbc_true_value()") ||
+		strings.Contains(methodBody, "return mrbc_false_value()") {
 		return "Bool"
 	}
 
-	if strings.Contains(functionBody, "return mrb_str_new(") ||
-		strings.Contains(functionBody, "return mrb_str_new_cstr(") ||
-		strings.Contains(functionBody, "return mrb_str_new_lit(") ||
-		strings.Contains(functionBody, "return mrbc_string_new(") ||
-		strings.Contains(functionBody, "return mrbc_string_new_cstr(") {
+	if strings.Contains(methodBody, "return mrb_str_new(") ||
+		strings.Contains(methodBody, "return mrb_str_new_cstr(") ||
+		strings.Contains(methodBody, "return mrb_str_new_lit(") ||
+		strings.Contains(methodBody, "return mrbc_string_new(") ||
+		strings.Contains(methodBody, "return mrbc_string_new_cstr(") {
 		return "String"
 	}
 
-	if strings.Contains(functionBody, "return mrb_symbol_value(") ||
-		strings.Contains(functionBody, "return mrbc_symbol_value(") {
+	if strings.Contains(methodBody, "return mrb_symbol_value(") ||
+		strings.Contains(methodBody, "return mrbc_symbol_value(") {
 		return "Symbol"
 	}
 
-	if strings.Contains(functionBody, "return mrb_ary_new(") ||
-		strings.Contains(functionBody, "return mrb_ary_new_capa(") ||
-		strings.Contains(functionBody, "return mrbc_array_new(") {
+	if strings.Contains(methodBody, "return mrb_ary_new(") ||
+		strings.Contains(methodBody, "return mrb_ary_new_capa(") ||
+		strings.Contains(methodBody, "return mrbc_array_new(") {
 		return "Array"
 	}
 
-	if strings.Contains(functionBody, "return mrb_hash_new(") ||
-		strings.Contains(functionBody, "return mrbc_hash_new(") {
+	if strings.Contains(methodBody, "return mrb_hash_new(") ||
+		strings.Contains(methodBody, "return mrbc_hash_new(") {
 		return "Hash"
 	}
 
-	instanceNewPattern := regexp.MustCompile(`mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+)`)
-	if matches := instanceNewPattern.FindStringSubmatch(functionBody); matches != nil {
+	instanceNewPattern :=
+		regexp.MustCompile(`mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+)`)
+
+	if matches := instanceNewPattern.FindStringSubmatch(methodBody); matches != nil {
 		rawClassName := matches[1]
 		return normalizeClassName(rawClassName)
 	}
 
-	setReturnPattern := regexp.MustCompile(`SET_RETURN\s*\(\s*mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+)`)
-	if matches := setReturnPattern.FindStringSubmatch(functionBody); matches != nil {
+	setReturnPattern :=
+		regexp.MustCompile(
+			`SET_RETURN\s*\(\s*mrbc_instance_new\s*\([^,]+,\s*mrbc_class_(\w+,)`,
+		)
+
+	if matches := setReturnPattern.FindStringSubmatch(methodBody); matches != nil {
 		rawClassName := matches[1]
 		return normalizeClassName(rawClassName)
 	}
 
-	if strings.Contains(functionBody, "return self") ||
-		strings.Contains(functionBody, "return mrb_obj_value(") {
+	if strings.Contains(methodBody, "return self") ||
+		strings.Contains(methodBody, "return mrb_obj_value(") {
 		return "Self"
 	}
 
@@ -389,7 +427,7 @@ func normalizeClassName(rawClassName string) string {
 	return strings.ToUpper(rawClassName[:1]) + rawClassName[1:]
 }
 
-func inferArguments(functionBody string, argumentsSpec string) []TiArgument {
+func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 	arguments := []TiArgument{}
 
 	if strings.Contains(argumentsSpec, "MRB_ARGS_NONE()") {
@@ -434,7 +472,7 @@ func inferArguments(functionBody string, argumentsSpec string) []TiArgument {
 	}
 
 	getArgsPattern := regexp.MustCompile(`mrb_get_args\s*\(\s*\w+\s*,\s*"([^"]+)"`)
-	if matches := getArgsPattern.FindStringSubmatch(functionBody); matches != nil {
+	if matches := getArgsPattern.FindStringSubmatch(methodBody); matches != nil {
 		formatString := matches[1]
 		isInOptionalSection := false
 
@@ -509,7 +547,7 @@ func inferArguments(functionBody string, argumentsSpec string) []TiArgument {
 	hasNoArgumentSpec := requiredArgumentsCount == 0 && optionalArgumentsCount == 0 && !hasRestArguments && postArgumentsCount == 0 && !hasBlockArgument
 	if hasNoArgumentSpec {
 		getArgTypePattern := regexp.MustCompile(`GET_(\w+)_ARG\s*\(\s*(\d+)\s*\)`)
-		getArgTypeMatches := getArgTypePattern.FindAllStringSubmatch(functionBody, -1)
+		getArgTypeMatches := getArgTypePattern.FindAllStringSubmatch(methodBody, -1)
 		argumentTypesByIndex := make(map[int]string)
 
 		for _, matchGroups := range getArgTypeMatches {
@@ -530,7 +568,7 @@ func inferArguments(functionBody string, argumentsSpec string) []TiArgument {
 		}
 
 		argcCheckPattern := regexp.MustCompile(`if\s*\(\s*argc\s*>=\s*(\d+)\s*\)`)
-		argcCheckMatches := argcCheckPattern.FindAllStringSubmatch(functionBody, -1)
+		argcCheckMatches := argcCheckPattern.FindAllStringSubmatch(methodBody, -1)
 		minimumRequiredArgc := 0
 		for _, matchGroups := range argcCheckMatches {
 			argcValue := 0
