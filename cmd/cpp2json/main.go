@@ -545,7 +545,13 @@ func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 		return arguments
 	}
 
-	hasNoArgumentSpec := requiredArgumentsCount == 0 && optionalArgumentsCount == 0 && !hasRestArguments && postArgumentsCount == 0 && !hasBlockArgument
+	hasNoArgumentSpec :=
+		requiredArgumentsCount == 0 &&
+			optionalArgumentsCount == 0 &&
+			!hasRestArguments &&
+			postArgumentsCount == 0 &&
+			!hasBlockArgument
+
 	if hasNoArgumentSpec {
 		getArgTypePattern := regexp.MustCompile(`GET_(\w+)_ARG\s*\(\s*(\d+)\s*\)`)
 		getArgTypeMatches := getArgTypePattern.FindAllStringSubmatch(methodBody, -1)
@@ -571,6 +577,7 @@ func inferArguments(methodBody string, argumentsSpec string) []TiArgument {
 		argcCheckPattern := regexp.MustCompile(`if\s*\(\s*argc\s*>=\s*(\d+)\s*\)`)
 		argcCheckMatches := argcCheckPattern.FindAllStringSubmatch(methodBody, -1)
 		minimumRequiredArgc := 0
+
 		for _, matchGroups := range argcCheckMatches {
 			argcValue := 0
 			fmt.Sscanf(matchGroups[1], "%d", &argcValue)
