@@ -39,6 +39,23 @@ func (r *Return) Evaluation(
 		return err
 	}
 
+	nextT, err = p.Read()
+	if err != nil {
+		return err
+	}
+
+	if nextT.IsTargetIdentifier("[") {
+		err = e.Eval(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
+
+		p.AppendLastReturnT()
+
+		return nil
+	}
+
+	p.Unget()
 	p.AppendLastReturnT()
 
 	return nil
