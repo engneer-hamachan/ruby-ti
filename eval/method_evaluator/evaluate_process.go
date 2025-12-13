@@ -1,6 +1,7 @@
 package method_evaluator
 
 import (
+	"slices"
 	"ti/base"
 )
 
@@ -12,6 +13,13 @@ func handleRefference(m *MethodEvaluator) error {
 
 	if nextT.IsTargetIdentifier("[") {
 		m.ctx.IsBind = false
+		m.outerEval.Eval(m.parser, m.ctx, nextT)
+
+		return nil
+	}
+
+	targets := []string{"+", "-", "*", "/", "%"}
+	if nextT.IsTargetIdentifiers(targets) && slices.Contains(targets, m.method) {
 		m.outerEval.Eval(m.parser, m.ctx, nextT)
 
 		return nil
