@@ -207,3 +207,7 @@ func (t *T) GetOwnerT() *T {
 
 	return t.owner.(*T)
 }
+
+func (t *T) ClearDefineArgs() {
+	t.defineArgs = []string{}
+}

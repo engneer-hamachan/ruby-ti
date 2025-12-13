@@ -91,6 +91,12 @@ func calculateExecutionType(
 	args []*base.T,
 ) *base.T {
 
+	if methodT.GetMethodName() == "new" {
+		t := methodT.DeepCopy()
+		t.ClearDefineArgs()
+		return t
+	}
+
 	switch methodT.GetType() {
 	case base.BLOCK:
 		return methodT.GetVal().(*base.T)
@@ -185,8 +191,6 @@ func calculateExecutionType(
 		}
 
 		return m.evaluatedObjectT.GetOwnerT()
-
-		return methodT
 
 	default:
 		if methodT.IsNameSpaceIdentifier() {
