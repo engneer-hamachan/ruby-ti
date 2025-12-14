@@ -492,6 +492,9 @@ func (e *Evaluator) referenceEvaluation(
 	case base.ARRAY, base.HASH, base.STRING:
 		t = objectT
 
+	case base.CONST:
+		t = base.GetConstValueT(ctx.GetFrame(), ctx.GetClass(), objectT.ToString())
+
 	default:
 		objectIdentifier := objectT.ToString()
 

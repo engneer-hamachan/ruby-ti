@@ -135,6 +135,10 @@ func (e *Evaluator) Eval(
 	}
 
 	switch {
+	// hoge[:a]
+	case t.IsRefferenceAbleT() && nextT.IsRefferenceSquareT():
+		return e.referenceEvaluation(p, ctx, t)
+
 	//CONST
 	case t.IsConstType():
 		return e.handleConstEvaluation(p, ctx, t)
@@ -142,10 +146,6 @@ func (e *Evaluator) Eval(
 	// A::B
 	case t.IsNameSpaceIdentifier():
 		return nameSpaceEvaluation(e, p, ctx, t)
-
-	// hoge[:a]
-	case t.IsRefferenceAbleT() && nextT.IsRefferenceSquareT():
-		return e.referenceEvaluation(p, ctx, t)
 
 	// hoge.fuga
 	case t.IsDotIdentifier():
