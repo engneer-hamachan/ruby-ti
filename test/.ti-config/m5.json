@@ -1,0 +1,282 @@
+{
+  "frame": "Builtin",
+  "class": "M5",
+  "class_methods": [
+    {
+      "name": "begin",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "M5デバイスを初期化します"
+    },
+    {
+      "name": "Display",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "M5GFX"
+        ]
+      },
+      "document": "ディスプレイオブジェクトを取得します"
+    },
+    {
+      "name": "get_pin",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "指定されたピン番号の状態を取得します"
+    },
+    {
+      "name": "get_button",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ボタンの状態を取得します"
+    },
+    {
+      "name": "get_display",
+      "arguments": [
+        {
+          "type": [
+            "DefaultInt"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "M5GFX"
+        ]
+      },
+      "document": "指定されたディスプレイを取得します"
+    },
+    {
+      "name": "get_display_count",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "ディスプレイの数を取得します"
+    },
+    {
+      "name": "add_display",
+      "arguments": [
+        {
+          "type": [
+            "M5GFX"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "ディスプレイを追加します"
+    },
+    {
+      "name": "get_display_index",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "ディスプレイのインデックスを取得します"
+    },
+    {
+      "name": "set_primary_display",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "プライマリディスプレイを設定します"
+    },
+    {
+      "name": "set_primary_display_type",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "プライマリディスプレイのタイプを設定します"
+    },
+    {
+      "name": "set_log_display_index",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ログ表示用ディスプレイのインデックスを設定します"
+    },
+    {
+      "name": "set_log_display_type",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ログ表示用ディスプレイのタイプを設定します"
+    },
+    {
+      "name": "get_update_msec",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "更新間隔をミリ秒単位で取得します"
+    },
+    {
+      "name": "config_t",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "設定構造体を取得します"
+    },
+    {
+      "name": "get_board",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "ボードタイプを取得します"
+    },
+    {
+      "name": "update",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "状態を更新します"
+    },
+    {
+      "name": "dsp",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ディスプレイを更新します"
+    },
+    {
+      "name": "set_touch_button_height_by_ratio",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "タッチボタンの高さを比率で設定します"
+    },
+    {
+      "name": "set_touch_button_height",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "タッチボタンの高さを設定します"
+    },
+    {
+      "name": "get_touch_button_height",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "タッチボタンの高さを取得します"
+    },
+    {
+      "name": "get_io_expander",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "IOエキスパンダーを取得します"
+    }
+  ]
+}

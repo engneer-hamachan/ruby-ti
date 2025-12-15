@@ -1,0 +1,2205 @@
+{
+  "frame": "Builtin",
+  "class": "M5GFX",
+  "instance_methods": [
+    {
+      "name": "get_rotation",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "画面の回転角度を取得します (0-3)"
+    },
+    {
+      "name": "set_rotation",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "画面の回転角度を設定します (0-3)"
+    },
+    {
+      "name": "get_color_depth",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "現在の色深度を取得します"
+    },
+    {
+      "name": "set_color_depth",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "色深度を設定します (ビット数)"
+    },
+    {
+      "name": "get_color_converter",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "カラーコンバーターを取得します"
+    },
+    {
+      "name": "width",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "画面の幅をピクセル単位で取得します"
+    },
+    {
+      "name": "height",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "画面の高さをピクセル単位で取得します"
+    },
+    {
+      "name": "set_pivot",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "描画の基準点（ピボット）を設定します"
+    },
+    {
+      "name": "get_pivot_x",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "ピボットのX座標を取得します"
+    },
+    {
+      "name": "get_pivot_y",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "ピボットのY座標を取得します"
+    },
+    {
+      "name": "set_clip_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "クリッピング矩形を設定します"
+    },
+    {
+      "name": "get_clip_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "クリッピング矩形を取得します"
+    },
+    {
+      "name": "clear_clip_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "クリッピング矩形をクリアします"
+    },
+    {
+      "name": "set_scroll_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "スクロール領域を設定します"
+    },
+    {
+      "name": "get_scroll_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "スクロール領域を取得します"
+    },
+    {
+      "name": "clear_scroll_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "スクロール領域をクリアします"
+    },
+    {
+      "name": "clear",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "画面をクリアします"
+    },
+    {
+      "name": "clear_display",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ディスプレイをクリアします"
+    },
+    {
+      "name": "display",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "描画内容を画面に反映します"
+    },
+    {
+      "name": "wait_display",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "画面の更新が完了するまで待機します"
+    },
+    {
+      "name": "display_busy",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "画面が更新中かどうかを確認します"
+    },
+    {
+      "name": "set_auto_display",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "自動表示モードを設定します"
+    },
+    {
+      "name": "get_swap_bytes",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "バイトスワップの状態を取得します"
+    },
+    {
+      "name": "set_swap_bytes",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "バイトスワップを設定します"
+    },
+    {
+      "name": "is_readable",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      },
+      "document": "画面が読み取り可能かどうかを確認します"
+    },
+    {
+      "name": "is_epd",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      },
+      "document": "電子ペーパーディスプレイかどうかを確認します"
+    },
+    {
+      "name": "is_bus_shared",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      },
+      "document": "バスが共有されているかどうかを確認します"
+    },
+    {
+      "name": "is_spi_shared",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      },
+      "document": "SPIバスが共有されているかどうかを確認します"
+    },
+    {
+      "name": "get_scan_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "現在の走査線の位置を取得します"
+    },
+    {
+      "name": "draw_pixel",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ピクセルを描画します"
+    },
+    {
+      "name": "draw_fast_v_line",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "垂直線を高速に描画します"
+    },
+    {
+      "name": "draw_fast_h_line",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "水平線を高速に描画します"
+    },
+    {
+      "name": "draw_rect",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "矩形の枠を描画します"
+    },
+    {
+      "name": "draw_round_rect",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "角丸矩形の枠を描画します"
+    },
+    {
+      "name": "draw_circle",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "円の枠を描画します"
+    },
+    {
+      "name": "draw_ellipse",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "楕円の枠を描画します"
+    },
+    {
+      "name": "draw_line",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "直線を描画します"
+    },
+    {
+      "name": "draw_triangle",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "三角形の枠を描画します"
+    },
+    {
+      "name": "draw_bezier",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ベジェ曲線を描画します"
+    },
+    {
+      "name": "draw_ellipse_arc",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "楕円の円弧を描画します"
+    },
+    {
+      "name": "draw_arc",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "円弧を描画します"
+    },
+    {
+      "name": "draw_circle_helper",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "円の一部を描画します（ヘルパー関数）"
+    },
+    {
+      "name": "draw_gradient_h_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "水平グラデーション線を描画します"
+    },
+    {
+      "name": "draw_gradient_v_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "垂直グラデーション線を描画します"
+    },
+    {
+      "name": "draw_gradient_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "グラデーション線を描画します"
+    },
+    {
+      "name": "draw_smooth_line",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "滑らかな線を描画します（アンチエイリアス付き）"
+    },
+    {
+      "name": "draw_wide_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "太線を描画します"
+    },
+    {
+      "name": "draw_wedge_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "幅の異なる線を描画します"
+    },
+    {
+      "name": "draw_spot",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "スポット（点）を描画します"
+    },
+    {
+      "name": "draw_gradient_spot",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "グラデーションスポットを描画します"
+    },
+    {
+      "name": "draw_bitmap",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ビットマップ画像を描画します"
+    },
+    {
+      "name": "draw_x_bitmap",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "XBitmap形式の画像を描画します"
+    },
+    {
+      "name": "draw_string",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "文字列を描画します"
+    },
+    {
+      "name": "draw_number",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "数値を描画します"
+    },
+    {
+      "name": "draw_float",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "浮動小数点数を描画します"
+    },
+    {
+      "name": "draw_centre_string",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "中央揃えで文字列を描画します"
+    },
+    {
+      "name": "draw_center_string",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "中央揃えで文字列を描画します"
+    },
+    {
+      "name": "draw_right_string",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "右揃えで文字列を描画します"
+    },
+    {
+      "name": "draw_char",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "文字を描画します"
+    },
+    {
+      "name": "set_cursor",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "カーソル位置を設定します"
+    },
+    {
+      "name": "get_cursor_x",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "カーソルのX座標を取得します"
+    },
+    {
+      "name": "get_cursor_y",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "カーソルのY座標を取得します"
+    },
+    {
+      "name": "set_text_style",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストスタイルを設定します"
+    },
+    {
+      "name": "set_text_size",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストサイズを設定します"
+    },
+    {
+      "name": "get_text_size_x",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "テキストの横幅倍率を取得します"
+    },
+    {
+      "name": "get_text_size_y",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "テキストの縦幅倍率を取得します"
+    },
+    {
+      "name": "set_text_datum",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストの基準点を設定します"
+    },
+    {
+      "name": "get_text_datum",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "テキストの基準点を取得します"
+    },
+    {
+      "name": "set_text_padding",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストのパディングを設定します"
+    },
+    {
+      "name": "get_text_padding",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "テキストのパディングを取得します"
+    },
+    {
+      "name": "set_text_wrap",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストの折り返しを設定します"
+    },
+    {
+      "name": "set_text_scroll",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストのスクロールを設定します"
+    },
+    {
+      "name": "set_text_color",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストの色を設定します"
+    },
+    {
+      "name": "font_height",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "フォントの高さを取得します"
+    },
+    {
+      "name": "font_width",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "フォントの幅を取得します"
+    },
+    {
+      "name": "text_length",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "指定幅に収まる文字数を取得します"
+    },
+    {
+      "name": "text_width",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "文字列の表示幅を取得します"
+    },
+    {
+      "name": "set_text_font",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストフォントを設定します"
+    },
+    {
+      "name": "set_free_font",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "フリーフォントを設定します"
+    },
+    {
+      "name": "set_font",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "フォントを設定します"
+    },
+    {
+      "name": "load_font",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "VLWフォントを読み込みます"
+    },
+    {
+      "name": "load_font_with_path",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "パスを指定してフォントを読み込みます"
+    },
+    {
+      "name": "unload_font",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "フォントをアンロードします"
+    },
+    {
+      "name": "show_font",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "フォント一覧を表示します"
+    },
+    {
+      "name": "print",
+      "arguments": [
+        {
+          "type": [
+            "String",
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "テキストを出力します"
+    },
+    {
+      "name": "print_number",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "数値を出力します"
+    },
+    {
+      "name": "println",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "改行付きでテキストを出力します"
+    },
+    {
+      "name": "write",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "データを書き込みます"
+    },
+    {
+      "name": "printf",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "書式付きでテキストを出力します"
+    },
+    {
+      "name": "vprintf",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "可変引数で書式付きテキストを出力します"
+    },
+    {
+      "name": "fill_rect",
+      "document": "塗りつぶし矩形を描画します",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      }
+    },
+    {
+      "name": "fill_round_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "角丸の塗りつぶし矩形を描画します"
+    },
+    {
+      "name": "fill_circle",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "塗りつぶし円を描画します"
+    },
+    {
+      "name": "fill_ellipse",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "塗りつぶし楕円を描画します"
+    },
+    {
+      "name": "fill_triangle",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "塗りつぶし三角形を描画します"
+    },
+    {
+      "name": "fill_ellipse_arc",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "塗りつぶし楕円弧を描画します"
+    },
+    {
+      "name": "fill_arc",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "塗りつぶし円弧を描画します"
+    },
+    {
+      "name": "fill_circle_helper",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "円の一部を塗りつぶします（ヘルパー関数）"
+    },
+    {
+      "name": "fill_affine",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "アフィン変換された領域を塗りつぶします"
+    },
+    {
+      "name": "fill_gradient_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "グラデーション矩形を描画します"
+    },
+    {
+      "name": "fill_smooth_round_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "滑らかな角丸矩形を塗りつぶします"
+    },
+    {
+      "name": "fill_smooth_circle",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "滑らかな円を塗りつぶします"
+    },
+    {
+      "name": "fill_screen",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "画面全体を塗りつぶします"
+    },
+    {
+      "name": "color16to8",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "16ビット色を8ビット色に変換します"
+    },
+    {
+      "name": "color8to16",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "8ビット色を16ビット色に変換します"
+    },
+    {
+      "name": "color16to24",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "16ビット色を24ビット色に変換します"
+    },
+    {
+      "name": "color24to16",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "24ビット色を16ビット色に変換します"
+    },
+    {
+      "name": "set_color",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "描画色を設定します"
+    },
+    {
+      "name": "set_raw_color",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "生の色値を設定します"
+    },
+    {
+      "name": "get_raw_color",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "生の色値を取得します"
+    },
+    {
+      "name": "set_base_color",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ベース色を設定します"
+    },
+    {
+      "name": "get_base_color",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "ベース色を取得します"
+    },
+    {
+      "name": "get_palette",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "パレットを取得します"
+    },
+    {
+      "name": "get_palette_count",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "パレット数を取得します"
+    },
+    {
+      "name": "has_palette",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      },
+      "document": "パレットが存在するかを確認します"
+    },
+    {
+      "name": "flood_fill",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "塗りつぶしを行います"
+    },
+    {
+      "name": "paint",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ペイント（塗りつぶし）を行います"
+    },
+    {
+      "name": "map_gradient",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "グラデーションマップを適用します"
+    },
+    {
+      "name": "qrcode",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "QRコードを描画します"
+    },
+    {
+      "name": "file",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ファイル操作を行います"
+    },
+    {
+      "name": "create_png",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "PNG画像を作成します"
+    },
+    {
+      "name": "release_png_memory",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "PNGメモリを解放します"
+    },
+    {
+      "name": "cp437",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "CP437文字コードを有効にします"
+    },
+    {
+      "name": "set_attribute",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "属性を設定します"
+    },
+    {
+      "name": "get_attribute",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "属性を取得します"
+    },
+    {
+      "name": "set_file_storage",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ファイルストレージを設定します"
+    },
+    {
+      "name": "clear_file_storage",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ファイルストレージをクリアします"
+    },
+    {
+      "name": "prepare_tmp_transaction",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "一時トランザクションを準備します"
+    },
+    {
+      "name": "push_image",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "画像をプッシュします"
+    },
+    {
+      "name": "push_grayscale_image",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "グレースケール画像をプッシュします"
+    },
+    {
+      "name": "push_grayscale_image_rotate_zoom",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "回転・拡大縮小したグレースケール画像をプッシュします"
+    },
+    {
+      "name": "push_grayscale_image_affine",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "アフィン変換したグレースケール画像をプッシュします"
+    },
+    {
+      "name": "push_alpha_image",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "アルファチャンネル付き画像をプッシュします"
+    },
+    {
+      "name": "push_block",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ブロックデータをプッシュします"
+    },
+    {
+      "name": "push_pixels",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ピクセルデータをプッシュします"
+    },
+    {
+      "name": "push_pixels_dma",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "DMAを使用してピクセルデータをプッシュします"
+    },
+    {
+      "name": "read_rect_rgb",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "矩形領域のRGB値を読み取ります"
+    },
+    {
+      "name": "read_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "矩形領域を読み取ります"
+    },
+    {
+      "name": "p",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "パラメータを設定します"
+    },
+    {
+      "name": "copy_rect",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "矩形領域をコピーします"
+    },
+    {
+      "name": "scroll",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "画面をスクロールします"
+    },
+    {
+      "name": "start_write",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "描画処理を開始します（バスを確保）"
+    },
+    {
+      "name": "end_write",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "描画処理を終了します（バスを解放）"
+    },
+    {
+      "name": "begin_transaction",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "トランザクションを開始します"
+    },
+    {
+      "name": "end_transaction",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "トランザクションを終了します"
+    },
+    {
+      "name": "get_start_count",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "スタート回数を取得します"
+    },
+    {
+      "name": "set_window",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "描画ウィンドウを設定します"
+    },
+    {
+      "name": "set_addr_window",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "アドレスウィンドウを設定します"
+    },
+    {
+      "name": "write_pixel",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ピクセルを書き込みます"
+    },
+    {
+      "name": "write_fast_v_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "垂直線を高速に書き込みます"
+    },
+    {
+      "name": "write_fast_h_line",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "水平線を高速に書き込みます"
+    },
+    {
+      "name": "write_fill_rect",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "塗りつぶし矩形を書き込みます"
+    },
+    {
+      "name": "write_fill_rect_preclipped",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "クリップ済み塗りつぶし矩形を書き込みます"
+    },
+    {
+      "name": "write_color",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "色データを書き込みます"
+    },
+    {
+      "name": "write_pixels",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "ピクセルデータを書き込みます"
+    },
+    {
+      "name": "write_pixels_dma",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "DMAを使用してピクセルデータを書き込みます"
+    },
+    {
+      "name": "init_dma",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      },
+      "document": "DMAを初期化します"
+    },
+    {
+      "name": "wait_dma",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Nil"
+        ]
+      },
+      "document": "DMA転送が完了するまで待機します"
+    },
+    {
+      "name": "dma_busy",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      },
+      "document": "DMAが動作中かどうかを確認します"
+    }
+  ]
+}
