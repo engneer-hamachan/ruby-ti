@@ -10,7 +10,7 @@
           "Nil"
         ]
       },
-      "document": "M5デバイスを初期化します"
+      "document": "Initialize M5 device"
     },
     {
       "name": "Display",
@@ -20,7 +20,7 @@
           "M5GFX"
         ]
       },
-      "document": "ディスプレイオブジェクトを取得します"
+      "document": "Get display object"
     },
     {
       "name": "get_pin",
@@ -36,7 +36,7 @@
           "Int"
         ]
       },
-      "document": "指定されたピン番号の状態を取得します"
+      "document": "Get state of specified pin number"
     },
     {
       "name": "get_button",
@@ -52,7 +52,7 @@
           "Nil"
         ]
       },
-      "document": "ボタンの状態を取得します"
+      "document": "Get button state"
     },
     {
       "name": "get_display",
@@ -68,7 +68,7 @@
           "M5GFX"
         ]
       },
-      "document": "指定されたディスプレイを取得します"
+      "document": "Get specified display"
     },
     {
       "name": "get_display_count",
@@ -78,7 +78,7 @@
           "Int"
         ]
       },
-      "document": "ディスプレイの数を取得します"
+      "document": "Get number of displays"
     },
     {
       "name": "add_display",
@@ -94,7 +94,7 @@
           "Int"
         ]
       },
-      "document": "ディスプレイを追加します"
+      "document": "Add display"
     },
     {
       "name": "get_display_index",
@@ -110,7 +110,7 @@
           "Int"
         ]
       },
-      "document": "ディスプレイのインデックスを取得します"
+      "document": "Get display index"
     },
     {
       "name": "set_primary_display",
@@ -126,7 +126,7 @@
           "Nil"
         ]
       },
-      "document": "プライマリディスプレイを設定します"
+      "document": "Set primary display"
     },
     {
       "name": "set_primary_display_type",
@@ -142,7 +142,7 @@
           "Nil"
         ]
       },
-      "document": "プライマリディスプレイのタイプを設定します"
+      "document": "Set primary display type"
     },
     {
       "name": "set_log_display_index",
@@ -158,7 +158,7 @@
           "Nil"
         ]
       },
-      "document": "ログ表示用ディスプレイのインデックスを設定します"
+      "document": "Set log display index"
     },
     {
       "name": "set_log_display_type",
@@ -174,7 +174,7 @@
           "Nil"
         ]
       },
-      "document": "ログ表示用ディスプレイのタイプを設定します"
+      "document": "Set log display type"
     },
     {
       "name": "get_update_msec",
@@ -184,7 +184,7 @@
           "Int"
         ]
       },
-      "document": "更新間隔をミリ秒単位で取得します"
+      "document": "Get update interval in milliseconds"
     },
     {
       "name": "config_t",
@@ -194,7 +194,7 @@
           "Nil"
         ]
       },
-      "document": "設定構造体を取得します"
+      "document": "Get configuration structure"
     },
     {
       "name": "get_board",
@@ -204,7 +204,7 @@
           "Int"
         ]
       },
-      "document": "ボードタイプを取得します"
+      "document": "Get board type"
     },
     {
       "name": "update",
@@ -214,7 +214,7 @@
           "Nil"
         ]
       },
-      "document": "状態を更新します"
+      "document": "Update state"
     },
     {
       "name": "dsp",
@@ -224,7 +224,7 @@
           "Nil"
         ]
       },
-      "document": "ディスプレイを更新します"
+      "document": "Update display"
     },
     {
       "name": "set_touch_button_height_by_ratio",
@@ -240,7 +240,7 @@
           "Nil"
         ]
       },
-      "document": "タッチボタンの高さを比率で設定します"
+      "document": "Set touch button height by ratio"
     },
     {
       "name": "set_touch_button_height",
@@ -256,7 +256,7 @@
           "Nil"
         ]
       },
-      "document": "タッチボタンの高さを設定します"
+      "document": "Set touch button height"
     },
     {
       "name": "get_touch_button_height",
@@ -266,7 +266,7 @@
           "Int"
         ]
       },
-      "document": "タッチボタンの高さを取得します"
+      "document": "Get touch button height"
     },
     {
       "name": "get_io_expander",
@@ -276,7 +276,7 @@
           "Nil"
         ]
       },
-      "document": "IOエキスパンダーを取得します"
+      "document": "Get IO expander"
     }
   ]
 }

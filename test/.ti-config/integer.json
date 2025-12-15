@@ -19,7 +19,7 @@
         ],
         "is_conditional": true
       },
-      "document": "剰余を計算する"
+      "document": "Calculate modulo"
     },
     {
       "name": "&",
@@ -35,7 +35,7 @@
           "Int"
         ]
       },
-      "document": "ビットAND演算を行う"
+      "document": "Perform bitwise AND operation"
     },
     {
       "name": "*",
@@ -54,7 +54,7 @@
         ],
         "is_conditional": true
       },
-      "document": "乗算を行う"
+      "document": "Perform multiplication"
     },
     {
       "name": "**",
@@ -70,7 +70,7 @@
           "Integer"
         ]
       },
-      "document": "べき乗を計算する"
+      "document": "Calculate power"
     },
     {
       "name": "+",
@@ -89,7 +89,7 @@
         ],
         "is_conditional": true
       },
-      "document": "加算を行う"
+      "document": "Perform addition"
     },
     {
       "name": "+@",
@@ -99,7 +99,7 @@
           "Int"
         ]
       },
-      "document": "単項プラス演算子。self を返す"
+      "document": "Unary plus operator. Returns self"
     },
     {
       "name": "-",
@@ -118,7 +118,7 @@
         ],
         "is_conditional": true
       },
-      "document": "減算を行う"
+      "document": "Perform subtraction"
     },
     {
       "name": "-@",
@@ -128,7 +128,7 @@
           "Int"
         ]
       },
-      "document": "単項マイナス演算子。符号を反転する"
+      "document": "Unary minus operator. Inverts sign"
     },
     {
       "name": "/",
@@ -147,7 +147,7 @@
         ],
         "is_conditional": true
       },
-      "document": "除算を行う"
+      "document": "Perform division"
     },
     {
       "name": "<",
@@ -163,7 +163,7 @@
           "Bool"
         ]
       },
-      "document": "小なり比較を行う"
+      "document": "Perform less than comparison"
     },
     {
       "name": "<<",
@@ -179,7 +179,7 @@
           "Int"
         ]
       },
-      "document": "左ビットシフトを行う"
+      "document": "Perform left bit shift"
     },
     {
       "name": "<=",
@@ -195,7 +195,7 @@
           "Bool"
         ]
       },
-      "document": "以下比較を行う"
+      "document": "Perform less than or equal comparison"
     },
     {
       "name": "<=>",
@@ -214,7 +214,7 @@
         ],
         "is_conditional": true
       },
-      "document": "比較演算子。self < other なら -1、self == other なら 0、self > other なら 1 を返す"
+      "document": "Comparison operator. Returns -1 if self < other, 0 if self == other, 1 if self > other"
     },
     {
       "name": "==",
@@ -230,7 +230,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う"
+      "document": "Perform equality comparison"
     },
     {
       "name": ">",
@@ -246,7 +246,7 @@
           "Bool"
         ]
       },
-      "document": "大なり比較を行う"
+      "document": "Perform greater than comparison"
     },
     {
       "name": ">=",
@@ -262,7 +262,7 @@
           "Bool"
         ]
       },
-      "document": "以上比較を行う"
+      "document": "Perform greater than or equal comparison"
     },
     {
       "name": ">>",
@@ -278,7 +278,7 @@
           "Int"
         ]
       },
-      "document": "右ビットシフトを行う"
+      "document": "Perform right bit shift"
     },
     {
       "name": "^",
@@ -294,7 +294,7 @@
           "Int"
         ]
       },
-      "document": "ビットXOR演算を行う"
+      "document": "Perform bitwise XOR operation"
     },
     {
       "name": "[]",
@@ -310,7 +310,7 @@
           "Int"
         ]
       },
-      "document": "指定ビット位置の値を取得する"
+      "document": "Get value at specified bit position"
     },
     {
       "name": "abs",
@@ -320,7 +320,7 @@
           "Int"
         ]
       },
-      "document": "絶対値を取得する"
+      "document": "Get absolute value"
     },
     {
       "name": "chr",
@@ -330,7 +330,7 @@
           "String"
         ]
       },
-      "document": "文字コードに対応する1文字の文字列を返す"
+      "document": "Return single character string corresponding to character code"
     },
     {
       "name": "downto",
@@ -349,7 +349,7 @@
           "Int"
         ]
       },
-      "document": "self から引数まで1ずつ減らしながらブロックを実行する"
+      "document": "Execute block while decreasing from self to argument by 1"
     },
     {
       "name": "times",
@@ -362,7 +362,7 @@
           "Int"
         ]
       },
-      "document": "self 回だけブロックを繰り返し実行する"
+      "document": "Execute block self times"
     },
     {
       "name": "to_f",
@@ -372,7 +372,7 @@
           "Float"
         ]
       },
-      "document": "浮動小数点数に変換する"
+      "document": "Convert to floating point number"
     },
     {
       "name": "to_i",
@@ -382,7 +382,7 @@
           "Int"
         ]
       },
-      "document": "整数値として self を返す"
+      "document": "Return self as integer value"
     },
     {
       "name": "to_s",
@@ -398,7 +398,7 @@
           "String"
         ]
       },
-      "document": "文字列に変換する。引数で基数を指定可能"
+      "document": "Convert to string. Base can be specified with argument"
     },
     {
       "name": "|",
@@ -414,7 +414,7 @@
           "Int"
         ]
       },
-      "document": "ビットOR演算を行う"
+      "document": "Perform bitwise OR operation"
     },
     {
       "name": "~",
@@ -424,7 +424,7 @@
           "Int"
         ]
       },
-      "document": "ビット反転を行う"
+      "document": "Perform bitwise NOT operation"
     }
   ],
   "class_methods": []

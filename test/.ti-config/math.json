@@ -17,7 +17,7 @@
           "Float"
         ]
       },
-      "document": "逆余弦を計算する"
+      "document": "Calculate arccosine"
     },
     {
       "name": "acosh",
@@ -33,7 +33,7 @@
           "Float"
         ]
       },
-      "document": "逆双曲線余弦を計算する"
+      "document": "Calculate inverse hyperbolic cosine"
     },
     {
       "name": "asin",
@@ -49,7 +49,7 @@
           "Float"
         ]
       },
-      "document": "逆正弦を計算する"
+      "document": "Calculate arcsine"
     },
     {
       "name": "asinh",
@@ -65,7 +65,7 @@
           "Float"
         ]
       },
-      "document": "逆双曲線正弦を計算する"
+      "document": "Calculate inverse hyperbolic sine"
     },
     {
       "name": "atan",
@@ -81,7 +81,7 @@
           "Float"
         ]
       },
-      "document": "逆正接を計算する"
+      "document": "Calculate arctangent"
     },
     {
       "name": "atan2",
@@ -102,7 +102,7 @@
           "Float"
         ]
       },
-      "document": "2引数の逆正接を計算する"
+      "document": "Calculate arctangent with two arguments"
     },
     {
       "name": "atanh",
@@ -118,7 +118,7 @@
           "Float"
         ]
       },
-      "document": "逆双曲線正接を計算する"
+      "document": "Calculate inverse hyperbolic tangent"
     },
     {
       "name": "cbrt",
@@ -134,7 +134,7 @@
           "Float"
         ]
       },
-      "document": "立方根を計算する"
+      "document": "Calculate cube root"
     },
     {
       "name": "cos",
@@ -150,7 +150,7 @@
           "Float"
         ]
       },
-      "document": "余弦を計算する"
+      "document": "Calculate cosine"
     },
     {
       "name": "cosh",
@@ -166,7 +166,7 @@
           "Float"
         ]
       },
-      "document": "双曲線余弦を計算する"
+      "document": "Calculate hyperbolic cosine"
     },
     {
       "name": "erf",
@@ -182,7 +182,7 @@
           "Float"
         ]
       },
-      "document": "誤差関数を計算する"
+      "document": "Calculate error function"
     },
     {
       "name": "erfc",
@@ -198,7 +198,7 @@
           "Float"
         ]
       },
-      "document": "相補誤差関数を計算する"
+      "document": "Calculate complementary error function"
     },
     {
       "name": "exp",
@@ -214,7 +214,7 @@
           "Float"
         ]
       },
-      "document": "指数関数を計算する"
+      "document": "Calculate exponential function"
     },
     {
       "name": "hypot",
@@ -235,7 +235,7 @@
           "Float"
         ]
       },
-      "document": "直角三角形の斜辺の長さを計算する"
+      "document": "Calculate hypotenuse of right triangle"
     },
     {
       "name": "ldexp",
@@ -256,7 +256,7 @@
           "Float"
         ]
       },
-      "document": "x * 2^n を計算する"
+      "document": "Calculate x * 2^n"
     },
     {
       "name": "log",
@@ -277,7 +277,7 @@
           "Float"
         ]
       },
-      "document": "自然対数を計算する"
+      "document": "Calculate natural logarithm"
     },
     {
       "name": "log10",
@@ -293,7 +293,7 @@
           "Float"
         ]
       },
-      "document": "常用対数を計算する"
+      "document": "Calculate common logarithm"
     },
     {
       "name": "log2",
@@ -309,7 +309,7 @@
           "Float"
         ]
       },
-      "document": "底が2の対数を計算する"
+      "document": "Calculate base-2 logarithm"
     },
     {
       "name": "sin",
@@ -325,7 +325,7 @@
           "Float"
         ]
       },
-      "document": "正弦を計算する"
+      "document": "Calculate sine"
     },
     {
       "name": "sinh",
@@ -341,7 +341,7 @@
           "Float"
         ]
       },
-      "document": "双曲線正弦を計算する"
+      "document": "Calculate hyperbolic sine"
     },
     {
       "name": "sqrt",
@@ -357,7 +357,7 @@
           "Float"
         ]
       },
-      "document": "平方根を計算する"
+      "document": "Calculate square root"
     },
     {
       "name": "tan",
@@ -373,7 +373,7 @@
           "Float"
         ]
       },
-      "document": "正接を計算する"
+      "document": "Calculate tangent"
     },
     {
       "name": "tanh",
@@ -389,7 +389,7 @@
           "Float"
         ]
       },
-      "document": "双曲線正接を計算する"
+      "document": "Calculate hyperbolic tangent"
     }
   ],
   "constants": []

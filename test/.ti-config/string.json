@@ -10,7 +10,7 @@
           "Bool"
         ]
       },
-      "document": "論理否定を返す"
+      "document": "Return logical NOT"
     },
     {
       "name": "*",
@@ -26,7 +26,7 @@
           "String"
         ]
       },
-      "document": "文字列を指定回数繰り返す"
+      "document": "Repeat string specified number of times"
     },
     {
       "name": "+",
@@ -42,7 +42,7 @@
           "String"
         ]
       },
-      "document": "文字列を連結する"
+      "document": "Concatenate strings"
     },
     {
       "name": "<",
@@ -58,7 +58,7 @@
           "Bool"
         ]
       },
-      "document": "辞書順で比較して小さいか判定する"
+      "document": "Check if lexicographically smaller"
     },
     {
       "name": "<<",
@@ -75,7 +75,7 @@
           "String"
         ]
       },
-      "document": "文字列または文字コードを追加する"
+      "document": "Append string or character code"
     },
     {
       "name": "<=",
@@ -91,7 +91,7 @@
           "Bool"
         ]
       },
-      "document": "辞書順で比較して以下か判定する"
+      "document": "Check if lexicographically less than or equal"
     },
     {
       "name": "<=>",
@@ -107,7 +107,7 @@
           "Int"
         ]
       },
-      "document": "辞書順で比較する。self < other なら -1、self == other なら 0、self > other なら 1"
+      "document": "Compare lexicographically. Returns -1 if self < other, 0 if self == other, 1 if self > other"
     },
     {
       "name": "==",
@@ -123,7 +123,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う"
+      "document": "Perform equality comparison"
     },
     {
       "name": "===",
@@ -139,7 +139,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う(case文用)"
+      "document": "Perform equality comparison (for case statements)"
     },
     {
       "name": ">",
@@ -155,7 +155,7 @@
           "Bool"
         ]
       },
-      "document": "辞書順で比較して大きいか判定する"
+      "document": "Check if lexicographically greater"
     },
     {
       "name": ">=",
@@ -171,7 +171,7 @@
           "Bool"
         ]
       },
-      "document": "辞書順で比較して以上か判定する"
+      "document": "Check if lexicographically greater than or equal"
     },
     {
       "name": "[]",
@@ -188,7 +188,7 @@
           "Nil"
         ]
       },
-      "document": "指定位置の文字または部分文字列を取得する"
+      "document": "Get character or substring at specified position"
     },
     {
       "name": "[]=",
@@ -209,7 +209,7 @@
           "String"
         ]
       },
-      "document": "指定位置の文字または部分文字列を置換する"
+      "document": "Replace character or substring at specified position"
     },
     {
       "name": "__ljust_rjust_argcheck",
@@ -226,7 +226,7 @@
           "Nil"
         ]
       },
-      "document": "ljustとrjustの引数チェック用内部メソッド"
+      "document": "Internal method for argument checking of ljust and rjust"
     },
     {
       "name": "bytes",
@@ -236,7 +236,7 @@
           "IntArray"
         ]
       },
-      "document": "文字列のバイト列を配列で返す"
+      "document": "Return byte sequence of string as array"
     },
     {
       "name": "chars",
@@ -246,7 +246,7 @@
           "StringArray"
         ]
       },
-      "document": "文字列の文字を配列で返す"
+      "document": "Return characters of string as array"
     },
     {
       "name": "chomp",
@@ -262,7 +262,7 @@
           "String"
         ]
       },
-      "document": "末尾の改行文字を除いた文字列を返す"
+      "document": "Return string with trailing newline removed"
     },
     {
       "name": "chomp!",
@@ -279,7 +279,7 @@
           "Nil"
         ]
       },
-      "document": "末尾の改行文字を破壊的に除く"
+      "document": "Remove trailing newline destructively"
     },
     {
       "name": "clear",
@@ -289,7 +289,7 @@
           "String"
         ]
       },
-      "document": "文字列の内容を空にする"
+      "document": "Clear string contents"
     },
     {
       "name": "downcase",
@@ -310,7 +310,7 @@
           "String"
         ]
       },
-      "document": "小文字に変換した文字列を返す"
+      "document": "Return string converted to lowercase"
     },
     {
       "name": "downcase!",
@@ -332,7 +332,7 @@
           "Nil"
         ]
       },
-      "document": "小文字に破壊的に変換する"
+      "document": "Convert to lowercase destructively"
     },
     {
       "name": "each_byte",
@@ -345,7 +345,7 @@
           "Self"
         ]
       },
-      "document": "各バイトに対してブロックを実行する"
+      "document": "Execute block for each byte"
     },
     {
       "name": "each_char",
@@ -358,7 +358,7 @@
           "Self"
         ]
       },
-      "document": "各文字に対してブロックを実行する"
+      "document": "Execute block for each character"
     },
     {
       "name": "each_line",
@@ -371,7 +371,7 @@
           "String"
         ]
       },
-      "document": "各行に対してブロックを実行する"
+      "document": "Execute block for each line"
     },
     {
       "name": "empty?",
@@ -381,7 +381,7 @@
           "Bool"
         ]
       },
-      "document": "文字列が空か判定する"
+      "document": "Check if string is empty"
     },
     {
       "name": "end_with?",
@@ -398,7 +398,7 @@
           "String"
         ]
       },
-      "document": "指定文字列で終わるか判定する"
+      "document": "Check if ends with specified string"
     },
     {
       "name": "getbyte",
@@ -415,7 +415,7 @@
           "Nil"
         ]
       },
-      "document": "指定位置のバイト値を取得する"
+      "document": "Get byte value at specified position"
     },
     {
       "name": "include?",
@@ -431,7 +431,7 @@
           "Bool"
         ]
       },
-      "document": "指定文字列を含むか判定する"
+      "document": "Check if contains specified string"
     },
     {
       "name": "index",
@@ -449,7 +449,7 @@
           "Nil"
         ]
       },
-      "document": "指定文字列の最初の位置を返す"
+      "document": "Return first position of specified string"
     },
     {
       "name": "inspect",
@@ -459,7 +459,7 @@
           "String"
         ]
       },
-      "document": "デバッグ用の文字列表現を返す"
+      "document": "Return string representation for debugging"
     },
     {
       "name": "intern",
@@ -469,7 +469,7 @@
           "Symbol"
         ]
       },
-      "document": "シンボルに変換する"
+      "document": "Convert to symbol"
     },
     {
       "name": "length",
@@ -479,7 +479,7 @@
           "Int"
         ]
       },
-      "document": "文字列の長さを返す"
+      "document": "Return string length"
     },
     {
       "name": "ljust",
@@ -500,7 +500,7 @@
           "String"
         ]
       },
-      "document": "左詰めして指定幅に合わせた文字列を返す"
+      "document": "Return string left-justified to specified width"
     },
     {
       "name": "lstrip",
@@ -510,7 +510,7 @@
           "String"
         ]
       },
-      "document": "先頭の空白を除いた文字列を返す"
+      "document": "Return string with leading whitespace removed"
     },
     {
       "name": "lstrip!",
@@ -521,7 +521,7 @@
           "Nil"
         ]
       },
-      "document": "先頭の空白を破壊的に除く"
+      "document": "Remove leading whitespace destructively"
     },
     {
       "name": "ord",
@@ -531,7 +531,7 @@
           "Int"
         ]
       },
-      "document": "最初の文字の文字コードを返す"
+      "document": "Return character code of first character"
     },
     {
       "name": "rjust",
@@ -552,7 +552,7 @@
           "String"
         ]
       },
-      "document": "右詰めして指定幅に合わせた文字列を返す"
+      "document": "Return string right-justified to specified width"
     },
     {
       "name": "rstrip",
@@ -562,7 +562,7 @@
           "String"
         ]
       },
-      "document": "末尾の空白を除いた文字列を返す"
+      "document": "Return string with trailing whitespace removed"
     },
     {
       "name": "rstrip!",
@@ -573,7 +573,7 @@
           "Nil"
         ]
       },
-      "document": "末尾の空白を破壊的に除く"
+      "document": "Remove trailing whitespace destructively"
     },
     {
       "name": "split",
@@ -594,7 +594,7 @@
           "StringArray"
         ]
       },
-      "document": "区切り文字で分割して配列を返す"
+      "document": "Split by delimiter and return array"
     },
     {
       "name": "start_with?",
@@ -611,7 +611,7 @@
           "Bool"
         ]
       },
-      "document": "指定文字列で始まるか判定する"
+      "document": "Check if starts with specified string"
     },
     {
       "name": "strip",
@@ -621,7 +621,7 @@
           "String"
         ]
       },
-      "document": "前後の空白を除いた文字列を返す"
+      "document": "Return string with leading and trailing whitespace removed"
     },
     {
       "name": "strip!",
@@ -632,7 +632,7 @@
           "Nil"
         ]
       },
-      "document": "前後の空白を破壊的に除く"
+      "document": "Remove leading and trailing whitespace destructively"
     },
     {
       "name": "to_f",
@@ -642,7 +642,7 @@
           "Float"
         ]
       },
-      "document": "浮動小数点数に変換する"
+      "document": "Convert to floating point number"
     },
     {
       "name": "to_i",
@@ -658,7 +658,7 @@
           "Int"
         ]
       },
-      "document": "整数に変換する"
+      "document": "Convert to integer"
     },
     {
       "name": "to_s",
@@ -668,7 +668,7 @@
           "String"
         ]
       },
-      "document": "文字列として self を返す"
+      "document": "Return self as string"
     },
     {
       "name": "to_sym",
@@ -678,7 +678,7 @@
           "Symbol"
         ]
       },
-      "document": "シンボルに変換する"
+      "document": "Convert to symbol"
     },
     {
       "name": "tr",
@@ -699,7 +699,7 @@
           "String"
         ]
       },
-      "document": "文字を置換した文字列を返す"
+      "document": "Return string with characters replaced"
     },
     {
       "name": "tr!",
@@ -721,7 +721,7 @@
           "Nil"
         ]
       },
-      "document": "文字を破壊的に置換する"
+      "document": "Replace characters destructively"
     },
     {
       "name": "upcase",
@@ -742,7 +742,7 @@
           "String"
         ]
       },
-      "document": "大文字に変換した文字列を返す"
+      "document": "Return string converted to uppercase"
     },
     {
       "name": "upcase!",
@@ -764,7 +764,7 @@
           "Nil"
         ]
       },
-      "document": "大文字に破壊的に変換する"
+      "document": "Convert to uppercase destructively"
     }
   ]
 }

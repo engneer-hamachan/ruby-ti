@@ -10,7 +10,7 @@
           "Bool"
         ]
       },
-      "document": "GPIOピンがHIGH状態か判定する"
+      "document": "Check if GPIO pin is HIGH"
     },
     {
       "name": "low?",
@@ -20,7 +20,7 @@
           "Bool"
         ]
       },
-      "document": "GPIOピンがLOW状態か判定する"
+      "document": "Check if GPIO pin is LOW"
     },
     {
       "name": "open_drain",
@@ -36,7 +36,7 @@
           "Int"
         ]
       },
-      "document": "オープンドレイン出力モードに設定する"
+      "document": "Set to open drain output mode"
     },
     {
       "name": "read",
@@ -46,7 +46,7 @@
           "Int"
         ]
       },
-      "document": "GPIOピンの状態を読み取る"
+      "document": "Read GPIO pin state"
     },
     {
       "name": "write",
@@ -62,7 +62,7 @@
           "Int"
         ]
       },
-      "document": "GPIOピンに値を書き込む"
+      "document": "Write value to GPIO pin"
     }
   ],
   "class_methods": [
@@ -82,7 +82,7 @@
           "Bool"
         ]
       },
-      "document": "指定ピンがHIGH状態か判定する"
+      "document": "Check if specified pin is HIGH"
     },
     {
       "name": "low_at?",
@@ -98,7 +98,7 @@
           "Bool"
         ]
       },
-      "document": "指定ピンがLOW状態か判定する"
+      "document": "Check if specified pin is LOW"
     },
     {
       "name": "new",
@@ -126,7 +126,7 @@
           "GPIO"
         ]
       },
-      "document": "GPIOオブジェクトを作成する"
+      "document": "Create GPIO object"
     },
     {
       "name": "open_drain_at",
@@ -144,7 +144,7 @@
           "Int"
         ]
       },
-      "document": "指定ピンをオープンドレイン出力モードに設定する"
+      "document": "Set specified pin to open drain output mode"
     },
     {
       "name": "pull_down_at",
@@ -162,7 +162,7 @@
           "Int"
         ]
       },
-      "document": "指定ピンをプルダウンに設定する"
+      "document": "Set specified pin to pull-down"
     },
     {
       "name": "pull_up_at",
@@ -180,7 +180,7 @@
           "Int"
         ]
       },
-      "document": "指定ピンをプルアップに設定する"
+      "document": "Set specified pin to pull-up"
     },
     {
       "name": "read_at",
@@ -198,7 +198,7 @@
           "Int"
         ]
       },
-      "document": "指定ピンの状態を読み取る"
+      "document": "Read specified pin state"
     },
     {
       "name": "set_dir_at",
@@ -221,7 +221,7 @@
           "Int"
         ]
       },
-      "document": "指定ピンの入出力方向を設定する"
+      "document": "Set input/output direction of specified pin"
     },
     {
       "name": "set_function_at",
@@ -244,7 +244,7 @@
           "Int"
         ]
       },
-      "document": "指定ピンの機能を設定する"
+      "document": "Set function of specified pin"
     },
     {
       "name": "write_at",
@@ -267,7 +267,7 @@
           "Int"
         ]
       },
-      "document": "指定ピンに値を書き込む"
+      "document": "Write value to specified pin"
     }
   ],
   "constants": [
@@ -278,7 +278,7 @@
           "Int"
         ]
       },
-      "document": "出力モードを表す定数"
+      "document": "Constant representing output mode"
     },
     {
       "name": "IN",
@@ -287,7 +287,7 @@
           "Int"
         ]
       },
-      "document": "入力モードを表す定数"
+      "document": "Constant representing input mode"
     }
   ]
 }

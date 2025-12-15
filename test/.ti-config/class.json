@@ -9,7 +9,7 @@
           "String"
         ]
       },
-      "document": "クラス名を文字列で返す"
+      "document": "Return class name as string"
     }
   ]
 }

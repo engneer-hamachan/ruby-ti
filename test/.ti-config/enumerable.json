@@ -14,7 +14,7 @@
           "BlockResultArray"
         ]
       },
-      "document": "各要素に対してブロックを実行し、結果を配列で返す"
+      "document": "Execute block for each element and return results as array"
     },
     {
       "name": "each_with_index",
@@ -28,7 +28,7 @@
           "Self"
         ]
       },
-      "document": "各要素とインデックスに対してブロックを実行する"
+      "document": "Execute block for each element and index"
     }
   ],
   "class_methods": []

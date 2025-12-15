@@ -19,7 +19,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う"
+      "document": "Perform equality comparison"
     },
     {
       "name": "===",
@@ -35,7 +35,7 @@
           "Bool"
         ]
       },
-      "document": "値が範囲内に含まれるか判定する"
+      "document": "Check if value is included in range"
     },
     {
       "name": "exclude_end?",
@@ -45,7 +45,7 @@
           "Bool"
         ]
       },
-      "document": "終了値を含まないか判定する"
+      "document": "Check if end value is excluded"
     },
     {
       "name": "first",
@@ -63,7 +63,7 @@
         ],
         "is_conditional": true
       },
-      "document": "範囲の開始値を返す"
+      "document": "Return start value of range"
     },
     {
       "name": "inspect",
@@ -73,7 +73,7 @@
           "String"
         ]
       },
-      "document": "デバッグ用の文字列表現を返す"
+      "document": "Return string representation for debugging"
     },
     {
       "name": "last",
@@ -91,7 +91,7 @@
         ],
         "is_conditional": true
       },
-      "document": "範囲の終了値を返す"
+      "document": "Return end value of range"
     },
     {
       "name": "to_s",
@@ -101,7 +101,7 @@
           "String"
         ]
       },
-      "document": "文字列表現を返す"
+      "document": "Return string representation"
     },
     {
       "name": "each",
@@ -114,7 +114,7 @@
           "Self"
         ]
       },
-      "document": "範囲内の各要素に対してブロックを実行する"
+      "document": "Execute block for each element in range"
     }
   ],
   "class_methods": [

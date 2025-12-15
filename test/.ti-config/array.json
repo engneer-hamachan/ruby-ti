@@ -19,7 +19,7 @@
           "Self"
         ]
       },
-      "document": "指定位置の要素を設定する"
+      "document": "Set element at specified position"
     },
     {
       "name": "[]",
@@ -35,7 +35,7 @@
           "Self"
         ]
       },
-      "document": "指定位置の要素を取得する"
+      "document": "Get element at specified position"
     },
     {
       "name": "&",
@@ -69,7 +69,7 @@
         ],
         "is_conditional": true
       },
-      "document": "配列を指定回数繰り返して新しい配列を返す"
+      "document": "Repeat array specified number of times and return new array"
     },
     {
       "name": "+",
@@ -85,7 +85,7 @@
           "Array"
         ]
       },
-      "document": "配列を連結する"
+      "document": "Concatenate arrays"
     },
     {
       "name": "-",
@@ -101,7 +101,7 @@
           "Self"
         ]
       },
-      "document": "配列から要素を除いた新しい配列を返す"
+      "document": "Return new array excluding specified elements"
     },
     {
       "name": "push",
@@ -117,7 +117,7 @@
           "Array"
         ]
       },
-      "document": "末尾に要素を追加する"
+      "document": "Append element to end"
     },
     {
       "name": "<=>",
@@ -133,7 +133,7 @@
           "OptionalInt"
         ]
       },
-      "document": "配列を比較する。self < other なら -1、self == other なら 0、self > other なら 1"
+      "document": "Compare arrays. Returns -1 if self < other, 0 if self == other, 1 if self > other"
     },
     {
       "name": "all?",
@@ -161,7 +161,7 @@
           "OptionalUnify"
         ]
       },
-      "document": "指定位置の要素を取得する"
+      "document": "Get element at specified position"
     },
     {
       "name": "clear",
@@ -171,7 +171,7 @@
           "Array"
         ]
       },
-      "document": "配列の全要素を削除する"
+      "document": "Remove all elements from array"
     },
     {
       "name": "collect!",
@@ -185,7 +185,7 @@
         ],
         "is_destructive": true
       },
-      "document": "各要素に対してブロックを実行し、破壊的に置き換える"
+      "document": "Execute block for each element and destructively replace"
     },
     {
       "name": "count",
@@ -219,7 +219,7 @@
           "Array"
         ]
       },
-      "document": "配列を連結する"
+      "document": "Concatenate arrays"
     },
     {
       "name": "delete_at",
@@ -235,7 +235,7 @@
           "OptionalUnify"
         ]
       },
-      "document": "指定位置の要素を削除する"
+      "document": "Delete element at specified position"
     },
     {
       "name": "delete_if",
@@ -248,7 +248,7 @@
           "Self"
         ]
       },
-      "document": "ブロックが真を返す要素を削除する"
+      "document": "Delete elements for which block returns true"
     },
     {
       "name": "each",
@@ -261,7 +261,7 @@
           "Self"
         ]
       },
-      "document": "各要素に対してブロックを実行する"
+      "document": "Execute block for each element"
     },
     {
       "name": "each_index",
@@ -274,7 +274,7 @@
           "Self"
         ]
       },
-      "document": "各インデックスに対してブロックを実行する"
+      "document": "Execute block for each index"
     },
     {
       "name": "empty?",
@@ -284,7 +284,7 @@
           "Bool"
         ]
       },
-      "document": "配列が空か判定する"
+      "document": "Check if array is empty"
     },
     {
       "name": "first",
@@ -302,7 +302,7 @@
         ],
         "is_conditional": true
       },
-      "document": "最初の要素を取得する"
+      "document": "Get first element"
     },
     {
       "name": "flatten",
@@ -312,7 +312,7 @@
           "Self"
         ]
       },
-      "document": "ネストした配列を平坦化する"
+      "document": "Flatten nested array"
     },
     {
       "name": "include?",
@@ -328,7 +328,7 @@
           "Bool"
         ]
       },
-      "document": "指定要素を含むか判定する"
+      "document": "Check if element is included"
     },
     {
       "name": "inspect",
@@ -338,7 +338,7 @@
           "String"
         ]
       },
-      "document": "デバッグ用の文字列表現を返す"
+      "document": "Return string representation for debugging"
     },
     {
       "name": "join",
@@ -354,7 +354,7 @@
           "String"
         ]
       },
-      "document": "要素を連結して文字列を返す"
+      "document": "Join elements and return string"
     },
     {
       "name": "last",
@@ -372,7 +372,7 @@
         ],
         "is_conditional": true
       },
-      "document": "最後の要素を取得する"
+      "document": "Get last element"
     },
     {
       "name": "length",
@@ -382,7 +382,7 @@
           "Int"
         ]
       },
-      "document": "配列の要素数を返す"
+      "document": "Return number of elements in array"
     },
     {
       "name": "max",
@@ -421,7 +421,7 @@
         ],
         "is_conditional": true
       },
-      "document": "末尾の要素を削除して返す"
+      "document": "Remove and return last element"
     },
     {
       "name": "reject",
@@ -434,7 +434,7 @@
           "Self"
         ]
       },
-      "document": "ブロックが真を返す要素を除いた配列を返す"
+      "document": "Return array excluding elements for which block returns true"
     },
     {
       "name": "reject!",
@@ -447,7 +447,7 @@
           "Self"
         ]
       },
-      "document": "ブロックが真を返す要素を破壊的に削除する"
+      "document": "Destructively delete elements for which block returns true"
     },
     {
       "name": "replace",
@@ -480,7 +480,7 @@
         ],
         "is_conditional": true
       },
-      "document": "先頭の要素を削除して返す"
+      "document": "Remove and return first element"
     },
     {
       "name": "sort",
@@ -494,7 +494,7 @@
           "Self"
         ]
       },
-      "document": "ソートした配列を返す"
+      "document": "Return sorted array"
     },
     {
       "name": "sort!",
@@ -508,7 +508,7 @@
           "Self"
         ]
       },
-      "document": "破壊的にソートする"
+      "document": "Sort destructively"
     },
     {
       "name": "slice",
@@ -524,7 +524,7 @@
           "Untyped"
         ]
       },
-      "document": "部分配列を取得する"
+      "document": "Get subarray"
     },
     {
       "name": "uniq",
@@ -534,7 +534,7 @@
           "Self"
         ]
       },
-      "document": "重複を除いた配列を返す"
+      "document": "Return array with duplicates removed"
     },
     {
       "name": "uniq!",
@@ -544,7 +544,7 @@
           "Self"
         ]
       },
-      "document": "重複を破壊的に除く"
+      "document": "Remove duplicates destructively"
     },
     {
       "name": "unshift",
@@ -560,7 +560,7 @@
           "Array"
         ]
       },
-      "document": "先頭に要素を追加する"
+      "document": "Prepend element to beginning"
     },
     {
       "name": "|",

@@ -10,7 +10,7 @@
           "Int"
         ]
       },
-      "document": "画面の回転角度を取得します (0-3)"
+      "document": "Get screen rotation angle (0-3)"
     },
     {
       "name": "set_rotation",
@@ -26,7 +26,7 @@
           "Nil"
         ]
       },
-      "document": "画面の回転角度を設定します (0-3)"
+      "document": "Set screen rotation angle (0-3)"
     },
     {
       "name": "get_color_depth",
@@ -36,7 +36,7 @@
           "Int"
         ]
       },
-      "document": "現在の色深度を取得します"
+      "document": "Get current color depth"
     },
     {
       "name": "set_color_depth",
@@ -52,7 +52,7 @@
           "Nil"
         ]
       },
-      "document": "色深度を設定します (ビット数)"
+      "document": "Set color depth (bits)"
     },
     {
       "name": "get_color_converter",
@@ -62,7 +62,7 @@
           "Int"
         ]
       },
-      "document": "カラーコンバーターを取得します"
+      "document": "Get color converter"
     },
     {
       "name": "width",
@@ -72,7 +72,7 @@
           "Int"
         ]
       },
-      "document": "画面の幅をピクセル単位で取得します"
+      "document": "Get screen width in pixels"
     },
     {
       "name": "height",
@@ -82,7 +82,7 @@
           "Int"
         ]
       },
-      "document": "画面の高さをピクセル単位で取得します"
+      "document": "Get screen height in pixels"
     },
     {
       "name": "set_pivot",
@@ -92,7 +92,7 @@
           "Nil"
         ]
       },
-      "document": "描画の基準点（ピボット）を設定します"
+      "document": "Set drawing pivot point"
     },
     {
       "name": "get_pivot_x",
@@ -102,7 +102,7 @@
           "Int"
         ]
       },
-      "document": "ピボットのX座標を取得します"
+      "document": "Get pivot X coordinate"
     },
     {
       "name": "get_pivot_y",
@@ -112,7 +112,7 @@
           "Int"
         ]
       },
-      "document": "ピボットのY座標を取得します"
+      "document": "Get pivot Y coordinate"
     },
     {
       "name": "set_clip_rect",
@@ -122,7 +122,7 @@
           "Nil"
         ]
       },
-      "document": "クリッピング矩形を設定します"
+      "document": "Set clipping rectangle"
     },
     {
       "name": "get_clip_rect",
@@ -132,7 +132,7 @@
           "Int"
         ]
       },
-      "document": "クリッピング矩形を取得します"
+      "document": "Get clipping rectangle"
     },
     {
       "name": "clear_clip_rect",
@@ -142,7 +142,7 @@
           "Nil"
         ]
       },
-      "document": "クリッピング矩形をクリアします"
+      "document": "Clear clipping rectangle"
     },
     {
       "name": "set_scroll_rect",
@@ -152,7 +152,7 @@
           "Nil"
         ]
       },
-      "document": "スクロール領域を設定します"
+      "document": "Set scroll area"
     },
     {
       "name": "get_scroll_rect",
@@ -162,7 +162,7 @@
           "Int"
         ]
       },
-      "document": "スクロール領域を取得します"
+      "document": "Get scroll area"
     },
     {
       "name": "clear_scroll_rect",
@@ -172,7 +172,7 @@
           "Nil"
         ]
       },
-      "document": "スクロール領域をクリアします"
+      "document": "Clear scroll area"
     },
     {
       "name": "clear",
@@ -182,7 +182,7 @@
           "Nil"
         ]
       },
-      "document": "画面をクリアします"
+      "document": "Clear screen"
     },
     {
       "name": "clear_display",
@@ -192,7 +192,7 @@
           "Nil"
         ]
       },
-      "document": "ディスプレイをクリアします"
+      "document": "Clear display"
     },
     {
       "name": "display",
@@ -202,7 +202,7 @@
           "Nil"
         ]
       },
-      "document": "描画内容を画面に反映します"
+      "document": "Display drawing contents on screen"
     },
     {
       "name": "wait_display",
@@ -212,7 +212,7 @@
           "Nil"
         ]
       },
-      "document": "画面の更新が完了するまで待機します"
+      "document": "Wait for screen update to complete"
     },
     {
       "name": "display_busy",
@@ -222,7 +222,7 @@
           "Nil"
         ]
       },
-      "document": "画面が更新中かどうかを確認します"
+      "document": "Check if screen is updating"
     },
     {
       "name": "set_auto_display",
@@ -232,7 +232,7 @@
           "Nil"
         ]
       },
-      "document": "自動表示モードを設定します"
+      "document": "Set auto display mode"
     },
     {
       "name": "get_swap_bytes",
@@ -242,7 +242,7 @@
           "Int"
         ]
       },
-      "document": "バイトスワップの状態を取得します"
+      "document": "Get byte swap state"
     },
     {
       "name": "set_swap_bytes",
@@ -252,7 +252,7 @@
           "Nil"
         ]
       },
-      "document": "バイトスワップを設定します"
+      "document": "Set byte swap"
     },
     {
       "name": "is_readable",
@@ -262,7 +262,7 @@
           "Bool"
         ]
       },
-      "document": "画面が読み取り可能かどうかを確認します"
+      "document": "Check if screen is readable"
     },
     {
       "name": "is_epd",
@@ -272,7 +272,7 @@
           "Bool"
         ]
       },
-      "document": "電子ペーパーディスプレイかどうかを確認します"
+      "document": "Check if e-paper display"
     },
     {
       "name": "is_bus_shared",
@@ -282,7 +282,7 @@
           "Bool"
         ]
       },
-      "document": "バスが共有されているかどうかを確認します"
+      "document": "Check if bus is shared"
     },
     {
       "name": "is_spi_shared",
@@ -292,7 +292,7 @@
           "Bool"
         ]
       },
-      "document": "SPIバスが共有されているかどうかを確認します"
+      "document": "Check if SPI bus is shared"
     },
     {
       "name": "get_scan_line",
@@ -302,7 +302,7 @@
           "Int"
         ]
       },
-      "document": "現在の走査線の位置を取得します"
+      "document": "Get current scan line position"
     },
     {
       "name": "draw_pixel",
@@ -328,7 +328,7 @@
           "Nil"
         ]
       },
-      "document": "ピクセルを描画します"
+      "document": "Draw pixel"
     },
     {
       "name": "draw_fast_v_line",
@@ -359,7 +359,7 @@
           "Nil"
         ]
       },
-      "document": "垂直線を高速に描画します"
+      "document": "Draw vertical line quickly"
     },
     {
       "name": "draw_fast_h_line",
@@ -390,7 +390,7 @@
           "Nil"
         ]
       },
-      "document": "水平線を高速に描画します"
+      "document": "Draw horizontal line quickly"
     },
     {
       "name": "draw_rect",
@@ -426,7 +426,7 @@
           "Nil"
         ]
       },
-      "document": "矩形の枠を描画します"
+      "document": "Draw rectangle outline"
     },
     {
       "name": "draw_round_rect",
@@ -467,7 +467,7 @@
           "Nil"
         ]
       },
-      "document": "角丸矩形の枠を描画します"
+      "document": "Draw rounded rectangle outline"
     },
     {
       "name": "draw_circle",
@@ -498,7 +498,7 @@
           "Nil"
         ]
       },
-      "document": "円の枠を描画します"
+      "document": "Draw circle outline"
     },
     {
       "name": "draw_ellipse",
@@ -534,7 +534,7 @@
           "Nil"
         ]
       },
-      "document": "楕円の枠を描画します"
+      "document": "Draw ellipse outline"
     },
     {
       "name": "draw_line",
@@ -570,7 +570,7 @@
           "Nil"
         ]
       },
-      "document": "直線を描画します"
+      "document": "Draw line"
     },
     {
       "name": "draw_triangle",
@@ -616,7 +616,7 @@
           "Nil"
         ]
       },
-      "document": "三角形の枠を描画します"
+      "document": "Draw triangle outline"
     },
     {
       "name": "draw_bezier",
@@ -662,7 +662,7 @@
           "Nil"
         ]
       },
-      "document": "ベジェ曲線を描画します"
+      "document": "Draw Bezier curve"
     },
     {
       "name": "draw_ellipse_arc",
@@ -672,7 +672,7 @@
           "Nil"
         ]
       },
-      "document": "楕円の円弧を描画します"
+      "document": "Draw ellipse arc"
     },
     {
       "name": "draw_arc",
@@ -682,7 +682,7 @@
           "Nil"
         ]
       },
-      "document": "円弧を描画します"
+      "document": "Draw arc"
     },
     {
       "name": "draw_circle_helper",
@@ -692,7 +692,7 @@
           "Nil"
         ]
       },
-      "document": "円の一部を描画します（ヘルパー関数）"
+      "document": "Draw part of circle (helper function)"
     },
     {
       "name": "draw_gradient_h_line",
@@ -702,7 +702,7 @@
           "Nil"
         ]
       },
-      "document": "水平グラデーション線を描画します"
+      "document": "Draw horizontal gradient line"
     },
     {
       "name": "draw_gradient_v_line",
@@ -712,7 +712,7 @@
           "Nil"
         ]
       },
-      "document": "垂直グラデーション線を描画します"
+      "document": "Draw vertical gradient line"
     },
     {
       "name": "draw_gradient_line",
@@ -722,7 +722,7 @@
           "Nil"
         ]
       },
-      "document": "グラデーション線を描画します"
+      "document": "Draw gradient line"
     },
     {
       "name": "draw_smooth_line",
@@ -758,7 +758,7 @@
           "Nil"
         ]
       },
-      "document": "滑らかな線を描画します（アンチエイリアス付き）"
+      "document": "Draw smooth line (with anti-aliasing)"
     },
     {
       "name": "draw_wide_line",
@@ -768,7 +768,7 @@
           "Nil"
         ]
       },
-      "document": "太線を描画します"
+      "document": "Draw thick line"
     },
     {
       "name": "draw_wedge_line",
@@ -778,7 +778,7 @@
           "Nil"
         ]
       },
-      "document": "幅の異なる線を描画します"
+      "document": "Draw line with varying width"
     },
     {
       "name": "draw_spot",
@@ -788,7 +788,7 @@
           "Nil"
         ]
       },
-      "document": "スポット（点）を描画します"
+      "document": "Draw spot (point)"
     },
     {
       "name": "draw_gradient_spot",
@@ -798,7 +798,7 @@
           "Nil"
         ]
       },
-      "document": "グラデーションスポットを描画します"
+      "document": "Draw gradient spot"
     },
     {
       "name": "draw_bitmap",
@@ -808,7 +808,7 @@
           "Nil"
         ]
       },
-      "document": "ビットマップ画像を描画します"
+      "document": "Draw bitmap image"
     },
     {
       "name": "draw_x_bitmap",
@@ -818,7 +818,7 @@
           "Nil"
         ]
       },
-      "document": "XBitmap形式の画像を描画します"
+      "document": "Draw XBitmap format image"
     },
     {
       "name": "draw_string",
@@ -844,7 +844,7 @@
           "Nil"
         ]
       },
-      "document": "文字列を描画します"
+      "document": "Draw string"
     },
     {
       "name": "draw_number",
@@ -870,7 +870,7 @@
           "Nil"
         ]
       },
-      "document": "数値を描画します"
+      "document": "Draw number"
     },
     {
       "name": "draw_float",
@@ -880,7 +880,7 @@
           "Nil"
         ]
       },
-      "document": "浮動小数点数を描画します"
+      "document": "Draw floating point number"
     },
     {
       "name": "draw_centre_string",
@@ -906,7 +906,7 @@
           "Nil"
         ]
       },
-      "document": "中央揃えで文字列を描画します"
+      "document": "Draw string with center alignment"
     },
     {
       "name": "draw_center_string",
@@ -932,7 +932,7 @@
           "Nil"
         ]
       },
-      "document": "中央揃えで文字列を描画します"
+      "document": "Draw string with center alignment"
     },
     {
       "name": "draw_right_string",
@@ -958,7 +958,7 @@
           "Nil"
         ]
       },
-      "document": "右揃えで文字列を描画します"
+      "document": "Draw string with right alignment"
     },
     {
       "name": "draw_char",
@@ -984,7 +984,7 @@
           "Nil"
         ]
       },
-      "document": "文字を描画します"
+      "document": "Draw character"
     },
     {
       "name": "set_cursor",
@@ -1005,7 +1005,7 @@
           "Nil"
         ]
       },
-      "document": "カーソル位置を設定します"
+      "document": "Set cursor position"
     },
     {
       "name": "get_cursor_x",
@@ -1015,7 +1015,7 @@
           "Int"
         ]
       },
-      "document": "カーソルのX座標を取得します"
+      "document": "Get cursor X coordinate"
     },
     {
       "name": "get_cursor_y",
@@ -1025,7 +1025,7 @@
           "Int"
         ]
       },
-      "document": "カーソルのY座標を取得します"
+      "document": "Get cursor Y coordinate"
     },
     {
       "name": "set_text_style",
@@ -1035,7 +1035,7 @@
           "Nil"
         ]
       },
-      "document": "テキストスタイルを設定します"
+      "document": "Set text style"
     },
     {
       "name": "set_text_size",
@@ -1051,7 +1051,7 @@
           "Nil"
         ]
       },
-      "document": "テキストサイズを設定します"
+      "document": "Set text size"
     },
     {
       "name": "get_text_size_x",
@@ -1061,7 +1061,7 @@
           "Int"
         ]
       },
-      "document": "テキストの横幅倍率を取得します"
+      "document": "Get text width scale"
     },
     {
       "name": "get_text_size_y",
@@ -1071,7 +1071,7 @@
           "Int"
         ]
       },
-      "document": "テキストの縦幅倍率を取得します"
+      "document": "Get text height scale"
     },
     {
       "name": "set_text_datum",
@@ -1081,7 +1081,7 @@
           "Nil"
         ]
       },
-      "document": "テキストの基準点を設定します"
+      "document": "Set text datum"
     },
     {
       "name": "get_text_datum",
@@ -1091,7 +1091,7 @@
           "Int"
         ]
       },
-      "document": "テキストの基準点を取得します"
+      "document": "Get text datum"
     },
     {
       "name": "set_text_padding",
@@ -1101,7 +1101,7 @@
           "Nil"
         ]
       },
-      "document": "テキストのパディングを設定します"
+      "document": "Set text padding"
     },
     {
       "name": "get_text_padding",
@@ -1111,7 +1111,7 @@
           "Int"
         ]
       },
-      "document": "テキストのパディングを取得します"
+      "document": "Get text padding"
     },
     {
       "name": "set_text_wrap",
@@ -1121,7 +1121,7 @@
           "Nil"
         ]
       },
-      "document": "テキストの折り返しを設定します"
+      "document": "Set text wrap"
     },
     {
       "name": "set_text_scroll",
@@ -1131,7 +1131,7 @@
           "Nil"
         ]
       },
-      "document": "テキストのスクロールを設定します"
+      "document": "Set text scroll"
     },
     {
       "name": "set_text_color",
@@ -1147,7 +1147,7 @@
           "Nil"
         ]
       },
-      "document": "テキストの色を設定します"
+      "document": "Set text color"
     },
     {
       "name": "font_height",
@@ -1157,7 +1157,7 @@
           "Int"
         ]
       },
-      "document": "フォントの高さを取得します"
+      "document": "Get font height"
     },
     {
       "name": "font_width",
@@ -1167,7 +1167,7 @@
           "Int"
         ]
       },
-      "document": "フォントの幅を取得します"
+      "document": "Get font width"
     },
     {
       "name": "text_length",
@@ -1177,7 +1177,7 @@
           "Int"
         ]
       },
-      "document": "指定幅に収まる文字数を取得します"
+      "document": "Get number of characters that fit in specified width"
     },
     {
       "name": "text_width",
@@ -1187,7 +1187,7 @@
           "Int"
         ]
       },
-      "document": "文字列の表示幅を取得します"
+      "document": "Get display width of string"
     },
     {
       "name": "set_text_font",
@@ -1197,7 +1197,7 @@
           "Nil"
         ]
       },
-      "document": "テキストフォントを設定します"
+      "document": "Set text font"
     },
     {
       "name": "set_free_font",
@@ -1207,7 +1207,7 @@
           "Nil"
         ]
       },
-      "document": "フリーフォントを設定します"
+      "document": "Set free font"
     },
     {
       "name": "set_font",
@@ -1217,7 +1217,7 @@
           "Nil"
         ]
       },
-      "document": "フォントを設定します"
+      "document": "Set font"
     },
     {
       "name": "load_font",
@@ -1227,7 +1227,7 @@
           "Nil"
         ]
       },
-      "document": "VLWフォントを読み込みます"
+      "document": "Load VLW font"
     },
     {
       "name": "load_font_with_path",
@@ -1237,7 +1237,7 @@
           "Nil"
         ]
       },
-      "document": "パスを指定してフォントを読み込みます"
+      "document": "Load font with specified path"
     },
     {
       "name": "unload_font",
@@ -1247,7 +1247,7 @@
           "Nil"
         ]
       },
-      "document": "フォントをアンロードします"
+      "document": "Unload font"
     },
     {
       "name": "show_font",
@@ -1257,7 +1257,7 @@
           "Nil"
         ]
       },
-      "document": "フォント一覧を表示します"
+      "document": "Show font list"
     },
     {
       "name": "print",
@@ -1274,7 +1274,7 @@
           "Nil"
         ]
       },
-      "document": "テキストを出力します"
+      "document": "Print text"
     },
     {
       "name": "print_number",
@@ -1290,7 +1290,7 @@
           "Nil"
         ]
       },
-      "document": "数値を出力します"
+      "document": "Print number"
     },
     {
       "name": "println",
@@ -1300,7 +1300,7 @@
           "Nil"
         ]
       },
-      "document": "改行付きでテキストを出力します"
+      "document": "Print text with newline"
     },
     {
       "name": "write",
@@ -1310,7 +1310,7 @@
           "Nil"
         ]
       },
-      "document": "データを書き込みます"
+      "document": "Write data"
     },
     {
       "name": "printf",
@@ -1326,7 +1326,7 @@
           "Nil"
         ]
       },
-      "document": "書式付きでテキストを出力します"
+      "document": "Print formatted text"
     },
     {
       "name": "vprintf",
@@ -1336,11 +1336,11 @@
           "Nil"
         ]
       },
-      "document": "可変引数で書式付きテキストを出力します"
+      "document": "Print formatted text with variable arguments"
     },
     {
       "name": "fill_rect",
-      "document": "塗りつぶし矩形を描画します",
+      "document": "Draw filled rectangle",
       "arguments": [
         {
           "type": [
@@ -1382,7 +1382,7 @@
           "Nil"
         ]
       },
-      "document": "角丸の塗りつぶし矩形を描画します"
+      "document": "Draw filled rounded rectangle"
     },
     {
       "name": "fill_circle",
@@ -1413,7 +1413,7 @@
           "Nil"
         ]
       },
-      "document": "塗りつぶし円を描画します"
+      "document": "Draw filled circle"
     },
     {
       "name": "fill_ellipse",
@@ -1423,7 +1423,7 @@
           "Nil"
         ]
       },
-      "document": "塗りつぶし楕円を描画します"
+      "document": "Draw filled ellipse"
     },
     {
       "name": "fill_triangle",
@@ -1469,7 +1469,7 @@
           "Nil"
         ]
       },
-      "document": "塗りつぶし三角形を描画します"
+      "document": "Draw filled triangle"
     },
     {
       "name": "fill_ellipse_arc",
@@ -1479,7 +1479,7 @@
           "Nil"
         ]
       },
-      "document": "塗りつぶし楕円弧を描画します"
+      "document": "Draw filled ellipse arc"
     },
     {
       "name": "fill_arc",
@@ -1489,7 +1489,7 @@
           "Nil"
         ]
       },
-      "document": "塗りつぶし円弧を描画します"
+      "document": "Draw filled arc"
     },
     {
       "name": "fill_circle_helper",
@@ -1499,7 +1499,7 @@
           "Nil"
         ]
       },
-      "document": "円の一部を塗りつぶします（ヘルパー関数）"
+      "document": "Fill part of circle (helper function)"
     },
     {
       "name": "fill_affine",
@@ -1509,7 +1509,7 @@
           "Nil"
         ]
       },
-      "document": "アフィン変換された領域を塗りつぶします"
+      "document": "Fill affine transformed region"
     },
     {
       "name": "fill_gradient_rect",
@@ -1519,7 +1519,7 @@
           "Nil"
         ]
       },
-      "document": "グラデーション矩形を描画します"
+      "document": "Draw gradient rectangle"
     },
     {
       "name": "fill_smooth_round_rect",
@@ -1529,7 +1529,7 @@
           "Nil"
         ]
       },
-      "document": "滑らかな角丸矩形を塗りつぶします"
+      "document": "Fill smooth rounded rectangle"
     },
     {
       "name": "fill_smooth_circle",
@@ -1539,7 +1539,7 @@
           "Nil"
         ]
       },
-      "document": "滑らかな円を塗りつぶします"
+      "document": "Fill smooth circle"
     },
     {
       "name": "fill_screen",
@@ -1555,7 +1555,7 @@
           "Nil"
         ]
       },
-      "document": "画面全体を塗りつぶします"
+      "document": "Fill entire screen"
     },
     {
       "name": "color16to8",
@@ -1571,7 +1571,7 @@
           "Int"
         ]
       },
-      "document": "16ビット色を8ビット色に変換します"
+      "document": "Convert 16-bit color to 8-bit color"
     },
     {
       "name": "color8to16",
@@ -1587,7 +1587,7 @@
           "Int"
         ]
       },
-      "document": "8ビット色を16ビット色に変換します"
+      "document": "Convert 8-bit color to 16-bit color"
     },
     {
       "name": "color16to24",
@@ -1603,7 +1603,7 @@
           "Int"
         ]
       },
-      "document": "16ビット色を24ビット色に変換します"
+      "document": "Convert 16-bit color to 24-bit color"
     },
     {
       "name": "color24to16",
@@ -1619,7 +1619,7 @@
           "Int"
         ]
       },
-      "document": "24ビット色を16ビット色に変換します"
+      "document": "Convert 24-bit color to 16-bit color"
     },
     {
       "name": "set_color",
@@ -1635,7 +1635,7 @@
           "Nil"
         ]
       },
-      "document": "描画色を設定します"
+      "document": "Set drawing color"
     },
     {
       "name": "set_raw_color",
@@ -1651,7 +1651,7 @@
           "Nil"
         ]
       },
-      "document": "生の色値を設定します"
+      "document": "Set raw color value"
     },
     {
       "name": "get_raw_color",
@@ -1661,7 +1661,7 @@
           "Int"
         ]
       },
-      "document": "生の色値を取得します"
+      "document": "Get raw color value"
     },
     {
       "name": "set_base_color",
@@ -1677,7 +1677,7 @@
           "Nil"
         ]
       },
-      "document": "ベース色を設定します"
+      "document": "Set base color"
     },
     {
       "name": "get_base_color",
@@ -1687,7 +1687,7 @@
           "Int"
         ]
       },
-      "document": "ベース色を取得します"
+      "document": "Get base color"
     },
     {
       "name": "get_palette",
@@ -1697,7 +1697,7 @@
           "Nil"
         ]
       },
-      "document": "パレットを取得します"
+      "document": "Get palette"
     },
     {
       "name": "get_palette_count",
@@ -1707,7 +1707,7 @@
           "Int"
         ]
       },
-      "document": "パレット数を取得します"
+      "document": "Get palette count"
     },
     {
       "name": "has_palette",
@@ -1717,7 +1717,7 @@
           "Bool"
         ]
       },
-      "document": "パレットが存在するかを確認します"
+      "document": "Check if palette exists"
     },
     {
       "name": "flood_fill",
@@ -1727,7 +1727,7 @@
           "Nil"
         ]
       },
-      "document": "塗りつぶしを行います"
+      "document": "Perform flood fill"
     },
     {
       "name": "paint",
@@ -1737,7 +1737,7 @@
           "Nil"
         ]
       },
-      "document": "ペイント（塗りつぶし）を行います"
+      "document": "Perform paint (fill)"
     },
     {
       "name": "map_gradient",
@@ -1747,7 +1747,7 @@
           "Nil"
         ]
       },
-      "document": "グラデーションマップを適用します"
+      "document": "Apply gradient map"
     },
     {
       "name": "qrcode",
@@ -1757,7 +1757,7 @@
           "Nil"
         ]
       },
-      "document": "QRコードを描画します"
+      "document": "Draw QR code"
     },
     {
       "name": "file",
@@ -1767,7 +1767,7 @@
           "Nil"
         ]
       },
-      "document": "ファイル操作を行います"
+      "document": "Perform file operations"
     },
     {
       "name": "create_png",
@@ -1777,7 +1777,7 @@
           "Nil"
         ]
       },
-      "document": "PNG画像を作成します"
+      "document": "Create PNG image"
     },
     {
       "name": "release_png_memory",
@@ -1787,7 +1787,7 @@
           "Nil"
         ]
       },
-      "document": "PNGメモリを解放します"
+      "document": "Release PNG memory"
     },
     {
       "name": "cp437",
@@ -1797,7 +1797,7 @@
           "Nil"
         ]
       },
-      "document": "CP437文字コードを有効にします"
+      "document": "Enable CP437 character encoding"
     },
     {
       "name": "set_attribute",
@@ -1807,7 +1807,7 @@
           "Nil"
         ]
       },
-      "document": "属性を設定します"
+      "document": "Set attribute"
     },
     {
       "name": "get_attribute",
@@ -1817,7 +1817,7 @@
           "Int"
         ]
       },
-      "document": "属性を取得します"
+      "document": "Get attribute"
     },
     {
       "name": "set_file_storage",
@@ -1827,7 +1827,7 @@
           "Nil"
         ]
       },
-      "document": "ファイルストレージを設定します"
+      "document": "Set file storage"
     },
     {
       "name": "clear_file_storage",
@@ -1837,7 +1837,7 @@
           "Nil"
         ]
       },
-      "document": "ファイルストレージをクリアします"
+      "document": "Clear file storage"
     },
     {
       "name": "prepare_tmp_transaction",
@@ -1847,7 +1847,7 @@
           "Nil"
         ]
       },
-      "document": "一時トランザクションを準備します"
+      "document": "Prepare temporary transaction"
     },
     {
       "name": "push_image",
@@ -1857,7 +1857,7 @@
           "Nil"
         ]
       },
-      "document": "画像をプッシュします"
+      "document": "Push image"
     },
     {
       "name": "push_grayscale_image",
@@ -1867,7 +1867,7 @@
           "Nil"
         ]
       },
-      "document": "グレースケール画像をプッシュします"
+      "document": "Push grayscale image"
     },
     {
       "name": "push_grayscale_image_rotate_zoom",
@@ -1877,7 +1877,7 @@
           "Nil"
         ]
       },
-      "document": "回転・拡大縮小したグレースケール画像をプッシュします"
+      "document": "Push rotated/scaled grayscale image"
     },
     {
       "name": "push_grayscale_image_affine",
@@ -1887,7 +1887,7 @@
           "Nil"
         ]
       },
-      "document": "アフィン変換したグレースケール画像をプッシュします"
+      "document": "Push affine transformed grayscale image"
     },
     {
       "name": "push_alpha_image",
@@ -1897,7 +1897,7 @@
           "Nil"
         ]
       },
-      "document": "アルファチャンネル付き画像をプッシュします"
+      "document": "Push image with alpha channel"
     },
     {
       "name": "push_block",
@@ -1907,7 +1907,7 @@
           "Nil"
         ]
       },
-      "document": "ブロックデータをプッシュします"
+      "document": "Push block data"
     },
     {
       "name": "push_pixels",
@@ -1917,7 +1917,7 @@
           "Nil"
         ]
       },
-      "document": "ピクセルデータをプッシュします"
+      "document": "Push pixel data"
     },
     {
       "name": "push_pixels_dma",
@@ -1927,7 +1927,7 @@
           "Nil"
         ]
       },
-      "document": "DMAを使用してピクセルデータをプッシュします"
+      "document": "Push pixel data using DMA"
     },
     {
       "name": "read_rect_rgb",
@@ -1937,7 +1937,7 @@
           "Nil"
         ]
       },
-      "document": "矩形領域のRGB値を読み取ります"
+      "document": "Read RGB values of rectangular region"
     },
     {
       "name": "read_rect",
@@ -1947,7 +1947,7 @@
           "Nil"
         ]
       },
-      "document": "矩形領域を読み取ります"
+      "document": "Read rectangular region"
     },
     {
       "name": "p",
@@ -1957,7 +1957,7 @@
           "Nil"
         ]
       },
-      "document": "パラメータを設定します"
+      "document": "Set parameter"
     },
     {
       "name": "copy_rect",
@@ -1998,7 +1998,7 @@
           "Nil"
         ]
       },
-      "document": "矩形領域をコピーします"
+      "document": "Copy rectangular region"
     },
     {
       "name": "scroll",
@@ -2019,7 +2019,7 @@
           "Nil"
         ]
       },
-      "document": "画面をスクロールします"
+      "document": "Scroll screen"
     },
     {
       "name": "start_write",
@@ -2029,7 +2029,7 @@
           "Nil"
         ]
       },
-      "document": "描画処理を開始します（バスを確保）"
+      "document": "Start drawing process (acquire bus)"
     },
     {
       "name": "end_write",
@@ -2039,7 +2039,7 @@
           "Nil"
         ]
       },
-      "document": "描画処理を終了します（バスを解放）"
+      "document": "End drawing process (release bus)"
     },
     {
       "name": "begin_transaction",
@@ -2049,7 +2049,7 @@
           "Nil"
         ]
       },
-      "document": "トランザクションを開始します"
+      "document": "Begin transaction"
     },
     {
       "name": "end_transaction",
@@ -2059,7 +2059,7 @@
           "Nil"
         ]
       },
-      "document": "トランザクションを終了します"
+      "document": "End transaction"
     },
     {
       "name": "get_start_count",
@@ -2069,7 +2069,7 @@
           "Int"
         ]
       },
-      "document": "スタート回数を取得します"
+      "document": "Get start count"
     },
     {
       "name": "set_window",
@@ -2079,7 +2079,7 @@
           "Nil"
         ]
       },
-      "document": "描画ウィンドウを設定します"
+      "document": "Set drawing window"
     },
     {
       "name": "set_addr_window",
@@ -2089,7 +2089,7 @@
           "Nil"
         ]
       },
-      "document": "アドレスウィンドウを設定します"
+      "document": "Set address window"
     },
     {
       "name": "write_pixel",
@@ -2099,7 +2099,7 @@
           "Nil"
         ]
       },
-      "document": "ピクセルを書き込みます"
+      "document": "Write pixel"
     },
     {
       "name": "write_fast_v_line",
@@ -2109,7 +2109,7 @@
           "Nil"
         ]
       },
-      "document": "垂直線を高速に書き込みます"
+      "document": "Write vertical line quickly"
     },
     {
       "name": "write_fast_h_line",
@@ -2119,7 +2119,7 @@
           "Nil"
         ]
       },
-      "document": "水平線を高速に書き込みます"
+      "document": "Write horizontal line quickly"
     },
     {
       "name": "write_fill_rect",
@@ -2129,7 +2129,7 @@
           "Nil"
         ]
       },
-      "document": "塗りつぶし矩形を書き込みます"
+      "document": "Write filled rectangle"
     },
     {
       "name": "write_fill_rect_preclipped",
@@ -2139,7 +2139,7 @@
           "Nil"
         ]
       },
-      "document": "クリップ済み塗りつぶし矩形を書き込みます"
+      "document": "Write pre-clipped filled rectangle"
     },
     {
       "name": "write_color",
@@ -2149,7 +2149,7 @@
           "Nil"
         ]
       },
-      "document": "色データを書き込みます"
+      "document": "Write color data"
     },
     {
       "name": "write_pixels",
@@ -2159,7 +2159,7 @@
           "Nil"
         ]
       },
-      "document": "ピクセルデータを書き込みます"
+      "document": "Write pixel data"
     },
     {
       "name": "write_pixels_dma",
@@ -2169,7 +2169,7 @@
           "Nil"
         ]
       },
-      "document": "DMAを使用してピクセルデータを書き込みます"
+      "document": "Write pixel data using DMA"
     },
     {
       "name": "init_dma",
@@ -2179,7 +2179,7 @@
           "Bool"
         ]
       },
-      "document": "DMAを初期化します"
+      "document": "Initialize DMA"
     },
     {
       "name": "wait_dma",
@@ -2189,7 +2189,7 @@
           "Nil"
         ]
       },
-      "document": "DMA転送が完了するまで待機します"
+      "document": "Wait for DMA transfer to complete"
     },
     {
       "name": "dma_busy",
@@ -2199,7 +2199,7 @@
           "Bool"
         ]
       },
-      "document": "DMAが動作中かどうかを確認します"
+      "document": "Check if DMA is busy"
     }
   ]
 }

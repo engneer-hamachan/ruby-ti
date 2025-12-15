@@ -19,7 +19,7 @@
           "OptionalInt"
         ]
       },
-      "document": "比較演算子"
+      "document": "Comparison operator"
     },
     {
       "name": "!=",
@@ -35,7 +35,7 @@
           "Bool"
         ]
       },
-      "document": "非等価比較を行う"
+      "document": "Perform inequality comparison"
     },
     {
       "name": "==",
@@ -51,7 +51,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う"
+      "document": "Perform equality comparison"
     },
     {
       "name": "===",
@@ -67,7 +67,7 @@
           "Bool"
         ]
       },
-      "document": "case等価性を判定する"
+      "document": "Judge case equality"
     },
     {
       "name": "attr_accessor",
@@ -118,7 +118,7 @@
           "String"
         ]
       },
-      "document": "オブジェクトのクラスを返す"
+      "document": "Return object class"
     },
     {
       "name": "dup",
@@ -128,7 +128,7 @@
           "Self"
         ]
       },
-      "document": "オブジェクトを複製する"
+      "document": "Duplicate object"
     },
     {
       "name": "exit",
@@ -168,7 +168,7 @@
           "String"
         ]
       },
-      "document": "デバッグ用の文字列表現を返す"
+      "document": "Return string representation for debugging"
     },
     {
       "name": "is_a?",
@@ -184,7 +184,7 @@
           "Bool"
         ]
       },
-      "document": "指定クラスまたはモジュールのインスタンスか判定する"
+      "document": "Check if instance of specified class or module"
     },
     {
       "name": "loop",
@@ -206,7 +206,7 @@
           "Bool"
         ]
       },
-      "document": "nil か判定する"
+      "document": "Check if nil"
     },
     {
       "name": "private",
@@ -326,7 +326,7 @@
           "String"
         ]
       },
-      "document": "文字列表現を返す"
+      "document": "Return string representation"
     }
   ]
 }

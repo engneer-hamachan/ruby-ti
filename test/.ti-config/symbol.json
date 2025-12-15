@@ -19,7 +19,7 @@
         ],
         "is_conditional": true
       },
-      "document": "シンボルを比較する"
+      "document": "Compare symbols"
     },
     {
       "name": "==",
@@ -35,7 +35,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う"
+      "document": "Perform equality comparison"
     },
     {
       "name": "===",
@@ -51,7 +51,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う(case文用)"
+      "document": "Perform equality comparison (for case statements)"
     },
     {
       "name": "inspect",
@@ -61,7 +61,7 @@
           "String"
         ]
       },
-      "document": "デバッグ用の文字列表現を返す"
+      "document": "Return string representation for debugging"
     },
     {
       "name": "to_sym",
@@ -71,7 +71,7 @@
           "Symbol"
         ]
       },
-      "document": "シンボルとして self を返す"
+      "document": "Return self as symbol"
     }
   ],
   "class_methods": []

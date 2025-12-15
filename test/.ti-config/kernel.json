@@ -17,7 +17,7 @@
           "SelfArgument"
         ]
       },
-      "document": "オブジェクトを inspect して出力する"
+      "document": "Inspect and output object"
     },
     {
       "name": "print",
@@ -33,7 +33,7 @@
           "Nil"
         ]
       },
-      "document": "オブジェクトを出力する"
+      "document": "Output object"
     },
     {
       "name": "puts",
@@ -50,7 +50,7 @@
           "Nil"
         ]
       },
-      "document": "オブジェクトを出力して改行する"
+      "document": "Output object with newline"
     },
     {
       "name": "system",
@@ -94,7 +94,7 @@
           "Proc"
         ]
       },
-      "document": "Procオブジェクトを作成する"
+      "document": "Create Proc object"
     },
     {
       "name": "lambda",
@@ -113,7 +113,7 @@
           "Proc"
         ]
       },
-      "document": "ラムダ式を作成する"
+      "document": "Create lambda expression"
     },
     {
       "name": "->",

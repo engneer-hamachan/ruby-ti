@@ -16,7 +16,7 @@
           "Float"
         ]
       },
-      "document": "剰余を計算する"
+      "document": "Calculate modulo"
     },
     {
       "name": "*",
@@ -32,7 +32,7 @@
           "Float"
         ]
       },
-      "document": "乗算を行う"
+      "document": "Perform multiplication"
     },
     {
       "name": "**",
@@ -48,7 +48,7 @@
           "Float"
         ]
       },
-      "document": "べき乗を計算する"
+      "document": "Calculate power"
     },
     {
       "name": "+",
@@ -64,7 +64,7 @@
           "Float"
         ]
       },
-      "document": "加算を行う"
+      "document": "Perform addition"
     },
     {
       "name": "+@",
@@ -74,7 +74,7 @@
           "Float"
         ]
       },
-      "document": "単項プラス演算子。self を返す"
+      "document": "Unary plus operator. Returns self"
     },
     {
       "name": "-",
@@ -90,7 +90,7 @@
           "Float"
         ]
       },
-      "document": "減算を行う"
+      "document": "Perform subtraction"
     },
     {
       "name": "-@",
@@ -100,7 +100,7 @@
           "Float"
         ]
       },
-      "document": "単項マイナス演算子。符号を反転する"
+      "document": "Unary minus operator. Inverts sign"
     },
     {
       "name": "/",
@@ -116,7 +116,7 @@
           "Float"
         ]
       },
-      "document": "除算を行う"
+      "document": "Perform division"
     },
     {
       "name": "<",
@@ -132,7 +132,7 @@
           "Bool"
         ]
       },
-      "document": "小なり比較を行う"
+      "document": "Perform less than comparison"
     },
     {
       "name": "<=",
@@ -148,7 +148,7 @@
           "Bool"
         ]
       },
-      "document": "以下比較を行う"
+      "document": "Perform less than or equal comparison"
     },
     {
       "name": "<=>",
@@ -165,7 +165,7 @@
           "Nil"
         ]
       },
-      "document": "比較演算子。self < other なら -1、self == other なら 0、self > other なら 1"
+      "document": "Comparison operator. Returns -1 if self < other, 0 if self == other, 1 if self > other"
     },
     {
       "name": "==",
@@ -181,7 +181,7 @@
           "Bool"
         ]
       },
-      "document": "等価比較を行う"
+      "document": "Perform equality comparison"
     },
     {
       "name": "===",
@@ -212,7 +212,7 @@
           "Bool"
         ]
       },
-      "document": "大なり比較を行う"
+      "document": "Perform greater than comparison"
     },
     {
       "name": ">=",
@@ -228,7 +228,7 @@
           "Bool"
         ]
       },
-      "document": "以上比較を行う"
+      "document": "Perform greater than or equal comparison"
     },
     {
       "name": "abs",
@@ -238,7 +238,7 @@
           "Float"
         ]
       },
-      "document": "絶対値を取得する"
+      "document": "Get absolute value"
     },
     {
       "name": "to_f",
@@ -248,7 +248,7 @@
           "Float"
         ]
       },
-      "document": "浮動小数点数として self を返す"
+      "document": "Return self as floating point number"
     },
     {
       "name": "to_i",
@@ -258,7 +258,7 @@
           "Int"
         ]
       },
-      "document": "整数に変換する(切り捨て)"
+      "document": "Convert to integer (truncate)"
     },
     {
       "name": "to_s",
@@ -268,7 +268,7 @@
           "String"
         ]
       },
-      "document": "文字列に変換する"
+      "document": "Convert to string"
     }
   ],
   "class_methods": []
