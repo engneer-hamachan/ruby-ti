@@ -14,9 +14,10 @@
       ],
       "return_type": {
         "type": [
-          "Argument"
+          "SelfArgument"
         ]
-      }
+      },
+      "document": "オブジェクトを inspect して出力する"
     },
     {
       "name": "print",
@@ -31,7 +32,8 @@
         "type": [
           "Nil"
         ]
-      }
+      },
+      "document": "オブジェクトを出力する"
     },
     {
       "name": "puts",
@@ -47,7 +49,8 @@
         "type": [
           "Nil"
         ]
-      }
+      },
+      "document": "オブジェクトを出力して改行する"
     },
     {
       "name": "system",
@@ -76,7 +79,7 @@
       ],
       "return_type": {
         "type": [
-          "Argument"
+          "SelfArgument"
         ]
       }
     },
@@ -90,13 +93,16 @@
         "type": [
           "Proc"
         ]
-      }
+      },
+      "document": "Procオブジェクトを作成する"
     },
     {
       "name": "lambda",
       "arguments": [
         {
-          "type": ["?Untyped"]
+          "type": [
+            "?Untyped"
+          ]
         }
       ],
       "block_parameters": [
@@ -106,13 +112,16 @@
         "type": [
           "Proc"
         ]
-      }
+      },
+      "document": "ラムダ式を作成する"
     },
     {
       "name": "->",
       "arguments": [
         {
-          "type": ["?Untyped"]
+          "type": [
+            "?Untyped"
+          ]
         }
       ],
       "block_parameters": [

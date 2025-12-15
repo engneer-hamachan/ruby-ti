@@ -48,7 +48,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "等価比較を行う"
     },
     {
       "name": ">",
@@ -93,7 +94,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "指定キーの値を取得する"
     },
     {
       "name": "[]=",
@@ -108,7 +110,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "指定キーに値を設定する"
     },
     {
       "name": "clear",
@@ -117,7 +120,8 @@
         "type": [
           "Hash"
         ]
-      }
+      },
+      "document": "ハッシュの全要素を削除する"
     },
     {
       "name": "delete",
@@ -134,7 +138,8 @@
           "Unify",
           "Nil"
         ]
-      }
+      },
+      "document": "指定キーを削除する"
     },
     {
       "name": "each",
@@ -146,7 +151,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "各キーと値に対してブロックを実行する"
     },
     {
       "name": "empty?",
@@ -155,7 +161,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "ハッシュが空か判定する"
     },
     {
       "name": "has_key?",
@@ -171,7 +178,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "指定キーが存在するか判定する"
     },
     {
       "name": "has_value?",
@@ -186,7 +194,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "指定値が存在するか判定する"
     },
     {
       "name": "inspect",
@@ -195,7 +204,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "デバッグ用の文字列表現を返す"
     },
     {
       "name": "key",
@@ -221,7 +231,8 @@
         "type": [
           "KeyArray"
         ]
-      }
+      },
+      "document": "全キーを配列で返す"
     },
     {
       "name": "length",
@@ -230,7 +241,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "ハッシュの要素数を返す"
     },
     {
       "name": "merge",
@@ -250,7 +262,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "ハッシュをマージした新しいハッシュを返す"
     },
     {
       "name": "merge!",
@@ -271,7 +284,8 @@
           "Self"
         ],
         "is_destructive": true
-      }
+      },
+      "document": "ハッシュを破壊的にマージする"
     },
     {
       "name": "shift",
@@ -280,7 +294,8 @@
         "type": [
           "Array"
         ]
-      }
+      },
+      "document": "最初のキーと値を削除して返す"
     },
     {
       "name": "to_h",
@@ -289,7 +304,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "ハッシュとして self を返す"
     },
     {
       "name": "values",
@@ -298,7 +314,8 @@
         "type": [
           "KeyValueArray"
         ]
-      }
+      },
+      "document": "全値を配列で返す"
     }
   ],
   "class_methods": [

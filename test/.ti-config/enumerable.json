@@ -13,7 +13,8 @@
         "type": [
           "BlockResultArray"
         ]
-      }
+      },
+      "document": "各要素に対してブロックを実行し、結果を配列で返す"
     },
     {
       "name": "each_with_index",
@@ -26,7 +27,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "各要素とインデックスに対してブロックを実行する"
     }
   ],
   "class_methods": []

@@ -24,7 +24,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "常に false を返す"
     },
     {
       "name": "===",
@@ -54,7 +55,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "引数の論理値を返す"
     },
     {
       "name": "inspect",
@@ -63,7 +65,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "\"nil\" を返す"
     },
     {
       "name": "nil?",
@@ -72,7 +75,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "true を返す"
     },
     {
       "name": "to_f",
@@ -81,7 +85,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "0.0 を返す"
     },
     {
       "name": "to_h",
@@ -90,7 +95,8 @@
         "type": [
           "Hash"
         ]
-      }
+      },
+      "document": "空ハッシュを返す"
     },
     {
       "name": "to_i",
@@ -99,7 +105,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "0 を返す"
     },
     {
       "name": "to_s",
@@ -108,7 +115,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "空文字列を返す"
     },
     {
       "name": "|",
@@ -123,7 +131,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "引数の論理値を返す"
     }
   ],
   "class_methods": []

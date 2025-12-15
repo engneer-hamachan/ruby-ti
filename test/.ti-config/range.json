@@ -18,7 +18,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "等価比較を行う"
     },
     {
       "name": "===",
@@ -33,7 +34,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "値が範囲内に含まれるか判定する"
     },
     {
       "name": "exclude_end?",
@@ -42,7 +44,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "終了値を含まないか判定する"
     },
     {
       "name": "first",
@@ -59,7 +62,8 @@
           "SelfArray"
         ],
         "is_conditional": true
-      }
+      },
+      "document": "範囲の開始値を返す"
     },
     {
       "name": "inspect",
@@ -68,7 +72,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "デバッグ用の文字列表現を返す"
     },
     {
       "name": "last",
@@ -85,7 +90,8 @@
           "SelfArray"
         ],
         "is_conditional": true
-      }
+      },
+      "document": "範囲の終了値を返す"
     },
     {
       "name": "to_s",
@@ -94,7 +100,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字列表現を返す"
     },
     {
       "name": "each",
@@ -106,7 +113,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "範囲内の各要素に対してブロックを実行する"
     }
   ],
   "class_methods": [

@@ -9,7 +9,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "GPIOピンがHIGH状態か判定する"
     },
     {
       "name": "low?",
@@ -18,7 +19,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "GPIOピンがLOW状態か判定する"
     },
     {
       "name": "open_drain",
@@ -33,7 +35,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "オープンドレイン出力モードに設定する"
     },
     {
       "name": "read",
@@ -42,7 +45,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "GPIOピンの状態を読み取る"
     },
     {
       "name": "write",
@@ -57,7 +61,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "GPIOピンに値を書き込む"
     }
   ],
   "class_methods": [
@@ -76,7 +81,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "指定ピンがHIGH状態か判定する"
     },
     {
       "name": "low_at?",
@@ -91,7 +97,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "指定ピンがLOW状態か判定する"
     },
     {
       "name": "new",
@@ -118,7 +125,8 @@
         "type": [
           "GPIO"
         ]
-      }
+      },
+      "document": "GPIOオブジェクトを作成する"
     },
     {
       "name": "open_drain_at",
@@ -135,7 +143,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "指定ピンをオープンドレイン出力モードに設定する"
     },
     {
       "name": "pull_down_at",
@@ -152,7 +161,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "指定ピンをプルダウンに設定する"
     },
     {
       "name": "pull_up_at",
@@ -169,7 +179,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "指定ピンをプルアップに設定する"
     },
     {
       "name": "read_at",
@@ -186,7 +197,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "指定ピンの状態を読み取る"
     },
     {
       "name": "set_dir_at",
@@ -208,7 +220,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "指定ピンの入出力方向を設定する"
     },
     {
       "name": "set_function_at",
@@ -230,7 +243,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "指定ピンの機能を設定する"
     },
     {
       "name": "write_at",
@@ -252,7 +266,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "指定ピンに値を書き込む"
     }
   ],
   "constants": [
@@ -262,7 +277,17 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "出力モードを表す定数"
+    },
+    {
+      "name": "IN",
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": "入力モードを表す定数"
     }
   ]
 }

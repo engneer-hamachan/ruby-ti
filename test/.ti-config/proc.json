@@ -16,7 +16,8 @@
         "type": [
           "Untyped"
         ]
-      }
+      },
+      "document": "Procを呼び出す"
     }
   ],
   "class_methods": [

@@ -9,7 +9,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "論理否定を返す"
     },
     {
       "name": "*",
@@ -24,7 +25,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字列を指定回数繰り返す"
     },
     {
       "name": "+",
@@ -39,7 +41,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字列を連結する"
     },
     {
       "name": "<",
@@ -54,7 +57,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "辞書順で比較して小さいか判定する"
     },
     {
       "name": "<<",
@@ -70,7 +74,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字列または文字コードを追加する"
     },
     {
       "name": "<=",
@@ -85,7 +90,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "辞書順で比較して以下か判定する"
     },
     {
       "name": "<=>",
@@ -100,7 +106,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "辞書順で比較する。self < other なら -1、self == other なら 0、self > other なら 1"
     },
     {
       "name": "==",
@@ -115,7 +122,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "等価比較を行う"
     },
     {
       "name": "===",
@@ -130,7 +138,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "等価比較を行う(case文用)"
     },
     {
       "name": ">",
@@ -145,7 +154,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "辞書順で比較して大きいか判定する"
     },
     {
       "name": ">=",
@@ -160,7 +170,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "辞書順で比較して以上か判定する"
     },
     {
       "name": "[]",
@@ -176,7 +187,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "指定位置の文字または部分文字列を取得する"
     },
     {
       "name": "[]=",
@@ -196,7 +208,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "指定位置の文字または部分文字列を置換する"
     },
     {
       "name": "__ljust_rjust_argcheck",
@@ -212,7 +225,8 @@
         "type": [
           "Nil"
         ]
-      }
+      },
+      "document": "ljustとrjustの引数チェック用内部メソッド"
     },
     {
       "name": "bytes",
@@ -221,7 +235,8 @@
         "type": [
           "IntArray"
         ]
-      }
+      },
+      "document": "文字列のバイト列を配列で返す"
     },
     {
       "name": "chars",
@@ -230,7 +245,8 @@
         "type": [
           "StringArray"
         ]
-      }
+      },
+      "document": "文字列の文字を配列で返す"
     },
     {
       "name": "chomp",
@@ -245,7 +261,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "末尾の改行文字を除いた文字列を返す"
     },
     {
       "name": "chomp!",
@@ -261,7 +278,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "末尾の改行文字を破壊的に除く"
     },
     {
       "name": "clear",
@@ -270,7 +288,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字列の内容を空にする"
     },
     {
       "name": "downcase",
@@ -290,7 +309,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "小文字に変換した文字列を返す"
     },
     {
       "name": "downcase!",
@@ -311,7 +331,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "小文字に破壊的に変換する"
     },
     {
       "name": "each_byte",
@@ -323,7 +344,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "各バイトに対してブロックを実行する"
     },
     {
       "name": "each_char",
@@ -335,7 +357,8 @@
         "type": [
           "Self"
         ]
-      }
+      },
+      "document": "各文字に対してブロックを実行する"
     },
     {
       "name": "each_line",
@@ -347,7 +370,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "各行に対してブロックを実行する"
     },
     {
       "name": "empty?",
@@ -356,7 +380,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "文字列が空か判定する"
     },
     {
       "name": "end_with?",
@@ -372,7 +397,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "指定文字列で終わるか判定する"
     },
     {
       "name": "getbyte",
@@ -388,7 +414,8 @@
           "Int",
           "Nil"
         ]
-      }
+      },
+      "document": "指定位置のバイト値を取得する"
     },
     {
       "name": "include?",
@@ -403,7 +430,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "指定文字列を含むか判定する"
     },
     {
       "name": "index",
@@ -420,7 +448,8 @@
           "Int",
           "Nil"
         ]
-      }
+      },
+      "document": "指定文字列の最初の位置を返す"
     },
     {
       "name": "inspect",
@@ -429,7 +458,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "デバッグ用の文字列表現を返す"
     },
     {
       "name": "intern",
@@ -438,7 +468,8 @@
         "type": [
           "Symbol"
         ]
-      }
+      },
+      "document": "シンボルに変換する"
     },
     {
       "name": "length",
@@ -447,7 +478,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "文字列の長さを返す"
     },
     {
       "name": "ljust",
@@ -467,7 +499,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "左詰めして指定幅に合わせた文字列を返す"
     },
     {
       "name": "lstrip",
@@ -476,7 +509,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "先頭の空白を除いた文字列を返す"
     },
     {
       "name": "lstrip!",
@@ -486,7 +520,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "先頭の空白を破壊的に除く"
     },
     {
       "name": "ord",
@@ -495,7 +530,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "最初の文字の文字コードを返す"
     },
     {
       "name": "rjust",
@@ -515,7 +551,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "右詰めして指定幅に合わせた文字列を返す"
     },
     {
       "name": "rstrip",
@@ -524,7 +561,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "末尾の空白を除いた文字列を返す"
     },
     {
       "name": "rstrip!",
@@ -534,7 +572,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "末尾の空白を破壊的に除く"
     },
     {
       "name": "split",
@@ -554,7 +593,8 @@
         "type": [
           "StringArray"
         ]
-      }
+      },
+      "document": "区切り文字で分割して配列を返す"
     },
     {
       "name": "start_with?",
@@ -570,7 +610,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "指定文字列で始まるか判定する"
     },
     {
       "name": "strip",
@@ -579,7 +620,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "前後の空白を除いた文字列を返す"
     },
     {
       "name": "strip!",
@@ -589,7 +631,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "前後の空白を破壊的に除く"
     },
     {
       "name": "to_f",
@@ -598,7 +641,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "浮動小数点数に変換する"
     },
     {
       "name": "to_i",
@@ -613,7 +657,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "整数に変換する"
     },
     {
       "name": "to_s",
@@ -622,7 +667,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字列として self を返す"
     },
     {
       "name": "to_sym",
@@ -631,7 +677,8 @@
         "type": [
           "Symbol"
         ]
-      }
+      },
+      "document": "シンボルに変換する"
     },
     {
       "name": "tr",
@@ -651,7 +698,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字を置換した文字列を返す"
     },
     {
       "name": "tr!",
@@ -672,7 +720,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "文字を破壊的に置換する"
     },
     {
       "name": "upcase",
@@ -692,7 +741,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "大文字に変換した文字列を返す"
     },
     {
       "name": "upcase!",
@@ -713,7 +763,8 @@
           "String",
           "Nil"
         ]
-      }
+      },
+      "document": "大文字に破壊的に変換する"
     }
   ]
 }

@@ -24,7 +24,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "論理AND演算を行う"
     },
     {
       "name": "===",
@@ -54,7 +55,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "論理XOR演算を行う"
     },
     {
       "name": "to_s",
@@ -78,7 +80,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "論理OR演算を行う"
     }
   ],
   "class_methods": []

@@ -15,7 +15,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "剰余を計算する"
     },
     {
       "name": "*",
@@ -30,7 +31,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "乗算を行う"
     },
     {
       "name": "**",
@@ -45,7 +47,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "べき乗を計算する"
     },
     {
       "name": "+",
@@ -60,7 +63,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "加算を行う"
     },
     {
       "name": "+@",
@@ -69,7 +73,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "単項プラス演算子。self を返す"
     },
     {
       "name": "-",
@@ -84,7 +89,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "減算を行う"
     },
     {
       "name": "-@",
@@ -93,7 +99,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "単項マイナス演算子。符号を反転する"
     },
     {
       "name": "/",
@@ -108,7 +115,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "除算を行う"
     },
     {
       "name": "<",
@@ -123,7 +131,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "小なり比較を行う"
     },
     {
       "name": "<=",
@@ -138,7 +147,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "以下比較を行う"
     },
     {
       "name": "<=>",
@@ -154,7 +164,8 @@
           "Int",
           "Nil"
         ]
-      }
+      },
+      "document": "比較演算子。self < other なら -1、self == other なら 0、self > other なら 1"
     },
     {
       "name": "==",
@@ -169,7 +180,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "等価比較を行う"
     },
     {
       "name": "===",
@@ -199,7 +211,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "大なり比較を行う"
     },
     {
       "name": ">=",
@@ -214,7 +227,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "以上比較を行う"
     },
     {
       "name": "abs",
@@ -223,7 +237,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "絶対値を取得する"
     },
     {
       "name": "to_f",
@@ -232,7 +247,8 @@
         "type": [
           "Float"
         ]
-      }
+      },
+      "document": "浮動小数点数として self を返す"
     },
     {
       "name": "to_i",
@@ -241,7 +257,8 @@
         "type": [
           "Int"
         ]
-      }
+      },
+      "document": "整数に変換する(切り捨て)"
     },
     {
       "name": "to_s",
@@ -250,7 +267,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "文字列に変換する"
     }
   ],
   "class_methods": []

@@ -18,7 +18,8 @@
           "OptionalInt"
         ],
         "is_conditional": true
-      }
+      },
+      "document": "シンボルを比較する"
     },
     {
       "name": "==",
@@ -33,7 +34,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "等価比較を行う"
     },
     {
       "name": "===",
@@ -48,7 +50,8 @@
         "type": [
           "Bool"
         ]
-      }
+      },
+      "document": "等価比較を行う(case文用)"
     },
     {
       "name": "inspect",
@@ -57,7 +60,8 @@
         "type": [
           "String"
         ]
-      }
+      },
+      "document": "デバッグ用の文字列表現を返す"
     },
     {
       "name": "to_sym",
@@ -66,7 +70,8 @@
         "type": [
           "Symbol"
         ]
-      }
+      },
+      "document": "シンボルとして self を返す"
     }
   ],
   "class_methods": []
