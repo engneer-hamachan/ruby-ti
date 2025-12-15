@@ -30,9 +30,7 @@ Ruby-TI is a **static type analyzer for mruby** written in Go. It performs type 
 Experience the joy of Ruby's dynamic typing with the safety of static type checking!
 
 <p align="center">
-  <video src="image/ruby-ti-demo.mp4" width="700" controls>
-    Your browser does not support the video tag.
-  </video>
+  <img src="image/ruby-ti-demo.gif" alt="Ruby-TI Demo" width="700"/>
 </p>
 
 ## ✨ Features in Action
