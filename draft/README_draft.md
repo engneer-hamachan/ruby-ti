@@ -30,10 +30,34 @@ Ruby-TI is a **static type analyzer for mruby** written in Go. It performs type 
 Experience the joy of Ruby's dynamic typing with the safety of static type checking!
 
 <p align="center">
-  <img src="image/sample2.png" alt="Ruby-TI in action" width="700"/>
+  <video src="image/ruby-ti-demo.mp4" width="700" controls>
+    Your browser does not support the video tag.
+  </video>
 </p>
 
-### ✨ Why Ruby-TI?
+## ✨ Features in Action
+
+**Diagnostics**: Real-time type error detection
+<p align="center">
+  <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
+</p>
+
+**Hover Information**: Inspect types on hover
+<p align="center">
+  <img src="image/hover.png" alt="Hover type information" width="700"/>
+</p>
+
+**Auto-completion**: Intelligent code suggestions
+<p align="center">
+  <img src="image/suggest.png" alt="Auto-completion" width="700"/>
+</p>
+
+**Code Actions**: Quick fixes and refactoring
+<p align="center">
+  <img src="image/codeaction.png" alt="Code actions" width="700"/>
+</p>
+
+### 💭 Why Ruby-TI?
 
 I love Ruby. You write code, you run it immediately—no complex type systems to learn. Whether it's a morning inspiration or a quick experiment during a break, Ruby has always been there.
 
