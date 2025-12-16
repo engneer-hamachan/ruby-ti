@@ -5,8 +5,8 @@
 </p>
 
 <p align="center">
+  <a href="#features-in-action">Features</a> •
   <a href="#quick-start">Quick Start</a> •
-  <a href="#project-setup">Project Setup</a> •
   <a href="#supported-classes">Supported Classes</a> •
   <a href="#documentation">Documentation</a>
 </p>
@@ -29,6 +29,39 @@ Experience the joy of Ruby's dynamic typing with the safety of static type check
   <img src="image/ruby-ti-demo.gif" alt="Ruby-TI Demo" width="700"/>
 </p>
 
+---
+
+## ✨ Features in Action
+
+### Diagnostics
+Real-time type error detection
+
+<p align="center">
+  <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
+</p>
+
+### Hover Information
+Inspect types on hover
+
+<p align="center">
+  <img src="image/hover.png" alt="Hover type information" width="700"/>
+</p>
+
+### Auto-completion
+Intelligent code suggestions
+
+<p align="center">
+  <img src="image/suggest.png" alt="Auto-completion" width="700"/>
+</p>
+
+### Code Actions
+Quick fixes and refactoring
+
+<p align="center">
+  <img src="image/codeaction.png" alt="Code actions" width="700"/>
+</p>
+
+---
 
 ## 🚀 Quick Start
 
@@ -111,56 +144,16 @@ Install the VSCode extension:
 code --install-extension /path/to/ruby-ti-lsp/vscode/ruby-ti-lsp-0.1.0.vsix
 ```
 
----
-
-## ✨ Features in Action
-
-### Diagnostics
-Real-time type error detection
-
-<p align="center">
-  <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
-</p>
-
-### Hover Information
-Inspect types on hover
-
-<p align="center">
-  <img src="image/hover.png" alt="Hover type information" width="700"/>
-</p>
-
-### Auto-completion
-Intelligent code suggestions
-
-<p align="center">
-  <img src="image/suggest.png" alt="Auto-completion" width="700"/>
-</p>
-
-### Code Actions
-Quick fixes and refactoring
-
-<p align="center">
-  <img src="image/codeaction.png" alt="Code actions" width="700"/>
-</p>
-
----
-
-## 📁 Project Setup
+#### 4. Project Setup
 
 To use Ruby-TI in your Ruby project:
 
 ```bash
-# Navigate to your Ruby project
 cd your-ruby-project
-
-# Copy the .ti-config directory
 cp -r /path/to/ruby-ti/.ti-config .
-
-# (Optional) Customize for your mruby environment
-# Edit .ti-config/*.json files
 ```
 
-The `.ti-config` directory contains type definitions for Ruby built-in classes. You can customize these to match your specific mruby environment.
+The `.ti-config` directory contains type definitions for Ruby built-in classes. You can customize these to match your specific mruby environment by editing `.ti-config/*.json` files.
 
 ---
 
