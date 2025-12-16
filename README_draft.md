@@ -1,106 +1,80 @@
+<div align="center">
+
 # Ruby-TI
 
-<p align="center">
-  <strong>Type Inference for MRuby without Type Annotations</strong>
-</p>
+**Static type checking for MRuby. No annotations required.**
 
-<p align="center">
-  <a href="#features-in-action">Features</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#supported-classes">Supported Classes</a> •
-  <a href="#documentation">Documentation</a>
-</p>
+[Features](#-features) · [Quick Start](#-quick-start) · [Configuration](#-configuration) · [Documentation](#-documentation)
 
-<p align="center">
-  <img alt="Go Version" src="https://img.shields.io/badge/Go-1.24.5+-00ADD8?style=flat&logo=go">
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-green.svg">
-  <img alt="mruby" src="https://img.shields.io/badge/mruby-compatible-red.svg">
-</p>
+[![Go Version](https://img.shields.io/badge/Go-1.24.5+-00ADD8?style=flat&logo=go)](https://go.dev/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![mruby](https://img.shields.io/badge/mruby-compatible-cc342d.svg)](https://mruby.org/)
+
+</div>
 
 ---
 
-## 💡 What is Ruby-TI?
+Ruby-TI is a static type analyzer for MRuby that performs type inference and checking on your Ruby code without requiring type annotations. Write Ruby naturally and get real-time type feedback in your editor.
 
-Ruby-TI is a **static type analyzer for MRuby** written in Go. It performs type inference and type checking on your Ruby code **without requiring any type annotations**. Just write Ruby as you always do, and Ruby-TI will analyze your code in real-time through your editor.
-
-Experience the joy of Ruby's dynamic typing with the safety of static type checking!
+**The power of static typing. The freedom of Ruby.**
 
 <p align="center">
   <img src="image/ruby-ti-demo.gif" alt="Ruby-TI Demo" width="700"/>
 </p>
 
----
+## Features
 
-## 🚀 Quick Start
+- **Zero-annotation type inference** - No need to write type signatures. Ruby-TI analyzes your code automatically
+- **Real-time feedback** - Get instant type checking as you code through LSP integration
+- **Customizable type system** - Define types that match your mruby environment
+- **Editor integration** - Works with Neovim, VSCode, and any LSP-compatible editor
+- **PicoRuby focused** - Built with embedded Ruby environments in mind
 
-### Prerequisites
+## Requirements
 
-- Go 1.24.5 or higher
+- **Go 1.24.5+** for building from source
+- **Neovim** or **VSCode** (or any LSP-compatible editor)
+
+## Quick Start
+
+**Install Ruby-TI:**
 
 ```bash
-go version
-```
-
-### Installation
-
-#### 1. Install Ruby-TI
-
-```bash
-cd /path/to/your_directory
 git clone https://github.com/engneer-hamachan/ruby-ti.git
 cd ruby-ti
 make install
-
-# Add to your shell profile (e.g., ~/.bashrc, ~/.zshrc, ~/.bash_profile)
-echo 'export PATH="$PATH:'$(pwd)'/bin"' >> ~/.bash_profile
-source ~/.bash_profile
+export PATH="$PATH:$(pwd)/bin"
 ```
 
-#### 2. Install LSP Server
+**Install LSP Server:**
 
 ```bash
-cd /path/to/your_directory
 git clone https://github.com/engneer-hamachan/ruby-ti-lsp.git
 cd ruby-ti-lsp
 make install
-
-# Add to your shell profile (e.g., ~/.bashrc, ~/.zshrc, ~/.bash_profile)
-echo 'export PATH="$PATH:'$(pwd)'/bin"' >> ~/.bash_profile
-source ~/.bash_profile
+export PATH="$PATH:$(pwd)/bin"
 ```
 
-#### 3. Configure Your Editor
+**Setup your project:**
 
-##### Neovim
+```bash
+cd your-ruby-project
+cp -r /path/to/ruby-ti/.ti-config .
+```
 
-Use your preferred LSP plugin. Example configuration for coc.nvim (coc-settings.json):
+**Configure your editor** - See [Editor Setup](#editor-setup) for detailed configuration.
+
+That's it! Open a Ruby file and start coding with type checking enabled.
+
+## Editor Setup
+
+<details>
+<summary>Neovim (coc.nvim)</summary>
+
+Add to your `coc-settings.json`:
 
 ```json
 {
-  "hover.target": "float",
-  "codeLens.enable": true,
-  "codeLens.separator": " #",
-  "codeLens.position": "eol",
-  "diagnostic.virtualText": true,
-  "diagnostic.virtualTextCurrentLineOnly": false,
-  "diagnostic.enableMessage": "never",
-  "workspace.openResourceCommand": "edit",
-  "suggest.floatConfig": {
-    "border": true,
-    "rounded": true
-  },
-  "hover.floatConfig": {
-    "border": true,
-    "rounded": true
-  },
-  "signature.floatConfig": {
-    "border": true,
-    "rounded": true
-  },
-  "diagnostic.floatConfig": {
-    "border": true,
-    "rounded": true
-  },
   "languageserver": {
     "ruby-ti": {
       "command": "ti-lsp",
@@ -110,103 +84,74 @@ Use your preferred LSP plugin. Example configuration for coc.nvim (coc-settings.
 }
 ```
 
-##### VSCode
+</details>
 
-Install the VSCode extension:
+<details>
+<summary>VSCode</summary>
+
+Install the extension:
 
 ```bash
 code --install-extension /path/to/ruby-ti-lsp/vscode/ruby-ti-lsp-0.1.0.vsix
 ```
 
-#### 4. Project Setup
+</details>
 
-To use Ruby-TI in your Ruby project:
+<details>
+<summary>Other Editors</summary>
 
-```bash
-cd your-ruby-project
-cp -r /path/to/ruby-ti/.ti-config .
-```
+Configure your LSP client to run `ti-lsp` for Ruby files. The server follows standard LSP protocols.
 
-The `.ti-config` directory contains type definitions for Ruby built-in classes. You can customize these to match your specific mruby environment by editing `.ti-config/*.json` files.
+</details>
 
----
+## Screenshots
 
-## ✨ Features in Action
-
-### Diagnostics
-Real-time type error detection
+**Diagnostics** - Real-time type error detection
 
 <p align="center">
   <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
 </p>
 
-### Hover Information
-Inspect types on hover
+**Hover Information** - Inspect types on hover
 
 <p align="center">
   <img src="image/hover.png" alt="Hover type information" width="700"/>
 </p>
 
-### Auto-completion
-Intelligent code suggestions
+**Auto-completion** - Intelligent code suggestions
 
 <p align="center">
   <img src="image/suggest.png" alt="Auto-completion" width="700"/>
 </p>
 
-### Code Actions
-Quick fixes and refactoring
+**Code Actions** - Quick fixes and refactoring
 
 <p align="center">
   <img src="image/codeaction.png" alt="Code actions" width="700"/>
 </p>
 
----
+## Configuration
 
-## 📚 Supported Classes
+### Supported Classes
 
-Ruby-TI is gradually expanding support centered around PicoRuby:
+Ruby-TI currently supports:
 
-- **Array** 
-- **Bool** 
-- **Class**
-- **Enumerable** 
-- **Float** 
-- **GPIO** 
-- **Hash** 
-- **Integer** 
-- **Kernel** 
-- **Math** 
-- **Nil** 
-- **Object** 
-- **Proc** 
-- **Range** 
-- **String**
-- **Symbol** 
+`Array` · `Bool` · `Class` · `Enumerable` · `Float` · `GPIO` · `Hash` · `Integer` · `Kernel` · `Math` · `Nil` · `Object` · `Proc` · `Range` · `String` · `Symbol`
 
-### Customize for Your Needs
+### Customization
 
-The classes listed above are just the default configuration. **Ruby-TI aims to express the types that live in every Rubyist's heart.**
+The `.ti-config` directory contains type definitions that you can customize for your specific mruby environment. Edit the JSON files to define types that make sense for your workflow.
 
-We encourage you to customize `.ti-config` to define types that make sense to you and create documentation that fits your workflow. Make Ruby-TI truly yours!
+See the [Configuration Guide](./docs/ti-config.md) for detailed customization options.
 
----
+## Documentation
 
-## 📖 Documentation
-### 📘 User Guides
-- **[.ti-config Configuration Guide](./docs/ti-config.md)** - How to customize type definitions for your mruby environment
----
+- [.ti-config Configuration Guide](./docs/ti-config.md) - Customize type definitions for your environment
 
-## 🤝 Contributing
+## Contributing
 
-**We especially welcome issues!** While pull requests might be challenging at this stage due to the project's active development, we'd love to hear about bugs, feature requests, and any feedback you have.
----
+Issues and feedback are especially welcome! While the project is in active development and pull requests may be challenging to integrate, we'd love to hear about bugs, feature requests, and your experience using Ruby-TI.
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License.
-
----
-<p align="center">
-  <a href="https://github.com/engneer-hamachan/ruby-ti">⭐ Star us on GitHub</a>
-</p>
+MIT License - see [LICENSE](LICENSE) for details
