@@ -21,7 +21,7 @@
 
 ## 💡 What is Ruby-TI?
 
-Ruby-TI is a **static type analyzer for mruby** written in Go. It performs type inference and type checking on your Ruby code **without requiring any type annotations**. Just write Ruby as you always do, and Ruby-TI will analyze your code in real-time through your editor.
+Ruby-TI is a **static type analyzer for MRuby** written in Go. It performs type inference and type checking on your Ruby code **without requiring any type annotations**. Just write Ruby as you always do, and Ruby-TI will analyze your code in real-time through your editor.
 
 Experience the joy of Ruby's dynamic typing with the safety of static type checking!
 
@@ -189,8 +189,6 @@ Ruby-TI is gradually expanding support centered around PicoRuby:
 The classes listed above are just the default configuration. **Ruby-TI aims to express the types that live in every Rubyist's heart.**
 
 We encourage you to customize `.ti-config` to define types that make sense to you and create documentation that fits your workflow. Make Ruby-TI truly yours!
-
-> 💡 **See the [.ti-config Configuration Guide](./docs/ti-config.md)** to learn how to add and customize type definitions.
 
 ---
 
