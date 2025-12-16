@@ -167,22 +167,22 @@ Quick fixes and refactoring
 
 Ruby-TI is gradually expanding support centered around PicoRuby:
 
-- **Array** - Array operations
-- **Bool** - Boolean values (true/false)
-- **Class** - Class objects
-- **Enumerable** - Enumerable module
-- **Float** - Floating-point arithmetic
-- **GPIO** - GPIO control for PicoRuby
-- **Hash** - Hash operations
-- **Integer** - Integer arithmetic
-- **Kernel** - Kernel module
-- **Math** - Mathematical functions
-- **Nil** - Nil type
-- **Object** - Base class
-- **Proc** - Proc/Lambda objects
-- **Range** - Range objects
-- **String** - String manipulation
-- **Symbol** - Symbols
+- **Array** 
+- **Bool** 
+- **Class**
+- **Enumerable** 
+- **Float** 
+- **GPIO** 
+- **Hash** 
+- **Integer** 
+- **Kernel** 
+- **Math** 
+- **Nil** 
+- **Object** 
+- **Proc** 
+- **Range** 
+- **String**
+- **Symbol** 
 
 ### Customize for Your Needs
 
@@ -200,8 +200,6 @@ We encourage you to customize `.ti-config` to define types that make sense to yo
 ## 🤝 Contributing
 
 **We especially welcome issues!** While pull requests might be challenging at this stage due to the project's active development, we'd love to hear about bugs, feature requests, and any feedback you have.
-
-Ruby-TI is being actively and rapidly improved by the author. Your issues help guide development and make Ruby-TI better for everyone!
 ---
 
 ## 📄 License
