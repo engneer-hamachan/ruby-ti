@@ -115,15 +115,13 @@ Each JSON file defines a Ruby class with its methods and constants:
 - `"KeyValueArray"` - Array of hash values
 
 ### Advanced Types
-- `"Self"` - Instance object (for method chaining)
+- `"Self"` - Instance object
 - `"Unify"` - Unified union type for Hash/Array/Union
 - `"OptionalUnify"` - Nil or Unify
 - `"BlockResultArray"` - Array of block results
 - `"SelfArray"` - Convert instance to array
 - `"Argument"` - Return argument as-is
 - `"UnifyArgument"` - Return unified argument
-- `"DefaultBlock"` - Default argument block
-- `"DefaultUntyped"` - Default argument untyped
 
 ## Example: GPIO Class for PicoRuby
 

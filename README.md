@@ -4,8 +4,6 @@
 
 **Static type checking for MRuby. No annotations required.**
 
-[Features](#-features) · [Quick Start](#-quick-start) · [Configuration](#-configuration) · [Documentation](#-documentation)
-
 [![Go Version](https://img.shields.io/badge/Go-1.24.5+-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![mruby](https://img.shields.io/badge/mruby-compatible-cc342d.svg)](https://mruby.org/)
@@ -28,7 +26,7 @@ Ruby-TI is a static type analyzer for MRuby that performs type inference and che
 - **Real-time feedback** - Get instant type checking as you code through LSP integration
 - **Customizable type system** - Define types that match your mruby environment
 - **Editor integration** - Works with Neovim, VSCode, and any LSP-compatible editor
-- **PicoRuby focused** - Built with embedded Ruby environments in mind
+- **MRuby focused** - Built with embedded Ruby environments in mind
 
 ## Requirements
 
@@ -142,7 +140,7 @@ Ruby-TI is expanding support with a focus on **PicoRuby** and embedded environme
 
 `Array` · `Bool` · `Class` · `Enumerable` · `Float` · `GPIO` · `Hash` · `Integer` · `Kernel` · `Math` · `Nil` · `Object` · `Proc` · `Range` · `String` · `Symbol`
 
-More classes and PicoRuby-specific features are being added continuously.
+More classes and PicoRuby features are being added continuously.
 
 ### Customization
 
