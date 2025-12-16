@@ -1,11 +1,7 @@
 # Ruby-TI
 
 <p align="center">
-  <img src="logo.svg" alt="Ruby-TI Logo" width="400"/>
-</p>
-
-<p align="center">
-  <strong>Type Inference for Ruby without Type Annotations</strong>
+  <strong>Type Inference for MRuby without Type Annotations</strong>
 </p>
 
 <p align="center">
@@ -33,35 +29,6 @@ Experience the joy of Ruby's dynamic typing with the safety of static type check
   <img src="image/ruby-ti-demo.gif" alt="Ruby-TI Demo" width="700"/>
 </p>
 
-## ✨ Features in Action
-
-**Diagnostics**: Real-time type error detection
-<p align="center">
-  <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
-</p>
-
-**Hover Information**: Inspect types on hover
-<p align="center">
-  <img src="image/hover.png" alt="Hover type information" width="700"/>
-</p>
-
-**Auto-completion**: Intelligent code suggestions
-<p align="center">
-  <img src="image/suggest.png" alt="Auto-completion" width="700"/>
-</p>
-
-**Code Actions**: Quick fixes and refactoring
-<p align="center">
-  <img src="image/codeaction.png" alt="Code actions" width="700"/>
-</p>
-
-### 💭 Why Ruby-TI?
-
-I love Ruby. You write code, you run it immediately—no complex type systems to learn. Whether it's a morning inspiration or a quick experiment during a break, Ruby has always been there.
-
-Ruby-TI makes these moments even better. **Write Ruby freely, get type safety automatically.** It's a fresh and fun development experience.
-
----
 
 ## 🚀 Quick Start
 
@@ -88,7 +55,29 @@ cd ruby-ti-lsp
 make install
 ```
 
----
+## ✨ Features in Action
+
+**Diagnostics**: Real-time type error detection
+<p align="center">
+  <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
+</p>
+
+**Hover Information**: Inspect types on hover
+<p align="center">
+  <img src="image/hover.png" alt="Hover type information" width="700"/>
+</p>
+
+**Auto-completion**: Intelligent code suggestions
+<p align="center">
+  <img src="image/suggest.png" alt="Auto-completion" width="700"/>
+</p>
+
+**Code Actions**: Quick fixes and refactoring
+<p align="center">
+  <img src="image/codeaction.png" alt="Code actions" width="700"/>
+</p>
+
+
 
 ## 📁 Project Setup
 
