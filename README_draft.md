@@ -42,28 +42,31 @@ go version
 
 ### Installation
 
-```bash
-# Install Ruby-TI
-cd /path/to/your_directory
+#### 1. Install Ruby-TI
 
+```bash
+cd /path/to/your_directory
 git clone https://github.com/engneer-hamachan/ruby-ti.git
 cd ruby-ti
 make install
 export PATH="$PATH:$(pwd)/bin"
+```
 
-# Install LSP Server
+#### 2. Install LSP Server
+
+```bash
 cd /path/to/your_directory
-
 git clone https://github.com/engneer-hamachan/ruby-ti-lsp.git
 cd ruby-ti-lsp
 make install
 export PATH="$PATH:$(pwd)/bin"
 ```
 
-#### Editor setting
-#### Neovim
+#### 3. Configure Your Editor
 
-Use your preferred LSP plugin. Example configuration for coc.nvim(coc-settings.json):
+##### Neovim
+
+Use your preferred LSP plugin. Example configuration for coc.nvim (coc-settings.json):
 
 ```json
 {
@@ -100,7 +103,7 @@ Use your preferred LSP plugin. Example configuration for coc.nvim(coc-settings.j
 }
 ```
 
-#### VSCode
+##### VSCode
 
 Install the VSCode extension:
 
@@ -108,29 +111,39 @@ Install the VSCode extension:
 code --install-extension /path/to/ruby-ti-lsp/vscode/ruby-ti-lsp-0.1.0.vsix
 ```
 
+---
+
 ## ✨ Features in Action
 
-**Diagnostics**: Real-time type error detection
+### Diagnostics
+Real-time type error detection
+
 <p align="center">
   <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
 </p>
 
-**Hover Information**: Inspect types on hover
+### Hover Information
+Inspect types on hover
+
 <p align="center">
   <img src="image/hover.png" alt="Hover type information" width="700"/>
 </p>
 
-**Auto-completion**: Intelligent code suggestions
+### Auto-completion
+Intelligent code suggestions
+
 <p align="center">
   <img src="image/suggest.png" alt="Auto-completion" width="700"/>
 </p>
 
-**Code Actions**: Quick fixes and refactoring
+### Code Actions
+Quick fixes and refactoring
+
 <p align="center">
   <img src="image/codeaction.png" alt="Code actions" width="700"/>
 </p>
 
-
+---
 
 ## 📁 Project Setup
 
