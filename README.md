@@ -131,6 +131,22 @@ Configure your LSP client to run `ti-lsp` for Ruby files. The server follows sta
   <img src="image/codeaction.png" alt="Code actions" width="700"/>
 </p>
 
+**Inline Documentation** - View method documentation directly in editor
+
+<p align="center">
+  <img src="image/inline_document.png" alt="Inline documentation" width="700"/>
+</p>
+
+**External File Loading** - Analyze types across multiple files
+
+<p align="center">
+  <img src="image/load_external_file1.png" alt="External file loading - Definition" width="700"/>
+</p>
+
+<p align="center">
+  <img src="image/load_external_file2.png" alt="External file loading - Usage" width="700"/>
+</p>
+
 ## Configuration
 
 ### Supported Classes
