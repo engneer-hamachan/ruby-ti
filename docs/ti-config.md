@@ -123,7 +123,7 @@ Each JSON file defines a Ruby class with its methods and constants:
 - `"Argument"` - Return argument as-is
 - `"UnifyArgument"` - Return unified argument
 
-## Example: GPIO Class for PicoRuby
+## Example
 
 ```json
 {
