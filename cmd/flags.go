@@ -1,5 +1,7 @@
 package cmd
 
+const Version = "v1.0"
+
 type ExecuteFlags struct {
 	IsDefineInfo    bool
 	IsDefineAllInfo bool
@@ -7,6 +9,7 @@ type ExecuteFlags struct {
 	IsAllType       bool
 	IsExtends       bool
 	IsHover         bool
+	IsVersion       bool
 }
 
 func NewExecuteFlags() *ExecuteFlags {

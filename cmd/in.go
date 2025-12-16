@@ -35,6 +35,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsHover = true
 	}
 
+	if hasFlag("--version") || hasFlag("-v") {
+		flags.IsVersion = true
+	}
+
 	return flags
 }
 
@@ -85,6 +89,10 @@ func ValidateArgs() {
 	}
 
 	if hasFlag("--extends") {
+		return
+	}
+
+	if hasFlag("--version") || hasFlag("-v") {
 		return
 	}
 

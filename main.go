@@ -122,6 +122,12 @@ func main() {
 		cmd.ValidateArgs()
 		flags := cmd.BuildFlags()
 
+		if flags.IsVersion {
+			cmd.PrintVersion()
+			done <- true
+			return
+		}
+
 		if flags.IsAllType {
 			cmd.PrintAllTypes()
 			done <- true

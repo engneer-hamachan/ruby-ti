@@ -278,3 +278,7 @@ func PrintHover(p parser.Parser) {
 		}
 	}
 }
+
+func PrintVersion() {
+	fmt.Println("ruby-ti version " + Version)
+}
