@@ -31,38 +31,6 @@ Experience the joy of Ruby's dynamic typing with the safety of static type check
 
 ---
 
-## ✨ Features in Action
-
-### Diagnostics
-Real-time type error detection
-
-<p align="center">
-  <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
-</p>
-
-### Hover Information
-Inspect types on hover
-
-<p align="center">
-  <img src="image/hover.png" alt="Hover type information" width="700"/>
-</p>
-
-### Auto-completion
-Intelligent code suggestions
-
-<p align="center">
-  <img src="image/suggest.png" alt="Auto-completion" width="700"/>
-</p>
-
-### Code Actions
-Quick fixes and refactoring
-
-<p align="center">
-  <img src="image/codeaction.png" alt="Code actions" width="700"/>
-</p>
-
----
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -82,7 +50,10 @@ cd /path/to/your_directory
 git clone https://github.com/engneer-hamachan/ruby-ti.git
 cd ruby-ti
 make install
-export PATH="$PATH:$(pwd)/bin"
+
+# Add to your shell profile (e.g., ~/.bashrc, ~/.zshrc, ~/.bash_profile)
+echo 'export PATH="$PATH:'$(pwd)'/bin"' >> ~/.bash_profile
+source ~/.bash_profile
 ```
 
 #### 2. Install LSP Server
@@ -92,7 +63,10 @@ cd /path/to/your_directory
 git clone https://github.com/engneer-hamachan/ruby-ti-lsp.git
 cd ruby-ti-lsp
 make install
-export PATH="$PATH:$(pwd)/bin"
+
+# Add to your shell profile (e.g., ~/.bashrc, ~/.zshrc, ~/.bash_profile)
+echo 'export PATH="$PATH:'$(pwd)'/bin"' >> ~/.bash_profile
+source ~/.bash_profile
 ```
 
 #### 3. Configure Your Editor
@@ -157,69 +131,79 @@ The `.ti-config` directory contains type definitions for Ruby built-in classes. 
 
 ---
 
+## ✨ Features in Action
+
+### Diagnostics
+Real-time type error detection
+
+<p align="center">
+  <img src="image/diagnostic.png" alt="Type diagnostics" width="700"/>
+</p>
+
+### Hover Information
+Inspect types on hover
+
+<p align="center">
+  <img src="image/hover.png" alt="Hover type information" width="700"/>
+</p>
+
+### Auto-completion
+Intelligent code suggestions
+
+<p align="center">
+  <img src="image/suggest.png" alt="Auto-completion" width="700"/>
+</p>
+
+### Code Actions
+Quick fixes and refactoring
+
+<p align="center">
+  <img src="image/codeaction.png" alt="Code actions" width="700"/>
+</p>
+
+---
+
 ## 📚 Supported Classes
 
-Ruby-TI comes with built-in support for the following classes and modules (gradually expanding PicoRuby support):
+Ruby-TI is gradually expanding support centered around PicoRuby:
 
-### Core Classes
-- 🔢 **Integer** - Integer arithmetic
-- 🔢 **Float** - Floating-point arithmetic
-- 📝 **String** - String manipulation
-- 🔣 **Symbol** - Symbols
-- ✅ **Bool** - Boolean values (true/false)
-- ❌ **Nil** - Nil type
+- **Array** - Array operations
+- **Bool** - Boolean values (true/false)
+- **Class** - Class objects
+- **Enumerable** - Enumerable module
+- **Float** - Floating-point arithmetic
+- **GPIO** - GPIO control for PicoRuby
+- **Hash** - Hash operations
+- **Integer** - Integer arithmetic
+- **Kernel** - Kernel module
+- **Math** - Mathematical functions
+- **Nil** - Nil type
+- **Object** - Base class
+- **Proc** - Proc/Lambda objects
+- **Range** - Range objects
+- **String** - String manipulation
+- **Symbol** - Symbols
 
-### Collections
-- 📦 **Array** - Array operations
-- 🗂️ **Hash** - Hash operations
-- 📏 **Range** - Range objects
+### Customize for Your Needs
 
-### Advanced Types
-- 🔧 **Object** - Base class
-- 🏗️ **Class** - Class objects
-- 🎯 **Proc** - Proc/Lambda objects
-- 🔄 **Enumerable** - Enumerable module
-- 🧮 **Math** - Mathematical functions
-- 🌐 **Kernel** - Kernel module
+The classes listed above are just the default configuration. **Ruby-TI aims to express the types that live in every Rubyist's heart.**
 
-### PicoRuby Support
-- ⚡ **GPIO** - GPIO control for PicoRuby
-- 🌐 **JS** / **JSObject** - JavaScript interop for PicoRuby
+We encourage you to customize `.ti-config` to define types that make sense to you and create documentation that fits your workflow. Make Ruby-TI truly yours!
 
-> 💡 **Tip**: You can add custom classes by creating JSON files in `.ti-config/`. See [Builtin JSON Guide](./docs/builtin-json.md) for details.
+> 💡 **See the [.ti-config Configuration Guide](./docs/ti-config.md)** to learn how to add and customize type definitions.
 
 ---
 
 ## 📖 Documentation
-
 ### 📘 User Guides
-- **[Builtin JSON Guide](./docs/builtin-json.md)** - How to add and customize type definitions
-- **[Editor Setup Guide](https://github.com/engneer-hamachan/ruby-ti-lsp)** - VSCode/Vim/Neovim configuration
-
-### 🔧 Developer Resources
-- **[Developer Documentation](./CLAUDE.md)** - Architecture, development workflow, and contribution guidelines
-
-### 🎬 Getting Started with Your Editor
-
-Ruby-TI works best with LSP integration in your editor:
-
-- **VSCode**: Full support with Code Lens, diagnostics, and auto-completion
-- **Vim/Neovim**: Native LSP support with type annotations
-- **Other LSP-compatible editors**: Should work out of the box
-
-See the [ruby-ti-lsp repository](https://github.com/engneer-hamachan/ruby-ti-lsp) for detailed setup instructions.
-
+- **[.ti-config Configuration Guide](./docs/ti-config.md)** - How to customize type definitions for your mruby environment
 ---
 
 ## 🤝 Contributing
 
-We welcome bug reports, feature requests, and pull requests! Feel free to open an issue or submit a PR.
+**We especially welcome issues!** While pull requests might be challenging at this stage due to the project's active development, we'd love to hear about bugs, feature requests, and any feedback you have.
 
-### How to Contribute
-1. 🐛 **Report bugs** - Found an issue? Let us know!
-2. 💡 **Suggest features** - Have an idea? We'd love to hear it!
-3. 🔧 **Submit PRs** - Contributions are always welcome!
-
+Ruby-TI is being actively and rapidly improved by the author. Your issues help guide development and make Ruby-TI better for everyone!
 ---
 
 ## 📄 License
@@ -227,11 +211,6 @@ We welcome bug reports, feature requests, and pull requests! Feel free to open a
 This project is licensed under the MIT License.
 
 ---
-
-<p align="center">
-  Made with ❤️ for the Ruby community
-</p>
-
 <p align="center">
   <a href="https://github.com/engneer-hamachan/ruby-ti">⭐ Star us on GitHub</a>
 </p>
