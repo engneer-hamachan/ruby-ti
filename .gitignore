@@ -14,4 +14,3 @@ feature-*.md
 .ti-config/*
 .ti-config-test/*
 .ti-config.bak/*
-docs/*
