@@ -6,7 +6,6 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.24.5+-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![mruby](https://img.shields.io/badge/mruby-compatible-cc342d.svg)](https://mruby.org/)
 
 </div>
 
