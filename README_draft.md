@@ -44,15 +44,68 @@ go version
 
 ```bash
 # Install Ruby-TI
+cd /path/to/your_directory
+
 git clone https://github.com/engneer-hamachan/ruby-ti.git
 cd ruby-ti
 make install
 export PATH="$PATH:$(pwd)/bin"
 
 # Install LSP Server
+cd /path/to/your_directory
+
 git clone https://github.com/engneer-hamachan/ruby-ti-lsp.git
 cd ruby-ti-lsp
 make install
+export PATH="$PATH:$(pwd)/bin"
+```
+
+#### Editor setting
+#### Neovim
+
+Use your preferred LSP plugin. Example configuration for coc.nvim(coc-settings.json):
+
+```json
+{
+  "hover.target": "float",
+  "codeLens.enable": true,
+  "codeLens.separator": " #",
+  "codeLens.position": "eol",
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "diagnostic.enableMessage": "never",
+  "workspace.openResourceCommand": "edit",
+  "suggest.floatConfig": {
+    "border": true,
+    "rounded": true
+  },
+  "hover.floatConfig": {
+    "border": true,
+    "rounded": true
+  },
+  "signature.floatConfig": {
+    "border": true,
+    "rounded": true
+  },
+  "diagnostic.floatConfig": {
+    "border": true,
+    "rounded": true
+  },
+  "languageserver": {
+    "ruby-ti": {
+      "command": "ti-lsp",
+      "filetypes": ["ruby", "json"]
+    }
+  }
+}
+```
+
+#### VSCode
+
+Install the VSCode extension:
+
+```bash
+code --install-extension /path/to/ruby-ti-lsp/vscode/ruby-ti-lsp-0.1.0.vsix
 ```
 
 ## ✨ Features in Action
