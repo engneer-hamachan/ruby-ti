@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"slices"
 	"strconv"
@@ -97,7 +98,9 @@ func ValidateArgs() {
 	}
 
 	if len(os.Args) == 1 {
-		panic("want one argument!")
+		fmt.Println("Error: Please specify a Ruby file to analyze")
+		fmt.Println("Usage: ti <file.rb> [options]")
+		os.Exit(1)
 	}
 }
 
