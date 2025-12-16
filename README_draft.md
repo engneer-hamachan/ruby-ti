@@ -43,7 +43,9 @@ Ruby-TI is a static type analyzer for MRuby that performs type inference and che
 git clone https://github.com/engneer-hamachan/ruby-ti.git
 cd ruby-ti
 make install
-export PATH="$PATH:$(pwd)/bin"
+
+# Add to PATH (fish example):
+set -x PATH "/path/to/ruby-ti/bin:$PATH"
 ```
 
 **Install LSP Server:**
@@ -52,7 +54,9 @@ export PATH="$PATH:$(pwd)/bin"
 git clone https://github.com/engneer-hamachan/ruby-ti-lsp.git
 cd ruby-ti-lsp
 make install
-export PATH="$PATH:$(pwd)/bin"
+
+# Add to PATH (fish example):
+set -x PATH "/path/to/ruby-ti-lsp/bin:$PATH"
 ```
 
 **Setup your project:**
@@ -134,9 +138,11 @@ Configure your LSP client to run `ti-lsp` for Ruby files. The server follows sta
 
 ### Supported Classes
 
-Ruby-TI currently supports:
+Ruby-TI is expanding support with a focus on **PicoRuby** and embedded environments:
 
 `Array` · `Bool` · `Class` · `Enumerable` · `Float` · `GPIO` · `Hash` · `Integer` · `Kernel` · `Math` · `Nil` · `Object` · `Proc` · `Range` · `String` · `Symbol`
+
+More classes and PicoRuby-specific features are being added continuously.
 
 ### Customization
 
