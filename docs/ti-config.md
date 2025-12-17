@@ -44,7 +44,7 @@ Each JSON file defines a Ruby class with its methods and constants:
   "arguments": [
     {
       "type": ["String"],
-      "key": "keyword_name",
+      "key": "keyword_name:",
       "is_asterisk": false
     }
   ],
@@ -177,7 +177,7 @@ Each JSON file defines a Ruby class with its methods and constants:
    ```json
    {
      "type": ["String"],
-     "key": "name"
+     "key": "name:"
    }
    ```
 
