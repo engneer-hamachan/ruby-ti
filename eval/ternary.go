@@ -65,7 +65,7 @@ func (r *Ternary) Evaluation(
 
 	unionT := base.MakeUnion(variants)
 
-	p.SetLastEvaluatedT(unionT)
+	p.SetLastEvaluatedT(unionT.UnifyVariants())
 
 	return nil
 }
