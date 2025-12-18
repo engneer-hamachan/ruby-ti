@@ -1,16 +1,6 @@
-result.txt
 ti
 bin
 sample**.rb
-test.rb
 CLAUDE.md
-CLAUDE_ja.md
-todo.md
-**/*.rbs
-rbs_test/*
-builtin.json
-feature-*.md
 .ti-loader.json
 .ti-config/*
-.ti-config-test/*
-.ti-config.bak/*
