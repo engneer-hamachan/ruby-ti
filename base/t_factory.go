@@ -121,6 +121,14 @@ func MakeBool() *T {
 	return NewT("Bool", BOOL, "bool")
 }
 
+func MakeBuiltinDefaultBool() *T {
+	t := NewT("Bool", BOOL, "bool")
+	t.hasDefault = true
+	t.isBuiltin = true
+
+	return t
+}
+
 func MakeNil() *T {
 	return NewT("Nil", NIL, "nil")
 }

@@ -97,6 +97,7 @@ var AllTypeNames = []string{
 	"Nil",
 	"Symbol",
 	"Bool",
+	"DefaultBool",
 	"Block",
 	"DefaultBlock",
 	"Range",
@@ -178,6 +179,8 @@ func parseTypeString(typeStr string) base.T {
 		return SymbolT
 	case "Bool":
 		return BoolT
+	case "DefaultBool":
+		return DefaultBoolT
 	case "Block":
 		return BlockT
 	case "DefaultBlock":

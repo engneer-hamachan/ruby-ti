@@ -7,6 +7,7 @@ var (
 	NilT              = *base.MakeNil()
 	SymbolT           = *base.MakeAnySymbol()
 	BoolT             = *base.MakeBool()
+	DefaultBoolT      = *base.MakeBuiltinDefaultBool()
 	RangeT            = *base.MakeRange()
 	BlockResultArrayT = *base.MakeBlockResultArray()
 	//Block
