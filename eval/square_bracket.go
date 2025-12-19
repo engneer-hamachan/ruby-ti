@@ -97,6 +97,8 @@ func (e *Evaluator) arrayReferenceEvaluation(
 
 		arrayT.AppendArrayVariant(p.GetLastEvaluatedT())
 
+		setDefineInfos(p, p.ErrorRow)
+
 		base.SetValueT(
 			ctx.GetFrame(),
 			ctx.GetClass(),
@@ -178,6 +180,7 @@ func (e *Evaluator) hashReferenceEvaluation(
 		}
 
 		valueT := p.GetLastEvaluatedT()
+		setDefineInfos(p, p.ErrorRow)
 
 		var keyvalueT *base.T
 
