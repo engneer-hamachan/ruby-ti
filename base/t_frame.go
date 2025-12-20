@@ -541,9 +541,20 @@ func SetConstValueT(frame string, class string, variable string, t *T) {
 }
 
 func GetConstValueT(frame string, class string, variable string) *T {
-	frame = CalculateFrame(frame, class)
 
-	t, ok := TFrame[constTFrameKey(frame, variable)]
+	calculatedFrame := CalculateFrame(frame, class)
+
+	t, ok := TFrame[constTFrameKey(calculatedFrame, variable)]
+	if ok {
+		return t
+	}
+
+	t, ok = TFrame[constTFrameKey("Builtin"+"::"+calculatedFrame, variable)]
+	if ok {
+		return t
+	}
+
+	t, ok = TFrame[constTFrameKey("Builtin"+"::"+calculatedFrame, variable)]
 	if ok {
 		return t
 	}
