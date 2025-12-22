@@ -140,6 +140,10 @@ func printSuggestion(contents, detail string, document string) {
 }
 
 func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
+	if len(targetT.ToString()) == 0 {
+		return false
+	}
+
 	if unicode.IsUpper(rune(targetT.ToString()[0])) {
 		return false
 	}

@@ -40,6 +40,7 @@ func NewMethodEvaluator(
 		if ctx.IsDefineStatic {
 			objectT = base.MakeClass(ctx.GetClass())
 		}
+
 	default:
 		evaluatedObjectT = objectT
 

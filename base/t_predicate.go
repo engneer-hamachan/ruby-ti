@@ -232,6 +232,10 @@ func (t *T) IsPredicateIdentifier() bool {
 }
 
 func (t *T) IsEmpty() bool {
+	if t.GetType() == STRING {
+		return false
+	}
+
 	return t.ToString() == ""
 }
 
