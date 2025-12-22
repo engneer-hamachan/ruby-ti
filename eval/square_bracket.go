@@ -139,13 +139,16 @@ func (e *Evaluator) hashReferenceEvaluation(
 		return err
 	}
 
-	_, ok, err := p.ReadWithCheck("]")
-	if err != nil {
-		return err
-	}
+	// TODO: do'nt skip eval
+	for {
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
 
-	if !ok {
-		return fmt.Errorf("syntax error")
+		if nextT.IsTargetIdentifier("]") || nextT == nil {
+			break
+		}
 	}
 
 	_, isEquale, err := p.ReadWithCheck("=")
