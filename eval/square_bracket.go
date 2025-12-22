@@ -137,13 +137,18 @@ func (e *Evaluator) hashReferenceEvaluation(
 
 	defineRow := p.ErrorRow
 
-	keyT, err := p.Read()
+	nextT, err := p.Read()
 	if err != nil {
 		return err
 	}
 
 	// skip to end braquet
 	for {
+		err = e.Eval(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
+
 		nextT, err := p.Read()
 		if err != nil {
 			return err
@@ -154,6 +159,8 @@ func (e *Evaluator) hashReferenceEvaluation(
 		}
 	}
 
+	keyT := p.GetLastEvaluatedT()
+
 	_, isEquale, err := p.ReadWithCheck("=")
 	if err != nil {
 		return err
@@ -163,6 +170,7 @@ func (e *Evaluator) hashReferenceEvaluation(
 	// a[:b] = 1
 	case true:
 		ctx.IsBind = true
+		p.EndParsingExpression()
 
 		p.SkipNewline()
 
