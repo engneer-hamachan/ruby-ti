@@ -35,6 +35,8 @@ func (e *Evaluator) arrayReferenceEvaluation(
 	arrayT *base.T,
 ) error {
 
+	defineRow := p.ErrorRow
+
 	for {
 		id, isCloseParentheses, err := p.ReadWithCheck("]")
 		if err != nil {
@@ -96,8 +98,7 @@ func (e *Evaluator) arrayReferenceEvaluation(
 		}
 
 		arrayT.AppendArrayVariant(p.GetLastEvaluatedT())
-
-		setDefineInfos(p, p.ErrorRow)
+		setDefineInfos(p, defineRow)
 
 		base.SetValueT(
 			ctx.GetFrame(),
@@ -134,12 +135,14 @@ func (e *Evaluator) hashReferenceEvaluation(
 	hashT *base.T,
 ) error {
 
+	defineRow := p.ErrorRow
+
 	keyT, err := p.Read()
 	if err != nil {
 		return err
 	}
 
-	// TODO: do not skip eval
+	// skip to end braquet
 	for {
 		nextT, err := p.Read()
 		if err != nil {
@@ -183,7 +186,7 @@ func (e *Evaluator) hashReferenceEvaluation(
 		}
 
 		valueT := p.GetLastEvaluatedT()
-		setDefineInfos(p, p.ErrorRow)
+		setDefineInfos(p, defineRow)
 
 		var keyvalueT *base.T
 
