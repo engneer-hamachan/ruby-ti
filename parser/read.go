@@ -95,7 +95,7 @@ func (p *Parser) Read() (*base.T, error) {
 
 	case base.STRING:
 		stringValue := p.Lexer.Value().(string)
-		t = base.MakeString(stringValue)
+		t = base.MakeString()
 
 		if p.BeforeString != stringValue {
 			// Count newlines in string and increment p.Row accordingly

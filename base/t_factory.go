@@ -52,8 +52,8 @@ func MakeBuiltinDefaultFloat() *T {
 	return t
 }
 
-func MakeString(val string) *T {
-	return NewT("String", STRING, val)
+func MakeString() *T {
+	return NewT("String", STRING, "string")
 }
 
 func MakeAnyString() *T {
