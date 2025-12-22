@@ -139,7 +139,7 @@ func (e *Evaluator) hashReferenceEvaluation(
 		return err
 	}
 
-	// TODO: do'nt skip eval
+	// TODO: do not skip eval
 	for {
 		nextT, err := p.Read()
 		if err != nil {
