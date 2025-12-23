@@ -328,6 +328,10 @@ func getEvaluatedArgs(
 			return argTs, err
 		}
 
+		if t.IsCommaIdentifier() {
+			m.parser.LastCallT = nil
+		}
+
 		if m.isNotArgT(methodT, argTs, t) {
 			break
 		}
