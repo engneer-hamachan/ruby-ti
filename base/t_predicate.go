@@ -492,6 +492,10 @@ func (t *T) IsAsteriskPrefix() bool {
 		return false
 	}
 
+	if !t.IsIdentifierType() {
+		return false
+	}
+
 	return IsAsteriskPrefix(t.ToString()) && !IsDoubleAsteriskPrefix(t.ToString())
 }
 
