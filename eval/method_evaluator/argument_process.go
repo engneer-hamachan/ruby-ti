@@ -329,7 +329,7 @@ func getEvaluatedArgs(
 		}
 
 		if t.IsCommaIdentifier() {
-			m.parser.LastCallT = nil
+			m.parser.LastCallT = t
 		}
 
 		if m.isNotArgT(methodT, argTs, t) {
