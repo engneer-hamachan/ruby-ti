@@ -285,6 +285,8 @@ func (e *Evaluator) stringReferenceEvaluation(
 	switch isEquale {
 	// a[0] = 1
 	case true:
+		p.EndParsingExpression()
+
 		methodT := base.GetMethodT(ctx.GetFrame(), "String", "[]=", false)
 		if methodT == nil {
 			return fmt.Errorf("[]= is not defined method")
