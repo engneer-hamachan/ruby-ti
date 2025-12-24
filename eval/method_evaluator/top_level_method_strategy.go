@@ -31,13 +31,11 @@ func (t *topLevelMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 
 	switch m.ctx.IsDefineStatic {
 	case true:
-		// TODO: refact start
 		methodT = base.GetTopLevelClassMethodT(m.ctx.GetFrame(), class, m.method)
 
 		if methodT == nil {
 			methodT = base.GetTopLevelMethodT(m.ctx.GetFrame(), class, m.method)
 		}
-		// TODO: refact end
 	default:
 		methodT = base.GetTopLevelMethodT(m.ctx.GetFrame(), class, m.method)
 	}
