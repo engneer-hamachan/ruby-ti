@@ -1,0 +1,21 @@
+{
+  "frame": "Builtin",
+  "class": "Child",
+  "extends": ["Parent"],
+  "instance_methods": [
+    {
+      "name": "xxx",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      },
+      "document": ""
+    }
+  ],
+  "class_methods": [
+  ],
+  "constants": null
+}
+
