@@ -61,11 +61,12 @@ func (b *Bind) handleScalarAsigntment(
 
 	rightT := p.GetLastEvaluatedT()
 
-	// TODO: a[0]
 	nextT, err = p.Read()
 	if err != nil {
 		return err
 	}
+
+	// x = a[0]
 	switch nextT.IsTargetIdentifier("[") {
 	case true:
 		e.Eval(p, ctx, nextT)
@@ -73,7 +74,6 @@ func (b *Bind) handleScalarAsigntment(
 	default:
 		p.Unget()
 	}
-	// TODO: end
 
 	if leftT.HasDefault() {
 		return nil

@@ -433,19 +433,17 @@ func loadBuiltinFromJSON() error {
 		}
 
 		// extends Other Class
-		// TODO: refact start
 		for _, class := range classDef.Extends {
 			classNode := base.ClassNode{Frame: classDef.Frame, Class: classDef.Class}
 
 			var parentNode base.ClassNode
-			if strings.Contains(class, "::") {
-				parts := strings.Split(class, "::")
-				if len(parts) == 2 {
-					parentNode = base.ClassNode{Frame: parts[0], Class: parts[1]}
-				} else {
-					parentNode = base.ClassNode{Frame: classDef.Frame, Class: class}
-				}
-			} else {
+
+			parts := strings.Split(class, "::")
+
+			switch len(parts) {
+			case 2:
+				parentNode = base.ClassNode{Frame: parts[0], Class: parts[1]}
+			default:
 				parentNode = base.ClassNode{Frame: classDef.Frame, Class: class}
 			}
 
@@ -456,9 +454,7 @@ func loadBuiltinFromJSON() error {
 			base.ClassInheritanceMap[classNode] =
 				append(base.ClassInheritanceMap[classNode], parentNode)
 		}
-		// TODO: refact end
 
-		// set Defined Class
 		d.SetDefinedClass()
 	}
 

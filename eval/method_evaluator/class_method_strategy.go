@@ -29,7 +29,7 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 
 	class = m.objectT.ToString()
 
-	// TODO: GetClassMethodTに統合する
+	// TODO: move to GetClassMethodT
 	calculatedFrame := m.ctx.GetFrame()
 
 	if m.ctx.GetClass() != "" {
@@ -60,7 +60,7 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 	if methodT == nil {
 		return "", nil, m.makeNotDefinedMethodError(class, m.method, "class")
 	}
-	// ここまで
+	// end
 
 	methodT.SetBeforeEvaluateCode(class + "." + m.method)
 

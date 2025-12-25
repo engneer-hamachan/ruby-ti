@@ -370,7 +370,6 @@ func getEvaluatedArgs(
 				return argTs, err
 			}
 
-			// TODO: move target identifier to IsPowerUp
 			if m.parser.LastCallT.IsPowerUp(nextT) || nextT.IsTargetIdentifier("[") {
 				err = m.outerEval.Eval(m.parser, m.ctx, nextT)
 				if err != nil {

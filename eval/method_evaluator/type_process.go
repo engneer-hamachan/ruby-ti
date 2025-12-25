@@ -415,7 +415,6 @@ func getDefinedArgT(
 			methodT.IsStatic,
 		)
 
-	// TODO: design later
 	if definedArgT == nil {
 		definedArgT =
 			base.GetValueT(

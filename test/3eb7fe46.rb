@@ -1,4 +1,4 @@
-# TODO: static と instanceの名前の引当をちゃんと切り分ける
+
 
 class Hoge
   def self.test x

@@ -7,7 +7,6 @@ type MethodEvaluateStrategy interface {
 }
 
 func NewStrategy(m *MethodEvaluator) MethodEvaluateStrategy {
-	// TODO: 継承から引くようにする
 	dynamicStrategy, ok :=
 		dynamicStrategies[[2]string{
 			m.evaluatedObjectT.GetObjectClass(),
@@ -37,7 +36,6 @@ func NewStrategy(m *MethodEvaluator) MethodEvaluateStrategy {
 	if ok {
 		return dynamicStrategy
 	}
-	//ここまで
 
 	if m.objectT.ToString() == "union" {
 		return &unionInstanceStrategy{}
