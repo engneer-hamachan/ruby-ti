@@ -29,7 +29,7 @@ func (c *classMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 
 	class = m.objectT.ToString()
 
-	// TODO: move to GetClassMethodT
+	// GetClassMethod with nested scope lookup.
 	calculatedFrame := m.ctx.GetFrame()
 
 	if m.ctx.GetClass() != "" {
