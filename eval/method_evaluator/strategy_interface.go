@@ -1,5 +1,7 @@
 package method_evaluator
 
+import "ti/base"
+
 var dynamicStrategies = make(map[[2]string]MethodEvaluateStrategy)
 
 type MethodEvaluateStrategy interface {
@@ -46,6 +48,11 @@ func NewStrategy(m *MethodEvaluator) MethodEvaluateStrategy {
 	}
 
 	if m.objectT.IsClassType() {
+		return &classMethodStrategy{}
+	}
+
+	// for single char class (e.g: class H end;)
+	if base.IsClassDefined([]string{m.ctx.GetFrame()}, m.objectT.ToString()) && len(m.objectT.ToString()) == 1 {
 		return &classMethodStrategy{}
 	}
 
