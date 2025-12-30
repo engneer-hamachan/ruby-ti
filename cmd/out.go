@@ -44,10 +44,6 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 	targetT := p.LspSuggestTargetT
 
 	switch targetT.GetType() {
-	case base.UNKNOWN:
-		for _, sig := range base.GetSortedTSignatures() {
-			printSuggestion(sig.Method, sig.Detail, sig.Document)
-		}
 	case base.UNION:
 		for _, variant := range targetT.GetVariants() {
 			for _, sig := range base.GetSortedTSignatures() {
