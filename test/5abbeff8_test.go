@@ -12,7 +12,7 @@ func Test5abbeff8(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := ""
+	expectedOutput := "./5abbeff8.rb:::27:::type mismatch: expected Array<untyped>, but got Integer for Array.+"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
