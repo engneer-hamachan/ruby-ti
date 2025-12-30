@@ -1,0 +1,38 @@
+bash ./shell/test.sh
+--- FAIL: Test62143a36 (0.03s)
+    62143a36_test.go:19: Expected output: ./62143a36.rb:::25:::Hoge.test is protect method
+        ./62143a36.rb:::39:::Hoge.test is protect method, but got: ./62143a36.rb:::39:::Hoge.test is protect method
+--- FAIL: Test4a951f47 (0.03s)
+    4a951f47_test.go:18: Expected output: , but got: ./4a951f47.rb:::31:::too few arguments for Piyo.test expected (Integer, unknown)
+--- FAIL: Test26f0216a (0.03s)
+    26f0216a_test.go:18: Expected output: , but got: ./26f0216a.rb:::2:::type mismatch: expected Proc, but got Proc for User.scope
+--- FAIL: Test1bb99c0a (0.03s)
+    1bb99c0a_test.go:19: Expected output: ./1bb99c0a.rb:::3:::Point
+        ./1bb99c0a.rb:::12:::Point, but got: ./1bb99c0a.rb:::3:::Union<Point Point>
+        ./1bb99c0a.rb:::12:::Point
+--- FAIL: Test18db56e0 (0.03s)
+    18db56e0_test.go:18: Expected output: , but got: ./18db56e0.rb:::31:::type mismatch: expected String, but got Integer for String.+
+--- FAIL: TestE42270bb (0.03s)
+    e42270bb_test.go:19: Expected output: ./e42270bb.rb:::3:::too few arguments for ActiveRecord::Base::scope expected (Symbol, Proc)
+        ./e42270bb.rb:::4:::too few arguments for ActiveRecord::Base::has_one expected (Symbol, optional untyped), but got: ./e42270bb.rb:::2:::type mismatch: expected Proc, but got Proc for User.scope
+        ./e42270bb.rb:::3:::too few arguments for ActiveRecord::Base::scope expected (Symbol, Proc)
+        ./e42270bb.rb:::4:::too few arguments for ActiveRecord::Base::has_one expected (Symbol, optional untyped)
+--- FAIL: TestD29ae395 (0.02s)
+    d29ae395_test.go:19: Expected output: ./d29ae395.rb:::2:::Nil
+        ./d29ae395.rb:::3:::type mismatch: expected Proc, but got Integer for User.scope, but got: ./d29ae395.rb:::2:::type mismatch: expected Proc, but got Proc for User.scope
+        ./d29ae395.rb:::2:::Proc
+        ./d29ae395.rb:::3:::type mismatch: expected Proc, but got Integer for User.scope
+--- FAIL: TestBe5f2a5b (0.03s)
+    be5f2a5b_test.go:18: Expected output: , but got: ./be5f2a5b.rb:::15:::type mismatch: expected Union<Integer Float>, but got String for Hoge.test
+--- FAIL: Test8e7480e2 (0.03s)
+    8e7480e2_test.go:21: Expected output: ./8e7480e2.rb:::14:::ActiveRecord::Relation
+        ./8e7480e2.rb:::15:::User
+        ./8e7480e2.rb:::17:::ActiveRecord::Relation
+        ./8e7480e2.rb:::18:::User, but got: ./8e7480e2.rb:::2:::type mismatch: expected Proc, but got Proc for User.scope
+        ./8e7480e2.rb:::14:::ActiveRecord::Relation
+        ./8e7480e2.rb:::15:::User
+        ./8e7480e2.rb:::17:::ActiveRecord::Relation
+        ./8e7480e2.rb:::18:::User
+FAIL
+FAIL	ti/test	3.280s
+FAIL

@@ -170,7 +170,7 @@ func propagationForCalledTo(
 			unionVariants = append(unionVariants, *argT)
 		}
 
-		unionT := base.MakeUnion(unionVariants)
+		unionT := base.MakeUnion(unionVariants).UnifyVariants()
 
 		unionT.SetHasDefault(definedArgT.HasDefault())
 		unionT.SetIsWhenCallType(definedArgT.IsWhenCallType())

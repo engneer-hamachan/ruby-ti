@@ -333,6 +333,10 @@ func (t *T) IsMatchType(targetT *T) bool {
 		return true
 	}
 
+	if t.tType == OBJECT && targetT.tType == OBJECT {
+		return t.GetObjectClass() == targetT.GetObjectClass()
+	}
+
 	return t.tType == targetT.tType
 }
 

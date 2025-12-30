@@ -42,27 +42,43 @@ func PrintAllDefinitionsForLsp(p parser.Parser) {
 
 func PrintSuggestionsForLsp(p parser.Parser) {
 	targetT := p.LspSuggestTargetT
-	isPrinted := false
 
-	for _, sig := range base.GetSortedTSignatures() {
-		if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
+	switch targetT.GetType() {
+	case base.UNKNOWN:
+		for _, sig := range base.GetSortedTSignatures() {
 			printSuggestion(sig.Method, sig.Detail, sig.Document)
-			isPrinted = true
-			continue
+		}
+	case base.UNION:
+		for _, variant := range targetT.GetVariants() {
+			for _, sig := range base.GetSortedTSignatures() {
+				if isSuggest(variant, sig) {
+					printSuggestion(sig.Method, sig.Detail, sig.Document)
+				}
+			}
+		}
+	default:
+		isPrinted := false
+
+		for _, sig := range base.GetSortedTSignatures() {
+			if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
+				printSuggestion(sig.Method, sig.Detail, sig.Document)
+				isPrinted = true
+				continue
+			}
+
+			if isSuggest(targetT, sig) {
+				printSuggestion(sig.Method, sig.Detail, sig.Document)
+				isPrinted = true
+			}
 		}
 
-		if isSuggest(targetT, sig) {
-			printSuggestion(sig.Method, sig.Detail, sig.Document)
-			isPrinted = true
+		if isPrinted {
+			return
 		}
-	}
 
-	if isPrinted {
-		return
-	}
-
-	if targetT.IsIdentifierType() && unicode.IsUpper(rune(targetT.ToString()[0])) {
-		printAllClasses()
+		if targetT.IsIdentifierType() && unicode.IsUpper(rune(targetT.ToString()[0])) {
+			printAllClasses()
+		}
 	}
 }
 
