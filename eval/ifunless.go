@@ -29,6 +29,21 @@ func (i *IfUnless) isSpecialCtxMethod(t *base.T) bool {
 }
 
 func (i *IfUnless) convertClassNameToTobject(class string) *base.T {
+	switch class {
+	case "String":
+		return base.MakeAnyString()
+	case "Integer":
+		return base.MakeAnyInt()
+	case "Float":
+		return base.MakeAnyFloat()
+	case "Nil":
+		return base.MakeNil()
+	case "Hash":
+		return base.MakeAnyHash()
+	case "Array":
+		return base.MakeAnyArray()
+	}
+
 	return base.MakeObject(class)
 }
 
