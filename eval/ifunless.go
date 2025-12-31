@@ -42,6 +42,8 @@ func (i *IfUnless) convertClassNameToTobject(class string) *base.T {
 		return base.MakeAnyHash()
 	case "Array":
 		return base.MakeAnyArray()
+	case "Bool":
+		return base.MakeBool()
 	}
 
 	return base.MakeObject(class)
