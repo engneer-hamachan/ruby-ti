@@ -542,7 +542,7 @@ func (e *Evaluator) referenceEvaluation(
 	default:
 		p.SkipToTargetToken("]")
 
-		if t.IsTargetClassObject("Proc") {
+		if t.IsTargetClassObject("Proc") || t.IsAnyType() {
 			p.SetLastEvaluatedT(base.MakeUntyped())
 			return nil
 		}
