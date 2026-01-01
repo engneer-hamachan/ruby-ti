@@ -175,6 +175,10 @@ func (d *Def) makeDefineArgVariables(
 			break
 		}
 
+		if argT.IsNewLineIdentifier() && isParentheses {
+			continue
+		}
+
 		if doubleAsteriskCount > 0 && !argT.IsAmpersandPrefix() {
 			p.Skip()
 			return argVariables, false, fmt.Errorf(
