@@ -63,7 +63,7 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
-	if t.IsTargetIdentifier("{") && !m.isParentheses {
+	if t.IsTargetIdentifier("{") && m.parser.IsParsingExpression() {
 		m.parser.Unget()
 		return true
 	}

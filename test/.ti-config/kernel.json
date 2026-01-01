@@ -98,13 +98,7 @@
     },
     {
       "name": "lambda",
-      "arguments": [
-        {
-          "type": [
-            "?Untyped"
-          ]
-        }
-      ],
+      "arguments": [],
       "block_parameters": [
         "Untyped"
       ],
