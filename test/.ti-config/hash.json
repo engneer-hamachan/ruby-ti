@@ -144,7 +144,7 @@
     {
       "name": "each",
       "block_parameters": [
-        "Symbol",
+        "Untyped",
         "Unify"
       ],
       "return_type": {
@@ -229,7 +229,7 @@
       "arguments": [],
       "return_type": {
         "type": [
-          "KeyArray"
+          "[Untyped]"
         ]
       },
       "document": "Return all keys as array"

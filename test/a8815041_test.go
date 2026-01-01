@@ -12,7 +12,7 @@ func TestA8815041(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./a8815041.rb:::14:::Symbol"
+	expectedOutput := "./a8815041.rb:::14:::untyped"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

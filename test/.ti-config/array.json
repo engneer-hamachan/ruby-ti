@@ -297,10 +297,8 @@
       ],
       "return_type": {
         "type": [
-          "OptionalUnify",
-          "Self"
-        ],
-        "is_conditional": true
+          "OptionalUnify"
+        ]
       },
       "document": "Get first element"
     },
