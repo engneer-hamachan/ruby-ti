@@ -17,7 +17,7 @@ func TestB759e5d5(t *testing.T) {
 ./b759e5d5.rb:::6:::String
 ./b759e5d5.rb:::7:::String
 ./b759e5d5.rb:::8:::Integer
-./b759e5d5.rb:::9:::Nil`
+./b759e5d5.rb:::9:::NilClass`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

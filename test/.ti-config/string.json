@@ -185,7 +185,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Get character or substring at specified position"
@@ -223,7 +223,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Internal method for argument checking of ljust and rjust"
@@ -276,7 +276,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Remove trailing newline destructively"
@@ -329,7 +329,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Convert to lowercase destructively"
@@ -412,7 +412,7 @@
       "return_type": {
         "type": [
           "Int",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Get byte value at specified position"
@@ -446,7 +446,7 @@
       "return_type": {
         "type": [
           "Int",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Return first position of specified string"
@@ -518,7 +518,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Remove leading whitespace destructively"
@@ -570,7 +570,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Remove trailing whitespace destructively"
@@ -629,7 +629,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Remove leading and trailing whitespace destructively"
@@ -718,7 +718,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Replace characters destructively"
@@ -761,7 +761,7 @@
       "return_type": {
         "type": [
           "String",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Convert to uppercase destructively"

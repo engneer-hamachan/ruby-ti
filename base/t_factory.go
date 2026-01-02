@@ -130,7 +130,7 @@ func MakeBuiltinDefaultBool() *T {
 }
 
 func MakeNil() *T {
-	return NewT("Nil", NIL, "nil")
+	return NewT("NilClass", NIL, "nil")
 }
 
 func MakeIdentifier(val string) *T {

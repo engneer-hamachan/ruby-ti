@@ -12,7 +12,7 @@ func TestD29ae395(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./d29ae395.rb:::2:::Nil
+	expectedOutput := `./d29ae395.rb:::2:::NilClass
 ./d29ae395.rb:::3:::type mismatch: expected Proc, but got Integer for User.scope`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

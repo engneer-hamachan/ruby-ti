@@ -30,7 +30,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Output object"
@@ -47,7 +47,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Output object with newline"

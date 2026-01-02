@@ -12,7 +12,7 @@ func Test989d7d8b(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./989d7d8b.rb:::6:::Union<Integer Nil>
+	expectedOutput := `./989d7d8b.rb:::6:::Union<Integer NilClass>
 ./989d7d8b.rb:::8:::String`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

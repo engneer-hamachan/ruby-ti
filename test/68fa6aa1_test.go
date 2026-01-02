@@ -12,7 +12,7 @@ func Test68fa6aa1(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./68fa6aa1.rb:::8:::instance method '+' is not defined for Nil"
+	expectedOutput := "./68fa6aa1.rb:::8:::instance method '+' is not defined for NilClass"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

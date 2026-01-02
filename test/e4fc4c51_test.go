@@ -12,7 +12,7 @@ func TestE4fc4c51(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./e4fc4c51.rb:::9:::Union<Integer Nil>"
+	expectedOutput := "./e4fc4c51.rb:::9:::Union<Integer NilClass>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

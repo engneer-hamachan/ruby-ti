@@ -12,7 +12,7 @@ func TestF23ee39b(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./f23ee39b.rb:::4:::type mismatch: expected Union<Integer Float>, but got Nil for Integer.+\n./f23ee39b.rb:::7:::q is not defined expected (Integer, unknown, a: Integer, b: Integer, c: optional Nil)"
+	expectedOutput := "./f23ee39b.rb:::4:::type mismatch: expected Union<Integer Float>, but got NilClass for Integer.+\n./f23ee39b.rb:::7:::q is not defined expected (Integer, unknown, a: Integer, b: Integer, c: optional NilClass)"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

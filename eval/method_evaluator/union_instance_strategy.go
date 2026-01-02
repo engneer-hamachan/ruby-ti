@@ -83,7 +83,7 @@ func (u *unionInstanceStrategy) getRequiredValues(m *MethodEvaluator) (
 			continue
 		}
 
-		if m.isAmpersand && class == "Nil" {
+		if m.isAmpersand && class == "NilClass" {
 			continue
 		}
 

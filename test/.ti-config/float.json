@@ -162,7 +162,7 @@
       "return_type": {
         "type": [
           "Int",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Comparison operator. Returns -1 if self < other, 0 if self == other, 1 if self > other"

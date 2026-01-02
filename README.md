@@ -153,7 +153,7 @@ Configure your LSP client to run `ti-lsp` for Ruby files. The server follows sta
 
 Ruby-TI is expanding support with a focus on **PicoRuby** and embedded environments:
 
-`Array` · `Bool` · `Class` · `Enumerable` · `Float` · `GPIO` · `Hash` · `Integer` · `Kernel` · `Math` · `Nil` · `Object` · `Proc` · `Range` · `String` · `Symbol`
+`Array` · `Bool` · `Class` · `Enumerable` · `Float` · `GPIO` · `Hash` · `Integer` · `Kernel` · `Math` · `NilClass` · `Object` · `Proc` · `Range` · `String` · `Symbol`
 
 More classes and PicoRuby features are being added continuously.
 

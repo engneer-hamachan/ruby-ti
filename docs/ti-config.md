@@ -49,7 +49,7 @@ Each JSON file defines a Ruby class with its methods and constants:
     }
   ],
   "return_type": {
-    "type": ["String", "Nil"],
+    "type": ["String", "NilClass"],
     "is_conditional": false,
     "is_destructive": false
   },
@@ -84,7 +84,7 @@ Each JSON file defines a Ruby class with its methods and constants:
 ## Supported Types
 
 ### Basic Types
-- `"Nil"` - Nil value
+- `"NilClass"` - NilClass value
 - `"Symbol"` - Symbol
 - `"Bool"` - Boolean (true/false)
 - `"Block"` - Block object
@@ -94,15 +94,15 @@ Each JSON file defines a Ruby class with its methods and constants:
 ### String Types
 - `"String"` - String
 - `"DefaultString"` - Default argument string
-- `"OptionalString"` - Nil or String
+- `"OptionalString"` - NilClass or String
 
 ### Numeric Types
 - `"Int"` - Integer
 - `"DefaultInt"` - Default argument integer
-- `"OptionalInt"` - Nil or Integer
+- `"OptionalInt"` - NilClass or Integer
 - `"Float"` - Float
 - `"DefaultFloat"` - Default argument float
-- `"OptionalFloat"` - Nil or Float
+- `"OptionalFloat"` - NilClass or Float
 - `"Number"` - Integer or Float
 
 ### Collection Types
@@ -117,7 +117,7 @@ Each JSON file defines a Ruby class with its methods and constants:
 ### Advanced Types
 - `"Self"` - Instance object
 - `"Unify"` - Unified union type for Hash/Array/Union
-- `"OptionalUnify"` - Nil or Unify
+- `"OptionalUnify"` - NilClass or Unify
 - `"BlockResultArray"` - Array of block results
 - `"SelfArray"` - Convert instance to array
 - `"Argument"` - Return argument as-is
@@ -170,7 +170,7 @@ Each JSON file defines a Ruby class with its methods and constants:
 
 1. **Union Types**: Specify multiple types in the `type` array to create union types:
    ```json
-   "type": ["String", "Int", "Nil"]
+   "type": ["String", "Int", "NilClass"]
    ```
 
 2. **Keyword Arguments**: Use the `key` field for keyword arguments:

@@ -13,7 +13,7 @@ func Test3ef3d375(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 	expectedOutput := `./3ef3d375.rb:::1:::Array<String>
-./3ef3d375.rb:::3:::Union<Array<String> Nil>
+./3ef3d375.rb:::3:::Union<Array<String> NilClass>
 ./3ef3d375.rb:::5:::Union<String Integer>
 ./3ef3d375.rb:::6:::type mismatch: expected Union<String Integer>, but got Array<untyped> for Test.compact_union
 ./3ef3d375.rb:::6:::Array<untyped>

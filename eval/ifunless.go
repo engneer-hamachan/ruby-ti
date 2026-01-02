@@ -36,7 +36,7 @@ func (i *IfUnless) convertClassNameToTobject(class string) *base.T {
 		return base.MakeAnyInt()
 	case "Float":
 		return base.MakeAnyFloat()
-	case "Nil":
+	case "NilClass":
 		return base.MakeNil()
 	case "Hash":
 		return base.MakeAnyHash()

@@ -100,7 +100,7 @@ func TypeToString(t *T) string {
 
 	switch t.tType {
 	case NIL:
-		return "Nil"
+		return "NilClass"
 	case INT:
 		return "Integer"
 	case UNKNOWN:

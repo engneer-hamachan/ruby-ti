@@ -1,6 +1,6 @@
 {
   "frame": "Builtin",
-  "class": "Nil",
+  "class": "NilClass",
   "instance_methods": [
     {
       "name": "!",

@@ -94,7 +94,7 @@ func parseReturnType(returnType MethodReturn) base.T {
 }
 
 var AllTypeNames = []string{
-	"Nil",
+	"NilClass",
 	"Symbol",
 	"Bool",
 	"DefaultBool",
@@ -138,7 +138,7 @@ var AllTypeNames = []string{
 func parseTypeString(typeStr string) base.T {
 	// Handle compact notation: ?Type, *Type, [Type], Type|Other
 
-	// Optional type: ?String -> Union<String, Nil>
+	// Optional type: ?String -> Union<String, NilClass>
 	if len(typeStr) > 1 && typeStr[0] == '?' {
 		innerType := parseTypeString(typeStr[1:])
 		return *base.MakeUnion([]base.T{innerType, NilT})
@@ -173,7 +173,7 @@ func parseTypeString(typeStr string) base.T {
 
 	// Standard type names
 	switch typeStr {
-	case "Nil":
+	case "NilClass":
 		return NilT
 	case "Symbol":
 		return SymbolT

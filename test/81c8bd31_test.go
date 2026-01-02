@@ -12,7 +12,7 @@ func Test81c8bd31(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./81c8bd31.rb:::3:::Union<Array<String> Nil>"
+	expectedOutput := "./81c8bd31.rb:::3:::Union<Array<String> NilClass>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

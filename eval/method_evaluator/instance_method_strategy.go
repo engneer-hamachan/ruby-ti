@@ -89,7 +89,7 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return "", m.objectT, nil
 	}
 
-	if m.isAmpersand && class == "Nil" {
+	if m.isAmpersand && class == "NilClass" {
 		return class, methodT, nil
 	}
 

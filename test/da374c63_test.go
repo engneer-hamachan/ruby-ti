@@ -12,8 +12,8 @@ func TestDa374c63(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./da374c63.rb:::4:::Nil
-./da374c63.rb:::5:::Nil
+	expectedOutput := `./da374c63.rb:::4:::NilClass
+./da374c63.rb:::5:::NilClass
 ./da374c63.rb:::10:::Union<String Integer>
 ./da374c63.rb:::11:::Union<Integer String>`
 

@@ -136,7 +136,7 @@
       "return_type": {
         "type": [
           "Unify",
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Delete specified key"
@@ -220,7 +220,7 @@
         "type": [
           "String",
           "Symbol",
-          "Nil"
+          "NilClass"
         ]
       }
     },

@@ -282,7 +282,7 @@ func convertMrubyValueTypeToRubyTiType(mrubyValueType string) string {
 	case "true", "false":
 		return "Bool"
 	case "nil":
-		return "Nil"
+		return "NilClass"
 	case "str":
 		return "String"
 	case "symbol":
@@ -337,7 +337,7 @@ func inferReturnType(methodBody string, methodName string) string {
 	if strings.Contains(methodBody, "SET_NIL_RETURN()") ||
 		strings.Contains(methodBody, "return mrb_nil_value()") ||
 		strings.Contains(methodBody, "return mrbc_nil_value()") {
-		return "Nil"
+		return "NilClass"
 	}
 
 	if strings.Contains(methodBody, "SET_INT_RETURN(") ||

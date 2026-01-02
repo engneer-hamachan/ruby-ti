@@ -12,8 +12,8 @@ func Test32bad572(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./32bad572.rb:::16:::Nil
-./32bad572.rb:::17:::Union<Nil String>`
+	expectedOutput := `./32bad572.rb:::16:::NilClass
+./32bad572.rb:::17:::Union<NilClass String>`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

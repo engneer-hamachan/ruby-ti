@@ -12,7 +12,7 @@ func Test61bd7238(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./61bd7238.rb:::106:::Union<Nil Integer Array<String> String Hash>"
+	expectedOutput := "./61bd7238.rb:::106:::Union<NilClass Integer Array<String> String Hash>"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

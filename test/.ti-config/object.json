@@ -81,7 +81,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       }
     },
@@ -97,7 +97,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       }
     },
@@ -141,7 +141,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       }
     },
@@ -156,7 +156,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       }
     },
@@ -190,11 +190,11 @@
       "name": "loop",
       "arguments": [],
       "block_parameters": [
-        "Nil"
+        "NilClass"
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       }
     },
@@ -219,7 +219,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       }
     },
@@ -234,7 +234,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       }
     },

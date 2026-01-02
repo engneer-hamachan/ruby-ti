@@ -7,7 +7,7 @@
       "arguments": [],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Initialize M5 device"
@@ -49,7 +49,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Get button state"
@@ -123,7 +123,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Set primary display"
@@ -139,7 +139,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Set primary display type"
@@ -155,7 +155,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Set log display index"
@@ -171,7 +171,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Set log display type"
@@ -191,7 +191,7 @@
       "arguments": [],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Get configuration structure"
@@ -211,7 +211,7 @@
       "arguments": [],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Update state"
@@ -221,7 +221,7 @@
       "arguments": [],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Update display"
@@ -237,7 +237,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Set touch button height by ratio"
@@ -253,7 +253,7 @@
       ],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Set touch button height"
@@ -273,7 +273,7 @@
       "arguments": [],
       "return_type": {
         "type": [
-          "Nil"
+          "NilClass"
         ]
       },
       "document": "Get IO expander"
