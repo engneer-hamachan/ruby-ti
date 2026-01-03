@@ -22,5 +22,7 @@ cp test/.ti-config/runtime_error.json .ti-config/runtime_error.json
 cp test/.ti-config/string.json .ti-config/string.json
 cp test/.ti-config/symbol.json .ti-config/symbol.json
 cp test/.ti-config/untyped.json .ti-config/untyped.json
+cp test/.ti-config/true.json .ti-config/true.json
+cp test/.ti-config/false.json .ti-config/false.json
 
 go build -o ./bin/ti-c2json ./cmd/cpp2json/main.go
