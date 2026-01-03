@@ -1,6 +1,6 @@
 package cmd
 
-const Version = "v1.0.14"
+const Version = "v1.0.15"
 
 type ExecuteFlags struct {
 	IsDefineInfo    bool
