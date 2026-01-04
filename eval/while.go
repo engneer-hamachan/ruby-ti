@@ -26,7 +26,55 @@ func (d *While) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	forTargetT := base.MakeUntyped()
+
+	if t.IsTargetIdentifier("for") {
+		for {
+			nextT, err := p.Read()
+			if err != nil {
+				return err
+			}
+
+			if nextT.IsTargetIdentifier("in") {
+				nextT, err := p.Read()
+				if err != nil {
+					return err
+				}
+
+				err = e.Eval(p, ctx, nextT)
+				if err != nil {
+					return err
+				}
+
+				lastEvaluatedT := p.GetLastEvaluatedT()
+				if lastEvaluatedT.IsArrayType() || lastEvaluatedT.IsHashType() || lastEvaluatedT.IsRangeType() {
+					forTargetT = &lastEvaluatedT
+				}
+
+				break
+			}
+
+			if nextT.IsCommaIdentifier() {
+				continue
+			}
+
+			if !nextT.IsIdentifierType() {
+				continue
+			}
+
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				nextT.ToString(),
+				base.MakeUntyped(),
+				ctx.IsDefineStatic,
+			)
+		}
+	}
+
 	isEatedNewlineToken := false
+	isBreak := false
 
 	for {
 		nextT, err := p.Read()
@@ -54,11 +102,28 @@ func (d *While) Evaluation(
 			break
 		}
 
+		if nextT.IsTargetIdentifier("break") {
+			isBreak = true
+			continue
+		}
+
 		err = e.Eval(p, ctx, nextT)
 		if err != nil && !ctx.IsCollectRound() {
 			return err
 		}
 	}
+
+	if t.IsTargetIdentifier("for") && !isBreak {
+		p.SetLastEvaluatedT(forTargetT)
+		return nil
+	}
+
+	if t.IsTargetIdentifier("for") && isBreak {
+		p.SetLastEvaluatedT(base.MakeUntyped())
+		return nil
+	}
+
+	p.SetLastEvaluatedT(base.MakeNil())
 
 	return nil
 }
