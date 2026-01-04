@@ -4,6 +4,18 @@
   "extends": [
     "Kernel"
   ],
+  "class_methods": [
+    {
+      "name": "methods",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "[Symbol]"
+        ]
+      },
+      "document": "get object method list"
+    }
+  ],
   "instance_methods": [
     {
       "name": "<=>",
