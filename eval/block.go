@@ -384,7 +384,7 @@ func (d *Do) Evaluation(
 		}
 
 		err = e.Eval(p, ctx, nextT)
-		if err != nil && !ctx.IsCollectRound() {
+		if err != nil {
 			return err
 		}
 	}
