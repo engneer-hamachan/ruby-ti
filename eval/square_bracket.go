@@ -527,6 +527,12 @@ func (e *Evaluator) referenceEvaluation(
 	}
 
 	switch t.GetType() {
+	case base.UNKNOWN, base.UNTYPED:
+		p.SkipToTargetToken("]")
+		p.SetLastEvaluatedT(base.MakeUntyped())
+
+		return nil
+
 	case base.ARRAY:
 		return e.arrayReferenceEvaluation(p, ctx, objectT, t)
 
@@ -542,7 +548,7 @@ func (e *Evaluator) referenceEvaluation(
 	default:
 		p.SkipToTargetToken("]")
 
-		if t.IsTargetClassObject("Proc") || t.IsAnyType() {
+		if t.IsTargetClassObject("Proc") {
 			p.SetLastEvaluatedT(base.MakeUntyped())
 			return nil
 		}
