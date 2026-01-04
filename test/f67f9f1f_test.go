@@ -12,7 +12,7 @@ func TestF67f9f1f(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./f67f9f1f.rb:::7:::NilClass`
+	expectedOutput := `./f67f9f1f.rb:::7:::untyped`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

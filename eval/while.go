@@ -118,7 +118,7 @@ func (d *While) Evaluation(
 		return nil
 	}
 
-	if t.IsTargetIdentifier("for") && isBreak {
+	if isBreak {
 		p.SetLastEvaluatedT(base.MakeUntyped())
 		return nil
 	}
