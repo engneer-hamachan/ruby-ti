@@ -286,7 +286,7 @@ func PrintTargetClassExtends() {
 }
 
 func PrintHover(p parser.Parser) {
-	targetT := parser.GlobT
+	targetT := base.GlobT
 
 	for _, sig := range base.GetSortedTSignatures() {
 		if targetT.DefinedClass == sig.Class && targetT.GetMethodName() == sig.Method {

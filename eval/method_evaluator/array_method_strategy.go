@@ -25,6 +25,8 @@ func (a *arrayAppendStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Array", "push", "instance")
 	}
 
+	base.GlobT = *methodT
+
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
 		return err
@@ -65,6 +67,8 @@ func (c *concatArraystrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Array", "concat", "instance")
 	}
 
+	base.GlobT = *methodT
+
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
 		return err
@@ -97,6 +101,8 @@ func (u *unshiftArraystrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Array", "unshift", "instance")
 	}
 
+	base.GlobT = *methodT
+
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
 		return err
@@ -121,6 +127,8 @@ func (r *replaceArraystrategy) evaluate(m *MethodEvaluator) error {
 	if methodT == nil {
 		return m.makeNotDefinedMethodError("Array", "replace", "instance")
 	}
+
+	base.GlobT = *methodT
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
@@ -157,6 +165,8 @@ func (s *sliceArrayStrategy) evaluate(m *MethodEvaluator) error {
 	if methodT == nil {
 		return m.makeNotDefinedMethodError("Array", "slice", "instance")
 	}
+
+	base.GlobT = *methodT
 
 	arrayT := m.evaluatedObjectT
 
@@ -213,6 +223,8 @@ func (a *addArrayStrategy) evaluate(m *MethodEvaluator) error {
 	if methodT == nil {
 		return m.makeNotDefinedMethodError("Array", "+", "instance")
 	}
+
+	base.GlobT = *methodT
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {

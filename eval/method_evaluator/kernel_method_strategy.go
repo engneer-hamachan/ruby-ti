@@ -19,6 +19,8 @@ func (k *kernelYieldStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Kernel", "yield", "instance")
 	}
 
+	base.GlobT = *methodT
+
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
 		return err
@@ -60,6 +62,8 @@ func (k *kernelPrintStrategy) evaluate(m *MethodEvaluator) error {
 	if methodT == nil {
 		return m.makeNotDefinedMethodError("Kernel", "p", "instance")
 	}
+
+	base.GlobT = *methodT
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
