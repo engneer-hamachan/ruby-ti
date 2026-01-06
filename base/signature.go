@@ -182,10 +182,6 @@ func MakeSignatureContent(
 	methodT *T,
 ) string {
 
-	if methodT.DefinedClass != "" {
-		prefix = methodT.DefinedClass + "." + prefix
-	}
-
 	content := prefix
 	var args string
 
