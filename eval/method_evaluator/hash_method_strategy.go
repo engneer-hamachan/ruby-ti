@@ -22,7 +22,9 @@ func (h *hashMergeStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Hash", "merge", "instance")
 	}
 
-	base.GlobT = *methodT
+	if m.parser.LspTargetRow == m.parser.ErrorRow {
+		base.GlobT = *methodT
+	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
@@ -53,7 +55,9 @@ func (h *hashDestructionMergeStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Hash", "merge!", "instance")
 	}
 
-	base.GlobT = *methodT
+	if m.parser.LspTargetRow == m.parser.ErrorRow {
+		base.GlobT = *methodT
+	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
@@ -84,7 +88,9 @@ func (h *hashShiftStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Hash", "shift", "instance")
 	}
 
-	base.GlobT = *methodT
+	if m.parser.LspTargetRow == m.parser.ErrorRow {
+		base.GlobT = *methodT
+	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {

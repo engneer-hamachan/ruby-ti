@@ -19,7 +19,9 @@ func (k *kernelYieldStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Kernel", "yield", "instance")
 	}
 
-	base.GlobT = *methodT
+	if m.parser.LspTargetRow == m.parser.ErrorRow {
+		base.GlobT = *methodT
+	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
@@ -63,7 +65,9 @@ func (k *kernelPrintStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("Kernel", "p", "instance")
 	}
 
-	base.GlobT = *methodT
+	if m.parser.LspTargetRow == m.parser.ErrorRow {
+		base.GlobT = *methodT
+	}
 
 	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
 	if err != nil {
