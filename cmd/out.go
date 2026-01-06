@@ -47,15 +47,8 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 	case base.UNION:
 		for _, variant := range targetT.GetVariants() {
 			for _, sig := range base.GetSortedTSignatures() {
-				var detail string
-				if sig.Class != "" {
-					detail = sig.Class + "." + sig.Detail
-				} else {
-					detail = sig.Detail
-				}
-
 				if isSuggest(variant, sig) {
-					printSuggestion(sig.Method, detail, sig.Document)
+					printSuggestion(sig.Method, sig.GetPrintDetail(), sig.Document)
 				}
 			}
 		}
@@ -63,21 +56,14 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 		isPrinted := false
 
 		for _, sig := range base.GetSortedTSignatures() {
-			var detail string
-			if sig.Class != "" {
-				detail = sig.Class + "." + sig.Detail
-			} else {
-				detail = sig.Detail
-			}
-
 			if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
-				printSuggestion(sig.Method, detail, sig.Document)
+				printSuggestion(sig.Method, sig.GetPrintDetail(), sig.Document)
 				isPrinted = true
 				continue
 			}
 
 			if isSuggest(targetT, sig) {
-				printSuggestion(sig.Method, detail, sig.Document)
+				printSuggestion(sig.Method, sig.GetPrintDetail(), sig.Document)
 				isPrinted = true
 			}
 		}
@@ -304,13 +290,7 @@ func PrintHover(p parser.Parser) {
 
 	for _, sig := range base.GetSortedTSignatures() {
 		if targetT.DefinedClass == sig.Class && targetT.GetMethodName() == sig.Method {
-			var detail string
-			if sig.Class != "" {
-				detail = sig.Class + "." + sig.Detail
-			} else {
-				detail = sig.Detail
-			}
-			printSuggestion(sig.Method, detail, sig.Document)
+			printSuggestion(sig.Method, sig.GetPrintDetail(), sig.Document)
 		}
 	}
 }

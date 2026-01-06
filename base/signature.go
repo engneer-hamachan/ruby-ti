@@ -275,3 +275,11 @@ func appendSignature(
 
 	TSignatures[key] = sig
 }
+
+func (s *Sig) GetPrintDetail() string {
+	if s.Class != "" {
+		return s.Class + "." + s.Detail
+	}
+
+	return s.Detail
+}
