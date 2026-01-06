@@ -50,6 +50,8 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 				var detail string
 				if sig.Class != "" {
 					detail = sig.Class + "." + sig.Detail
+				} else {
+					detail = sig.Detail
 				}
 
 				if isSuggest(variant, sig) {
@@ -64,6 +66,8 @@ func PrintSuggestionsForLsp(p parser.Parser) {
 			var detail string
 			if sig.Class != "" {
 				detail = sig.Class + "." + sig.Detail
+			} else {
+				detail = sig.Detail
 			}
 
 			if isSuggestForKernelOrObjectClass(targetT, sig.Class) {
@@ -303,6 +307,8 @@ func PrintHover(p parser.Parser) {
 			var detail string
 			if sig.Class != "" {
 				detail = sig.Class + "." + sig.Detail
+			} else {
+				detail = sig.Detail
 			}
 			printSuggestion(sig.Method, detail, sig.Document)
 		}
