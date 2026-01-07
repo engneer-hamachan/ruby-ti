@@ -580,6 +580,12 @@ func (s *SquareBracket) Evaluation(
 		return e.arrayReferenceEvaluation(p, ctx, base.MakeUnknown(), &lastT)
 	}
 
+	if lastT.IsAnyType() && p.IsParsingExpression() && !t.IsBeforeSpace {
+		p.SkipToTargetToken("]")
+		p.SetLastEvaluatedT(base.MakeUntyped())
+		return nil
+	}
+
 	// []
 	return e.makeArray(p, ctx, t)
 }
