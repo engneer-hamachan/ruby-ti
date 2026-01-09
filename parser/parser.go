@@ -22,9 +22,6 @@ type Parser struct {
 	tmpBlockParamaters  []base.T
 	tmpEvaluatedArgs    []*base.T
 	Debug               bool
-	IsDefineInfo        bool
-	IsDefineAllInfo     bool
-	IsLsp               bool
 	LspTargetRow        int
 	LspSuggestTargetT   base.T
 	Errors              []error
