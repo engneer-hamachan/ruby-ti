@@ -61,6 +61,51 @@ func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 	return evaluateNoUnionInstanceMethod(m, class, methodT)
 }
 
+func (i *instanceMethodStrategy) isTransformIdentifier(method string) bool {
+	transformTargetIdentifiers := []string{
+		"%",
+		"&",
+		"*",
+		"**",
+		"+",
+		"+@",
+		"-",
+		"-@",
+		"/",
+		"<",
+		"<<",
+		"<=",
+		"<=>",
+		"==",
+		"===",
+		">",
+		">=",
+		">>",
+		"^",
+		"|",
+	}
+
+	return slices.Contains(transformTargetIdentifiers, method)
+}
+
+func (i *instanceMethodStrategy) isResolveMethodCall(
+	m *MethodEvaluator,
+	class string,
+) bool {
+
+	if m.ctx.IsCollectRound() {
+		return false
+	}
+
+	targetClasses := []string{"Untyped", "Identifier"}
+
+	if !slices.Contains(targetClasses, class) {
+		return false
+	}
+
+	return i.isTransformIdentifier(m.method)
+}
+
 func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 	class string,
 	methodT *base.T,
@@ -106,8 +151,15 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return class, methodT, nil
 	}
 
-	if (class == "Untyped" || class == "Identifier") && i.isTransformIdentifier(m.method) && !m.ctx.IsCollectRound() {
-		methodT = base.MakeMethod(class, m.method, *base.MakeUntyped(), []string{base.GenId()})
+	if i.isResolveMethodCall(m, class) {
+		methodT =
+			base.MakeMethod(
+				class,
+				m.method,
+				*base.MakeUntyped(),
+				[]string{base.GenId()},
+			)
+
 		return class, methodT, nil
 	}
 
@@ -116,31 +168,4 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 	}
 
 	return "", nil, m.makeNotDefinedMethodError(class, m.method, "instance")
-}
-
-func (i *instanceMethodStrategy) isTransformIdentifier(method string) bool {
-	transformTargetIdentifiers := []string{
-		"%",
-		"&",
-		"*",
-		"**",
-		"+",
-		"+@",
-		"-",
-		"-@",
-		"/",
-		"<",
-		"<<",
-		"<=",
-		"<=>",
-		"==",
-		"===",
-		">",
-		">=",
-		">>",
-		"^",
-		"|",
-	}
-
-	return slices.Contains(transformTargetIdentifiers, method)
 }
