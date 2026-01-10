@@ -130,6 +130,18 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return class, methodT, nil
 	}
 
+	if i.isResolveMethodCall(m, class) {
+		methodT =
+			base.MakeMethod(
+				class,
+				m.method,
+				*base.MakeUntyped(),
+				[]string{base.GenId()},
+			)
+
+		return class, methodT, nil
+	}
+
 	if m.objectT.IsAnyType() {
 		return "", m.objectT, nil
 	}
@@ -148,18 +160,6 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 
 	if methodT != nil {
 		methodT.SetBeforeEvaluateCode(class + "." + m.method)
-		return class, methodT, nil
-	}
-
-	if i.isResolveMethodCall(m, class) {
-		methodT =
-			base.MakeMethod(
-				class,
-				m.method,
-				*base.MakeUntyped(),
-				[]string{base.GenId()},
-			)
-
 		return class, methodT, nil
 	}
 
