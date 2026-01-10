@@ -529,7 +529,7 @@ func (e *Evaluator) referenceEvaluation(
 	switch t.GetType() {
 	case base.UNKNOWN, base.UNTYPED:
 		p.SkipToTargetToken("]")
-		p.SetLastEvaluatedT(base.MakeUntyped())
+		p.SetLastEvaluatedT(base.MakeUnknown())
 
 		return nil
 
@@ -582,7 +582,7 @@ func (s *SquareBracket) Evaluation(
 
 	if lastT.IsAnyType() && p.IsParsingExpression() && !t.IsBeforeSpace {
 		p.SkipToTargetToken("]")
-		p.SetLastEvaluatedT(base.MakeUntyped())
+		p.SetLastEvaluatedT(base.MakeUnknown())
 		return nil
 	}
 
