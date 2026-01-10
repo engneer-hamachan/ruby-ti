@@ -2,6 +2,7 @@ package method_evaluator
 
 import (
 	"fmt"
+	"slices"
 	"ti/base"
 )
 
@@ -105,9 +106,41 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		return class, methodT, nil
 	}
 
+	if (class == "Untyped" || class == "Identifier") && i.isTransformIdentifier(m.method) && !m.ctx.IsCollectRound() {
+		methodT = base.MakeMethod(class, m.method, *base.MakeUntyped(), []string{base.GenId()})
+		return class, methodT, nil
+	}
+
 	if class == "Untyped" || class == "Identifier" {
 		return class, base.MakeUntyped(), nil
 	}
 
 	return "", nil, m.makeNotDefinedMethodError(class, m.method, "instance")
+}
+
+func (i *instanceMethodStrategy) isTransformIdentifier(method string) bool {
+	transformTargetIdentifiers := []string{
+		"%",
+		"&",
+		"*",
+		"**",
+		"+",
+		"+@",
+		"-",
+		"-@",
+		"/",
+		"<",
+		"<<",
+		"<=",
+		"<=>",
+		"==",
+		"===",
+		">",
+		">=",
+		">>",
+		"^",
+		"|",
+	}
+
+	return slices.Contains(transformTargetIdentifiers, method)
 }
