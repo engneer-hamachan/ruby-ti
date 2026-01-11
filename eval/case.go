@@ -1,6 +1,8 @@
 package eval
 
 import (
+	"fmt"
+	"slices"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -72,6 +74,109 @@ func (c *Case) Evaluation(
 		}
 
 		switch nextT.ToString() {
+		case "in":
+			switch isFirstBranch {
+			case true:
+				resultTs = append(resultTs, p.GetLastEvaluatedT())
+			case false:
+				isFirstBranch = true
+			}
+
+			// parsePattern
+			nextT, err := p.Read()
+			if err != nil {
+				return err
+			}
+
+			// in String => x
+			if nextT.IsClassType() {
+				objectT := base.MakeObject(nextT.ToString())
+
+				// =>
+				nextT, err := p.Read()
+				if err != nil {
+					return err
+				}
+
+				if nextT.IsTargetIdentifier("=>") {
+					// x
+					nextT, err := p.Read()
+					if err != nil {
+						return err
+					}
+
+					base.SetValueT(
+						ctx.GetFrame(),
+						ctx.GetClass(),
+						ctx.GetMethod(),
+						nextT.ToString(),
+						objectT,
+						ctx.IsDefineStatic,
+					)
+				}
+			}
+
+			if nextT.IsTargetIdentifier("[") {
+				for {
+					nextT, err := p.Read()
+					if err != nil {
+						return err
+					}
+
+					if nextT.GetPower() == 0 && nextT.IsUnknownType() {
+						base.SetValueT(
+							ctx.GetFrame(),
+							ctx.GetClass(),
+							ctx.GetMethod(),
+							nextT.ToString(),
+							base.MakeUntyped(),
+							ctx.IsDefineStatic,
+						)
+					}
+
+					if nextT.IsTargetIdentifier("]") {
+						break
+					}
+				}
+			}
+
+			if nextT.IsTargetIdentifier("{") {
+				skipTarget := []string{"}", ","}
+
+				for {
+					nextT, err := p.Read()
+					if err != nil {
+						return err
+					}
+
+					if nextT.GetPower() == 0 && nextT.IsUnknownType() && !slices.Contains(skipTarget, nextT.ToString()) {
+						var variable string
+
+						if nextT.IsKeyIdentifier() {
+							fmt.Println(nextT.ToString())
+							variable = nextT.ToString()[:len(nextT.ToString())-1]
+						} else {
+							variable = nextT.ToString()
+						}
+
+						base.SetValueT(
+							ctx.GetFrame(),
+							ctx.GetClass(),
+							ctx.GetMethod(),
+							variable,
+							base.MakeUntyped(),
+							ctx.IsDefineStatic,
+						)
+					}
+
+					if nextT.IsTargetIdentifier("}") {
+						break
+					}
+				}
+			}
+
+			p.SkipToTargetToken("\n")
+
 		case "when":
 			switch isFirstBranch {
 			case true:
