@@ -49,7 +49,7 @@ func (c *Case) Evaluation(
 	}
 
 	var caseTs []base.T
-	var isFirstWhen bool
+	var isFirstBranch bool
 
 	resultTs := []base.T{*base.MakeNil()}
 
@@ -73,11 +73,11 @@ func (c *Case) Evaluation(
 
 		switch nextT.ToString() {
 		case "when":
-			switch isFirstWhen {
+			switch isFirstBranch {
 			case true:
 				resultTs = append(resultTs, p.GetLastEvaluatedT())
 			case false:
-				isFirstWhen = true
+				isFirstBranch = true
 			}
 
 			if !objectT.IsIdentifierType() {
