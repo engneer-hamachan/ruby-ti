@@ -8,6 +8,7 @@ import (
 
 type In struct {
 	lastParsedT *base.T
+	caseTargetT base.T
 }
 
 func NewIn() DynamicEvaluator {
@@ -209,6 +210,8 @@ func (i *In) Evaluation(
 	ctx context.Context,
 	t *base.T,
 ) (err error) {
+
+	i.caseTargetT = p.GetLastEvaluatedT()
 
 	// TODO:
 	// 1. t.IsVariableIdentifier -> done
