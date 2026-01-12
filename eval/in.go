@@ -53,7 +53,7 @@ func (i *In) parseHash(
 			break
 		}
 
-		err = i.parsePattern(p, ctx, nextT)
+		err = i.parsePattern(p, ctx, nextT, false)
 		if err != nil {
 			return err
 		}
@@ -76,7 +76,7 @@ func (i *In) parseArray(
 		}
 
 		if nextT.IsVariableIdentifier() {
-			err = i.parsePattern(p, ctx, nextT)
+			err = i.parsePattern(p, ctx, nextT, false)
 			if err != nil {
 				return err
 			}
@@ -124,6 +124,7 @@ func (i *In) parsePattern(
 	p *parser.Parser,
 	ctx context.Context,
 	nextT *base.T,
+	isFirstToken bool,
 ) error {
 
 	switch {
@@ -192,12 +193,22 @@ func (i *In) parsePattern(
 			return err
 		}
 
-		err = i.parsePattern(p, ctx, nextT)
+		err = i.parsePattern(p, ctx, nextT, false)
 		if err != nil {
 			return err
 		}
 
 	default:
+		if isFirstToken {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				i.caseTargetT.GetBeforeEvaluateCode(),
+				i.lastParsedT,
+				ctx.IsDefineStatic,
+			)
+		}
 		p.Unget()
 	}
 
@@ -238,7 +249,7 @@ func (i *In) Evaluation(
 		return err
 	}
 
-	i.parsePattern(p, ctx, nextT)
+	i.parsePattern(p, ctx, nextT, true)
 
 	p.SkipToTargetToken("\n")
 
