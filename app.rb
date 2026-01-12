@@ -6,6 +6,8 @@ a =
     p x
   end
 
+p x
+
 
 a = 
   case arr
