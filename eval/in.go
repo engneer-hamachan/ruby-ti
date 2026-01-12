@@ -26,6 +26,27 @@ func (i *In) Evaluation(
 
 	skipTarget := []string{"[", "]", "{", "}", ",", "\n"}
 
+	// TODO:
+	// 1. t.IsVariableIdentifier
+	// 2. implement bnf
+	//   pattern :=
+	//     literal
+	//   | variable
+	//   | _
+	//   | [pattern, ...]
+	//
+	//   | { key: pattern, **pattern }
+	//   | Class
+	//   | Class[pattern, ...]
+	//   | Range
+	//   | pattern | pattern
+	//   | pattern & pattern
+	//   | ^variable
+	//   | pattern if expr
+	//   | pattern => variable
+	// 3. array inference
+	// 4. hash inference
+
 	// parsePattern
 	nextT, err := p.Read()
 	if err != nil {
