@@ -30,7 +30,8 @@ a =
 
 a = 
   case 1
-  in {name:, age: ages}
+  in {name: names, age: ages}
+    p names
     p name
     p age
     p ages

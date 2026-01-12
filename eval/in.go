@@ -18,14 +18,8 @@ func init() {
 	DynamicEvaluators["in"] = NewIn()
 }
 
-func (i *In) parseVariable(
-	p *parser.Parser,
-	ctx context.Context,
-	t *base.T,
-) error {
-
+func (i *In) parseVariable(ctx context.Context, t *base.T) {
 	var variable string
-	var err error
 
 	if t.IsKeyIdentifier() {
 		variable = t.ToString()[:len(t.ToString())-1]
@@ -41,31 +35,6 @@ func (i *In) parseVariable(
 		base.MakeUntyped(),
 		ctx.IsDefineStatic,
 	)
-
-	t, err = p.Read()
-	if err != nil {
-		return err
-	}
-
-	if t.IsCommaIdentifier() {
-		t, err = p.Read()
-		if err != nil {
-			return nil
-		}
-
-		err = i.parsePattern(p, ctx, t)
-		if err != nil {
-			return err
-		}
-
-		return nil
-	}
-
-	i.lastParsedT = base.MakeUntyped()
-
-	p.Unget()
-
-	return nil
 }
 
 func (i *In) parseHash(
@@ -79,27 +48,13 @@ func (i *In) parseHash(
 			return err
 		}
 
-		if nextT.IsVariableIdentifier() {
-			var variable string
-
-			if nextT.IsKeyIdentifier() {
-				variable = nextT.ToString()[:len(nextT.ToString())-1]
-			} else {
-				variable = nextT.ToString()
-			}
-
-			base.SetValueT(
-				ctx.GetFrame(),
-				ctx.GetClass(),
-				ctx.GetMethod(),
-				variable,
-				base.MakeUntyped(),
-				ctx.IsDefineStatic,
-			)
-		}
-
 		if nextT.IsTargetIdentifier("}") {
 			break
+		}
+
+		err = i.parsePattern(p, ctx, nextT)
+		if err != nil {
+			return err
 		}
 	}
 
@@ -192,12 +147,15 @@ func (i *In) parsePattern(
 			return err
 		}
 
+	case nextT.IsKeyIdentifier():
+		variable := nextT.ToString()[:len(nextT.ToString())-1]
+		nextT = base.MakeIdentifier(variable)
+
+		i.parseVariable(ctx, nextT)
+
 	// x
 	case nextT.IsVariableIdentifier():
-		err := i.parseVariable(p, ctx, nextT)
-		if err != nil {
-			return err
-		}
+		i.parseVariable(ctx, nextT)
 	}
 
 	// pattern => x
@@ -206,7 +164,8 @@ func (i *In) parsePattern(
 		return err
 	}
 
-	if nextT.IsTargetIdentifier("=>") {
+	switch nextT.ToString() {
+	case "=>":
 		variableT, err := p.Read()
 		if err != nil {
 			return err
@@ -221,10 +180,20 @@ func (i *In) parsePattern(
 			ctx.IsDefineStatic,
 		)
 
-		return nil
-	}
+	case ",", "&", "|":
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
 
-	p.Unget()
+		err = i.parsePattern(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
+
+	default:
+		p.Unget()
+	}
 
 	return nil
 }
@@ -241,19 +210,19 @@ func (i *In) Evaluation(
 	// 2. implement bnf
 	//   pattern :=
 	//     literal
-	//   | variable
-	//   | _
-	//   | [pattern, ...]
+	//   | variable -> done
+	//   | _ -> done
+	//   | [pattern, ...] -> done
 	//
-	//   | { key: pattern, **pattern }
-	//   | Class
-	//   | Class[pattern, ...]
+	//   | { key: pattern, **pattern } -> done
+	//   | Class -> done
+	//   | Class[pattern, ...] -> done
 	//   | Range
-	//   | pattern | pattern
-	//   | pattern & pattern
+	//   | pattern | pattern -> done
+	//   | pattern & pattern -> done
 	//   | ^variable
 	//   | pattern if expr
-	//   | pattern => variable
+	//   | pattern => variable -> done
 	// 3. array inference
 	// 4. hash inference
 	nextT, err := p.Read()
