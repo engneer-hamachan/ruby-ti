@@ -1,7 +1,6 @@
 package eval
 
 import (
-	"fmt"
 	"slices"
 	"ti/base"
 	"ti/context"
@@ -82,6 +81,8 @@ func (c *Case) Evaluation(
 				isFirstBranch = true
 			}
 
+			skipTarget := []string{"[", "]", "{", "}", ",", "\n"}
+
 			// parsePattern
 			nextT, err := p.Read()
 			if err != nil {
@@ -116,6 +117,7 @@ func (c *Case) Evaluation(
 				}
 			}
 
+			// [x, y]
 			if nextT.IsTargetIdentifier("[") {
 				for {
 					nextT, err := p.Read()
@@ -123,7 +125,7 @@ func (c *Case) Evaluation(
 						return err
 					}
 
-					if nextT.GetPower() == 0 && nextT.IsUnknownType() {
+					if nextT.GetPower() == 0 && nextT.IsUnknownType() && !slices.Contains(skipTarget, nextT.ToString()) {
 						base.SetValueT(
 							ctx.GetFrame(),
 							ctx.GetClass(),
@@ -140,9 +142,8 @@ func (c *Case) Evaluation(
 				}
 			}
 
+			// {name:, age:}
 			if nextT.IsTargetIdentifier("{") {
-				skipTarget := []string{"}", ","}
-
 				for {
 					nextT, err := p.Read()
 					if err != nil {
@@ -153,7 +154,6 @@ func (c *Case) Evaluation(
 						var variable string
 
 						if nextT.IsKeyIdentifier() {
-							fmt.Println(nextT.ToString())
 							variable = nextT.ToString()[:len(nextT.ToString())-1]
 						} else {
 							variable = nextT.ToString()
@@ -173,6 +173,26 @@ func (c *Case) Evaluation(
 						break
 					}
 				}
+			}
+
+			// x
+			if nextT.IsIdentifierType() && !slices.Contains(skipTarget, nextT.ToString()) && nextT.GetPower() == 0 {
+				var variable string
+
+				if nextT.IsKeyIdentifier() {
+					variable = nextT.ToString()[:len(nextT.ToString())-1]
+				} else {
+					variable = nextT.ToString()
+				}
+
+				base.SetValueT(
+					ctx.GetFrame(),
+					ctx.GetClass(),
+					ctx.GetMethod(),
+					variable,
+					base.MakeUntyped(),
+					ctx.IsDefineStatic,
+				)
 			}
 
 			p.SkipToTargetToken("\n")

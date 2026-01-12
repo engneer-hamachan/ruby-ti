@@ -13,6 +13,14 @@ a =
     p y
   end
 
+a = 
+  case 1
+  in r
+    p r
+  else 
+    nil
+  end
+
 
 a = 
   case 1
