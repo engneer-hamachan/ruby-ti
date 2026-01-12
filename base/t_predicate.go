@@ -59,6 +59,24 @@ func (t *T) IsVariableIdentifier() bool {
 	return false
 }
 
+func (t *T) IsTargetPrefixIdentifier(prefix byte) bool {
+	if t == nil {
+		return false
+	}
+
+	if t.tType != UNKNOWN {
+		return false
+	}
+
+	target := t.ToString()
+
+	if len(target) == 0 {
+		return false
+	}
+
+	return target[0] == prefix
+}
+
 func (t *T) IsUnknownType() bool {
 	if t == nil {
 		return false

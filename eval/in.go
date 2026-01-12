@@ -147,11 +147,16 @@ func (i *In) parsePattern(
 			return err
 		}
 
+	// name:
 	case nextT.IsKeyIdentifier():
 		variable := nextT.ToString()[:len(nextT.ToString())-1]
 		nextT = base.MakeIdentifier(variable)
 
 		i.parseVariable(ctx, nextT)
+
+	// ^ ||  _
+	case nextT.IsTargetPrefixIdentifier('^') || nextT.IsTargetIdentifier("_"):
+		// nop
 
 	// x
 	case nextT.IsVariableIdentifier():
@@ -220,7 +225,7 @@ func (i *In) Evaluation(
 	//   | Range
 	//   | pattern | pattern -> done
 	//   | pattern & pattern -> done
-	//   | ^variable
+	//   | ^variable -> done
 	//   | pattern if expr
 	//   | pattern => variable -> done
 	// 3. array inference
