@@ -11,15 +11,17 @@ p x
 
 a = 
   case arr
-  in [x, y]
+  in [x, y, u]
     p x
     p y
+    p u
   end
 
 a = 
   case 1
-  in r
+  in r, z
     p r
+    p z
   else 
     nil
   end

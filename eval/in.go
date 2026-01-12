@@ -16,116 +16,186 @@ func init() {
 	DynamicEvaluators["in"] = NewIn()
 }
 
-func (i *In) parsePattern(p *parser.Parser, ctx context.Context) error {
-	nextT, err := p.Read()
+func (i *In) parseVariable(
+	p *parser.Parser,
+	ctx context.Context,
+	t *base.T,
+) error {
+
+	var variable string
+	var err error
+
+	if t.IsKeyIdentifier() {
+		variable = t.ToString()[:len(t.ToString())-1]
+	} else {
+		variable = t.ToString()
+	}
+
+	base.SetValueT(
+		ctx.GetFrame(),
+		ctx.GetClass(),
+		ctx.GetMethod(),
+		variable,
+		base.MakeUntyped(),
+		ctx.IsDefineStatic,
+	)
+
+	t, err = p.Read()
 	if err != nil {
 		return err
 	}
 
-	// in String => x
-	if nextT.IsClassType() {
-		objectT := base.MakeObject(nextT.ToString())
+	if t.IsCommaIdentifier() {
+		t, err = p.Read()
+		if err != nil {
+			return nil
+		}
 
-		// =>
+		err = i.parsePattern(p, ctx, t)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	p.Unget()
+
+	return nil
+}
+
+func (i *In) parseHash(
+	p *parser.Parser,
+	ctx context.Context,
+) error {
+
+	for {
 		nextT, err := p.Read()
 		if err != nil {
 			return err
 		}
 
-		if nextT.IsTargetIdentifier("=>") {
-			// x
-			nextT, err := p.Read()
-			if err != nil {
-				return err
+		if nextT.IsVariableIdentifier() {
+			var variable string
+
+			if nextT.IsKeyIdentifier() {
+				variable = nextT.ToString()[:len(nextT.ToString())-1]
+			} else {
+				variable = nextT.ToString()
 			}
 
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),
 				ctx.GetMethod(),
-				nextT.ToString(),
-				objectT,
+				variable,
+				base.MakeUntyped(),
 				ctx.IsDefineStatic,
 			)
 		}
-	}
 
-	// [x, y]
-	if nextT.IsTargetIdentifier("[") {
-		for {
-			nextT, err := p.Read()
-			if err != nil {
-				return err
-			}
-
-			if nextT.IsVariableIdentifier() {
-				base.SetValueT(
-					ctx.GetFrame(),
-					ctx.GetClass(),
-					ctx.GetMethod(),
-					nextT.ToString(),
-					base.MakeUntyped(),
-					ctx.IsDefineStatic,
-				)
-			}
-
-			if nextT.IsTargetIdentifier("]") {
-				break
-			}
+		if nextT.IsTargetIdentifier("}") {
+			break
 		}
 	}
 
-	// {name:, age:}
-	if nextT.IsTargetIdentifier("{") {
-		for {
-			nextT, err := p.Read()
+	return nil
+}
+
+func (i *In) parseArray(
+	p *parser.Parser,
+	ctx context.Context,
+) error {
+
+	for {
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		if nextT.IsVariableIdentifier() {
+			err = i.parsePattern(p, ctx, nextT)
 			if err != nil {
 				return err
 			}
+		}
 
-			if nextT.IsVariableIdentifier() {
-				var variable string
-
-				if nextT.IsKeyIdentifier() {
-					variable = nextT.ToString()[:len(nextT.ToString())-1]
-				} else {
-					variable = nextT.ToString()
-				}
-
-				base.SetValueT(
-					ctx.GetFrame(),
-					ctx.GetClass(),
-					ctx.GetMethod(),
-					variable,
-					base.MakeUntyped(),
-					ctx.IsDefineStatic,
-				)
-			}
-
-			if nextT.IsTargetIdentifier("}") {
-				break
-			}
+		if nextT.IsTargetIdentifier("]") {
+			break
 		}
 	}
 
-	// x
-	if nextT.IsVariableIdentifier() {
-		var variable string
+	return nil
+}
 
-		if nextT.IsKeyIdentifier() {
-			variable = nextT.ToString()[:len(nextT.ToString())-1]
-		} else {
-			variable = nextT.ToString()
+func (i *In) parseClass(
+	p *parser.Parser,
+	ctx context.Context,
+	t *base.T,
+) error {
+
+	objectT := base.MakeObject(t.ToString())
+
+	// =>
+	nextT, err := p.Read()
+	if err != nil {
+		return err
+	}
+
+	if nextT.IsTargetIdentifier("=>") {
+		// x
+		nextT, err := p.Read()
+		if err != nil {
+			return err
 		}
 
 		base.SetValueT(
 			ctx.GetFrame(),
 			ctx.GetClass(),
 			ctx.GetMethod(),
-			variable,
-			base.MakeUntyped(),
+			nextT.ToString(),
+			objectT,
 			ctx.IsDefineStatic,
 		)
+	}
+
+	return nil
+}
+
+func (i *In) parsePattern(
+	p *parser.Parser,
+	ctx context.Context,
+	nextT *base.T,
+) error {
+
+	switch {
+	// String => x
+	case nextT.IsClassType():
+		err := i.parseClass(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
+
+	// [x, y]
+	case nextT.IsTargetIdentifier("["):
+		err := i.parseArray(p, ctx)
+		if err != nil {
+			return err
+		}
+
+	// {name:, age:}
+	case nextT.IsTargetIdentifier("{"):
+		err := i.parseHash(p, ctx)
+		if err != nil {
+			return err
+		}
+
+	// x
+	case nextT.IsVariableIdentifier():
+		err := i.parseVariable(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -158,7 +228,12 @@ func (i *In) Evaluation(
 	//   | pattern => variable
 	// 3. array inference
 	// 4. hash inference
-	i.parsePattern(p, ctx)
+	nextT, err := p.Read()
+	if err != nil {
+		return err
+	}
+
+	i.parsePattern(p, ctx, nextT)
 
 	p.SkipToTargetToken("\n")
 
