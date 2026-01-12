@@ -33,6 +33,32 @@ func (t *T) IsIdentifierType() bool {
 	return t.tType == UNKNOWN
 }
 
+func (t *T) IsVariableIdentifier() bool {
+	if t == nil {
+		return false
+	}
+
+	if t.tType != UNKNOWN {
+		return false
+	}
+
+	target := t.ToString()
+
+	if len(target) == 0 {
+		return false
+	}
+
+	if target[0] == '@' || target[0] == '$' {
+		return true
+	}
+
+	if target[0] == '_' || unicode.IsLower(rune(target[0])) {
+		return true
+	}
+
+	return false
+}
+
 func (t *T) IsUnknownType() bool {
 	if t == nil {
 		return false

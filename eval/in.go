@@ -1,7 +1,6 @@
 package eval
 
 import (
-	"slices"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -24,10 +23,8 @@ func (i *In) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	skipTarget := []string{"[", "]", "{", "}", ",", "\n"}
-
 	// TODO:
-	// 1. t.IsVariableIdentifier
+	// 1. t.IsVariableIdentifier -> done
 	// 2. implement bnf
 	//   pattern :=
 	//     literal
@@ -89,7 +86,7 @@ func (i *In) Evaluation(
 				return err
 			}
 
-			if nextT.GetPower() == 0 && nextT.IsUnknownType() && !slices.Contains(skipTarget, nextT.ToString()) {
+			if nextT.IsVariableIdentifier() {
 				base.SetValueT(
 					ctx.GetFrame(),
 					ctx.GetClass(),
@@ -114,7 +111,7 @@ func (i *In) Evaluation(
 				return err
 			}
 
-			if nextT.GetPower() == 0 && nextT.IsUnknownType() && !slices.Contains(skipTarget, nextT.ToString()) {
+			if nextT.IsVariableIdentifier() {
 				var variable string
 
 				if nextT.IsKeyIdentifier() {
@@ -140,7 +137,7 @@ func (i *In) Evaluation(
 	}
 
 	// x
-	if nextT.IsIdentifierType() && !slices.Contains(skipTarget, nextT.ToString()) && nextT.GetPower() == 0 {
+	if nextT.IsVariableIdentifier() {
 		var variable string
 
 		if nextT.IsKeyIdentifier() {
