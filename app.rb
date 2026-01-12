@@ -6,6 +6,7 @@ a =
     p x
   end
 
+
 a = 
   case arr
   in [x, y]
