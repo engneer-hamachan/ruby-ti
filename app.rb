@@ -11,10 +11,11 @@ p x
 
 a = 
   case arr
-  in [x, y, u]
+  in [x, y, u, String => o]
     p x
     p y
     p u
+    p o
   end
 
 a = 

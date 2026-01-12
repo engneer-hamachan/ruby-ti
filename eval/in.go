@@ -6,7 +6,9 @@ import (
 	"ti/parser"
 )
 
-type In struct{}
+type In struct {
+	lastParsedT *base.T
+}
 
 func NewIn() DynamicEvaluator {
 	return &In{}
@@ -59,6 +61,8 @@ func (i *In) parseVariable(
 		return nil
 	}
 
+	i.lastParsedT = base.MakeUntyped()
+
 	p.Unget()
 
 	return nil
@@ -99,6 +103,8 @@ func (i *In) parseHash(
 		}
 	}
 
+	i.lastParsedT = base.MakeUntyped()
+
 	return nil
 }
 
@@ -125,6 +131,8 @@ func (i *In) parseArray(
 		}
 	}
 
+	i.lastParsedT = base.MakeUntyped()
+
 	return nil
 }
 
@@ -134,30 +142,24 @@ func (i *In) parseClass(
 	t *base.T,
 ) error {
 
-	objectT := base.MakeObject(t.ToString())
+	i.lastParsedT = base.MakeObject(t.ToString())
 
-	// =>
+	// [
 	nextT, err := p.Read()
 	if err != nil {
 		return err
 	}
 
-	if nextT.IsTargetIdentifier("=>") {
-		// x
-		nextT, err := p.Read()
+	if nextT.IsTargetIdentifier("[") {
+		err := i.parseArray(p, ctx)
 		if err != nil {
 			return err
 		}
 
-		base.SetValueT(
-			ctx.GetFrame(),
-			ctx.GetClass(),
-			ctx.GetMethod(),
-			nextT.ToString(),
-			objectT,
-			ctx.IsDefineStatic,
-		)
+		return nil
 	}
+
+	p.Unget()
 
 	return nil
 }
@@ -169,7 +171,7 @@ func (i *In) parsePattern(
 ) error {
 
 	switch {
-	// String => x
+	// String
 	case nextT.IsClassType():
 		err := i.parseClass(p, ctx, nextT)
 		if err != nil {
@@ -197,6 +199,32 @@ func (i *In) parsePattern(
 			return err
 		}
 	}
+
+	// pattern => x
+	nextT, err := p.Read()
+	if err != nil {
+		return err
+	}
+
+	if nextT.IsTargetIdentifier("=>") {
+		variableT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		base.SetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			variableT.ToString(),
+			i.lastParsedT,
+			ctx.IsDefineStatic,
+		)
+
+		return nil
+	}
+
+	p.Unget()
 
 	return nil
 }
