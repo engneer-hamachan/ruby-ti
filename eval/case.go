@@ -125,7 +125,20 @@ func (c *Case) Evaluation(
 			resultTs = resultTs[1:]
 			resultTs = append(resultTs, p.GetLastEvaluatedT())
 
-			if !evaluatedT.IsUnionType() || !objectT.IsIdentifierType() {
+			if !objectT.IsIdentifierType() {
+				continue
+			}
+
+			if !evaluatedT.IsUnionType() {
+				base.SetValueT(
+					ctx.GetFrame(),
+					ctx.GetClass(),
+					ctx.GetMethod(),
+					objectT.ToString(),
+					&evaluatedT,
+					ctx.IsDefineStatic,
+				)
+
 				continue
 			}
 
@@ -150,6 +163,7 @@ func (c *Case) Evaluation(
 			}
 
 			unionT := base.MakeUnion(newUnionVariants)
+
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),
