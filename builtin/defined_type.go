@@ -83,6 +83,8 @@ func ConvertToBuiltinT(typeStr string) base.T {
 		return OptionalStringT
 	case "Int":
 		return IntT
+	case "Integer":
+		return IntT
 	case "DefaultInt":
 		return DefaultIntT
 	case "OptionalInt":
