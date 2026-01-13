@@ -50,6 +50,10 @@ func (t *T) GetRemoveSuffixKey() string {
 	return t.key[:len(t.key)-1]
 }
 
+func (t *T) GetRemovePrefixKey() string {
+	return t.key[1:]
+}
+
 func (t *T) GetKeyValue() *T {
 	return t.val.(*T)
 }

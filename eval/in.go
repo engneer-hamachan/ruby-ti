@@ -198,13 +198,33 @@ func (i *In) parsePattern(
 	// name:
 	case nextT.IsKeyIdentifier():
 		variable := nextT.ToString()[:len(nextT.ToString())-1]
-		nextT = base.MakeIdentifier(variable)
 
+		isContain := false
+		for _, variant := range i.caseTargetT.GetVariants() {
+			if variant.GetRemovePrefixKey() == variable {
+				base.SetValueT(
+					ctx.GetFrame(),
+					ctx.GetClass(),
+					ctx.GetMethod(),
+					variable,
+					variant.GetKeyValue(),
+					ctx.IsDefineStatic,
+				)
+
+				isContain = true
+			}
+		}
+
+		if isContain {
+			break
+		}
+
+		nextT = base.MakeIdentifier(variable)
 		i.parseVariable(ctx, nextT)
 
 	// ^ ||  _
 	case nextT.IsTargetPrefixIdentifier('^') || nextT.IsTargetIdentifier("_"):
-		// nop
+	//// nop
 
 	// x
 	case nextT.IsVariableIdentifier():
