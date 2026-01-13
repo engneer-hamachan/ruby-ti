@@ -85,6 +85,9 @@ func (c *Case) Evaluation(
 				return err
 			}
 
+			evaluatedT := p.GetLastEvaluatedT()
+			caseTs = append(caseTs, evaluatedT)
+
 			continue
 
 		case "when":
@@ -130,14 +133,34 @@ func (c *Case) Evaluation(
 			}
 
 			if !evaluatedT.IsUnionType() {
-				base.SetValueT(
-					ctx.GetFrame(),
-					ctx.GetClass(),
-					ctx.GetMethod(),
-					objectT.ToString(),
-					&evaluatedT,
-					ctx.IsDefineStatic,
-				)
+				isContain := false
+				for _, caseT := range caseTs {
+					if caseT.GetType() == evaluatedT.GetType() {
+						isContain = true
+						break
+					}
+				}
+
+				switch isContain {
+				case true:
+					base.SetValueT(
+						ctx.GetFrame(),
+						ctx.GetClass(),
+						ctx.GetMethod(),
+						objectT.ToString(),
+						base.MakeUntyped(),
+						ctx.IsDefineStatic,
+					)
+				default:
+					base.SetValueT(
+						ctx.GetFrame(),
+						ctx.GetClass(),
+						ctx.GetMethod(),
+						objectT.ToString(),
+						&evaluatedT,
+						ctx.IsDefineStatic,
+					)
+				}
 
 				continue
 			}
@@ -149,7 +172,7 @@ func (c *Case) Evaluation(
 			for _, variant := range unionVariants {
 				isContain := false
 				for _, caseT := range caseTs {
-					if caseT.GetType() == variant.GetType() {
+					if caseT.GetObjectClass() == variant.GetObjectClass() {
 						isContain = true
 						break
 					}

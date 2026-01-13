@@ -8,7 +8,6 @@ import (
 )
 
 type In struct {
-	lastParsedT *base.T
 	caseTargetT base.T
 }
 
@@ -60,7 +59,7 @@ func (i *In) parseHash(
 		}
 	}
 
-	i.lastParsedT = base.MakeUntyped()
+	p.SetLastEvaluatedT(base.MakeUntyped())
 
 	return nil
 }
@@ -118,7 +117,7 @@ func (i *In) parseArray(
 		ct++
 	}
 
-	i.lastParsedT = base.MakeUntyped()
+	p.SetLastEvaluatedT(base.MakeUntyped())
 
 	return nil
 }
@@ -130,7 +129,7 @@ func (i *In) parseClass(
 ) error {
 
 	objectT := builtin.ConvertToBuiltinT(t.ToString())
-	i.lastParsedT = &objectT
+	p.SetLastEvaluatedT(objectT.DeepCopy())
 
 	// [
 	nextT, err := p.Read()
@@ -210,12 +209,14 @@ func (i *In) parsePattern(
 			return err
 		}
 
+		evaluatedT := p.GetLastEvaluatedT()
+
 		base.SetValueT(
 			ctx.GetFrame(),
 			ctx.GetClass(),
 			ctx.GetMethod(),
 			variableT.ToString(),
-			i.lastParsedT,
+			&evaluatedT,
 			ctx.IsDefineStatic,
 		)
 
@@ -232,12 +233,14 @@ func (i *In) parsePattern(
 
 	default:
 		if isFirstToken {
+			evaluatedT := p.GetLastEvaluatedT()
+
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),
 				ctx.GetMethod(),
 				i.caseTargetT.GetBeforeEvaluateCode(),
-				i.lastParsedT,
+				&evaluatedT,
 				ctx.IsDefineStatic,
 			)
 		}

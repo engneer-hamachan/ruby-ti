@@ -6,16 +6,14 @@ import (
 	"testing"
 )
 
-func Test7b6e275b(t *testing.T) {
+func Test2712be04(t *testing.T) {
 	t.Parallel()
-	cmd := exec.Command("../ti", "./7b6e275b.rb")
+	cmd := exec.Command("../ti", "./2712be04.rb")
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./7b6e275b.rb:::10:::String
-./7b6e275b.rb:::12:::Integer
-./7b6e275b.rb:::14:::untyped
-./7b6e275b.rb:::17:::Union<Integer String>`
+	expectedOutput := `./2712be04.rb:::10:::String
+./2712be04.rb:::12:::untyped`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
