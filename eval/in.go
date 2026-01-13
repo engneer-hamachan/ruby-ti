@@ -286,21 +286,8 @@ func (i *In) Evaluation(
 	// 2. implement bnf
 	//   pattern :=
 	//     literal
-	//   | variable -> done
-	//   | _ -> done
-	//   | [pattern, ...] -> done
-	//
-	//   | { key: pattern, **pattern } -> done
-	//   | Class -> done
-	//   | Class[pattern, ...] -> done
 	//   | Range
-	//   | pattern | pattern -> done
-	//   | pattern & pattern -> done
-	//   | ^variable -> done
 	//   | pattern if expr
-	//   | pattern => variable -> done
-	// 3. array inference
-	// 4. hash inference
 	nextT, err := p.Read()
 	if err != nil {
 		return err
