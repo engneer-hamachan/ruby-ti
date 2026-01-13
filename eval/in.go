@@ -190,6 +190,18 @@ func (i *In) parsePattern(
 			return err
 		}
 
+	case nextT.IsDoubleAsteriskPrefix():
+		variable := nextT.ToString()[2:]
+
+		base.SetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			variable,
+			base.MakeAnyHash(),
+			ctx.IsDefineStatic,
+		)
+
 	// name:
 	case nextT.IsKeyIdentifier():
 		variable := nextT.ToString()[:len(nextT.ToString())-1]
