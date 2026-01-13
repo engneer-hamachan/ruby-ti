@@ -2,6 +2,7 @@ package eval
 
 import (
 	"ti/base"
+	"ti/builtin"
 	"ti/context"
 	"ti/parser"
 )
@@ -128,7 +129,8 @@ func (i *In) parseClass(
 	t *base.T,
 ) error {
 
-	i.lastParsedT = base.MakeObject(t.ToString())
+	objectT := builtin.ConvertToBuiltinT(t.ToString())
+	i.lastParsedT = &objectT
 
 	// [
 	nextT, err := p.Read()
