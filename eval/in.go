@@ -69,6 +69,10 @@ func (i *In) parseArray(
 	ctx context.Context,
 ) error {
 
+	ct := 1
+	arrayVariants := i.caseTargetT.GetVariants()
+	variantsLength := len(arrayVariants)
+
 	for {
 		nextT, err := p.Read()
 		if err != nil {
@@ -76,15 +80,41 @@ func (i *In) parseArray(
 		}
 
 		if nextT.IsVariableIdentifier() {
+			var objectT *base.T
+
+			if ct <= variantsLength {
+				objectT = arrayVariants[ct-1].DeepCopy()
+			} else {
+				objectT = i.caseTargetT.UnifyVariants()
+			}
+
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				nextT.ToString(),
+				objectT,
+				ctx.IsDefineStatic,
+			)
+
+		}
+
+		if nextT.IsClassType() {
 			err = i.parsePattern(p, ctx, nextT, false)
 			if err != nil {
 				return err
 			}
 		}
 
+		if nextT.IsCommaIdentifier() {
+			continue
+		}
+
 		if nextT.IsTargetIdentifier("]") {
 			break
 		}
+
+		ct++
 	}
 
 	i.lastParsedT = base.MakeUntyped()
