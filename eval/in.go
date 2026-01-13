@@ -281,13 +281,6 @@ func (i *In) Evaluation(
 
 	i.caseTargetT = p.GetLastEvaluatedT()
 
-	// TODO:
-	// 1. t.IsVariableIdentifier -> done
-	// 2. implement bnf
-	//   pattern :=
-	//     literal
-	//   | Range
-	//   | pattern if expr
 	nextT, err := p.Read()
 	if err != nil {
 		return err
