@@ -20,19 +20,11 @@ func init() {
 }
 
 func (i *In) parseVariable(ctx context.Context, t *base.T) {
-	var variable string
-
-	if t.IsKeyIdentifier() {
-		variable = t.ToString()[:len(t.ToString())-1]
-	} else {
-		variable = t.ToString()
-	}
-
 	base.SetValueT(
 		ctx.GetFrame(),
 		ctx.GetClass(),
 		ctx.GetMethod(),
-		variable,
+		t.ToString(),
 		base.MakeUntyped(),
 		ctx.IsDefineStatic,
 	)
@@ -190,6 +182,7 @@ func (i *In) parsePattern(
 			return err
 		}
 
+	// **y
 	case nextT.IsDoubleAsteriskPrefix():
 		variable := nextT.ToString()[2:]
 
