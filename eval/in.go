@@ -96,7 +96,17 @@ func (i *In) parseArray(
 				objectT,
 				ctx.IsDefineStatic,
 			)
+		}
 
+		if nextT.IsAsteriskPrefix() {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				nextT.ToString()[1:],
+				base.MakeUntyped(),
+				ctx.IsDefineStatic,
+			)
 		}
 
 		if nextT.IsClassType() {
