@@ -196,6 +196,8 @@ func (i *In) parsePattern(
 		)
 
 	case nextT.IsTargetIdentifier("^"):
+		p.SetLastEvaluatedT(base.MakeUntyped())
+
 		nextT, err := p.Read()
 		if err != nil {
 			return err

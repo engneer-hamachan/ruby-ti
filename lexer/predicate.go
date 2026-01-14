@@ -19,6 +19,7 @@ func isIdentifierChar(c rune) bool {
 		c == ']' ||
 		c == '|' ||
 		c == '&' ||
+		c == '^' ||
 		c == base.NIL {
 
 		return false

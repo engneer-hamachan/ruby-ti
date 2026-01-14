@@ -454,6 +454,13 @@ func (l *Lexer) Advance() bool {
 		l.val = Intern(str)
 		l.tok = base.UNKNOWN
 
+	case '^':
+		var buf strings.Builder
+		buf.WriteRune(char)
+		str := buf.String()
+		l.val = Intern(str)
+		l.tok = base.UNKNOWN
+
 	case '\n', '(', ')', '`', ',', '{', '}', '[', ']':
 		l.tok = char
 
