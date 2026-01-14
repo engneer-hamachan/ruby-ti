@@ -124,6 +124,27 @@ func (i *In) parseArray(
 	return nil
 }
 
+func (i *In) parseParentheses(p *parser.Parser, ctx context.Context) error {
+	p.SetLastEvaluatedT(base.MakeUntyped())
+
+	for {
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		if nextT.IsVariableIdentifier() {
+			i.parseVariable(ctx, nextT)
+		}
+
+		if nextT.IsTargetIdentifier(")") {
+			break
+		}
+	}
+
+	return nil
+}
+
 func (i *In) parseClass(
 	p *parser.Parser,
 	ctx context.Context,
@@ -141,6 +162,15 @@ func (i *In) parseClass(
 
 	if nextT.IsTargetIdentifier("[") {
 		err := i.parseArray(p, ctx)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	if nextT.IsTargetIdentifier("(") {
+		err := i.parseParentheses(p, ctx)
 		if err != nil {
 			return err
 		}
@@ -171,6 +201,13 @@ func (i *In) parsePattern(
 	// [x, y]
 	case nextT.IsTargetIdentifier("["):
 		err := i.parseArray(p, ctx)
+		if err != nil {
+			return err
+		}
+
+	// ()
+	case nextT.IsOpenParentheses():
+		err := i.parseParentheses(p, ctx)
 		if err != nil {
 			return err
 		}
@@ -206,20 +243,6 @@ func (i *In) parsePattern(
 		err = i.parsePattern(p, ctx, nextT, false)
 		if err != nil {
 			return err
-		}
-
-	case nextT.IsOpenParentheses():
-		p.SetLastEvaluatedT(base.MakeUntyped())
-
-		for {
-			nextT, err := p.Read()
-			if err != nil {
-				return err
-			}
-
-			if nextT.IsTargetIdentifier(")") {
-				break
-			}
 		}
 
 	// name:
