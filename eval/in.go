@@ -195,6 +195,31 @@ func (i *In) parsePattern(
 			ctx.IsDefineStatic,
 		)
 
+	case nextT.IsTargetIdentifier("^"):
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		err = i.parsePattern(p, ctx, nextT, false)
+		if err != nil {
+			return err
+		}
+
+	case nextT.IsOpenParentheses():
+		p.SetLastEvaluatedT(base.MakeUntyped())
+
+		for {
+			nextT, err := p.Read()
+			if err != nil {
+				return err
+			}
+
+			if nextT.IsTargetIdentifier(")") {
+				break
+			}
+		}
+
 	// name:
 	case nextT.IsKeyIdentifier():
 		variable := nextT.ToString()[:len(nextT.ToString())-1]
