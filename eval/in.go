@@ -344,14 +344,18 @@ func (i *In) Evaluation(
 
 	i.caseTargetT = p.GetLastEvaluatedT()
 
-	nextT, err := p.Read()
-	if err != nil {
-		return err
+	for {
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		if nextT.IsNewLineIdentifier() {
+			break
+		}
+
+		i.parsePattern(p, ctx, nextT, true)
 	}
-
-	i.parsePattern(p, ctx, nextT, true)
-
-	p.SkipToTargetToken("\n")
 
 	return nil
 }
