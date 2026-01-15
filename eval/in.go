@@ -7,9 +7,7 @@ import (
 	"ti/parser"
 )
 
-type In struct {
-	caseTargetT base.T
-}
+type In struct{}
 
 func NewIn() DynamicEvaluator {
 	return &In{}
@@ -33,6 +31,7 @@ func (i *In) parseVariable(ctx context.Context, t *base.T) {
 func (i *In) parseHash(
 	p *parser.Parser,
 	ctx context.Context,
+	caseTargetT base.T,
 ) error {
 
 	for {
@@ -45,7 +44,7 @@ func (i *In) parseHash(
 			break
 		}
 
-		err = i.parsePattern(p, ctx, nextT, false)
+		err = i.parsePattern(p, ctx, nextT, caseTargetT, false)
 		if err != nil {
 			return err
 		}
@@ -59,10 +58,11 @@ func (i *In) parseHash(
 func (i *In) parseArray(
 	p *parser.Parser,
 	ctx context.Context,
+	caseTargetT base.T,
 ) error {
 
 	ct := 1
-	arrayVariants := i.caseTargetT.GetVariants()
+	arrayVariants := caseTargetT.GetVariants()
 	variantsLength := len(arrayVariants)
 
 	for {
@@ -77,7 +77,7 @@ func (i *In) parseArray(
 			if ct <= variantsLength {
 				objectT = arrayVariants[ct-1].DeepCopy()
 			} else {
-				objectT = i.caseTargetT.UnifyVariants()
+				objectT = caseTargetT.UnifyVariants()
 			}
 
 			base.SetValueT(
@@ -102,7 +102,7 @@ func (i *In) parseArray(
 		}
 
 		if nextT.IsClassType() {
-			err = i.parsePattern(p, ctx, nextT, false)
+			err = i.parsePattern(p, ctx, nextT, caseTargetT, false)
 			if err != nil {
 				return err
 			}
@@ -149,6 +149,7 @@ func (i *In) parseClass(
 	p *parser.Parser,
 	ctx context.Context,
 	t *base.T,
+	caseTargetT base.T,
 ) error {
 
 	objectT := builtin.ConvertToBuiltinT(t.ToString())
@@ -161,7 +162,7 @@ func (i *In) parseClass(
 	}
 
 	if nextT.IsTargetIdentifier("[") {
-		err := i.parseArray(p, ctx)
+		err := i.parseArray(p, ctx, caseTargetT)
 		if err != nil {
 			return err
 		}
@@ -210,20 +211,21 @@ func (i *In) parsePattern(
 	p *parser.Parser,
 	ctx context.Context,
 	nextT *base.T,
+	caseTargetT base.T,
 	isFirstToken bool,
 ) error {
 
 	switch {
 	// String
 	case nextT.IsClassType():
-		err := i.parseClass(p, ctx, nextT)
+		err := i.parseClass(p, ctx, nextT, caseTargetT)
 		if err != nil {
 			return err
 		}
 
 	// [x, y]
 	case nextT.IsTargetIdentifier("["):
-		err := i.parseArray(p, ctx)
+		err := i.parseArray(p, ctx, caseTargetT)
 		if err != nil {
 			return err
 		}
@@ -237,7 +239,7 @@ func (i *In) parsePattern(
 
 	// {name:, age:}
 	case nextT.IsTargetIdentifier("{"):
-		err := i.parseHash(p, ctx)
+		err := i.parseHash(p, ctx, caseTargetT)
 		if err != nil {
 			return err
 		}
@@ -263,7 +265,7 @@ func (i *In) parsePattern(
 			return err
 		}
 
-		err = i.parsePattern(p, ctx, nextT, false)
+		err = i.parsePattern(p, ctx, nextT, caseTargetT, false)
 		if err != nil {
 			return err
 		}
@@ -278,17 +280,13 @@ func (i *In) parsePattern(
 		}
 
 		if nextT.IsTargetIdentifier("{") {
-			for _, variant := range i.caseTargetT.GetVariants() {
+			for _, variant := range caseTargetT.GetVariants() {
 				if variant.GetRemovePrefixKey() == variable {
-					savedTarget := i.caseTargetT
-
-					i.caseTargetT = *variant.GetKeyValue()
-					err := i.parseHash(p, ctx)
+					caseTargetT = *variant.GetKeyValue()
+					err := i.parseHash(p, ctx, caseTargetT)
 					if err != nil {
 						return err
 					}
-
-					i.caseTargetT = savedTarget
 					break
 				}
 			}
@@ -297,7 +295,7 @@ func (i *In) parsePattern(
 		}
 
 		p.Unget()
-		isContain := containKey(ctx, variable, i.caseTargetT.GetVariants())
+		isContain := containKey(ctx, variable, caseTargetT.GetVariants())
 		if isContain {
 			break
 		}
@@ -344,7 +342,7 @@ func (i *In) parsePattern(
 			return err
 		}
 
-		err = i.parsePattern(p, ctx, nextT, false)
+		err = i.parsePattern(p, ctx, nextT, caseTargetT, false)
 		if err != nil {
 			return err
 		}
@@ -357,7 +355,7 @@ func (i *In) parsePattern(
 				ctx.GetFrame(),
 				ctx.GetClass(),
 				ctx.GetMethod(),
-				i.caseTargetT.GetBeforeEvaluateCode(),
+				caseTargetT.GetBeforeEvaluateCode(),
 				&evaluatedT,
 				ctx.IsDefineStatic,
 			)
@@ -375,8 +373,6 @@ func (i *In) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	i.caseTargetT = p.GetLastEvaluatedT()
-
 	for {
 		nextT, err := p.Read()
 		if err != nil {
@@ -387,7 +383,7 @@ func (i *In) Evaluation(
 			break
 		}
 
-		i.parsePattern(p, ctx, nextT, true)
+		i.parsePattern(p, ctx, nextT, p.GetLastEvaluatedT(), true)
 	}
 
 	return nil
