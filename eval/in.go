@@ -186,6 +186,10 @@ func (i *In) parseClass(
 func containKey(ctx context.Context, variable string, variants []base.T) bool {
 	for _, variant := range variants {
 		if variant.GetRemovePrefixKey() == variable {
+			if variant.GetKeyValue().IsHashType() {
+				return containKey(ctx, variable, variant.GetKeyValue().GetVariants())
+			}
+
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),
@@ -196,10 +200,6 @@ func containKey(ctx context.Context, variable string, variants []base.T) bool {
 			)
 
 			return true
-		}
-
-		if variant.GetKeyValue().IsHashType() {
-			return containKey(ctx, variable, variant.GetKeyValue().GetVariants())
 		}
 	}
 
@@ -272,6 +272,31 @@ func (i *In) parsePattern(
 	case nextT.IsKeyIdentifier():
 		variable := nextT.ToString()[:len(nextT.ToString())-1]
 
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		if nextT.IsTargetIdentifier("{") {
+			for _, variant := range i.caseTargetT.GetVariants() {
+				if variant.GetRemovePrefixKey() == variable {
+					savedTarget := i.caseTargetT
+
+					i.caseTargetT = *variant.GetKeyValue()
+					err := i.parseHash(p, ctx)
+					if err != nil {
+						return err
+					}
+
+					i.caseTargetT = savedTarget
+					break
+				}
+			}
+
+			break
+		}
+
+		p.Unget()
 		isContain := containKey(ctx, variable, i.caseTargetT.GetVariants())
 		if isContain {
 			break
