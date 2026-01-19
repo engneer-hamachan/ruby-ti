@@ -85,6 +85,37 @@ func isNotDefineNamedArgError(
 	return true
 }
 
+func propagationForUnknownArg(
+	m *MethodEvaluator,
+	definedArgT *base.T,
+	argT *base.T,
+) {
+
+	arg := argT.ToString()
+
+	if arg == "unknown" {
+		arg = argT.GetBeforeEvaluateCode()
+	}
+
+	t := *definedArgT.DeepCopy()
+	t.SetHasDefault(argT.HasDefault())
+	t.SetIsInfferedFromCall(argT.IsInfferedFromCall())
+	t.SetBeforeEvaluateCode(argT.ToString())
+
+	if argT.HasDefault() {
+		t.AppendVariant(*argT)
+	}
+
+	base.UpdateArgumentSnapShot(
+		m.ctx.GetFrame(),
+		m.ctx.GetClass(),
+		m.ctx.GetMethod(),
+		arg,
+		t,
+		m.ctx.IsDefineStatic,
+	)
+}
+
 func propagationForCalledTo(
 	m *MethodEvaluator,
 	class, definedArg string,
@@ -586,31 +617,8 @@ func checkAndPropagateArgs(
 			break
 		}
 
-		// TODO: move some method
 		if definedArgT != nil && sortedArgTs[argIdx].IsIdentifierType() {
-			tmpArg := sortedArgTs[argIdx].ToString()
-
-			if tmpArg == "unknown" {
-				tmpArg = sortedArgTs[argIdx].GetBeforeEvaluateCode()
-			}
-
-			tmpT := *definedArgT.DeepCopy()
-			tmpT.SetHasDefault(sortedArgTs[argIdx].HasDefault())
-			tmpT.SetIsInfferedFromCall(sortedArgTs[argIdx].IsInfferedFromCall())
-			tmpT.SetBeforeEvaluateCode(sortedArgTs[argIdx].ToString())
-
-			if sortedArgTs[argIdx].HasDefault() {
-				tmpT.AppendVariant(*sortedArgTs[argIdx])
-			}
-
-			base.UpdateArgumentSnapShot(
-				m.ctx.GetFrame(),
-				m.ctx.GetClass(),
-				m.ctx.GetMethod(),
-				tmpArg,
-				tmpT,
-				m.ctx.IsDefineStatic,
-			)
+			propagationForUnknownArg(m, definedArgT, sortedArgTs[argIdx])
 		}
 
 		if propagationForCalledTo(
