@@ -303,7 +303,7 @@ func expectBlockArgProcess(
 	return argTs, nil
 }
 
-func handleMethodChain(m *MethodEvaluator) error {
+func handleEvaluateArgsMethodChain(m *MethodEvaluator) error {
 	for {
 		nextT, err := m.parser.Read()
 		if err != nil {
@@ -387,7 +387,7 @@ func getEvaluatedArgs(
 		}
 
 		// x.abc.def.ghi
-		err = handleMethodChain(m)
+		err = handleEvaluateArgsMethodChain(m)
 		if err != nil {
 			return argTs, err
 		}
