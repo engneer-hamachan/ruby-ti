@@ -586,6 +586,7 @@ func checkAndPropagateArgs(
 			break
 		}
 
+		// TODO: move some method
 		if definedArgT != nil && sortedArgTs[argIdx].IsIdentifierType() {
 			tmpArg := sortedArgTs[argIdx].ToString()
 
