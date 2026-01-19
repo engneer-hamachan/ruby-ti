@@ -86,8 +86,8 @@ func (t *T) DisableReadOnly() {
 	t.isReadOnly = false
 }
 
-func (t *T) SetIsWhenCallType(b bool) {
-	t.isWhenCallType = b
+func (t *T) SetIsInfferedFromCall(b bool) {
+	t.isInfferedFromCall = b
 }
 
 func (t *T) SetHasDefault(b bool) {

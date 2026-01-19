@@ -12,7 +12,7 @@ type T struct {
 	hasDefault          bool
 	isBuiltin           bool
 	variants            []T
-	isWhenCallType      bool
+	isInfferedFromCall  bool
 	IsBuiltinAsterisk   bool
 	IsConditionalReturn bool
 	IsDestructive       bool
@@ -44,7 +44,7 @@ func (t *T) DeepCopy() *T {
 		method:             t.method,
 		hasDefault:         t.hasDefault,
 		isBuiltin:          t.isBuiltin,
-		isWhenCallType:     t.isWhenCallType,
+		isInfferedFromCall: t.isInfferedFromCall,
 		beforeEvaluateCode: t.beforeEvaluateCode,
 		isReadOnly:         t.isReadOnly,
 		IsBeforeSpace:      t.IsBeforeSpace,

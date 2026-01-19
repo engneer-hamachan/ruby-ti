@@ -435,12 +435,12 @@ func (t *T) HasDefault() bool {
 	return t.hasDefault
 }
 
-func (t *T) IsWhenCallType() bool {
+func (t *T) IsInfferedFromCall() bool {
 	if t == nil {
 		return false
 	}
 
-	return t.isWhenCallType
+	return t.isInfferedFromCall
 }
 
 func (t *T) IsBuiltin() bool {

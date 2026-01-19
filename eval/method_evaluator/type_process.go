@@ -98,7 +98,7 @@ func propagationForCalledTo(
 	}
 
 	if definedArgT == nil || definedArgT.IsIdentifierType() {
-		argT.SetIsWhenCallType(true)
+		argT.SetIsInfferedFromCall(true)
 
 		definedArgT :=
 			base.GetValueT(
@@ -143,7 +143,7 @@ func propagationForCalledTo(
 		return true
 	}
 
-	if definedArgT.IsUnionType() && definedArgT.IsWhenCallType() {
+	if definedArgT.IsUnionType() && definedArgT.IsInfferedFromCall() {
 		definedArgT.AppendVariant(*argT)
 
 		return true
@@ -153,7 +153,7 @@ func propagationForCalledTo(
 		return true
 	}
 
-	if definedArgT.HasDefault() || definedArgT.IsWhenCallType() {
+	if definedArgT.HasDefault() || definedArgT.IsInfferedFromCall() {
 		var unionVariants []base.T
 
 		switch definedArgT.GetType() {
@@ -173,7 +173,7 @@ func propagationForCalledTo(
 		unionT := base.MakeUnion(unionVariants).UnifyVariants()
 
 		unionT.SetHasDefault(definedArgT.HasDefault())
-		unionT.SetIsWhenCallType(definedArgT.IsWhenCallType())
+		unionT.SetIsInfferedFromCall(definedArgT.IsInfferedFromCall())
 
 		definedArgT :=
 			base.GetValueT(
@@ -595,7 +595,7 @@ func checkAndPropagateArgs(
 
 			tmpT := *definedArgT.DeepCopy()
 			tmpT.SetHasDefault(sortedArgTs[argIdx].HasDefault())
-			tmpT.SetIsWhenCallType(sortedArgTs[argIdx].IsWhenCallType())
+			tmpT.SetIsInfferedFromCall(sortedArgTs[argIdx].IsInfferedFromCall())
 			tmpT.SetBeforeEvaluateCode(sortedArgTs[argIdx].ToString())
 
 			if sortedArgTs[argIdx].HasDefault() {
