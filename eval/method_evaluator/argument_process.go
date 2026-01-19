@@ -303,6 +303,29 @@ func expectBlockArgProcess(
 	return argTs, nil
 }
 
+func handleMethodChain(m *MethodEvaluator) error {
+	for {
+		nextT, err := m.parser.Read()
+		if err != nil {
+			return err
+		}
+
+		if m.parser.LastCallT.IsPowerUp(nextT) || nextT.IsTargetIdentifier("[") {
+			err = m.outerEval.Eval(m.parser, m.ctx, nextT)
+			if err != nil {
+				return err
+			}
+
+			continue
+		}
+
+		m.parser.Unget()
+		break
+	}
+
+	return nil
+}
+
 func getEvaluatedArgs(
 	m *MethodEvaluator,
 	methodT *base.T,
@@ -364,23 +387,9 @@ func getEvaluatedArgs(
 		}
 
 		// x.abc.def.ghi
-		for {
-			nextT, err = m.parser.Read()
-			if err != nil {
-				return argTs, err
-			}
-
-			if m.parser.LastCallT.IsPowerUp(nextT) || nextT.IsTargetIdentifier("[") {
-				err = m.outerEval.Eval(m.parser, m.ctx, nextT)
-				if err != nil {
-					return argTs, err
-				}
-
-				continue
-			}
-
-			m.parser.Unget()
-			break
+		err = handleMethodChain(m)
+		if err != nil {
+			return argTs, err
 		}
 
 		lastEvaluatedT := m.parser.GetLastEvaluatedT()
