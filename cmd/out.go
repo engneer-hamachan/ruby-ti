@@ -164,6 +164,10 @@ func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 }
 
 func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
+	if targetT.IsClassType() {
+		return targetT.ToString(), true
+	}
+
 	target := targetT.ToString()
 	beforeCode := targetT.GetBeforeEvaluateCode()
 
