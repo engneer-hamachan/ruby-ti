@@ -168,6 +168,7 @@ func calculateObjectClassAndIsStatic(targetT base.T) (string, bool) {
 	beforeCode := targetT.GetBeforeEvaluateCode()
 
 	var isStaticTarget bool
+
 	switch len(beforeCode) {
 	case 0:
 		isStaticTarget = unicode.IsUpper(rune(target[0]))

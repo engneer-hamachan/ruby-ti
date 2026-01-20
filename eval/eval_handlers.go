@@ -54,6 +54,21 @@ func (e *Evaluator) handleIdentifier(
 
 	id := t.ToString()
 
+	if t.GetType() == base.CLASS {
+		base.SetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			id,
+			t,
+			ctx.IsDefineStatic,
+		)
+
+		e.setLastEvaluatedT(p, ctx, t)
+
+		return
+	}
+
 	var valueT *base.T
 
 	// <<EOF
