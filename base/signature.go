@@ -5,14 +5,15 @@ import (
 )
 
 type Sig struct {
-	Method   string
-	Detail   string
-	Frame    string
-	Class    string
-	IsStatic bool
-	FileName string
-	Row      int
-	Document string
+	Method    string
+	Detail    string
+	Frame     string
+	Class     string
+	IsStatic  bool
+	IsPrivate bool
+	FileName  string
+	Row       int
+	Document  string
 }
 
 var TSignatures = make(map[string]Sig)
@@ -258,6 +259,7 @@ func appendSignature(
 	frame, class string,
 	methodT *T,
 	isStatic bool,
+	isPrivate bool,
 	fileName string,
 	row int,
 ) {
@@ -271,7 +273,17 @@ func appendSignature(
 	document := TSignatureDocument[key]
 
 	sig :=
-		Sig{methodT.GetMethodName(), content, frame, class, isStatic, fileName, row, document}
+		Sig{
+			methodT.GetMethodName(),
+			content,
+			frame,
+			class,
+			isStatic,
+			isPrivate,
+			fileName,
+			row,
+			document,
+		}
 
 	TSignatures[key] = sig
 }

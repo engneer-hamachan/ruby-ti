@@ -101,7 +101,7 @@ func SetClassMethodT(
 
 	methodT.IsStatic = true
 
-	appendSignature(frame, class, methodT, true, fileName, row)
+	appendSignature(frame, class, methodT, true, isPrivate, fileName, row)
 
 	TFrame[classMethodTFrameKey(
 		frame,
@@ -128,7 +128,7 @@ func SetMethodT(
 		methodT.SetBeforeEvaluateCode(targetClass + "." + methodT.GetMethodName())
 	}
 
-	appendSignature(frame, targetClass, methodT, false, fileName, row)
+	appendSignature(frame, targetClass, methodT, false, isPrivate, fileName, row)
 
 	TFrame[methodTFrameKey(
 		frame,
