@@ -4,7 +4,7 @@ install:
 	bash ./shell/install.sh
 
 generate-test:
-	bash ./shell/generate_test_from_sample.sh
+	bash ./shell/generate_test_from_sample.sh $(ARGS)
 
 test:
 	bash ./shell/test.sh

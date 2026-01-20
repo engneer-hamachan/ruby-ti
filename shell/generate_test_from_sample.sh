@@ -28,7 +28,7 @@ done
 
 # Run type checker on sample.rb to get expected output
 echo "Running type checker on sample.rb..."
-raw_output=$(./ti sample.rb 2>&1)
+raw_output=$(./ti sample.rb "$@" 2>&1)
 # Replace sample.rb with ./${test_name}.rb in the output for the test
 output=$(echo "$raw_output" | sed "s|sample\.rb|\./${test_name}\.rb|g")
 exit_code=$?
@@ -52,7 +52,7 @@ import (
 
 func Test$(echo ${test_name:0:1} | tr '[:lower:]' '[:upper:]')${test_name:1}(t *testing.T) {
 	t.Parallel()
-	cmd := exec.Command("../ti", "./${test_name}.rb")
+	cmd := exec.Command("../ti", "./${test_name}.rb", "$@")
 
 	output, _ := cmd.CombinedOutput()
 
