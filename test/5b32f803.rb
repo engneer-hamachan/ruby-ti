@@ -1,12 +1,4 @@
 class Hoge
-  def test2
-    test
-  end
-
-  def test4
-    test
-  end
-
   protected
 
   def self.test

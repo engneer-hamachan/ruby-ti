@@ -35,8 +35,13 @@ func (t *topLevelMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		if methodT == nil {
 			methodT = base.GetTopLevelMethodT(m.ctx.GetFrame(), class, m.method)
 		}
+
 	default:
 		methodT = base.GetTopLevelMethodT(m.ctx.GetFrame(), class, m.method)
+
+		if methodT.IsStatic && m.ctx.GetMethod() != "" {
+			return "", nil, m.makeNotDefinedMethodError("", m.method, "")
+		}
 	}
 
 	if methodT == nil {

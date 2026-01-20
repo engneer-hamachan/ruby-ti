@@ -5,5 +5,5 @@ class Hoge
 end
 
 h = Hoge::new
-
+ 
 h.test + '1'
