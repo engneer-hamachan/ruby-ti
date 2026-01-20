@@ -48,7 +48,6 @@ func NewStrategy(m *MethodEvaluator) MethodEvaluateStrategy {
 	}
 
 	if m.evaluatedObjectT.IsClassType() {
-		m.objectT = m.evaluatedObjectT.DeepCopy()
 		return &classMethodStrategy{}
 	}
 
