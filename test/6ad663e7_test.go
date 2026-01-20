@@ -23,6 +23,7 @@ func Test6ad663e7(t *testing.T) {
 %class:::class() -> String:::Return object class
 %dup:::dup() -> Self:::Duplicate object
 %exit:::exit(optional Integer) -> NilClass:::
+%hoge:::User.hoge() -> Integer:::
 %include:::include(untyped) -> NilClass:::
 %inspect:::inspect() -> String:::Return string representation for debugging
 %is_a?:::is_a?(untyped) -> Bool:::Check if instance of specified class or module

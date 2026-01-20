@@ -230,6 +230,10 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		return true
 	}
 
+	if isParentClass(sig, targetT.DefinedFrame, targetT.DefinedClass) {
+		return true
+	}
+
 	if isStaticTarget != sig.IsStatic {
 		return false
 	}
