@@ -230,7 +230,7 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		return true
 	}
 
-	if isParentClass(sig, targetT.DefinedFrame, targetT.DefinedClass) {
+	if isParentClass(sig, targetT.DefinedFrame, targetT.DefinedClass, targetT.IsStatic) {
 		return true
 	}
 
@@ -242,10 +242,14 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		return true
 	}
 
-	return isParentClass(sig, targetT.GetFrame(), objectClass)
+	return isParentClass(sig, targetT.GetFrame(), objectClass, isStaticTarget)
 }
 
-func isParentClass(sig base.Sig, frame, class string) bool {
+func isParentClass(sig base.Sig, frame, class string, isStaticTarget bool) bool {
+	if sig.IsStatic != isStaticTarget {
+		return false
+	}
+
 	if sig.Method == "new" {
 		return false
 	}
@@ -265,7 +269,7 @@ func isParentClass(sig base.Sig, frame, class string) bool {
 			return true
 		}
 
-		if isParentClass(sig, parentNode.Frame, parentNode.Class) {
+		if isParentClass(sig, parentNode.Frame, parentNode.Class, isStaticTarget) {
 			return true
 		}
 	}
