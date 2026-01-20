@@ -53,10 +53,6 @@ func NewMethodEvaluator(
 					instance,
 				)
 		}
-
-		if evaluatedObjectT.IsClassType() {
-			objectT = evaluatedObjectT
-		}
 	}
 
 	p.SetLastEvaluatedT(evaluatedObjectT)
