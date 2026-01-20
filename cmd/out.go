@@ -217,6 +217,10 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		return false
 	}
 
+	if sig.Class == targetT.DefinedClass && sig.IsStatic == targetT.IsStatic {
+		return true
+	}
+
 	if isStaticTarget != sig.IsStatic {
 		return false
 	}
