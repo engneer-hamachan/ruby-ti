@@ -39,6 +39,14 @@ go_test_file="$test_dir/${test_name}_test.go"
 echo "Creating $rb_file..."
 cp sample.rb "$rb_file"
 
+# Build Go command arguments (comma-separated additional args)
+go_args=""
+for arg in "$@"; do
+    # Escape quotes and backslashes in the argument
+    escaped_arg=$(printf '%s' "$arg" | sed 's/\\/\\\\/g; s/"/\\"/g')
+    go_args="$go_args, \"$escaped_arg\""
+done
+
 # Create Go test file
 echo "Creating $go_test_file..."
 cat > "$go_test_file" << EOF
@@ -52,7 +60,7 @@ import (
 
 func Test$(echo ${test_name:0:1} | tr '[:lower:]' '[:upper:]')${test_name:1}(t *testing.T) {
 	t.Parallel()
-	cmd := exec.Command("../ti", "./${test_name}.rb", "$@")
+	cmd := exec.Command("../ti", "./${test_name}.rb"$go_args)
 
 	output, _ := cmd.CombinedOutput()
 
