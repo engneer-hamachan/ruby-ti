@@ -20,6 +20,17 @@ func (t *topLevelMethodStrategy) evaluate(m *MethodEvaluator) error {
 	return evaluateNoUnionInstanceMethod(m, class, methodT)
 }
 
+func (t *topLevelMethodStrategy) isMismatchVisibility(
+	m *MethodEvaluator,
+	methodT *base.T,
+) bool {
+
+	return m.ctx.IsDefineStatic != methodT.IsStatic &&
+		m.ctx.GetMethod() != "" &&
+		m.ctx.GetMethod() != "new" &&
+		methodT.GetFrame() != "Builtin"
+}
+
 func (t *topLevelMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 	class string,
 	methodT *base.T,
@@ -40,14 +51,7 @@ func (t *topLevelMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 		methodT = base.GetTopLevelMethodT(m.ctx.GetFrame(), class, m.method)
 	}
 
-	// TODO: refact
-	if m.ctx.IsDefineStatic != methodT.IsStatic &&
-		m.ctx.GetMethod() != "" &&
-		m.ctx.GetMethod() != "new" &&
-		!m.ctx.IsDefineArg &&
-		methodT.GetObjectClass() != "" &&
-		methodT.GetFrame() != "Builtin" {
-
+	if t.isMismatchVisibility(m, methodT) {
 		return "", nil, m.makeNotDefinedMethodError("", m.method, "")
 	}
 
