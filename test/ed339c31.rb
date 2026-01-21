@@ -245,7 +245,7 @@ class Person
     @name = name
     @age = age
   end
-  
+
   def name
     @name
   end
