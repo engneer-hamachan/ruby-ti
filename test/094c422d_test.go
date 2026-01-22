@@ -23,6 +23,7 @@ func Test094c422d(t *testing.T) {
 %class:::class() -> String:::Return object class
 %dup:::dup() -> Self:::Duplicate object
 %exit:::exit(optional Integer) -> NilClass:::
+%extend:::extend(untyped) -> NilClass:::
 %fuga:::User.fuga() -> Integer:::
 %hoge:::User.hoge() -> unknown:::
 %include:::include(untyped) -> NilClass:::

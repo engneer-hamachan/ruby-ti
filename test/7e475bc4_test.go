@@ -23,6 +23,7 @@ func Test7e475bc4(t *testing.T) {
 %class:::class() -> String:::Return object class
 %dup:::dup() -> Self:::Duplicate object
 %exit:::exit(optional Integer) -> NilClass:::
+%extend:::extend(untyped) -> NilClass:::
 %hoge:::User.hoge() -> Integer:::
 %include:::include(untyped) -> NilClass:::
 %inspect:::inspect() -> String:::Return string representation for debugging

@@ -173,6 +173,21 @@
       }
     },
     {
+      "name": "extend",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "NilClass"
+        ]
+      }
+    },
+    {
       "name": "inspect",
       "arguments": [],
       "return_type": {

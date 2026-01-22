@@ -36,6 +36,7 @@ func TestCa3d163b(t *testing.T) {
 %each_with_index:::Enumerable.each_with_index() <block_params: Unify, Integer> -> Self:::Execute block for each element and index
 %empty?:::Hash.empty?() -> Bool:::Check if hash is empty
 %exit:::exit(optional Integer) -> NilClass:::
+%extend:::extend(untyped) -> NilClass:::
 %has_key?:::Hash.has_key?(Union<String Symbol>) -> Bool:::Check if specified key exists
 %has_value?:::Hash.has_value?(untyped) -> Bool:::Check if specified value exists
 %include:::include(untyped) -> NilClass:::

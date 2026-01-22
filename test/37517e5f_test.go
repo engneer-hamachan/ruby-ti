@@ -43,6 +43,7 @@ func Test37517e5f(t *testing.T) {
 %each_with_index:::Enumerable.each_with_index() <block_params: Unify, Integer> -> Self:::Execute block for each element and index
 %empty?:::Array.empty?() -> Bool:::Check if array is empty
 %exit:::exit(optional Integer) -> NilClass:::
+%extend:::extend(untyped) -> NilClass:::
 %first:::Array.first(optional Integer) -> OptiionalUnify:::Get first element
 %flatten:::Array.flatten() -> Self:::Flatten nested array
 %include:::include(untyped) -> NilClass:::

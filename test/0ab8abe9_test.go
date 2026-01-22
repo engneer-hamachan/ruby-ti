@@ -49,6 +49,7 @@ func Test0ab8abe9(t *testing.T) {
 %empty?:::String.empty?() -> Bool:::Check if string is empty
 %end_with?:::String.end_with?(untyped) -> String:::Check if ends with specified string
 %exit:::exit(optional Integer) -> NilClass:::
+%extend:::extend(untyped) -> NilClass:::
 %getbyte:::String.getbyte(Integer) -> Union<Integer NilClass>:::Get byte value at specified position
 %include:::include(untyped) -> NilClass:::
 %include?:::String.include?(String) -> Bool:::Check if contains specified string
