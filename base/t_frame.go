@@ -152,6 +152,38 @@ func getParentMethodT(
 		var methodT *T
 		var ok bool
 
+		if parentNode.IsExtend {
+			methodT, ok =
+				TFrame[methodTFrameKey(
+					parentNode.Frame,
+					parentNode.Class,
+					method,
+					isPrivate,
+				)]
+
+			if ok && isStatic {
+				return methodT
+			}
+
+			continue
+		}
+
+		if parentNode.IsInclude {
+			methodT, ok =
+				TFrame[methodTFrameKey(
+					parentNode.Frame,
+					parentNode.Class,
+					method,
+					isPrivate,
+				)]
+
+			if ok && !isStatic {
+				return methodT
+			}
+
+			continue
+		}
+
 		switch isStatic {
 		case true:
 			methodT, ok =
