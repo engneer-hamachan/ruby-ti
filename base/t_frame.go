@@ -162,7 +162,9 @@ func getParentMethodT(
 				)]
 
 			if ok && isStatic {
-				return methodT
+				returnT := methodT.DeepCopy()
+				returnT.IsStatic = true
+				return returnT
 			}
 
 			continue
@@ -178,7 +180,7 @@ func getParentMethodT(
 				)]
 
 			if ok && !isStatic {
-				return methodT
+				return methodT.DeepCopy()
 			}
 
 			continue
