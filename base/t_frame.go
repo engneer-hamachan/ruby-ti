@@ -146,7 +146,7 @@ func getParentMethodT(
 	isStatic bool,
 ) *T {
 
-	classNode := ClassNode{frame, class}
+	classNode := ClassNode{Frame: frame, Class: class}
 
 	for _, parentNode := range ClassInheritanceMap[classNode] {
 		var methodT *T
@@ -384,7 +384,8 @@ func setParentValueT(
 	isStatic bool,
 ) bool {
 
-	classNode := ClassNode{frame, class}
+	classNode := ClassNode{Frame: frame, Class: class}
+
 	for _, parentNode := range ClassInheritanceMap[classNode] {
 		_, ok :=
 			TFrame[valueTFrameKey(
@@ -456,7 +457,7 @@ func getParentValueT(
 	isStatic bool,
 ) *T {
 
-	classNode := ClassNode{frame, class}
+	classNode := ClassNode{Frame: frame, Class: class}
 
 	for _, parentNode := range ClassInheritanceMap[classNode] {
 		t, ok :=

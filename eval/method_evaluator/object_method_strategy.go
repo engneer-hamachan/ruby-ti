@@ -19,6 +19,9 @@ func init() {
 	dynamicStrategies[[2]string{"", "include"}] =
 		&objectIncludeStrategy{}
 
+	dynamicStrategies[[2]string{"", "extend"}] =
+		&objectIncludeStrategy{}
+
 	dynamicStrategies[[2]string{"", "raise"}] =
 		&objectRaiseStrategy{}
 }
@@ -37,7 +40,15 @@ func (o *objectIncludeStrategy) evaluate(m *MethodEvaluator) error {
 		base.SeparateNameSpaces(nextT.ToString())
 
 	parentFrame = base.CalculateFrame(parentFrame, parentNamespace)
-	parentNode := base.ClassNode{Frame: parentFrame, Class: parentClass}
+	var parentNode base.ClassNode
+
+	if m.method == "extend" {
+		parentNode =
+			base.ClassNode{Frame: parentFrame, Class: parentClass, IsExtend: true}
+	} else {
+		parentNode =
+			base.ClassNode{Frame: parentFrame, Class: parentClass, IsExtend: false}
+	}
 
 	if slices.Contains(base.ClassInheritanceMap[classNode], parentNode) {
 		return nil
