@@ -163,7 +163,7 @@ func getParentMethodT(
 
 			if ok && isStatic {
 				returnT := methodT.DeepCopy()
-				returnT.IsStatic = true
+				returnT.IsExtend = true
 				return returnT
 			}
 
@@ -180,7 +180,9 @@ func getParentMethodT(
 				)]
 
 			if ok && !isStatic {
-				return methodT.DeepCopy()
+				returnT := methodT.DeepCopy()
+				returnT.IsInclude = true
+				return returnT
 			}
 
 			continue

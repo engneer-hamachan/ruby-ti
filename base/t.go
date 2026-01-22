@@ -28,6 +28,8 @@ type T struct {
 	DefinedMethod       string
 	IsCaptureOwner      bool
 	owner               any
+	IsExtend            bool
+	IsInclude           bool
 }
 
 func (t *T) DeepCopy() *T {
@@ -54,6 +56,8 @@ func (t *T) DeepCopy() *T {
 		DefinedClass:       t.DefinedClass,
 		owner:              t.owner,
 		IsCaptureOwner:     t.IsCaptureOwner,
+		IsInclude:          t.IsInclude,
+		IsExtend:           t.IsExtend,
 	}
 
 	if t.defineArgs != nil {
