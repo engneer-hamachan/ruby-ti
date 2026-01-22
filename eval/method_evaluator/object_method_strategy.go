@@ -47,7 +47,7 @@ func (o *objectIncludeStrategy) evaluate(m *MethodEvaluator) error {
 			base.ClassNode{Frame: parentFrame, Class: parentClass, IsExtend: true}
 	} else {
 		parentNode =
-			base.ClassNode{Frame: parentFrame, Class: parentClass, IsExtend: false}
+			base.ClassNode{Frame: parentFrame, Class: parentClass, IsInclude: true}
 	}
 
 	if slices.Contains(base.ClassInheritanceMap[classNode], parentNode) {
