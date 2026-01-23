@@ -230,7 +230,7 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		return true
 	}
 
-	if isParentClass(sig, targetT.DefinedFrame, targetT.DefinedClass, targetT.IsStatic) {
+	if isParentClass(sig, targetT.DefinedFrame, targetT.DefinedClass, targetT.IsStatic, false, false) {
 		return true
 	}
 
@@ -242,10 +242,25 @@ func isSuggest(targetT base.T, sig base.Sig) bool {
 		return true
 	}
 
-	return isParentClass(sig, targetT.GetFrame(), objectClass, isStaticTarget)
+	return isParentClass(sig, targetT.GetFrame(), objectClass, isStaticTarget, false, false)
 }
 
-func isParentClass(sig base.Sig, frame, class string, isStaticTarget bool) bool {
+func isParentClass(
+	sig base.Sig,
+	frame, class string,
+	isStaticTarget bool,
+	isExtend bool,
+	isInclude bool,
+) bool {
+
+	if isExtend && !isStaticTarget {
+		return false
+	}
+
+	if isInclude && isStaticTarget {
+		return false
+	}
+
 	if sig.IsStatic != isStaticTarget {
 		return false
 	}
@@ -265,11 +280,7 @@ func isParentClass(sig base.Sig, frame, class string, isStaticTarget bool) bool 
 	classNode := base.ClassNode{Frame: frame, Class: class}
 
 	for _, parentNode := range base.ClassInheritanceMap[classNode] {
-		if parentNode.Class == sig.Frame && parentNode.Frame == sig.Class {
-			return true
-		}
-
-		if isParentClass(sig, parentNode.Frame, parentNode.Class, isStaticTarget) {
+		if isParentClass(sig, parentNode.Frame, parentNode.Class, isStaticTarget, parentNode.IsExtend, parentNode.IsInclude) {
 			return true
 		}
 	}
