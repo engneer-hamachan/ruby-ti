@@ -1,7 +1,6 @@
 package eval
 
 import (
-	"fmt"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -26,30 +25,29 @@ func (r *Ternary) Evaluation(
 
 	var variants []base.T
 
-	nextT, err := p.Read()
-	if err != nil {
-		return err
-	}
+	var nextT *base.T
 
-	if nextT == nil {
-		return nil
-	}
+	for {
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
 
-	err = e.Eval(p, ctx, nextT)
-	if err != nil {
-		return err
+		if nextT == nil {
+			return nil
+		}
+
+		if nextT.IsTargetIdentifier(":") {
+			break
+		}
+
+		err = e.Eval(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
 	}
 
 	variants = append(variants, p.GetLastEvaluatedT())
-
-	nextT, err = p.Read()
-	if err != nil {
-		return err
-	}
-
-	if !nextT.IsTargetIdentifier(":") {
-		return fmt.Errorf("syntax error")
-	}
 
 	nextT, err = p.Read()
 	if err != nil {
