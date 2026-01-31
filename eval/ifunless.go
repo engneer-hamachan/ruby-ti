@@ -132,6 +132,7 @@ func (i *IfUnless) beforeEval(
 	p parser.Parser,
 	ctx context.Context,
 ) error {
+
 	nextT, err := p.Read()
 	if err != nil {
 		p.Fatal(ctx, err)
@@ -149,114 +150,137 @@ func (i *IfUnless) getBackupContext(
 	e *Evaluator,
 	p parser.Parser,
 	ctx context.Context,
-) (func(), error) {
+) ([]func(), error) {
 
-	err := i.beforeEval(*e, p, ctx)
-	if err != nil {
-		return func() {}, err
-	}
+	var zaoriks []func()
 
-	var isExclamation bool
+	for {
+		err := i.beforeEval(*e, p, ctx)
+		if err != nil {
+			return zaoriks, err
+		}
 
-	nextT, err := p.Read()
-	if err != nil {
-		return func() {}, err
-	}
+		var isExclamation bool
 
-	if nextT.IsExclamationIdentifier() {
-		isExclamation = true
+		nextT, err := p.Read()
+		if err != nil {
+			return zaoriks, err
+		}
+
+		if nextT.IsExclamationIdentifier() {
+			isExclamation = true
+
+			nextT, err = p.Read()
+			if err != nil {
+				return zaoriks, err
+			}
+		}
+
+		if err != nil || !nextT.IsIdentifierType() {
+			return zaoriks, err
+		}
+
+		var class string
+		object := nextT.ToString()
 
 		nextT, err = p.Read()
 		if err != nil {
-			return func() {}, err
+			return zaoriks, err
 		}
-	}
 
-	if err != nil || !nextT.IsIdentifierType() {
-		return func() {}, err
-	}
+		if nextT.IsDotIdentifier() {
+			nextT, err = p.Read()
+			if err != nil {
+				return zaoriks, err
+			}
+		}
 
-	var class string
-	object := nextT.ToString()
+		if !i.isSpecialCtxMethod(nextT) {
+			return zaoriks, err
+		}
 
-	nextT, err = p.Read()
-	if err != nil {
-		return func() {}, err
-	}
-
-	if nextT.IsDotIdentifier() {
 		nextT, err = p.Read()
 		if err != nil {
-			return func() {}, err
-		}
-	}
-
-	if !i.isSpecialCtxMethod(nextT) {
-		return func() {}, err
-	}
-
-	nextT, err = p.Read()
-	if err != nil {
-		return func() {}, err
-	}
-
-	switch nextT.IsOpenParentheses() {
-	case true:
-		nextT, err = p.Read()
-		if err != nil {
-			return func() {}, err
+			return zaoriks, err
 		}
 
-		if !nextT.IsClassType() {
-			return func() {}, fmt.Errorf(
-				"type missmatch error: given %s expected Class for is_a?",
-				base.TypeToString(nextT),
+		switch nextT.IsOpenParentheses() {
+		case true:
+			nextT, err = p.Read()
+			if err != nil {
+				return zaoriks, err
+			}
+
+			if !nextT.IsClassType() {
+				return zaoriks, fmt.Errorf(
+					"type missmatch error: given %s expected Class for is_a?",
+					base.TypeToString(nextT),
+				)
+			}
+
+			class = nextT.ToString()
+
+			nextT, err = p.Read()
+			if err != nil || !nextT.IsIdentifierType() {
+				return zaoriks, err
+			}
+
+		default:
+			class = nextT.GetObjectClass()
+
+			nextT, err = p.Read()
+			if err != nil || !nextT.IsIdentifierType() {
+				return zaoriks, err
+			}
+		}
+
+		t :=
+			base.GetDynamicValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				object,
 			)
+
+		if t == nil {
+			return zaoriks, nil
 		}
 
-		class = nextT.ToString()
+		err = i.setConditionalCtx(class, object, ctx, *t, isExclamation)
+		if err != nil {
+			return zaoriks, err
+		}
+
+		zaoriks =
+			append(
+				zaoriks,
+				func() {
+					base.SetValueT(
+						ctx.GetFrame(),
+						ctx.GetClass(),
+						ctx.GetMethod(),
+						object,
+						t,
+						ctx.IsDefineStatic,
+					)
+				},
+			)
 
 		nextT, err = p.Read()
-		if err != nil || !nextT.IsIdentifierType() {
-			return func() {}, err
+		if err != nil {
+			return zaoriks, err
 		}
 
-	default:
-		class = nextT.GetObjectClass()
-
-		nextT, err = p.Read()
-		if err != nil || !nextT.IsIdentifierType() {
-			return func() {}, err
+		if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
+			continue
 		}
+
+		p.Unget()
+
+		break
 	}
 
-	t :=
-		base.GetDynamicValueT(
-			ctx.GetFrame(),
-			ctx.GetClass(),
-			ctx.GetMethod(),
-			object,
-		)
-
-	if t == nil {
-		return func() {}, nil
-	}
-
-	err = i.setConditionalCtx(class, object, ctx, *t, isExclamation)
-	if err != nil {
-		return func() {}, err
-	}
-
-	return func() {
-		base.SetValueT(
-			ctx.GetFrame(),
-			ctx.GetClass(),
-			ctx.GetMethod(),
-			object,
-			t,
-			ctx.IsDefineStatic,
-		)
-	}, nil
+	return zaoriks, nil
 }
 
 func (i *IfUnless) getEndIdentifier(p *parser.Parser) string {
@@ -282,12 +306,14 @@ func (i *IfUnless) Evaluation(
 
 	lastEvaluatedT := p.GetLastEvaluatedT()
 
-	zaorik, err := i.getBackupContext(e, *p, ctx)
+	zaoriks, err := i.getBackupContext(e, *p, ctx)
 	if err != nil {
 		p.Fatal(ctx, err)
 	}
 
-	defer zaorik()
+	for _, zaorik := range zaoriks {
+		defer zaorik()
+	}
 
 	endIdentifier := i.getEndIdentifier(p)
 
