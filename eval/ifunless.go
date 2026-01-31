@@ -176,7 +176,21 @@ func (i *IfUnless) getBackupContext(
 			}
 		}
 
-		if err != nil || !nextT.IsIdentifierType() {
+		if !nextT.IsIdentifierType() {
+			nextT, err = p.Read()
+			if err != nil {
+				return zaoriks, err
+			}
+
+			if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
+				continue
+			}
+
+			p.Unget()
+			return zaoriks, err
+		}
+
+		if err != nil {
 			return zaoriks, err
 		}
 
@@ -195,7 +209,23 @@ func (i *IfUnless) getBackupContext(
 			}
 		}
 
+		// a && b
+		if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
+			continue
+		}
+
 		if !i.isSpecialCtxMethod(nextT) {
+			nextT, err = p.Read()
+			if err != nil {
+				return zaoriks, err
+			}
+
+			// a.empty? && b
+			if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
+				continue
+			}
+
+			p.Unget()
 			return zaoriks, err
 		}
 
