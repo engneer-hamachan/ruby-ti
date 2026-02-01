@@ -301,6 +301,7 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, err
 		}
 
+		// a.is_a?(String) &&
 		if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
 			continue
 		}
