@@ -3,6 +3,7 @@ package eval
 import (
 	"fmt"
 	"ti/base"
+	"ti/builtin"
 	"ti/context"
 	"ti/parser"
 )
@@ -29,24 +30,9 @@ func (i *IfUnless) isSpecialCtxMethod(t *base.T) bool {
 }
 
 func (i *IfUnless) convertClassNameToTobject(class string) *base.T {
-	switch class {
-	case "String":
-		return base.MakeAnyString()
-	case "Integer":
-		return base.MakeAnyInt()
-	case "Float":
-		return base.MakeAnyFloat()
-	case "NilClass":
-		return base.MakeNil()
-	case "Hash":
-		return base.MakeAnyHash()
-	case "Array":
-		return base.MakeAnyArray()
-	case "Bool":
-		return base.MakeBool()
-	}
+	t := builtin.ConvertToBuiltinT(class)
 
-	return base.MakeObject(class)
+	return &t
 }
 
 func (i *IfUnless) setConditionalCtx(
