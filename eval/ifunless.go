@@ -221,6 +221,7 @@ func (i *IfUnless) getBackupContext(
 		}
 
 		switch nextT.IsOpenParentheses() {
+		// a.is_a?(Object)
 		case true:
 			nextT, err = p.Read()
 			if err != nil {
@@ -241,6 +242,7 @@ func (i *IfUnless) getBackupContext(
 				return zaoriks, err
 			}
 
+		// a == 1
 		default:
 			class = nextT.GetObjectClass()
 
