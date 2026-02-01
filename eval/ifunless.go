@@ -220,7 +220,9 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, err
 		}
 
-		switch nextT.IsOpenParentheses() {
+		isOpenParentheses := nextT.IsOpenParentheses()
+
+		switch isOpenParentheses {
 		// a.is_a?(Object)
 		case true:
 			nextT, err = p.Read()
@@ -284,22 +286,26 @@ func (i *IfUnless) getBackupContext(
 				},
 			)
 
+		switch isOpenParentheses {
+		// a.is_a?(Object) &&
+		case true:
+			nextT, err = p.Read()
+			if err != nil {
+				return zaoriks, err
+			}
+
+			if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
+				continue
+			}
+
+			p.Unget()
+
 		// a == 1 &&
-		if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
-			continue
+		default:
+			if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
+				continue
+			}
 		}
-
-		nextT, err = p.Read()
-		if err != nil {
-			return zaoriks, err
-		}
-
-		// a.is_a?(String) &&
-		if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
-			continue
-		}
-
-		p.Unget()
 
 		break
 	}
