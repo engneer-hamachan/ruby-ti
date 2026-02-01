@@ -282,6 +282,11 @@ func (i *IfUnless) getBackupContext(
 				},
 			)
 
+		// a == 1 &&
+		if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
+			continue
+		}
+
 		nextT, err = p.Read()
 		if err != nil {
 			return zaoriks, err
