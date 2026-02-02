@@ -24,7 +24,7 @@ func init() {
 }
 
 func (i *IfUnless) isSpecialCtxMethod(t *base.T) bool {
-	specialMethods := []string{"is_a?", "==", "!="}
+	specialMethods := []string{"is_a?", "=="}
 
 	return t.IsTargetIdentifiers(specialMethods)
 }
@@ -215,9 +215,6 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, err
 		}
 
-		// a != b
-		isReverseNarrow := nextT.IsTargetIdentifier("!=")
-
 		nextT, err = p.Read()
 		if err != nil {
 			return zaoriks, err
@@ -269,17 +266,9 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, nil
 		}
 
-		switch isReverseNarrow {
-		case true:
-			err = i.setConditionalCtx(class, object, ctx, *t, !isExclamation)
-			if err != nil {
-				return zaoriks, err
-			}
-		default:
-			err = i.setConditionalCtx(class, object, ctx, *t, isExclamation)
-			if err != nil {
-				return zaoriks, err
-			}
+		err = i.setConditionalCtx(class, object, ctx, *t, isExclamation)
+		if err != nil {
+			return zaoriks, err
 		}
 
 		zaoriks =
