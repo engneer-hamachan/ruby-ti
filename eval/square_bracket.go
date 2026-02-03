@@ -495,6 +495,22 @@ func (e *Evaluator) makeArray(
 
 	p.SetLastEvaluatedT(arrayT)
 
+	nextT, err := p.Read()
+	if err != nil {
+		return err
+	}
+
+	if nextT.IsTargetIdentifier(".") {
+		err := e.Eval(p, ctx, nextT)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	p.Unget()
+
 	return nil
 }
 
