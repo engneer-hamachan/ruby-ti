@@ -58,6 +58,7 @@ func Test37517e5f(t *testing.T) {
 %loop:::loop() <block_params: NilClass> -> NilClass:::
 %max:::Array.max(Match) => <block_params: Unify, Unify> (OptiionalUnify) -> OptiionalUnify, (Self) -> Self:::
 %methods:::methods() -> Array<Symbol>:::get object method list
+%min:::Array.min(Match) => <block_params: Unify, Unify> (OptiionalUnify) -> OptiionalUnify, (Self) -> Self:::
 %nil?:::nil?() -> Bool:::Check if nil
 %p:::Kernel.p(untyped) -> SelfArgument:::Inspect and output object
 %pop:::Array.pop(Match) => (OptiionalUnify) -> OptiionalUnify, (Self) -> Self:::Remove and return last element

@@ -265,6 +265,11 @@ func expectBlockArgProcess(
 		return argTs, nil
 	}
 
+	if nextT.IsTargetIdentifier("]") {
+		m.parser.Unget()
+		return argTs, nil
+	}
+
 	if nextT.IsTargetIdentifier("do") || nextT.IsTargetIdentifier("{") {
 		m.parser.SetLastEvaluatedT(m.evaluatedObjectT)
 
