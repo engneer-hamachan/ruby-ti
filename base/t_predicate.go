@@ -390,21 +390,21 @@ func (t *T) IsMatchUnionType(targetT *T) bool {
 		targetTypes := targetT.GetVariantTypes()
 		tTypes := t.GetVariantTypes()
 
-		for _, tType := range tTypes {
-			if tType == UNTYPED {
-				continue
-			}
+		if slices.Contains(targetTypes, UNTYPED) {
+			return true
+		}
 
+		if slices.Contains(tTypes, UNTYPED) {
+			return true
+		}
+
+		for _, tType := range tTypes {
 			if !slices.Contains(targetTypes, tType) {
 				return false
 			}
 		}
 
 		for _, targetType := range targetTypes {
-			if targetType == UNTYPED {
-				continue
-			}
-
 			if !slices.Contains(tTypes, targetType) {
 				return false
 			}
