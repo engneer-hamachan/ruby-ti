@@ -1,7 +1,6 @@
 package eval
 
 import (
-	"fmt"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -44,12 +43,14 @@ func (r *Range) Evaluation(
 
 	rightT := p.GetLastEvaluatedT()
 
-	if leftT.GetType() != rightT.GetType() {
-		return fmt.Errorf("not equal left right term")
-	}
-
 	rangeT := base.MakeRange()
-	rangeT.AppendArrayVariant(rightT)
+
+	switch leftT.GetType() {
+	case rightT.GetType():
+		rangeT.AppendArrayVariant(rightT)
+	default:
+		rangeT.AppendArrayVariant(*base.MakeUntyped())
+	}
 
 	p.SetLastEvaluatedT(rangeT)
 
