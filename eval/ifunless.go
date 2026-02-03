@@ -433,8 +433,7 @@ func (i *IfUnless) Evaluation(
 
 					default:
 						for _, narrowVariant := range narrowVariants {
-							if originalVariant.IsEqualObject(&narrowVariant) &&
-								originalVariant.GetObjectClass() != narrowVariant.GetObjectClass() {
+							if originalVariant.IsEqualObject(&narrowVariant) {
 
 								continue
 							}
