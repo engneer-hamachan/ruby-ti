@@ -468,6 +468,13 @@ func SetValueT(
 		variable = variable[1:]
 	}
 
+	if len(variable) > 0 && variable[0] == '$' {
+		frame = ""
+		class = ""
+		method = ""
+		isStatic = false
+	}
+
 	_, ok := TFrame[valueTFrameKey(frame, class, method, variable, isStatic)]
 	if ok {
 		TFrame[valueTFrameKey(frame, class, method, variable, isStatic)] = t
@@ -523,6 +530,13 @@ func getParentValueT(
 func GetValueT(frame string, class string, method string, variable string, isStatic bool) *T {
 	if len(variable) > 0 && variable[0] == '*' {
 		variable = variable[1:]
+	}
+
+	if len(variable) > 0 && variable[0] == '$' {
+		frame = ""
+		class = ""
+		method = ""
+		isStatic = false
 	}
 
 	t := TFrame[valueTFrameKey(frame, class, method, variable, isStatic)]
