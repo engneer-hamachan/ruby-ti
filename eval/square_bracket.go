@@ -545,7 +545,15 @@ func (e *Evaluator) referenceEvaluation(
 	switch t.GetType() {
 	case base.UNKNOWN, base.UNTYPED:
 		p.SkipToTargetToken("]")
-		p.SetLastEvaluatedT(base.MakeUnknown())
+
+		if ctx.IsCollectRound() {
+			return fmt.Errorf(
+				"type mismatch. %s is not Array or Hash",
+				objectT.ToString(),
+			)
+		}
+
+		p.SetLastEvaluatedT(base.MakeUntyped())
 
 		return nil
 
