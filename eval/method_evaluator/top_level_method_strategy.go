@@ -25,6 +25,10 @@ func (t *topLevelMethodStrategy) isMismatchVisibility(
 	methodT *base.T,
 ) bool {
 
+	if methodT == nil {
+		return false
+	}
+
 	if methodT.IsExtend && !m.ctx.IsDefineStatic {
 		return true
 	}
