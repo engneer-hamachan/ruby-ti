@@ -159,36 +159,39 @@ func (t *T) AppendVariant(variantT T) {
 
 		var isArrayContained bool
 
-		for ii, currentTVariant := range t.variants {
-			if currentTVariant.IsArrayType() {
-				isArrayContained = true
+		for currentTVariantIdx, currentTVariant := range t.variants {
+			if !currentTVariant.IsArrayType() {
+				continue
+			}
 
-				newVariants := currentTVariant.GetVariants()
+			isArrayContained = true
 
-				targetVariants := variantT.GetVariants()
+			newVariants := currentTVariant.GetVariants()
 
-				for i, target := range targetVariants {
-					if i >= len(newVariants) {
-						newVariants = append(newVariants, target)
-					}
+			targetVariants := variantT.GetVariants()
 
-					if newVariants[i].IsEqualObject(&target) {
-						continue
-					}
-
-					if newVariants[i].IsUnionType() {
-						newVariants[i].AppendVariant(target)
-						continue
-					}
-
-					unionT := MakeUnifiedT([]T{newVariants[i], target})
-					newVariants[i] = *unionT
+			for targetTVariantIdx, targetTVariant := range targetVariants {
+				if targetTVariantIdx >= len(newVariants) {
+					newVariants = append(newVariants, targetTVariant)
 				}
 
-				arrayT := MakeArray(newVariants)
-				t.variants[ii] = *arrayT
+				if newVariants[targetTVariantIdx].IsEqualObject(&targetTVariant) {
+					continue
+				}
 
+				if newVariants[targetTVariantIdx].IsUnionType() {
+					newVariants[targetTVariantIdx].AppendVariant(targetTVariant)
+					continue
+				}
+
+				unionT :=
+					MakeUnifiedT([]T{newVariants[targetTVariantIdx], targetTVariant})
+
+				newVariants[targetTVariantIdx] = *unionT
 			}
+
+			arrayT := MakeArray(newVariants)
+			t.variants[currentTVariantIdx] = *arrayT
 		}
 
 		if !isArrayContained {
