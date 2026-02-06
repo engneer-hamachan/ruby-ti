@@ -163,12 +163,19 @@ func (t *T) AppendVariant(variantT T) {
 			if currentTVariant.IsArrayType() {
 				isArrayContained = true
 
-				for _, targetTVariant := range variantT.variants {
-					for _, innerArrayVariant := range currentTVariant.variants {
-						if !targetTVariant.IsEqualObject(&innerArrayVariant) {
-							t.variants = append(t.variants, variantT)
-							return
-						}
+				currentTVariants := currentTVariant.variants
+
+				for idx, targetTVariant := range variantT.variants {
+					if idx > len(currentTVariants)-1 {
+						t.variants = append(t.variants, variantT)
+						return
+					}
+
+					innerArrayVariant := currentTVariants[idx]
+
+					if !targetTVariant.IsEqualObject(&innerArrayVariant) {
+						t.variants = append(t.variants, variantT)
+						return
 					}
 				}
 			}
