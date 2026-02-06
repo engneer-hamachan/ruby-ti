@@ -116,7 +116,13 @@ func (d *Do) appendParameterBeforeTypeCalculate(
 			return blockParamaters
 		}
 
-		for idx, variant := range lastEvaluatedT.UnifyVariants().GetVariants() {
+		targetRangeT := lastEvaluatedT.UnifyVariants().GetVariants()
+
+		if lastEvaluatedT.IsArrayType() {
+			targetRangeT = lastEvaluatedT.GetVariants()
+		}
+
+		for idx, variant := range targetRangeT {
 			switch variant.GetType() {
 			case base.ARRAY:
 				arrayVariants := variant.GetVariants()
