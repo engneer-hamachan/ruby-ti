@@ -159,25 +159,35 @@ func (t *T) AppendVariant(variantT T) {
 
 		var isArrayContained bool
 
-		for _, currentTVariant := range t.variants {
+		for ii, currentTVariant := range t.variants {
 			if currentTVariant.IsArrayType() {
 				isArrayContained = true
 
-				currentTVariants := currentTVariant.variants
+				newVariants := currentTVariant.GetVariants()
 
-				for idx, targetTVariant := range variantT.variants {
-					if idx > len(currentTVariants)-1 {
-						t.variants = append(t.variants, variantT)
-						return
+				targetVariants := variantT.GetVariants()
+
+				for i, target := range targetVariants {
+					if i >= len(newVariants) {
+						newVariants = append(newVariants, target)
 					}
 
-					innerArrayVariant := currentTVariants[idx]
-
-					if !targetTVariant.IsEqualObject(&innerArrayVariant) {
-						t.variants = append(t.variants, variantT)
-						return
+					if newVariants[i].IsEqualObject(&target) {
+						continue
 					}
+
+					if newVariants[i].IsUnionType() {
+						newVariants[i].AppendVariant(target)
+						continue
+					}
+
+					unionT := MakeUnifiedT([]T{newVariants[i], target})
+					newVariants[i] = *unionT
 				}
+
+				arrayT := MakeArray(newVariants)
+				t.variants[ii] = *arrayT
+
 			}
 		}
 

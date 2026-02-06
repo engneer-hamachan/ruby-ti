@@ -106,8 +106,8 @@ func (b *Bind) handleMultipleToScalarAsigntment(
 
 	var idx int
 
-	switch rightT.IsArrayType() {
-	case true:
+	switch rightT.GetType() {
+	case base.ARRAY:
 		for {
 			if (idx + 1) > len(leftTs) {
 				break
@@ -133,6 +133,16 @@ func (b *Bind) handleMultipleToScalarAsigntment(
 			*leftTs[idx] = *unionT
 
 			idx++
+		}
+
+	case base.UNION:
+		for _, variant := range rightT.GetVariants() {
+			if variant.IsArrayType() {
+				b.handleMultipleToMultipleAsigntment(leftTs, &variant)
+				continue
+			}
+
+			b.handleMultipleToScalarAsigntment(ctx, leftTs, &variant)
 		}
 
 	default:
