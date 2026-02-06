@@ -14,7 +14,7 @@ func Test62e5960c(t *testing.T) {
 
 	expectedOutput := `./62e5960c.rb:::2:::Union<Integer String>
 ./62e5960c.rb:::5:::String
-./62e5960c.rb:::8:::Union<Array<String> Array<Integer>>`
+./62e5960c.rb:::8:::Array<String Integer>`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

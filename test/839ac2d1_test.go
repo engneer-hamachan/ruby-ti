@@ -12,7 +12,7 @@ func Test839ac2d1(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./839ac2d1.rb:::1:::Array<Array<Integer String> Array<Integer>>`
+	expectedOutput := `./839ac2d1.rb:::1:::Array<Array<Integer String>>`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
