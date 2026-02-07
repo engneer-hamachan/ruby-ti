@@ -24,7 +24,7 @@ func init() {
 }
 
 func (i *IfUnless) isSpecialCtxMethod(t *base.T) bool {
-	specialMethods := []string{"is_a?", "=="}
+	specialMethods := []string{"is_a?", "==", "nil?"}
 
 	return t.IsTargetIdentifiers(specialMethods)
 }
@@ -215,6 +215,8 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, err
 		}
 
+		isNilMethod := nextT.IsTargetIdentifier("nil?")
+
 		nextT, err = p.Read()
 		if err != nil {
 			return zaoriks, err
@@ -222,9 +224,11 @@ func (i *IfUnless) getBackupContext(
 
 		isOpenParentheses := nextT.IsOpenParentheses()
 
-		switch isOpenParentheses {
+		conditionalFlags := [2]bool{isOpenParentheses, isNilMethod}
+
+		switch conditionalFlags {
 		// a.is_a?(Object)
-		case true:
+		case [2]bool{true, false}:
 			nextT, err = p.Read()
 			if err != nil {
 				return zaoriks, err
@@ -243,6 +247,10 @@ func (i *IfUnless) getBackupContext(
 			if err != nil || !nextT.IsIdentifierType() {
 				return zaoriks, err
 			}
+
+		// a.nil?
+		case [2]bool{false, true}:
+			class = "NilClass"
 
 		// a == 1
 		default:
