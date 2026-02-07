@@ -39,6 +39,7 @@ func (m *MethodEvaluator) isNotArgT(
 
 	if t.IsCommaIdentifier() || t.IsPredicateIdentifier() {
 		if len(argTs) < 1 {
+			m.parser.Unget()
 			return true
 		}
 	}
