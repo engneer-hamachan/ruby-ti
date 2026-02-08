@@ -41,6 +41,7 @@ func (i *IfUnless) setConditionalCtx(
 	ctx context.Context,
 	currentT base.T,
 	isExclamation bool,
+	skipNarrow bool,
 ) error {
 
 	classT := i.convertClassNameToTobject(class)
@@ -71,7 +72,9 @@ func (i *IfUnless) setConditionalCtx(
 			ctx.IsDefineStatic,
 		)
 
-		i.narrowTs[object] = append(i.narrowTs[object], *classT)
+		if !skipNarrow {
+			i.narrowTs[object] = append(i.narrowTs[object], *classT)
+		}
 
 	default:
 		if currentT.IsUnionType() {
@@ -91,7 +94,9 @@ func (i *IfUnless) setConditionalCtx(
 				ctx.IsDefineStatic,
 			)
 
-			i.narrowTs[object] = newVariants
+			if !skipNarrow {
+				i.narrowTs[object] = newVariants
+			}
 
 			break
 		}
@@ -106,7 +111,9 @@ func (i *IfUnless) setConditionalCtx(
 				ctx.IsDefineStatic,
 			)
 
-			i.narrowTs[object] = append(i.narrowTs[object], *base.MakeNil())
+			if !skipNarrow {
+				i.narrowTs[object] = append(i.narrowTs[object], *base.MakeNil())
+			}
 		}
 	}
 
@@ -274,7 +281,8 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, nil
 		}
 
-		err = i.setConditionalCtx(class, object, ctx, *t, isExclamation)
+		isEqualMethod := !isOpenParentheses && !isNilMethod
+		err = i.setConditionalCtx(class, object, ctx, *t, isExclamation, isEqualMethod)
 		if err != nil {
 			return zaoriks, err
 		}
@@ -335,6 +343,14 @@ func (i *IfUnless) narrowing(ctx context.Context) {
 	for originalKey, originalVariants := range i.originalTs {
 		narrowVariants, ok := i.narrowTs[originalKey]
 		if !ok {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				originalKey,
+				base.MakeUnifiedT(originalVariants),
+				ctx.IsDefineStatic,
+			)
 			continue
 		}
 
