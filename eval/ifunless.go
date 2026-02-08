@@ -31,6 +31,7 @@ func (i *IfUnless) isSpecialCtxMethod(t *base.T) bool {
 
 func (i *IfUnless) convertClassNameToTobject(class string) *base.T {
 	t := builtin.ConvertToBuiltinT(class)
+	t.IsIf = true
 
 	return &t
 }
@@ -59,10 +60,24 @@ func (i *IfUnless) setConditionalCtx(
 		return fmt.Errorf("syntax error")
 	}
 
-	i.originalTs[object] = append(i.originalTs[object], currentT)
+	if _, ok := i.originalTs[object]; !ok {
+		i.originalTs[object] = append(i.originalTs[object], currentT)
+	}
 
 	switch isNarrow {
 	case true:
+		if !skipNarrow {
+			i.narrowTs[object] = append(i.narrowTs[object], *classT)
+		}
+
+		if currentT.IsIf {
+			variants := []base.T{}
+			variants = append(variants, currentT)
+			variants = append(variants, *classT)
+			classT = base.MakeUnifiedT(variants)
+			classT.IsIf = true
+		}
+
 		base.SetValueT(
 			ctx.GetFrame(),
 			ctx.GetClass(),
@@ -72,15 +87,14 @@ func (i *IfUnless) setConditionalCtx(
 			ctx.IsDefineStatic,
 		)
 
-		if !skipNarrow {
-			i.narrowTs[object] = append(i.narrowTs[object], *classT)
-		}
-
 	default:
 		if currentT.IsUnionType() {
 			var newVariants []base.T
 			for _, currentVariant := range currentT.GetVariants() {
 				if currentVariant.GetObjectClass() != classT.GetObjectClass() {
+					if !skipNarrow {
+						i.narrowTs[object] = append(i.narrowTs[object], currentVariant)
+					}
 					newVariants = append(newVariants, currentVariant)
 				}
 			}
@@ -93,10 +107,6 @@ func (i *IfUnless) setConditionalCtx(
 				base.MakeUnifiedT(newVariants),
 				ctx.IsDefineStatic,
 			)
-
-			if !skipNarrow {
-				i.narrowTs[object] = newVariants
-			}
 
 			break
 		}
@@ -375,12 +385,15 @@ func (i *IfUnless) narrowing(ctx context.Context) {
 				}
 
 			default:
+				isContain := false
 				for _, narrowVariant := range narrowVariants {
 					if originalVariant.IsEqualObject(&narrowVariant) {
-
-						continue
+						isContain = true
+						break
 					}
+				}
 
+				if !isContain {
 					variants = append(variants, originalVariant)
 				}
 			}

@@ -30,6 +30,7 @@ type T struct {
 	owner               any
 	IsExtend            bool
 	IsInclude           bool
+	IsIf                bool
 }
 
 func (t *T) DeepCopy() *T {
