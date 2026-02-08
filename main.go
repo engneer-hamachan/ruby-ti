@@ -67,6 +67,7 @@ func evaluationLoop(
 
 	if len(p.DefineInfos) > 0 && flags.IsLlmInfo {
 		cmd.PrintDefineInfosForLlm()
+		return
 	}
 
 	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo {

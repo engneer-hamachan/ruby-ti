@@ -27,7 +27,15 @@ func PrintDefineInfosForPlugin(infos []string) {
 func PrintDefineInfosForLlm() {
 	for _, sig := range base.GetSortedTSignatures() {
 		if sig.Frame != "Builtin" && sig.Method != "new" {
-			printLlmInfo(strconv.Itoa(sig.Row), sig.GetPrintDetail(), sig.Document)
+			if sig.Document == "" {
+				sig.Document = "<no document>"
+			}
+			printLlmInfo(
+				sig.FileName,
+				strconv.Itoa(sig.Row),
+				sig.GetPrintDetail(),
+				sig.Document,
+			)
 		}
 	}
 }
@@ -159,9 +167,9 @@ func printSuggestion(contents, detail string, document string) {
 	)
 }
 
-func printLlmInfo(row, detail string, document string) {
+func printLlmInfo(fileName, row, detail string, document string) {
 	fmt.Println(
-		row + separator + detail + separator + document,
+		fileName + ":" + row + separator + detail + separator + document,
 	)
 }
 
