@@ -82,37 +82,48 @@ func (i *IfUnless) setConditionalCtx(
 		)
 
 	default:
+		if skipNarrow {
+			break
+		}
+
 		i.ifNarrowTs[object] = append(i.ifNarrowTs[object], *classT)
 
 		origVariants := i.originalTs[object]
 		if len(origVariants) == 0 {
 			break
 		}
+
 		original := origVariants[0]
 
 		var remaining []base.T
 
-		if original.IsUnionType() {
+		switch original.GetType() {
+		case base.UNION:
 			for _, v := range original.GetVariants() {
 				excluded := false
+
 				for _, ex := range i.ifNarrowTs[object] {
 					if v.GetObjectClass() == ex.GetObjectClass() {
 						excluded = true
 						break
 					}
 				}
+
 				if !excluded {
 					remaining = append(remaining, v)
 				}
 			}
-		} else {
+
+		default:
 			excluded := false
+
 			for _, ex := range i.ifNarrowTs[object] {
 				if original.GetObjectClass() == ex.GetObjectClass() {
 					excluded = true
 					break
 				}
 			}
+
 			if !excluded {
 				remaining = append(remaining, original)
 			}

@@ -12,7 +12,7 @@ func Test0bb1dfc8_1(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./0bb1dfc8_1.rb:::16:::Integer
+	expectedOutput := `./0bb1dfc8_1.rb:::16:::Union<Integer String>
 ./0bb1dfc8_1.rb:::17:::String
 ./0bb1dfc8_1.rb:::20:::Union<Integer String>
 ./0bb1dfc8_1.rb:::21:::Union<Integer String>`
