@@ -331,6 +331,57 @@ func (i *IfUnless) getEndIdentifier(p *parser.Parser) string {
 	}
 }
 
+func (i *IfUnless) narrowing(ctx context.Context) {
+	for originalKey, originalVariants := range i.originalTs {
+		narrowVariants, ok := i.narrowTs[originalKey]
+		if !ok {
+			continue
+		}
+
+		variants := []base.T{}
+
+		for _, originalVariant := range originalVariants {
+			switch originalVariant.GetType() {
+			case base.UNION:
+				for _, variant := range originalVariant.GetVariants() {
+					isContain := false
+
+					for _, narrowVariant := range narrowVariants {
+						if variant.GetObjectClass() == narrowVariant.GetObjectClass() {
+							isContain = true
+						}
+					}
+
+					if isContain {
+						continue
+					}
+
+					variants = append(variants, variant)
+				}
+
+			default:
+				for _, narrowVariant := range narrowVariants {
+					if originalVariant.IsEqualObject(&narrowVariant) {
+
+						continue
+					}
+
+					variants = append(variants, originalVariant)
+				}
+			}
+		}
+
+		base.SetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			originalKey,
+			base.MakeUnifiedT(variants),
+			ctx.IsDefineStatic,
+		)
+	}
+}
+
 func (i *IfUnless) Evaluation(
 	e *Evaluator,
 	p *parser.Parser,
@@ -386,6 +437,8 @@ func (i *IfUnless) Evaluation(
 		}
 
 		if nextT.IsTargetIdentifier("elsif") && i.conditionType == "if" {
+			i.narrowing(ctx)
+
 			_, err := i.getBackupContext(e, *p, ctx)
 			if err != nil {
 				p.Fatal(ctx, err)
@@ -411,55 +464,7 @@ func (i *IfUnless) Evaluation(
 
 			resultTs = append(resultTs, p.GetLastEvaluatedT())
 
-			// narrowing proccess
-			for originalKey, originalVariants := range i.originalTs {
-				narrowVariants, ok := i.narrowTs[originalKey]
-				if !ok {
-					continue
-				}
-
-				variants := []base.T{}
-
-				for _, originalVariant := range originalVariants {
-					switch originalVariant.GetType() {
-					case base.UNION:
-						for _, variant := range originalVariant.GetVariants() {
-							isContain := false
-
-							for _, narrowVariant := range narrowVariants {
-								if variant.GetObjectClass() == narrowVariant.GetObjectClass() {
-									isContain = true
-								}
-							}
-
-							if isContain {
-								continue
-							}
-
-							variants = append(variants, variant)
-						}
-
-					default:
-						for _, narrowVariant := range narrowVariants {
-							if originalVariant.IsEqualObject(&narrowVariant) {
-
-								continue
-							}
-
-							variants = append(variants, originalVariant)
-						}
-					}
-				}
-
-				base.SetValueT(
-					ctx.GetFrame(),
-					ctx.GetClass(),
-					ctx.GetMethod(),
-					originalKey,
-					base.MakeUnifiedT(variants),
-					ctx.IsDefineStatic,
-				)
-			}
+			i.narrowing(ctx)
 
 			continue
 		}
