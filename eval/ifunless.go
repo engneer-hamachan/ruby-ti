@@ -12,6 +12,7 @@ type IfUnless struct {
 	conditionType string
 	originalTs    map[string][]base.T
 	narrowTs      map[string][]base.T
+	ifNarrowTs    map[string][]base.T
 }
 
 func NewIfUnless(conditionType string) DynamicEvaluator {
@@ -31,7 +32,6 @@ func (i *IfUnless) isSpecialCtxMethod(t *base.T) bool {
 
 func (i *IfUnless) convertClassNameToTobject(class string) *base.T {
 	t := builtin.ConvertToBuiltinT(class)
-	t.IsIf = true
 
 	return &t
 }
@@ -70,20 +70,14 @@ func (i *IfUnless) setConditionalCtx(
 			i.narrowTs[object] = append(i.narrowTs[object], *classT)
 		}
 
-		if currentT.IsIf {
-			variants := []base.T{}
-			variants = append(variants, currentT)
-			variants = append(variants, *classT)
-			classT = base.MakeUnifiedT(variants)
-			classT.IsIf = true
-		}
+		i.ifNarrowTs[object] = append(i.ifNarrowTs[object], *classT)
 
 		base.SetValueT(
 			ctx.GetFrame(),
 			ctx.GetClass(),
 			ctx.GetMethod(),
 			object,
-			classT,
+			base.MakeUnifiedT(i.ifNarrowTs[object]),
 			ctx.IsDefineStatic,
 		)
 
@@ -112,6 +106,10 @@ func (i *IfUnless) setConditionalCtx(
 		}
 
 		if currentT.IsMatchType(classT) {
+			if !skipNarrow {
+				i.narrowTs[object] = append(i.narrowTs[object], *base.MakeNil())
+			}
+
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),
@@ -120,10 +118,6 @@ func (i *IfUnless) setConditionalCtx(
 				base.MakeNil(),
 				ctx.IsDefineStatic,
 			)
-
-			if !skipNarrow {
-				i.narrowTs[object] = append(i.narrowTs[object], *base.MakeNil())
-			}
 		}
 	}
 
@@ -420,6 +414,7 @@ func (i *IfUnless) Evaluation(
 	// clear
 	i.originalTs = make(map[string][]base.T)
 	i.narrowTs = make(map[string][]base.T)
+	i.ifNarrowTs = make(map[string][]base.T)
 
 	lastEvaluatedT := p.GetLastEvaluatedT()
 
@@ -466,6 +461,7 @@ func (i *IfUnless) Evaluation(
 
 		if nextT.IsTargetIdentifier("elsif") && i.conditionType == "if" {
 			i.narrowing(ctx)
+			i.ifNarrowTs = make(map[string][]base.T)
 
 			_, err := i.getBackupContext(e, *p, ctx)
 			if err != nil {
@@ -477,6 +473,7 @@ func (i *IfUnless) Evaluation(
 		}
 
 		if nextT.IsTargetIdentifier("else") {
+			i.ifNarrowTs = make(map[string][]base.T)
 			p.SkipNewline()
 
 			nextT, err := p.Read()
