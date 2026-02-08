@@ -44,6 +44,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsLlmInfo = true
 	}
 
+	if hasFlag("--llm-error") {
+		flags.IsLlmError = true
+	}
+
 	return flags
 }
 

@@ -66,6 +66,7 @@ func evaluationLoop(
 	}
 
 	if len(p.DefineInfos) > 0 && flags.IsLlmInfo {
+		fmt.Println("[Method Signatures]")
 		cmd.PrintDefineInfosForLlm()
 		return
 	}
@@ -84,6 +85,12 @@ func evaluationLoop(
 
 	if flags.IsExtends {
 		cmd.PrintTargetClassExtends()
+		os.Exit(0)
+	}
+
+	if len(p.Errors) > 0 && flags.IsLlmError {
+		fmt.Println("[Errors]")
+		cmd.PrintAllErrorsForPlugin(p)
 		os.Exit(0)
 	}
 
