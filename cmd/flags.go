@@ -8,6 +8,7 @@ type ExecuteFlags struct {
 	IsExtends       bool
 	IsHover         bool
 	IsVersion       bool
+	IsLlmInfo       bool
 }
 
 func NewExecuteFlags() *ExecuteFlags {

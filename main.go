@@ -65,6 +65,10 @@ func evaluationLoop(
 		cmd.PrintDefineInfosForPlugin(p.DefineInfos)
 	}
 
+	if len(p.DefineInfos) > 0 && flags.IsLlmInfo {
+		cmd.PrintDefineInfosForLlm()
+	}
+
 	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo {
 		cmd.PrintAllDefinitionsForLsp(p)
 	}

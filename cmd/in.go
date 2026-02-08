@@ -40,6 +40,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsVersion = true
 	}
 
+	if hasFlag("--llm") {
+		flags.IsLlmInfo = true
+	}
+
 	return flags
 }
 

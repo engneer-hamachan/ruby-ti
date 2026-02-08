@@ -24,6 +24,14 @@ func PrintDefineInfosForPlugin(infos []string) {
 	}
 }
 
+func PrintDefineInfosForLlm() {
+	for _, sig := range base.GetSortedTSignatures() {
+		if sig.Frame != "Builtin" && sig.Method != "new" {
+			printLlmInfo(strconv.Itoa(sig.Row), sig.GetPrintDetail(), sig.Document)
+		}
+	}
+}
+
 func PrintAllErrorsForPlugin(p parser.Parser) {
 	for _, err := range p.Errors {
 		fmt.Println(err)
@@ -148,6 +156,12 @@ func printInheritance(child, parent base.ClassNode) {
 func printSuggestion(contents, detail string, document string) {
 	fmt.Println(
 		prefixSignature + contents + separator + detail + separator + document,
+	)
+}
+
+func printLlmInfo(row, detail string, document string) {
+	fmt.Println(
+		row + separator + detail + separator + document,
 	)
 }
 
