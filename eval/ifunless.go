@@ -82,42 +82,53 @@ func (i *IfUnless) setConditionalCtx(
 		)
 
 	default:
-		if currentT.IsUnionType() {
-			var newVariants []base.T
-			for _, currentVariant := range currentT.GetVariants() {
-				if currentVariant.GetObjectClass() != classT.GetObjectClass() {
-					if !skipNarrow {
-						i.narrowTs[object] = append(i.narrowTs[object], currentVariant)
-					}
-					newVariants = append(newVariants, currentVariant)
-				}
-			}
+		i.ifNarrowTs[object] = append(i.ifNarrowTs[object], *classT)
 
-			base.SetValueT(
-				ctx.GetFrame(),
-				ctx.GetClass(),
-				ctx.GetMethod(),
-				object,
-				base.MakeUnifiedT(newVariants),
-				ctx.IsDefineStatic,
-			)
-
+		origVariants := i.originalTs[object]
+		if len(origVariants) == 0 {
 			break
 		}
+		original := origVariants[0]
 
-		if currentT.IsMatchType(classT) {
-			if !skipNarrow {
-				i.narrowTs[object] = append(i.narrowTs[object], *base.MakeNil())
+		var remaining []base.T
+
+		if original.IsUnionType() {
+			for _, v := range original.GetVariants() {
+				excluded := false
+				for _, ex := range i.ifNarrowTs[object] {
+					if v.GetObjectClass() == ex.GetObjectClass() {
+						excluded = true
+						break
+					}
+				}
+				if !excluded {
+					remaining = append(remaining, v)
+				}
 			}
+		} else {
+			excluded := false
+			for _, ex := range i.ifNarrowTs[object] {
+				if original.GetObjectClass() == ex.GetObjectClass() {
+					excluded = true
+					break
+				}
+			}
+			if !excluded {
+				remaining = append(remaining, original)
+			}
+		}
 
-			base.SetValueT(
-				ctx.GetFrame(),
-				ctx.GetClass(),
-				ctx.GetMethod(),
-				object,
-				base.MakeNil(),
-				ctx.IsDefineStatic,
-			)
+		base.SetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			object,
+			base.MakeUnifiedT(remaining),
+			ctx.IsDefineStatic,
+		)
+
+		if !skipNarrow {
+			i.narrowTs[object] = remaining
 		}
 	}
 
