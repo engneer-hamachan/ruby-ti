@@ -223,6 +223,7 @@ func (i *IfUnless) getBackupContext(
 		}
 
 		isNilMethod := nextT.IsTargetIdentifier("nil?")
+		isEqualMethod := nextT.IsTargetIdentifier("==")
 
 		nextT, err = p.Read()
 		if err != nil {
@@ -230,7 +231,6 @@ func (i *IfUnless) getBackupContext(
 		}
 
 		isOpenParentheses := nextT.IsOpenParentheses()
-
 		conditionalFlags := [2]bool{isOpenParentheses, isNilMethod}
 
 		switch conditionalFlags {
@@ -281,7 +281,6 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, nil
 		}
 
-		isEqualMethod := !isOpenParentheses && !isNilMethod
 		err = i.setConditionalCtx(class, object, ctx, *t, isExclamation, isEqualMethod)
 		if err != nil {
 			return zaoriks, err
