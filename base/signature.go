@@ -18,6 +18,7 @@ type Sig struct {
 
 var TSignatures = make(map[string]Sig)
 var TSignatureDocument = make(map[string]string)
+var MethodCallPoint = make(map[string][]string)
 
 func GetSortedTSignatures() []Sig {
 	sortedSignatures := make([]Sig, 0, len(TSignatures))

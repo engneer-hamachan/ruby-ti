@@ -1,6 +1,8 @@
 package method_evaluator
 
 import (
+	"slices"
+	"strconv"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -62,6 +64,15 @@ func NewMethodEvaluator(
 		evaluatedObjectT.GetObjectClass(),
 		methodIdentifierT.ToString(),
 	)
+
+	key := evaluatedObjectT.GetFrame() + evaluatedObjectT.GetObjectClass() + methodIdentifierT.ToString()
+	callPoint := p.FileName + ":" + strconv.Itoa(p.Row)
+
+	points := base.MethodCallPoint[key]
+
+	if !slices.Contains(points, callPoint) {
+		base.MethodCallPoint[key] = append(base.MethodCallPoint[key], callPoint)
+	}
 
 	p.LastCallT = methodIdentifierT
 

@@ -30,12 +30,23 @@ func PrintDefineInfosForLlm() {
 			if sig.Document == "" {
 				sig.Document = "<no document>"
 			}
-			printLlmInfo(
-				sig.FileName,
-				strconv.Itoa(sig.Row),
-				sig.GetPrintDetail(),
-				sig.Document,
-			)
+
+			fmt.Println("## " + sig.GetPrintDetail())
+			fmt.Println("- file: " + sig.FileName + ":" + strconv.Itoa(sig.Row))
+			fmt.Println("- document: " + sig.Document)
+
+			points := base.MethodCallPoint[sig.Frame+sig.Class+sig.Method]
+
+			if len(points) == 0 {
+				fmt.Println("- call points: none")
+			} else {
+				fmt.Println("- call points:")
+				for _, point := range points {
+					fmt.Println("  - " + point)
+				}
+			}
+
+			fmt.Println()
 		}
 	}
 }
@@ -167,11 +178,6 @@ func printSuggestion(contents, detail string, document string) {
 	)
 }
 
-func printLlmInfo(fileName, row, detail string, document string) {
-	fmt.Println(
-		fileName + ":" + row + separator + detail + separator + document,
-	)
-}
 
 func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 	if len(targetT.ToString()) == 0 {
