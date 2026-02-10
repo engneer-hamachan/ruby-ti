@@ -61,6 +61,14 @@ You are refactoring PicoRuby code using the ti type checker.
    - Find alternative implementations that both satisfy ti and improve code quality
 
 4. **Common type error solutions**:
+   - For `Union` types containing `NilClass` (e.g., `Union<Integer NilClass>`): Use `is_a?` to narrow the type. ti recognizes `is_a?` checks and narrows the type within the branch:
+     ```ruby
+     x = arr[0] # Union<Integer NilClass>
+     if x.is_a?(Integer)
+       # ti narrows x to Integer here
+       x + 1
+     end
+     ```
    - For array operations: Use explicit indexing instead of iterators if needed
    - For hash operations: Ensure consistent access patterns
    - For generic functions: Make them more specific if ti struggles with inference
