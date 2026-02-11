@@ -70,7 +70,7 @@ func NewMethodEvaluator(
 
 	points := base.MethodCallPoint[key]
 
-	if !slices.Contains(points, callPoint) {
+	if !slices.Contains(points, callPoint) && ctx.IsCheckRound() {
 		base.MethodCallPoint[key] = append(base.MethodCallPoint[key], callPoint)
 	}
 
