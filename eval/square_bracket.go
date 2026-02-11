@@ -617,6 +617,13 @@ func (s *SquareBracket) Evaluation(
 		return nil
 	}
 
+	if lastT.IsUnknownType() && !t.IsBeforeSpace {
+		p.SkipToTargetToken("]")
+		p.SetLastEvaluatedT(base.MakeUntyped())
+
+		return nil
+	}
+
 	// []
 	return e.makeArray(p, ctx, t)
 }
