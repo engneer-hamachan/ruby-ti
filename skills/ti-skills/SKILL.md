@@ -12,9 +12,10 @@ You are refactoring PicoRuby code using the ti type checker.
 
 ## Using `ti --llm` for Code Understanding (IMPORTANT)
 
-**Before reading a file's source code**, always run `ti filename.rb --llm` first. This gives you:
+**Before reading a file's source code**, always run `ti filename.rb --llm` (do not tail & head. please full read) first. This gives you:
 
 - **Method signatures**: Parameter types and return types at a glance
+- **Special code comments**: Important variables, complex conditionals, non-obvious logic that LLMs need context to understand
 - **Call points**: Where each method is called from — use this to understand impact/dependencies
 - **`untyped` warnings**: Parameters or returns marked `untyped` indicate areas where types are ambiguous — read these carefully
 
