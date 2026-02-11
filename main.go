@@ -66,10 +66,10 @@ func evaluationLoop(
 	}
 
 	if len(p.DefineInfos) > 0 && flags.IsLlmInfo {
-		fmt.Println("[Method Signatures]")
+		fmt.Println("# Method Signatures")
 		cmd.PrintDefineInfosForLlm()
 
-		fmt.Println("[Special Code Comments]")
+		fmt.Println("# Special Code Comments")
 		cmd.PrintSpecialCodeCommentsForLlm()
 		return
 	}
