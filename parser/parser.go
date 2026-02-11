@@ -174,3 +174,10 @@ func (p *Parser) ConsumeTiComment() string {
 
 	return comment
 }
+
+func (p *Parser) ConsumeTiSpecialComment() string {
+	comment := p.Lexer.LastSpecialComment
+	p.Lexer.LastSpecialComment = ""
+
+	return comment
+}

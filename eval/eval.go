@@ -129,6 +129,18 @@ func (e *Evaluator) Eval(
 		return nil
 	}
 
+	if p.Lexer.LastSpecialComment != "" && ctx.IsCheckRound() {
+		comment := p.ConsumeTiSpecialComment()
+		commentSig :=
+			base.SpecialCodeComment{
+				FileName: p.FileName,
+				Row:      p.Row,
+				Document: comment,
+			}
+
+		base.SpecialCodeComments = append(base.SpecialCodeComments, commentSig)
+	}
+
 	nextT, err := p.Read()
 	if err != nil {
 		return err

@@ -16,9 +16,16 @@ type Sig struct {
 	Document  string
 }
 
+type SpecialCodeComment struct {
+	FileName string
+	Row      int
+	Document string
+}
+
 var TSignatures = make(map[string]Sig)
 var TSignatureDocument = make(map[string]string)
 var MethodCallPoint = make(map[string][]string)
+var SpecialCodeComments = []SpecialCodeComment{}
 
 func GetSortedTSignatures() []Sig {
 	sortedSignatures := make([]Sig, 0, len(TSignatures))

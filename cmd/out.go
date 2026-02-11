@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"slices"
 	"sort"
 	"strconv"
@@ -49,6 +51,40 @@ func PrintDefineInfosForLlm() {
 			fmt.Println()
 		}
 	}
+}
+
+func PrintSpecialCodeCommentsForLlm() {
+	for _, sig := range base.SpecialCodeComments {
+		fmt.Println("## " + sig.FileName + ":" + strconv.Itoa(sig.Row))
+		fmt.Println("- document: " + sig.Document)
+
+		line := readLineFromFile(sig.FileName, sig.Row)
+		if line != "" {
+			fmt.Println("```")
+			fmt.Println(line)
+			fmt.Println("```")
+		}
+
+		fmt.Println()
+	}
+}
+
+func readLineFromFile(fileName string, row int) string {
+	f, err := os.Open(fileName)
+	if err != nil {
+		return ""
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	current := 0
+	for scanner.Scan() {
+		current++
+		if current == row {
+			return scanner.Text()
+		}
+	}
+	return ""
 }
 
 func PrintAllErrorsForPlugin(p parser.Parser) {
@@ -177,7 +213,6 @@ func printSuggestion(contents, detail string, document string) {
 		prefixSignature + contents + separator + detail + separator + document,
 	)
 }
-
 
 func isSuggestForKernelOrObjectClass(targetT base.T, sigClass string) bool {
 	if len(targetT.ToString()) == 0 {

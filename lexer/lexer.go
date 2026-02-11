@@ -9,12 +9,13 @@ import (
 )
 
 type Lexer struct {
-	tok         rune
-	val         any
-	IsSpace     bool
-	IsSpacePrev bool
-	reader      reader.LexerReader
-	LastComment string
+	tok                rune
+	val                any
+	IsSpace            bool
+	IsSpacePrev        bool
+	reader             reader.LexerReader
+	LastComment        string
+	LastSpecialComment string
 }
 
 var reserved map[string]any = make(map[string]any)
@@ -254,7 +255,13 @@ func (l *Lexer) skipLineComment() {
 
 	comment := buf.String()
 	if strings.Contains(comment, "ti-doc:") {
-		l.LastComment = strings.TrimSpace(strings.Replace(comment, "ti-doc:", "", 1))
+		l.LastComment =
+			strings.TrimSpace(strings.Replace(comment, "ti-doc:", "", 1))
+	}
+
+	if strings.Contains(comment, "ti-for-llm:") {
+		l.LastSpecialComment =
+			strings.TrimSpace(strings.Replace(comment, "ti-for-llm:", "", 1))
 	}
 
 	l.reader.Unread()
