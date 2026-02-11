@@ -1,4 +1,4 @@
-[Method Signatures]
+# Method Signatures
 ## array_remove_at(Array<untyped>, untyped) -> Array<untyped>
 - file: theme/editor_app.rb:320
 - document: remove item from array at index
@@ -177,7 +177,7 @@
   - theme/editor_app.rb:442
   - theme/editor_app.rb:1125
 
-[Special Code Comments]
+# Special Code Comments
 ## theme/editor_app.rb:61
 - comment: ADC object for reading battery voltage
 ```
