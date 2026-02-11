@@ -90,6 +90,7 @@ func (b *Bind) handleScalarAsigntment(
 	}
 
 	rightT.SetHasDefault(ctx.IsDefineArg)
+	rightT.ClearDefineArgs()
 
 	*leftT = rightT
 

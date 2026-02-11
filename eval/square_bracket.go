@@ -543,7 +543,7 @@ func (e *Evaluator) referenceEvaluation(
 	}
 
 	switch t.GetType() {
-	case base.UNKNOWN, base.UNTYPED:
+	case base.UNKNOWN, base.UNTYPED, base.UNION:
 		p.SkipToTargetToken("]")
 
 		if ctx.IsCollectRound() {
@@ -607,6 +607,13 @@ func (s *SquareBracket) Evaluation(
 	if lastT.IsAnyType() && p.IsParsingExpression() && !t.IsBeforeSpace {
 		p.SkipToTargetToken("]")
 		p.SetLastEvaluatedT(base.MakeUnknown())
+		return nil
+	}
+
+	if !t.IsBeforeSpace && !p.LastT.IsTargetIdentifiers([]string{"[", "("}) {
+		p.SkipToTargetToken("]")
+		p.SetLastEvaluatedT(base.MakeUntyped())
+
 		return nil
 	}
 

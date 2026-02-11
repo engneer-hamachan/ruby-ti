@@ -83,6 +83,8 @@ func (p *Parser) ReadAhead() (*base.T, error) {
 }
 
 func (p *Parser) Read() (*base.T, error) {
+	p.LastT = p.CurrentT
+
 	p.getToken()
 	var t *base.T
 
@@ -163,6 +165,8 @@ func (p *Parser) Read() (*base.T, error) {
 	if p.Debug {
 		fmt.Println(t)
 	}
+
+	p.CurrentT = *t
 
 	return t, nil
 }
