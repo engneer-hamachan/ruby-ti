@@ -56,7 +56,7 @@ func PrintDefineInfosForLlm() {
 func PrintSpecialCodeCommentsForLlm() {
 	for _, sig := range base.SpecialCodeComments {
 		fmt.Println("## " + sig.FileName + ":" + strconv.Itoa(sig.Row))
-		fmt.Println("- document: " + sig.Document)
+		fmt.Println("- comment: " + sig.Document)
 
 		line := readLineFromFile(sig.FileName, sig.Row)
 		if line != "" {
