@@ -91,6 +91,10 @@ func propagationForUnknownArg(
 	argT *base.T,
 ) {
 
+	if definedArgT.IsAnyType() || definedArgT.IsIdentifierType() {
+		return
+	}
+
 	arg := argT.ToString()
 
 	if arg == "unknown" {
