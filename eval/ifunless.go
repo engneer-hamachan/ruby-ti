@@ -172,6 +172,7 @@ func (i *IfUnless) getBackupContext(
 ) ([]func(), error) {
 
 	var zaoriks []func()
+	isOr := false
 
 	for {
 		err := i.beforeEval(*e, p, ctx)
@@ -307,11 +308,6 @@ func (i *IfUnless) getBackupContext(
 			return zaoriks, nil
 		}
 
-		err = i.setConditionalCtx(class, object, ctx, *t, isExclamation, isEqualMethod)
-		if err != nil {
-			return zaoriks, err
-		}
-
 		zaoriks =
 			append(
 				zaoriks,
@@ -327,12 +323,23 @@ func (i *IfUnless) getBackupContext(
 				},
 			)
 
+		if nextT.IsTargetIdentifier("||") {
+			isOr = true
+		}
+
 		switch isOpenParentheses {
 		// a.is_a?(Object) &&
 		case true:
 			nextT, err = p.Read()
 			if err != nil {
 				return zaoriks, err
+			}
+
+			if !isOr {
+				err = i.setConditionalCtx(class, object, ctx, *t, isExclamation, isEqualMethod)
+				if err != nil {
+					return zaoriks, err
+				}
 			}
 
 			if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
@@ -343,6 +350,13 @@ func (i *IfUnless) getBackupContext(
 
 		// a == 1 &&
 		default:
+			if !isOr {
+				err = i.setConditionalCtx(class, object, ctx, *t, isExclamation, isEqualMethod)
+				if err != nil {
+					return zaoriks, err
+				}
+			}
+
 			if nextT.IsTargetIdentifiers([]string{"&&", "||"}) {
 				continue
 			}
