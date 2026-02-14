@@ -34,11 +34,6 @@ func (a *arrayAppendStrategy) evaluate(m *MethodEvaluator) error {
 		return err
 	}
 
-	err = checkAndPropagateArgs(m, "Array", methodT, evaluatedArgs)
-	if err != nil {
-		return err
-	}
-
 	arrayT := m.evaluatedObjectT
 
 	if len(evaluatedArgs) > 0 {
