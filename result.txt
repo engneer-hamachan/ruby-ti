@@ -1,2 +1,0 @@
-bash ./shell/test.sh
-ok  	ti/test	4.072s
