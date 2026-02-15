@@ -132,6 +132,8 @@ func propagationForCalledTo(
 		return false
 	}
 
+	argT.Round = m.ctx.GetRound()
+
 	if definedArgT == nil || definedArgT.IsIdentifierType() {
 		argT.SetIsInfferedFromCall(true)
 
@@ -184,6 +186,19 @@ func propagationForCalledTo(
 		return true
 	}
 
+	if definedArgT.Round != "" && definedArgT.Round != argT.Round {
+		base.SetValueT(
+			methodT.DefinedFrame,
+			methodT.DefinedClass,
+			m.method,
+			definedArg,
+			argT,
+			methodT.IsStatic,
+		)
+
+		return false
+	}
+
 	if definedArgT.IsMatchType(argT) {
 		return true
 	}
@@ -209,6 +224,7 @@ func propagationForCalledTo(
 
 		unionT.SetHasDefault(definedArgT.HasDefault())
 		unionT.SetIsInfferedFromCall(definedArgT.IsInfferedFromCall())
+		unionT.Round = m.ctx.GetRound()
 
 		definedArgT :=
 			base.GetValueT(

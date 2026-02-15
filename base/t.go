@@ -30,6 +30,7 @@ type T struct {
 	owner               any
 	IsExtend            bool
 	IsInclude           bool
+	Round               string
 }
 
 func (t *T) DeepCopy() *T {
@@ -58,6 +59,7 @@ func (t *T) DeepCopy() *T {
 		IsCaptureOwner:     t.IsCaptureOwner,
 		IsInclude:          t.IsInclude,
 		IsExtend:           t.IsExtend,
+		Round:              t.Round,
 	}
 
 	if t.defineArgs != nil {
