@@ -16,7 +16,7 @@ func Test626f1fe2(t *testing.T) {
 @./626f1fe2.rb:::3:::(String) -> Hash [c/public]
 @./626f1fe2.rb:::11:::(String) -> Bool [c/private]
 @./626f1fe2.rb:::15:::(String) -> Bool [c/private]
-@./626f1fe2.rb:::19:::(String) -> Bool [c/private]
+@./626f1fe2.rb:::19:::(Union<untyped String>) -> Bool [c/private]
 @./626f1fe2.rb:::23:::(String) -> Bool [c/private]
 @./626f1fe2.rb:::27:::(String) -> Bool [c/private]
 @./626f1fe2.rb:::31:::(unknown) -> Bool [c/private]

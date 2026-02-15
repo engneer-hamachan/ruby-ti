@@ -23,6 +23,8 @@ func (r *Return) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	p.SetLastEvaluatedT(base.MakeUnknown())
+
 	nextT, err := p.Read()
 	if err != nil {
 		return err
