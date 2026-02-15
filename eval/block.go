@@ -339,6 +339,12 @@ func (d *Do) prepareBlockScope(p *parser.Parser, ctx context.Context) (func(), e
 				ctx.IsDefineStatic,
 			)
 
+		if t == nil || t.IsUnknownType() {
+			restoreVariables =
+				append(restoreVariables, RestoreVariable{id.ToString(), base.MakeUntyped()})
+
+			continue
+		}
 		restoreVariables =
 			append(restoreVariables, RestoreVariable{id.ToString(), t})
 	}
