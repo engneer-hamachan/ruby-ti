@@ -1,5 +1,5 @@
 def test(z, q, a:, b:, c: nil)
-  a + b
+  # a + b
   p c
   z + c
 end

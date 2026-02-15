@@ -350,6 +350,10 @@ func (t *T) IsKeyValueType() bool {
 }
 
 func (t *T) IsMatchType(targetT *T) bool {
+	if t == nil || targetT == nil {
+		return false
+	}
+
 	if t.IsUnionType() && targetT.IsUnionType() {
 		targetTypes := targetT.GetVariantTypes()
 		tTypes := t.GetVariantTypes()

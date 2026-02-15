@@ -12,8 +12,10 @@ func Test1893f79d(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./1893f79d.rb:::19:::type mismatch: expected Union<Integer Float>, but got String for Fuga.test
-./1893f79d.rb:::26:::type mismatch: expected Integer, but got String for hoge`
+	expectedOutput := `./1893f79d.rb:::8:::type mismatch: expected Union<Integer Float>, but got String for Integer.+
+./1893f79d.rb:::23:::type mismatch: expected String, but got Unknown for Test.test
+./1893f79d.rb:::26:::type mismatch: expected Integer, but got String for hoge
+	`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

@@ -10,4 +10,4 @@ end
 
 
 obj = Hoge.new
-obj.test(a)
+# obj.test(a)

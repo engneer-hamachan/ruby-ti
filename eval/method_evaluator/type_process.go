@@ -246,37 +246,6 @@ func propagationForCalledTo(
 	return false
 }
 
-func propagationForCaller(
-	m *MethodEvaluator,
-	definedArgT *base.T,
-	argT *base.T,
-	isStatic bool,
-) bool {
-
-	if definedArgT.IsAnyType() {
-		return true
-	}
-
-	if !argT.IsIdentifierType() || argT.IsConstIdentifier() {
-		return false
-	}
-
-	if m.ctx.GetMethod() == "" {
-		isStatic = false
-	}
-
-	base.SetValueT(
-		m.ctx.GetFrame(),
-		m.ctx.GetClass(),
-		m.ctx.GetMethod(),
-		argT.ToString(),
-		definedArgT.DeepCopy(),
-		isStatic,
-	)
-
-	return true
-}
-
 func checkArgType(
 	m *MethodEvaluator,
 	class string,
@@ -632,19 +601,6 @@ func checkAndPropagateArgs(
 			methodT,
 			definedArgT,
 			sortedArgTs[argIdx],
-		) {
-
-			argIdx++
-			defineArgIdx++
-
-			continue
-		}
-
-		if propagationForCaller(
-			m,
-			definedArgT,
-			sortedArgTs[argIdx],
-			m.ctx.IsDefineStatic,
 		) {
 
 			argIdx++
