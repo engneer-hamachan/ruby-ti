@@ -606,7 +606,7 @@ func (s *SquareBracket) Evaluation(
 
 	if lastT.IsAnyType() && p.IsParsingExpression() && !t.IsBeforeSpace {
 		p.SkipToTargetToken("]")
-		p.SetLastEvaluatedT(base.MakeUnknown())
+		p.SetLastEvaluatedT(base.MakeUntyped())
 		return nil
 	}
 
