@@ -99,6 +99,10 @@ func propagationForCalledTo(
 
 	argT.Round = m.ctx.GetRound()
 
+	if m.parser.IsStrict && !methodT.IsBuiltinMethod() {
+		argT.EnableBuiltin()
+	}
+
 	if definedArgT == nil || definedArgT.IsIdentifierType() {
 		argT.SetIsInfferedFromCall(true)
 
@@ -170,7 +174,7 @@ func propagationForCalledTo(
 				methodT.DefinedClass,
 				m.method,
 				definedArg,
-				argT.DeepCopy(),
+				argT,
 				methodT.IsStatic,
 			)
 		default:
@@ -179,7 +183,7 @@ func propagationForCalledTo(
 				class,
 				m.method,
 				definedArg,
-				argT.DeepCopy(),
+				argT,
 				methodT.IsStatic,
 			)
 		}

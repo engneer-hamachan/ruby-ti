@@ -598,3 +598,11 @@ func (t *T) IsRefferenceAbleT() bool {
 func (t *T) IsUpperPrefix() bool {
 	return IsUpper(t.ToString())
 }
+
+func (t *T) IsBuiltinMethod() bool {
+	if t == nil {
+		return false
+	}
+
+	return t.GetFrame() == "Builtin"
+}
