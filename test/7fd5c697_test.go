@@ -12,7 +12,8 @@ func Test7fd5c697(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./7fd5c697.rb:::7:::type mismatch: expected Union<Integer Float>, but got NilClass for Integer.+
+	expectedOutput := `./7fd5c697.rb:::3:::type mismatch: expected Integer, but got Unknown for Test.test
+./7fd5c697.rb:::7:::type mismatch: expected Union<Integer Float>, but got NilClass for Integer.+
 ./7fd5c697.rb:::9:::type mismatch: expected String, but got Integer for String.+`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

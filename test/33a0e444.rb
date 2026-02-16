@@ -17,3 +17,8 @@ class Hoge
     end
   end
 end
+
+h = Hoge::Piya.new
+h.test x: '1'
+
+Hoge::Piya.test x: 1

@@ -85,41 +85,6 @@ func isNotDefineNamedArgError(
 	return true
 }
 
-func propagationForUnknownArg(
-	m *MethodEvaluator,
-	definedArgT *base.T,
-	argT *base.T,
-) {
-
-	if definedArgT.IsAnyType() || definedArgT.IsIdentifierType() {
-		return
-	}
-
-	arg := argT.ToString()
-
-	if arg == "unknown" {
-		arg = argT.GetBeforeEvaluateCode()
-	}
-
-	t := *definedArgT.DeepCopy()
-	t.SetHasDefault(argT.HasDefault())
-	t.SetIsInfferedFromCall(argT.IsInfferedFromCall())
-	t.SetBeforeEvaluateCode(argT.ToString())
-
-	if argT.HasDefault() {
-		t.AppendVariant(*argT)
-	}
-
-	base.UpdateArgumentSnapShot(
-		m.ctx.GetFrame(),
-		m.ctx.GetClass(),
-		m.ctx.GetMethod(),
-		arg,
-		t,
-		m.ctx.IsDefineStatic,
-	)
-}
-
 func propagationForCalledTo(
 	m *MethodEvaluator,
 	class, definedArg string,
@@ -187,14 +152,37 @@ func propagationForCalledTo(
 	}
 
 	if definedArgT.Round != "" && definedArgT.Round != argT.Round {
-		base.SetValueT(
-			methodT.DefinedFrame,
-			methodT.DefinedClass,
-			m.method,
-			definedArg,
-			argT,
-			methodT.IsStatic,
-		)
+		argT.SetIsInfferedFromCall(true)
+
+		definedArgT :=
+			base.GetValueT(
+				methodT.GetFrame(),
+				class,
+				m.method,
+				definedArg,
+				methodT.IsStatic,
+			)
+
+		switch definedArgT {
+		case nil:
+			base.SetValueT(
+				methodT.DefinedFrame,
+				methodT.DefinedClass,
+				m.method,
+				definedArg,
+				argT.DeepCopy(),
+				methodT.IsStatic,
+			)
+		default:
+			base.SetValueT(
+				methodT.GetFrame(),
+				class,
+				m.method,
+				definedArg,
+				argT.DeepCopy(),
+				methodT.IsStatic,
+			)
+		}
 
 		return false
 	}
@@ -604,10 +592,6 @@ func checkAndPropagateArgs(
 
 		if len(sortedArgTs) <= argIdx {
 			break
-		}
-
-		if definedArgT != nil && sortedArgTs[argIdx].IsIdentifierType() {
-			propagationForUnknownArg(m, definedArgT, sortedArgTs[argIdx])
 		}
 
 		if propagationForCalledTo(

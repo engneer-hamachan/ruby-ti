@@ -12,7 +12,7 @@ func Test9935e210(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./9935e210.rb:::5:::type mismatch: expected Integer, but got String for hoge"
+	expectedOutput := "./9935e210.rb:::2:::type mismatch: expected Integer, but got String for Test.test"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
