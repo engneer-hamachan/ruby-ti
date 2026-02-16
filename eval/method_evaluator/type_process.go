@@ -103,6 +103,10 @@ func propagationForCalledTo(
 		argT.EnableBuiltin()
 	}
 
+	if m.parser.IsStrict && argT.IsAnyType() {
+		return true
+	}
+
 	if definedArgT == nil || definedArgT.IsIdentifierType() {
 		argT.SetIsInfferedFromCall(true)
 
