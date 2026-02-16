@@ -1,5 +1,0 @@
---- FAIL: Test9bac7176 (0.03s)
-    9bac7176_test.go:18: Expected output: ./9bac7176.rb:::13:::type mismatch: expected Union<Integer Float>, but got String for Integer.+, but got: ./9bac7176.rb:::3:::type mismatch: expected Union<Integer Float>, but got String for Integer.+
-FAIL
-FAIL	ti/test	4.296s
-FAIL
