@@ -288,7 +288,13 @@ func (i *IfUnless) getBackupContext(
 
 		// a == 1
 		default:
-			class = nextT.GetObjectClass()
+			err := e.Eval(&p, ctx, nextT)
+			if err != nil {
+				return zaoriks, err
+			}
+
+			lastEvaluatedT := p.GetLastEvaluatedT()
+			class = lastEvaluatedT.GetObjectClass()
 
 			nextT, err = p.Read()
 			if err != nil || !nextT.IsIdentifierType() {
@@ -497,6 +503,7 @@ func (i *IfUnless) Evaluation(
 
 		if nextT.IsTargetIdentifier("elsif") && i.conditionType == "if" {
 			i.narrowing(ctx)
+
 			i.ifNarrowTs = make(map[string][]base.T)
 
 			_, err := i.getBackupContext(e, *p, ctx)
@@ -505,6 +512,7 @@ func (i *IfUnless) Evaluation(
 			}
 
 			resultTs = append(resultTs, p.GetLastEvaluatedT())
+
 			continue
 		}
 
