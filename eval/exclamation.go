@@ -33,6 +33,31 @@ func (e *Exclamation) Evaluation(
 		return err
 	}
 
+	for {
+		t, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		if t == nil {
+			return nil
+		}
+
+		if t.IsCommaIdentifier() {
+			continue
+		}
+
+		if t.GetPower() == 0 || t.IsTargetIdentifiers([]string{"+", "-", "*", "/", "%"}) {
+			p.Unget()
+			break
+		}
+
+		err = ev.Eval(p, ctx, t)
+		if err != nil {
+			return err
+		}
+	}
+
 	p.SetLastEvaluatedT(base.MakeBool())
 
 	return nil
