@@ -23,6 +23,8 @@ func (e *Exclamation) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	p.LastCallT = t.DeepCopy()
+
 	t, err = p.Read()
 	if err != nil {
 		return err
@@ -47,7 +49,7 @@ func (e *Exclamation) Evaluation(
 			continue
 		}
 
-		if t.GetPower() == 0 || t.IsTargetIdentifiers([]string{"+", "-", "*", "/", "%"}) {
+		if t.GetPower() < 95 {
 			p.Unget()
 			break
 		}

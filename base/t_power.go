@@ -6,6 +6,7 @@ func init() {
 	tPower["def"] = 100
 	tPower["!"] = 100
 	tPower["~"] = 100
+	tPower["."] = 95
 	tPower["*"] = 70
 	tPower["/"] = 70
 	tPower["%"] = 70
@@ -46,7 +47,6 @@ func init() {
 	tPower["^="] = 10
 	tPower["||="] = 10
 	tPower["&&="] = 10
-	tPower["."] = 95
 	tPower["defined?"] = 5
 	tPower["not"] = 3
 	tPower["or"] = 2
