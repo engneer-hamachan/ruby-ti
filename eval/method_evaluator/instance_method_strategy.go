@@ -22,7 +22,7 @@ func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 	}
 
 	if m.parser.IsStrict && m.ctx.IsCheckRound() && class == "Identifier" {
-		return m.makeNotDefinedMethodError(class, m.method, "instance")
+		return m.makeNotDefinedMethodError(m.objectT.ToString(), m.method, "instance")
 	}
 
 	if methodT == nil {
@@ -137,7 +137,7 @@ func (i *instanceMethodStrategy) getRequiredValues(m *MethodEvaluator) (
 	if i.isResolveMethodCall(m, class) {
 		methodT =
 			base.MakeMethod(
-				class,
+				"Untyped",
 				m.method,
 				*base.MakeUntyped(),
 				[]string{base.GenId()},

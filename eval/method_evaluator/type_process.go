@@ -104,6 +104,15 @@ func propagationForCalledTo(
 	}
 
 	if m.parser.IsStrict && argT.IsAnyType() {
+		base.SetValueT(
+			methodT.DefinedFrame,
+			methodT.DefinedClass,
+			m.method,
+			definedArg,
+			argT,
+			methodT.IsStatic,
+		)
+
 		return true
 	}
 
