@@ -19,7 +19,7 @@ func (e *Evaluator) evalPriorityExp(
 		return err
 	}
 
-	if nextT.IsPriorityT() {
+	if nextT.GetPower() >= 25 {
 		err = e.Eval(p, ctx, nextT)
 		if err != nil {
 			return err
