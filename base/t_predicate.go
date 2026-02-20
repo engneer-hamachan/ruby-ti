@@ -587,10 +587,6 @@ func (t *T) IsNameSpaceIdentifier() bool {
 	return IsNameSpace(t.ToString())
 }
 
-func (t *T) IsPriorityT() bool {
-	return t.GetPower() > 0
-}
-
 func (t *T) IsRefferenceAbleT() bool {
 	return !t.IsTargetIdentifier("[") && !t.IsTargetIdentifier("\n")
 }
