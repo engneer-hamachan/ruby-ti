@@ -48,6 +48,8 @@ func PrintDefineInfosForLlm() {
 				}
 			}
 
+			fmt.Printf("- total call points: %d\n", len(points))
+
 			fmt.Println()
 		}
 	}
