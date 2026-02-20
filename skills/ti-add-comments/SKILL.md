@@ -79,3 +79,44 @@ $completion_chars = nil
 - Focus on **what** and **why**, not **how**
 - Do not repeat the function name in the ti-doc comment
 - For ti-for-llm, explain the intent or significance of the code
+- **The smell test**: If your comment could be guessed by just reading the method name, it is not good enough.
+  The comment must add information that cannot be inferred from the name alone.
+  - Bad: `# ti-doc: calculate indent decrease for tokens` (just a rephrasing of the name)
+  - Good: `# ti-doc: returns indent_ct-1 if first token is 'end'/'else'/'elsif'/'when', otherwise returns indent_ct unchanged`
+
+## Goal: LLMs should not need to read source code
+
+The `document:` field in `ti --llm` output is the primary way an LLM understands your code **without reading the source**. Write `ti-doc:` comments rich enough that another LLM can make correct implementation decisions from the `ti --llm` output alone.
+
+### What to include in `ti-doc:` when relevant
+
+- **Return value semantics**: What does the return value mean? (e.g. "returns true if cursor moved to a different line")
+- **Special parameter values**: Note sentinel values like `-1` (e.g. "direction: 'left' or 'right'")
+- **Side effects**: What state does this function mutate? (e.g. "updates state.code and state.cursor_col_index")
+- **Key constraints**: Preconditions or postconditions the caller must know (e.g. "only called when code is non-empty")
+
+### Examples
+
+Too vague (LLM still needs to read source):
+```ruby
+# ti-doc: handle backspace
+def handle_backspace(state)
+```
+
+Rich enough to act on:
+```ruby
+# ti-doc: handle backspace key — deletes char at cursor position, or moves to previous line if code is empty; returns true if cursor moved to a different line
+def handle_backspace(state)
+```
+
+Too vague:
+```ruby
+# ti-for-llm: cursor column index
+@cursor_col_index = -1
+```
+
+Rich enough:
+```ruby
+# ti-for-llm: cursor column position within current code line — -1 means end of line (default), 0..n means specific position
+@cursor_col_index = -1
+```

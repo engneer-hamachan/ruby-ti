@@ -7,38 +7,43 @@ You are refactoring PicoRuby code using the ti type checker.
 
 ## Available Commands
 
-- `ti filename.rb --llm` - Display type information for the file
-- `ti filename.rb --llm-error` - Display type error information for the file
+- `ti filename.rb --llm --strict` - Display type information for the file
+- `ti filename.rb --llm-error --strict` - Display type error information for the file
 
-## Using `ti --llm` for Code Understanding (IMPORTANT)
+**IMPORTANT**: Always run these commands as-is. Never pipe through `head`, `tail`, or any other truncation tool. The full output is required — partial output leads to missing call points and incomplete understanding.
 
-**Before reading a file's source code**, always run `ti filename.rb --llm` (do not tail & head. please full read) first. This gives you:
+## `ti --llm --strict` is your primary source of truth
+
+**Do not read source files directly.** Use `ti filename.rb --llm --strict` as your main tool for understanding code. It gives you everything you need:
 
 - **Method signatures**: Parameter types and return types at a glance
-- **Special code comments**: Important variables, complex conditionals, non-obvious logic that LLMs need context to understand
-- **Call points**: Where each method is called from — use this to understand impact/dependencies
-- **`untyped` warnings**: Parameters or returns marked `untyped` indicate areas where types are ambiguous — read these carefully
+- **`document:` field**: Intent and behavior of each method — rely on this to understand what a method does
+- **Call points**: Every location a method is called from — use this to assess impact before changing anything
+- **`untyped` warnings**: Parameters or returns marked `untyped` are ambiguous — treat carefully
 
-### When to use `ti --llm`
+### When you may read source code
 
-- **Before editing a file**: Understand the full method landscape before touching anything
-- **When investigating a bug**: Check call points to trace how data flows through the code
-- **When assessing change impact**: Call points tell you exactly which lines will be affected
-- **When exploring unfamiliar code**: Method signatures + documents give a quick overview without reading every line
+Only read source when `ti --llm` output is insufficient for a **specific method**:
+
+- The `document:` field is missing or too vague to act on
+- You need to understand the exact logic of a single method (use call points to find the line, then read only that method)
+- **Never read the entire file** — always target specific line ranges identified from `ti --llm` output
 
 ### Reading the output effectively
 
 - `Union<A B>` means the value can be type A or B — handle both cases
 - `untyped` means ti couldn't infer the type — these are often the riskiest spots
-- `document:` lines are inline comments from the code — use them to understand intent
+- `document:` lines describe intent — if they are too vague, consider improving them with ti-add-comments
 - Call points list every location a method is used — check all of them when changing a signature
 
-## Refactoring Workflow
+## Workflow
 
-1. **Start by checking type information**: Run `ti filename.rb --llm` to understand the current type state
-2. **Make incremental changes**: Refactor the code in small steps
-3. **Verify frequently**: After each change, run `ti filename.rb --llm-error` to check for type errors
-4. **Prioritize ti compliance**: While the ti command is not perfect, prioritize making changes that result in no type errors from ti
+1. **Run `ti filename.rb --llm --strict`** — understand the full method landscape from signatures, documents, and call points
+2. **Identify what to change** — use call points to find affected lines; read source only if `document:` is insufficient
+3. **Make incremental changes** using the Edit tool
+4. **Run `ti filename.rb --llm-error --strict`** after each change to verify no type errors
+5. **If errors are found — stop and report** (see "Handling Type Errors" below); do not continue until the user responds
+6. **Repeat steps 3–5** until all errors are resolved
 
 ## Handling Type Errors - Critical Rules
 
@@ -49,19 +54,13 @@ You are refactoring PicoRuby code using the ti type checker.
    - Check the line number and context
    - Identify why the type mismatch is occurring
 
-2. **Adjust to ti's type inference constraints**:
-   - ti may have limitations with certain patterns (e.g., `each` vs `while` loops)
-   - If a modern Ruby idiom causes errors, try a more explicit approach
-   - Initialize arrays/variables in ways that help ti infer types correctly
-   - Example: If `arr.each` fails, try `while i < arr.length` with index access
-
-3. **Preserve the original intent**:
+2. **Preserve the original intent**:
    - The refactored code must maintain the same functionality
    - Don't sacrifice code quality just to pass type checking
    - If a helper function causes type errors, fix the function - don't remove it
    - Find alternative implementations that both satisfy ti and improve code quality
 
-4. **Common type error solutions**:
+3. **Common type error solutions**:
    - For `Union` types containing `NilClass` (e.g., `Union<Integer NilClass>`): Use `is_a?` to narrow the type. ti recognizes `is_a?` checks and narrows the type within the branch:
      ```ruby
      x = arr[0] # Union<Integer NilClass>
@@ -75,11 +74,9 @@ You are refactoring PicoRuby code using the ti type checker.
    - For generic functions: Make them more specific if ti struggles with inference
    - Copy arrays/hashes before modifying to help ti track types
 
-5. **When stuck**:
-   - Try breaking the operation into smaller, more explicit steps
-   - Use intermediate variables with clear types
-   - Consult the original working code for patterns that ti accepts
-   - Remember: The goal is correct, maintainable code that passes type checking
+4. **When a type error occurs — stop and report**:
+   - **Do not attempt to fix the error on your own.** Stop all work immediately and report to the user.
+   - Wait for the user's instruction before proceeding
 
 ## Example Workflow
 
@@ -90,9 +87,9 @@ ti main/main.rb --llm
 # Step 2: Make a small refactoring change (use Edit tool)
 
 # Step 3: Check for type errors
-ti main/main.rb --llm-error
+ti main/main.rb --llm-error --strict
 
-# Step 4: If errors found, fix them and repeat step 3
+# Step 4: If errors found — stop and report to user, wait for instruction
 
 # Step 5: Once no errors, continue with next refactoring
 ```
