@@ -51,7 +51,7 @@ func (r *Logical) Evaluation(
 			break
 		}
 
-		if nextT.GetPower() == 0 && !nextT.IsTargetIdentifier("[") {
+		if nextT.GetPower() == 0 {
 			p.Unget()
 			break
 		}

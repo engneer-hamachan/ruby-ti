@@ -51,6 +51,7 @@ func init() {
 	tPower["not"] = 3
 	tPower["or"] = 2
 	tPower["and"] = 2
+	tPower["["] = 1
 }
 
 func (t *T) IsNotPowerDown(otherT *T) bool {

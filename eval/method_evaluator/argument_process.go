@@ -83,7 +83,7 @@ func (m *MethodEvaluator) isNotArgT(
 		return false
 	}
 
-	if t.IsIdentifierType() && t.GetPower() > 0 {
+	if t.IsIdentifierType() && t.GetPower() > 1 {
 		m.parser.Unget()
 		return true
 	}
