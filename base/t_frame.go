@@ -120,6 +120,19 @@ func SetMethodT(
 	row int,
 ) {
 
+	methodName := methodT.GetMethodName()
+
+	if !IsEqualPrefix(methodName) && !IsContainsSymbol(methodName) && IsSetterSuffix(methodName) {
+		SetInstanceValueT(
+			frame,
+			targetClass,
+			RemoveSuffix(methodName),
+			MakeUnknown(),
+		)
+
+		return
+	}
+
 	switch targetClass {
 	case "":
 		methodT.SetBeforeEvaluateCode(methodT.GetMethodName())

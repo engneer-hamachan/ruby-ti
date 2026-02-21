@@ -9,6 +9,10 @@ func IsKeySuffix(str string) bool {
 	return len(str) > 1 && str[len(str)-1:] == ":"
 }
 
+func IsSetterSuffix(str string) bool {
+	return len(str) > 1 && str[len(str)-1:] == "="
+}
+
 func IsSymbol(str string) bool {
 	return len(str) > 1 && str[0] == ':'
 }
@@ -29,6 +33,10 @@ func IsAmpersandPrefix(str string) bool {
 	return len(str) > 1 && str[0] == '&'
 }
 
+func IsEqualPrefix(str string) bool {
+	return len(str) > 1 && str[0] == '='
+}
+
 func IsNameSpace(str string) bool {
 	return len(strings.Split(str, "::")) > 1
 }
@@ -39,6 +47,15 @@ func IsUpper(str string) bool {
 	}
 
 	return unicode.IsUpper(rune(str[0]))
+}
+
+func IsContainsSymbol(str string) bool {
+	for _, r := range str {
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) && r != '_' && r != '=' {
+			return true
+		}
+	}
+	return false
 }
 
 func RemoveSuffix(str string) string {
