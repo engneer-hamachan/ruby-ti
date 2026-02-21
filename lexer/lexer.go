@@ -137,6 +137,9 @@ func (l *Lexer) lexDigit() {
 
 			return
 
+		case '_':
+			continue
+
 		// 1.23
 		case '.':
 			nextChar := l.reader.Read()
