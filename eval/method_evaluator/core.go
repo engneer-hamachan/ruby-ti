@@ -1,7 +1,6 @@
 package method_evaluator
 
 import (
-	"slices"
 	"strconv"
 	"ti/base"
 	"ti/context"
@@ -66,11 +65,17 @@ func NewMethodEvaluator(
 	)
 
 	key := evaluatedObjectT.GetFrame() + evaluatedObjectT.GetObjectClass() + methodIdentifierT.ToString()
-	callPoint := p.FileName + ":" + strconv.Itoa(p.Row)
+	point := p.FileName + ":" + strconv.Itoa(p.Row)
 
-	points := base.MethodCallPoint[key]
+	callPoint :=
+		base.CallPoint{
+			Point:        point,
+			CallerFrame:  ctx.GetFrame(),
+			CallerClass:  ctx.GetClass(),
+			CallerMethod: ctx.GetMethod(),
+		}
 
-	if !slices.Contains(points, callPoint) && ctx.IsCheckRound() {
+	if ctx.IsCheckRound() {
 		base.MethodCallPoint[key] = append(base.MethodCallPoint[key], callPoint)
 	}
 

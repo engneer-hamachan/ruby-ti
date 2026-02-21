@@ -18,5 +18,5 @@ arr << y
 
 arr.each do |v, idx|
   dbtp v[:b]
-  v[:c] + '1'
+#  v[:c] + '1'
 end

@@ -61,7 +61,7 @@ func (t *T) HashReference(key string) *T {
 		}
 	}
 
-	return MakeUntyped()
+	return t.UnifyVariants()
 }
 
 func (t *T) MergeHash(variantT *T) {

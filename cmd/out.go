@@ -43,8 +43,19 @@ func PrintDefineInfosForLlm() {
 				fmt.Println("- call points: none")
 			} else {
 				fmt.Println("- call points:")
+
 				for _, point := range points {
-					fmt.Println("  - " + point)
+					fmt.Println("  - " + point.Point)
+
+					if point.CallerClass != "" {
+						fmt.Println("    - class:" + point.CallerClass)
+					}
+
+					if point.CallerMethod != "" {
+						fmt.Println("    - method: " + point.CallerMethod)
+					} else {
+						fmt.Println("    - method: " + "top level")
+					}
 				}
 			}
 
