@@ -389,6 +389,7 @@ func (l *Lexer) Advance() bool {
 	case '!', '+', '-', '/':
 		var buf strings.Builder
 		nextChar := l.reader.Read()
+
 		buf.WriteRune(char)
 
 		switch nextChar {
@@ -407,6 +408,13 @@ func (l *Lexer) Advance() bool {
 		if (char == '+' || char == '-') && unicode.IsDigit(nextChar) {
 			l.lexDigit()
 			break
+		}
+
+		if char == '-' && !unicode.IsSpace(nextChar) {
+			if nextChar != '>' && nextChar != '=' {
+				l.reader.Unread()
+				return true
+			}
 		}
 
 		str := buf.String()
