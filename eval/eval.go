@@ -189,6 +189,16 @@ func (e *Evaluator) Eval(
 
 		return e.handleEvaluateMethod(p, ctx, t, nextT, true)
 
+	case p.LastCallT.IsNotPowerDown(nextT) && nextT.IsQuestionIdentifier():
+		err := e.Eval(p, ctx, t)
+		if err != nil {
+			return err
+		}
+
+		evaluator := DynamicEvaluators[nextT.ToString()]
+
+		return evaluator.Evaluation(e, p, ctx, nextT)
+
 	// 1..2
 	case nextT.IsTargetIdentifier("..") || nextT.IsTargetIdentifier("..."):
 		err := e.Eval(p, ctx, t)

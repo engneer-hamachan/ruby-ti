@@ -164,6 +164,10 @@ func (t *T) IsAndDotIdentifier() bool {
 	return t.IsTargetIdentifier("&.")
 }
 
+func (t *T) IsQuestionIdentifier() bool {
+	return t.IsTargetIdentifier("?")
+}
+
 func (t *T) IsEndIdentifier() bool {
 	return t.IsTargetIdentifier("end")
 }
