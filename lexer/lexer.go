@@ -413,7 +413,7 @@ func (l *Lexer) Advance() bool {
 		if char == '-' && !unicode.IsSpace(nextChar) {
 			if nextChar != '>' && nextChar != '=' {
 				l.reader.Unread()
-				return true
+				return l.Advance()
 			}
 		}
 
