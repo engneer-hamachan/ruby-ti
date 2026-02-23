@@ -74,6 +74,7 @@ func (d *Do) appendParameterBeforeTypeCalculate(
 	t base.T,
 	lastEvaluatedT base.T,
 	blockParamaters []base.T,
+	blockVariableCount int,
 ) []base.T {
 
 	switch t.GetType() {
@@ -107,6 +108,13 @@ func (d *Do) appendParameterBeforeTypeCalculate(
 		return blockParamaters
 
 	case base.FLATTEN:
+		if blockVariableCount <= 1 {
+			blockParamaters =
+				append(blockParamaters, *lastEvaluatedT.UnifyVariants())
+
+			return blockParamaters
+		}
+
 		tmpParameters := [20]*base.T{}
 
 		if len(lastEvaluatedT.UnifyVariants().GetVariants()) == 0 {
@@ -245,6 +253,7 @@ func (d *Do) setBlockParameters(
 					t,
 					lastEvaluatedT,
 					blockParamaters,
+					len(blockVariables),
 				)
 		}
 
