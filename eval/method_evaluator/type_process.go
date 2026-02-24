@@ -169,8 +169,6 @@ func propagationForCalledTo(
 	}
 
 	if definedArgT.Round != "" && definedArgT.Round != argT.Round {
-		argT.SetIsInfferedFromCall(true)
-
 		definedArgT :=
 			base.GetValueT(
 				methodT.GetFrame(),
