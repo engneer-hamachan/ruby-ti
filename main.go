@@ -23,6 +23,49 @@ func getParser(br *bufio.Reader, file string) parser.Parser {
 	return parser.New(l, file)
 }
 
+func setDefineInfos(p *parser.Parser) {
+	for _, article := range eval.DefineInfoArticles {
+		ctx := article.Ctx
+
+		methodT := article.MethodT
+		defineRow := article.DefineRow
+
+		var prefix string
+
+		prefix += "@"
+		prefix += p.FileName + ":::"
+		prefix += fmt.Sprintf("%d", defineRow)
+		prefix += ":::"
+
+			content :=
+			base.MakeSignatureContent(prefix, ctx.GetFrame(), ctx.GetClass(), &methodT)
+
+		content += " ["
+
+		switch ctx.IsDefineStatic {
+		case true:
+			content += "c/"
+		default:
+			content += "i/"
+		}
+
+		readable := [2]bool{ctx.IsPrivate, ctx.IsProtected}
+
+		switch readable {
+		case [2]bool{true, false}:
+			content += "private"
+		case [2]bool{false, true}:
+			content += "protected"
+		case [2]bool{false, false}:
+			content += "public"
+		}
+
+		content += "]"
+
+		p.DefineInfos = append(p.DefineInfos, content)
+	}
+}
+
 func evaluationLoop(
 	p parser.Parser,
 	flags *cmd.ExecuteFlags,
@@ -60,6 +103,8 @@ func evaluationLoop(
 	if isLoad {
 		return
 	}
+
+	setDefineInfos(&p)
 
 	if len(p.DefineInfos) > 0 && flags.IsDefineInfo {
 		cmd.PrintDefineInfosForPlugin(p.DefineInfos)

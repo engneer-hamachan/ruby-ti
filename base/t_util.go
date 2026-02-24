@@ -50,6 +50,25 @@ func (t *T) UnifyVariants() *T {
 		return &unionT.variants[0]
 	}
 
+	//TODO: narrow
+	//if len(unionT.variants) == 2 {
+	//	narrowedUntypedUnion := MakeUnknown()
+
+	//	var isNarrowed bool
+	//	for _, variantT := range unionT.variants {
+	//		if variantT.IsAnyType() {
+	//			isNarrowed = true
+	//			continue
+	//		}
+
+	//		narrowedUntypedUnion = variantT.DeepCopy()
+	//	}
+
+	//	if !narrowedUntypedUnion.IsUnknownType() && isNarrowed {
+	//		return narrowedUntypedUnion
+	//	}
+	//}
+
 	return unionT
 }
 

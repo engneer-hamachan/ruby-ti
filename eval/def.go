@@ -550,46 +550,26 @@ func (d *Def) setDefineMethodT(
 	base.TSignatureDocument[key] = p.ConsumeTiComment()
 }
 
+type DefineInfoArticle struct {
+	P         parser.Parser
+	Ctx       context.Context
+	MethodT   base.T
+	DefineRow int
+}
+
+var DefineInfoArticles = []DefineInfoArticle{}
+
 func (d *Def) setDefineInfos(
 	p *parser.Parser,
 	ctx context.Context,
 	methodT *base.T,
 	defineRow int,
 ) {
-
-	var prefix string
-
-	prefix += "@"
-	prefix += p.FileName + ":::"
-	prefix += fmt.Sprintf("%d", defineRow)
-	prefix += ":::"
-
-	content :=
-		base.MakeSignatureContent(prefix, ctx.GetFrame(), ctx.GetClass(), methodT)
-
-	content += " ["
-
-	switch ctx.IsDefineStatic {
-	case true:
-		content += "c/"
-	default:
-		content += "i/"
-	}
-
-	readable := [2]bool{ctx.IsPrivate, ctx.IsProtected}
-
-	switch readable {
-	case [2]bool{true, false}:
-		content += "private"
-	case [2]bool{false, true}:
-		content += "protected"
-	case [2]bool{false, false}:
-		content += "public"
-	}
-
-	content += "]"
-
-	p.DefineInfos = append(p.DefineInfos, content)
+	DefineInfoArticles =
+		append(
+			DefineInfoArticles,
+			DefineInfoArticle{*p, ctx, *methodT.DeepCopy(), defineRow},
+		)
 }
 
 func (d *Def) makeReturnT(

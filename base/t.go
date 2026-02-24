@@ -60,6 +60,7 @@ func (t *T) DeepCopy() *T {
 		IsInclude:          t.IsInclude,
 		IsExtend:           t.IsExtend,
 		Round:              t.Round,
+		IsStatic:           t.IsStatic,
 	}
 
 	if t.defineArgs != nil {
