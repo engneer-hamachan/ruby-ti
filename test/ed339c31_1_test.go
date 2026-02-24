@@ -36,23 +36,9 @@ func TestEd339c31_1(t *testing.T) {
 @./ed339c31_1.rb:::33:::bind: Hash
 @./ed339c31_1.rb:::36:::bind: Range
 @./ed339c31_1.rb:::37:::bind: Range
-@./ed339c31_1.rb:::40:::() -> NilClass [i/public]
-@./ed339c31_1.rb:::44:::(Integer, Integer, Integer) -> Integer [i/public]
-@./ed339c31_1.rb:::48:::(Integer, optional Integer, optional Integer) -> Integer [i/public]
-@./ed339c31_1.rb:::52:::(untyped) -> Array<Integer> [i/public]
-@./ed339c31_1.rb:::56:::() <block_params: NilClass> -> Union<NilClass untyped> [i/public]
 @./ed339c31_1.rb:::65:::bind: String
-@./ed339c31_1.rb:::64:::(String) -> BasicClass [c/public]
-@./ed339c31_1.rb:::68:::() -> String [i/public]
 @./ed339c31_1.rb:::73:::bind: String
-@./ed339c31_1.rb:::72:::(String) -> String [i/public]
-@./ed339c31_1.rb:::76:::() -> String [c/public]
 @./ed339c31_1.rb:::84:::bind: Integer
-@./ed339c31_1.rb:::82:::(String, Integer) -> ChildClass [c/public]
-@./ed339c31_1.rb:::87:::() -> Integer [i/public]
-@./ed339c31_1.rb:::91:::() -> String [i/public]
-@./ed339c31_1.rb:::98:::() -> String [i/public]
-@./ed339c31_1.rb:::106:::() -> String [i/public]
 @./ed339c31_1.rb:::112:::bind: Integer
 @./ed339c31_1.rb:::113:::bind: Float
 @./ed339c31_1.rb:::148:::bind: Integer
@@ -93,28 +79,10 @@ func TestEd339c31_1(t *testing.T) {
 @./ed339c31_1.rb:::239:::bind: String
 @./ed339c31_1.rb:::245:::bind: String
 @./ed339c31_1.rb:::246:::bind: Integer
-@./ed339c31_1.rb:::244:::(String, Integer) -> Person [c/public]
-@./ed339c31_1.rb:::249:::() -> String [i/public]
 @./ed339c31_1.rb:::254:::bind: Unknown
-@./ed339c31_1.rb:::253:::() -> unknown [i/public]
-@./ed339c31_1.rb:::257:::() -> Integer [i/public]
 @./ed339c31_1.rb:::262:::bind: Unknown
-@./ed339c31_1.rb:::261:::() -> unknown [i/public]
-@./ed339c31_1.rb:::265:::() -> String [i/public]
 @./ed339c31_1.rb:::272:::bind: Integer
-@./ed339c31_1.rb:::274:::() -> Counter [c/public]
-@./ed339c31_1.rb:::278:::() -> Integer [c/public]
-@./ed339c31_1.rb:::282:::() -> Integer [i/public]
-@./ed339c31_1.rb:::289:::() -> String [i/public]
-@./ed339c31_1.rb:::295:::() -> String [i/private]
-@./ed339c31_1.rb:::301:::() -> String [i/protected]
-@./ed339c31_1.rb:::307:::() -> String [i/public]
-@./ed339c31_1.rb:::314:::() -> String [c/public]
-@./ed339c31_1.rb:::318:::() -> String [i/public]
 @./ed339c31_1.rb:::324:::bind: String
-@./ed339c31_1.rb:::326:::() -> NilClass [i/public]
-@./ed339c31_1.rb:::333:::() -> String [i/public]
-@./ed339c31_1.rb:::338:::() -> Outer::Inner [i/public]
 @./ed339c31_1.rb:::345:::bind: String
 @./ed339c31_1.rb:::346:::bind: Integer
 @./ed339c31_1.rb:::350:::bind: Proc
@@ -146,7 +114,39 @@ func TestEd339c31_1(t *testing.T) {
 @./ed339c31_1.rb:::404:::bind: String
 @./ed339c31_1.rb:::407:::bind: String
 @./ed339c31_1.rb:::408:::bind: Integer
-@./ed339c31_1.rb:::411:::bind: untyped`
+@./ed339c31_1.rb:::411:::bind: untyped
+@./ed339c31_1.rb:::40:::() -> NilClass [i/public]
+@./ed339c31_1.rb:::44:::(Integer, Integer, Integer) -> Integer [i/public]
+@./ed339c31_1.rb:::48:::(Integer, optional Integer, optional Integer) -> Integer [i/public]
+@./ed339c31_1.rb:::52:::(untyped) -> Array<Integer> [i/public]
+@./ed339c31_1.rb:::56:::() <block_params: NilClass> -> Union<NilClass untyped> [i/public]
+@./ed339c31_1.rb:::64:::(String) -> BasicClass [c/public]
+@./ed339c31_1.rb:::68:::() -> String [i/public]
+@./ed339c31_1.rb:::72:::(String) -> String [i/public]
+@./ed339c31_1.rb:::76:::() -> String [c/public]
+@./ed339c31_1.rb:::82:::(String, Integer) -> ChildClass [c/public]
+@./ed339c31_1.rb:::87:::() -> Integer [i/public]
+@./ed339c31_1.rb:::91:::() -> String [i/public]
+@./ed339c31_1.rb:::98:::() -> String [i/public]
+@./ed339c31_1.rb:::106:::() -> String [i/public]
+@./ed339c31_1.rb:::244:::(String, Integer) -> Person [c/public]
+@./ed339c31_1.rb:::249:::() -> String [i/public]
+@./ed339c31_1.rb:::253:::() -> unknown [i/public]
+@./ed339c31_1.rb:::257:::() -> Integer [i/public]
+@./ed339c31_1.rb:::261:::() -> unknown [i/public]
+@./ed339c31_1.rb:::265:::() -> String [i/public]
+@./ed339c31_1.rb:::274:::() -> Counter [c/public]
+@./ed339c31_1.rb:::278:::() -> Integer [c/public]
+@./ed339c31_1.rb:::282:::() -> Integer [i/public]
+@./ed339c31_1.rb:::289:::() -> String [i/public]
+@./ed339c31_1.rb:::295:::() -> String [i/private]
+@./ed339c31_1.rb:::301:::() -> String [i/protected]
+@./ed339c31_1.rb:::307:::() -> String [i/public]
+@./ed339c31_1.rb:::314:::() -> String [c/public]
+@./ed339c31_1.rb:::318:::() -> String [i/public]
+@./ed339c31_1.rb:::326:::() -> NilClass [i/public]
+@./ed339c31_1.rb:::333:::() -> String [i/public]
+@./ed339c31_1.rb:::338:::() -> Outer::Inner [i/public]`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

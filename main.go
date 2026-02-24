@@ -37,7 +37,7 @@ func setDefineInfos(p *parser.Parser) {
 		prefix += fmt.Sprintf("%d", defineRow)
 		prefix += ":::"
 
-			content :=
+		content :=
 			base.MakeSignatureContent(prefix, ctx.GetFrame(), ctx.GetClass(), &methodT)
 
 		content += " ["
