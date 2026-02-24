@@ -162,6 +162,59 @@ func propagationForCalledTo(
 		return true
 	}
 
+	if definedArgT.Round != "" &&
+		definedArgT.Round != argT.Round &&
+		definedArgT.IsUnionType() &&
+		len(definedArgT.GetVariants()) == 2 {
+
+		isUntyped := false
+		isMatch := false
+
+		for _, variant := range definedArgT.GetVariants() {
+			if variant.IsAnyType() {
+				isUntyped = true
+			}
+
+			if variant.IsMatchType(argT) {
+				isMatch = true
+			}
+		}
+
+		if isUntyped && isMatch {
+			definedArgT :=
+				base.GetValueT(
+					methodT.GetFrame(),
+					class,
+					m.method,
+					definedArg,
+					methodT.IsStatic,
+				)
+
+			switch definedArgT {
+			case nil:
+				base.SetValueT(
+					methodT.DefinedFrame,
+					methodT.DefinedClass,
+					m.method,
+					definedArg,
+					argT,
+					methodT.IsStatic,
+				)
+			default:
+				base.SetValueT(
+					methodT.GetFrame(),
+					class,
+					m.method,
+					definedArg,
+					argT,
+					methodT.IsStatic,
+				)
+			}
+
+			return false
+		}
+	}
+
 	if definedArgT.IsUnionType() && definedArgT.IsInfferedFromCall() {
 		definedArgT.AppendVariant(*argT)
 
