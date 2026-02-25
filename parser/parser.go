@@ -29,7 +29,6 @@ type Parser struct {
 	Errors              []error
 	DefineInfos         []string
 	BeforeString        string
-	IsStrict            bool
 }
 
 func New(lexer lexer.Lexer, file string) Parser {

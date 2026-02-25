@@ -57,7 +57,7 @@ func ApplyParserFlags(p *parser.Parser) {
 	}
 
 	if hasFlag("--strict") {
-		p.IsStrict = true
+		//nop
 	}
 
 	if hasFlag("--define") || hasFlag("--suggest") || hasFlag("--hover") {

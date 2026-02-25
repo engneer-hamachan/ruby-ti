@@ -99,23 +99,6 @@ func propagationForCalledTo(
 
 	argT.Round = m.ctx.GetRound()
 
-	if m.parser.IsStrict && !methodT.IsBuiltinMethod() {
-		argT.EnableBuiltin()
-	}
-
-	if m.parser.IsStrict && argT.IsAnyType() {
-		base.SetValueT(
-			methodT.DefinedFrame,
-			methodT.DefinedClass,
-			m.method,
-			definedArg,
-			argT,
-			methodT.IsStatic,
-		)
-
-		return true
-	}
-
 	if definedArgT == nil || definedArgT.IsIdentifierType() {
 		argT.SetIsInfferedFromCall(true)
 

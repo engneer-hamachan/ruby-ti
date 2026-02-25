@@ -21,10 +21,6 @@ func (i *instanceMethodStrategy) evaluate(m *MethodEvaluator) error {
 		return err
 	}
 
-	if m.parser.IsStrict && m.ctx.IsCheckRound() && class == "Identifier" {
-		return m.makeNotDefinedMethodError(m.objectT.ToString(), m.method, "instance")
-	}
-
 	if methodT == nil {
 		return nil
 	}
