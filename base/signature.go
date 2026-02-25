@@ -29,6 +29,17 @@ type SpecialCodeComment struct {
 	Document string
 }
 
+type TSignatureArticle struct {
+	Frame     string
+	Class     string
+	MethodT   T
+	IsStatic  bool
+	IsPrivate bool
+	FileName  string
+	Row       int
+}
+
+var TSignatureArticles = []TSignatureArticle{}
 var TSignatures = make(map[string]Sig)
 var TSignatureDocument = make(map[string]string)
 var MethodCallPoint = make(map[string][]CallPoint)
@@ -279,28 +290,8 @@ func appendSignature(
 	row int,
 ) {
 
-	key := frame + class + methodT.method
-	if isStatic {
-		key += "static"
-	}
-
-	content := MakeSignatureContent(methodT.method, frame, class, methodT)
-	document := TSignatureDocument[key]
-
-	sig :=
-		Sig{
-			methodT.GetMethodName(),
-			content,
-			frame,
-			class,
-			isStatic,
-			isPrivate,
-			fileName,
-			row,
-			document,
-		}
-
-	TSignatures[key] = sig
+	TSignatureArticles =
+		append(TSignatureArticles, TSignatureArticle{frame, class, *methodT, isStatic, isPrivate, fileName, row})
 }
 
 func (s *Sig) GetPrintDetail() string {

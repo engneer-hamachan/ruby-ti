@@ -165,6 +165,7 @@ func propagationForCalledTo(
 	if definedArgT.Round != "" &&
 		definedArgT.Round != argT.Round &&
 		definedArgT.IsUnionType() &&
+		!methodT.IsBuiltinMethod() &&
 		len(definedArgT.GetVariants()) == 2 {
 
 		isUntyped := false

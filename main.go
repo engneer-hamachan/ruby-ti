@@ -66,6 +66,41 @@ func setDefineInfos(p *parser.Parser) {
 	}
 }
 
+func appendSignature() {
+	for _, article := range base.TSignatureArticles {
+		frame := article.Frame
+		class := article.Class
+		methodT := article.MethodT
+		isStatic := article.IsStatic
+		isPrivate := article.IsPrivate
+		fileName := article.FileName
+		row := article.Row
+
+		key := frame + class + methodT.GetMethodName()
+		if isStatic {
+			key += "static"
+		}
+
+		content := base.MakeSignatureContent(methodT.GetMethodName(), frame, class, &methodT)
+		document := base.TSignatureDocument[key]
+
+		sig :=
+			base.Sig{
+				methodT.GetMethodName(),
+				content,
+				frame,
+				class,
+				isStatic,
+				isPrivate,
+				fileName,
+				row,
+				document,
+			}
+
+		base.TSignatures[key] = sig
+	}
+}
+
 func evaluationLoop(
 	p parser.Parser,
 	flags *cmd.ExecuteFlags,
@@ -105,6 +140,7 @@ func evaluationLoop(
 	}
 
 	setDefineInfos(&p)
+	appendSignature()
 
 	if len(p.DefineInfos) > 0 && flags.IsDefineInfo {
 		cmd.PrintDefineInfosForPlugin(p.DefineInfos)
