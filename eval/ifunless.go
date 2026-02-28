@@ -458,6 +458,8 @@ func (i *IfUnless) Evaluation(
 	i.narrowTs = make(map[string][]base.T)
 	i.ifNarrowTs = make(map[string][]base.T)
 
+	isParsingExpr := p.IsParsingExpression()
+
 	lastEvaluatedT := p.GetLastEvaluatedT()
 
 	zaoriks, err := i.getBackupContext(e, *p, ctx)
@@ -494,7 +496,7 @@ func (i *IfUnless) Evaluation(
 		}
 
 		if nextT.IsTargetIdentifier(endIdentifier) {
-			if !p.IsParsingExpression() {
+			if !isParsingExpr {
 				resultTs = append(resultTs, p.GetLastEvaluatedT())
 			}
 
@@ -553,7 +555,7 @@ func (i *IfUnless) Evaluation(
 		p.Unget()
 	}
 
-	if p.IsParsingExpression() {
+	if isParsingExpr {
 		resultTs = append(resultTs, lastEvaluatedT)
 	}
 
