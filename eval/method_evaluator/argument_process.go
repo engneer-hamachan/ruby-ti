@@ -74,6 +74,10 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
+	if t.IsTargetIdentifier("then") {
+		return true
+	}
+
 	if t.IsTargetIdentifier("}") {
 		m.parser.Unget()
 		return true
