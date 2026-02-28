@@ -67,7 +67,11 @@ func (t *T) GetPower() int8 {
 		return 0
 	}
 
-	power, ok := tPower[t.ToString()]
+	return GetPowerByString(t.ToString())
+}
+
+func GetPowerByString(str string) int8 {
+	power, ok := tPower[str]
 	if ok {
 		return power
 	}

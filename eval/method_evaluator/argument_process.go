@@ -404,6 +404,10 @@ func getEvaluatedArgs(
 
 		lastEvaluatedT := m.parser.GetLastEvaluatedT()
 		argTs = append(argTs, &lastEvaluatedT)
+
+		if len(argTs) > 0 && base.GetPowerByString(m.method) >= 35 {
+			break
+		}
 	}
 
 	return expectBlockArgProcess(m, methodT, argTs)
