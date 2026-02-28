@@ -501,6 +501,11 @@ func (i *IfUnless) Evaluation(
 			break
 		}
 
+		if nextT.IsTargetIdentifier("}") {
+			p.Unget()
+			break
+		}
+
 		if nextT.IsTargetIdentifier("elsif") && i.conditionType == "if" {
 			i.narrowing(ctx)
 
