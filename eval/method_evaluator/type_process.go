@@ -317,7 +317,7 @@ func checkArgType(
 	case argT.IsBlockType():
 		return nil
 
-	case definedArgT.IsAnyType() || argT.IsAnyType():
+	case definedArgT.IsAnyType() || argT.IsAnyType() || argT.IsUnknownType():
 		return nil
 
 	case definedArgT.IsMatchType(argT):
