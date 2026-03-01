@@ -26,6 +26,12 @@ func (d *While) Evaluation(
 	t *base.T,
 ) (err error) {
 
+	isParsingExpr := false
+
+	if t.IsTargetIdentifiers([]string{"while", "until"}) {
+		isParsingExpr = p.IsParsingExpression()
+	}
+
 	forTargetT := base.MakeUntyped()
 
 	if t.IsTargetIdentifier("for") {
@@ -96,6 +102,10 @@ func (d *While) Evaluation(
 
 		if nextT.IsTargetIdentifier("{") && !isEatedNewlineToken {
 			continue
+		}
+
+		if isParsingExpr && nextT.IsNewLineIdentifier() {
+			break
 		}
 
 		if nextT.IsTargetIdentifier("end") || nextT.IsTargetIdentifier("}") {
