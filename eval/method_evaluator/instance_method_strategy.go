@@ -93,7 +93,7 @@ func (i *instanceMethodStrategy) isResolveMethodCall(
 	class string,
 ) bool {
 
-	if m.ctx.IsCollectRound() {
+	if m.ctx.IsDefineRound() {
 		return false
 	}
 

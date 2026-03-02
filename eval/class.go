@@ -135,7 +135,7 @@ func (c *Class) Evaluation(
 	}
 
 	// include ObjectClass
-	if ctx.IsCollectRound() {
+	if ctx.IsDefineRound() {
 		classNode := base.ClassNode{Frame: ctx.GetFrame(), Class: class}
 		objectClassNode := base.ClassNode{Frame: "Builtin", Class: ""}
 

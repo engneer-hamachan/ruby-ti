@@ -546,7 +546,7 @@ func (e *Evaluator) referenceEvaluation(
 	case base.UNKNOWN, base.UNTYPED, base.UNION:
 		p.SkipToTargetToken("]")
 
-		if ctx.IsCollectRound() {
+		if ctx.IsDefineRound() {
 			return fmt.Errorf(
 				"type mismatch. %s is not Array or Hash",
 				objectT.ToString(),

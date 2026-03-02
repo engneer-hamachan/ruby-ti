@@ -23,7 +23,7 @@ func NewContext(class string, method string, round string) Context {
 }
 
 func GetRounds() []string {
-	return []string{"collect", "collect", "inference", "check"}
+	return []string{"define", "collect", "inference", "check"}
 }
 
 func (c *Context) GetRound() string {
@@ -64,6 +64,18 @@ func (c Context) IsInferenceRound() bool {
 
 func (c Context) IsCollectRound() bool {
 	return c.round == "collect"
+}
+
+func (c Context) IsDefineRound() bool {
+	return c.round == "define"
+}
+
+func (c Context) IsAfterCollectRound() bool {
+	return c.round != "define" && c.round != "collect"
+}
+
+func (c Context) IsBeforeInferenceRound() bool {
+	return c.round != "inference" && c.round != "check"
 }
 
 func (c *Context) StartPrivate() {

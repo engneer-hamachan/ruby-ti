@@ -35,7 +35,7 @@ func (d *Def) bindDefaultKeywordArgs(
 	}
 
 	if nextT.IsNewLineIdentifier() {
-		if ctx.IsCollectRound() {
+		if ctx.IsDefineRound() {
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),
@@ -62,7 +62,7 @@ func (d *Def) bindDefaultKeywordArgs(
 		lastEvaluatedT := p.GetLastEvaluatedT()
 		lastEvaluatedT.SetHasDefault(true)
 
-		if ctx.IsCollectRound() {
+		if ctx.IsDefineRound() {
 			base.SetValueT(
 				ctx.GetFrame(),
 				ctx.GetClass(),
@@ -108,7 +108,7 @@ func (d *Def) bindDefaultArgs(
 	rightT := p.GetLastEvaluatedT()
 	rightT.SetHasDefault(true)
 
-	if ctx.IsCollectRound() {
+	if ctx.IsDefineRound() {
 		base.SetValueT(
 			ctx.GetFrame(),
 			ctx.GetClass(),

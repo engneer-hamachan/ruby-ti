@@ -119,7 +119,7 @@ func (d *While) Evaluation(
 		}
 
 		err = e.Eval(p, ctx, nextT)
-		if err != nil && !ctx.IsCollectRound() {
+		if err != nil && ctx.IsAfterCollectRound() {
 			return err
 		}
 	}
