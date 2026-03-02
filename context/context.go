@@ -23,7 +23,7 @@ func NewContext(class string, method string, round string) Context {
 }
 
 func GetRounds() []string {
-	return []string{"collect", "inference", "check"}
+	return []string{"collect", "collect", "inference", "check"}
 }
 
 func (c *Context) GetRound() string {
