@@ -34,29 +34,9 @@ func (b *Bind) handleScalarAsigntment(
 		return err
 	}
 
-	for {
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
-		}
-
-		nextT, err = p.Read()
-		if err != nil {
-			return err
-		}
-
-		if nextT == nil {
-			return nil
-		}
-
-		if nextT.IsCommaIdentifier() {
-			continue
-		}
-
-		if nextT.GetPower() == 0 {
-			p.Unget()
-			break
-		}
+	err = e.EvalToZeroPower(p, ctx, nextT)
+	if err != nil {
+		return err
 	}
 
 	rightT := p.GetLastEvaluatedT()
