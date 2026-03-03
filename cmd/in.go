@@ -52,6 +52,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsLlmDefine = true
 	}
 
+	if hasFlag("--llm-class") {
+		flags.IsLlmClass = true
+	}
+
 	return flags
 }
 

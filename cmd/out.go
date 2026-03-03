@@ -86,12 +86,18 @@ func PrintAllDefinitionsForLlm() {
 	class := ""
 	previewClass := ""
 
+	targetClassName := getTargetClass()
+
 	for _, sig := range base.GetSortedTSignaturesByClass() {
 		if sig.Frame == "Builtin" {
 			if sig.Class == "" {
-				class = "top level"
+				class = "Object"
 			} else {
 				class = sig.Class
+			}
+
+			if targetClassName != "" && targetClassName != class {
+				continue
 			}
 
 			if class != previewClass {
@@ -107,6 +113,26 @@ func PrintAllDefinitionsForLlm() {
 				fmt.Println("- isStatic: " + "true")
 			} else {
 				fmt.Println("- isStatic: " + "false")
+			}
+		}
+	}
+}
+
+func PrintAllClassesForLlm() {
+	class := ""
+	previewClass := ""
+
+	for _, sig := range base.GetSortedTSignaturesByClass() {
+		if sig.Frame == "Builtin" {
+			if sig.Class == "" {
+				class = "Object"
+			} else {
+				class = sig.Class
+			}
+
+			if class != previewClass {
+				fmt.Println(class)
+				previewClass = class
 			}
 		}
 	}

@@ -159,6 +159,10 @@ func evaluationLoop(
 		cmd.PrintAllDefinitionsForLlm()
 	}
 
+	if len(base.TSignatures) > 0 && flags.IsLlmClass {
+		cmd.PrintAllClassesForLlm()
+	}
+
 	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo {
 		cmd.PrintAllDefinitionsForLsp(p)
 	}
