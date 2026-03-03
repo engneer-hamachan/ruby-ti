@@ -92,9 +92,29 @@ func (e *Evaluator) arrayReferenceEvaluation(
 			return nil
 		}
 
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
+		for {
+			err = e.Eval(p, ctx, nextT)
+			if err != nil {
+				return err
+			}
+
+			nextT, err = p.Read()
+			if err != nil {
+				return err
+			}
+
+			if nextT == nil {
+				return nil
+			}
+
+			if nextT.IsCommaIdentifier() {
+				continue
+			}
+
+			if nextT.GetPower() == 0 {
+				p.Unget()
+				break
+			}
 		}
 
 		arrayT.AppendArrayVariant(p.GetLastEvaluatedT())
@@ -188,9 +208,29 @@ func (e *Evaluator) hashReferenceEvaluation(
 			return nil
 		}
 
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
+		for {
+			err = e.Eval(p, ctx, nextT)
+			if err != nil {
+				return err
+			}
+
+			nextT, err = p.Read()
+			if err != nil {
+				return err
+			}
+
+			if nextT == nil {
+				return nil
+			}
+
+			if nextT.IsCommaIdentifier() {
+				continue
+			}
+
+			if nextT.GetPower() == 0 {
+				p.Unget()
+				break
+			}
 		}
 
 		valueT := p.GetLastEvaluatedT()
@@ -300,9 +340,29 @@ func (e *Evaluator) stringReferenceEvaluation(
 			return err
 		}
 
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
+		for {
+			err = e.Eval(p, ctx, nextT)
+			if err != nil {
+				return err
+			}
+
+			nextT, err = p.Read()
+			if err != nil {
+				return err
+			}
+
+			if nextT == nil {
+				return nil
+			}
+
+			if nextT.IsCommaIdentifier() {
+				continue
+			}
+
+			if nextT.GetPower() == 0 {
+				p.Unget()
+				break
+			}
 		}
 
 		base.SetValueT(
@@ -374,9 +434,29 @@ func (e *Evaluator) integerReferenceEvaluation(
 			return err
 		}
 
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
+		for {
+			err = e.Eval(p, ctx, nextT)
+			if err != nil {
+				return err
+			}
+
+			nextT, err = p.Read()
+			if err != nil {
+				return err
+			}
+
+			if nextT == nil {
+				return nil
+			}
+
+			if nextT.IsCommaIdentifier() {
+				continue
+			}
+
+			if nextT.GetPower() == 0 {
+				p.Unget()
+				break
+			}
 		}
 
 		base.SetValueT(
