@@ -48,6 +48,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsLlmError = true
 	}
 
+	if hasFlag("--llm-define") {
+		flags.IsLlmDefine = true
+	}
+
 	return flags
 }
 

@@ -82,6 +82,36 @@ func PrintSpecialCodeCommentsForLlm() {
 	}
 }
 
+func PrintAllDefinitionsForLlm() {
+	class := ""
+	previewClass := ""
+
+	for _, sig := range base.GetSortedTSignaturesByClass() {
+		if sig.Frame == "Builtin" {
+			if sig.Class == "" {
+				class = "top level"
+			} else {
+				class = sig.Class
+			}
+
+			if class != previewClass {
+				fmt.Println("---")
+				fmt.Println("# " + class)
+				previewClass = class
+			}
+
+			fmt.Println("## " + sig.Detail)
+			fmt.Println("- document: " + sig.Document)
+
+			if sig.IsStatic {
+				fmt.Println("- isStatic: " + "true")
+			} else {
+				fmt.Println("- isStatic: " + "false")
+			}
+		}
+	}
+}
+
 func readLineFromFile(fileName string, row int) string {
 	f, err := os.Open(fileName)
 	if err != nil {

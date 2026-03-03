@@ -77,6 +77,38 @@ func GetSortedTSignatures() []Sig {
 	return sortedSignatures
 }
 
+func GetSortedTSignaturesByClass() []Sig {
+	sortedSignatures := make([]Sig, 0, len(TSignatures))
+
+	for _, sig := range TSignatures {
+		sortedSignatures = append(sortedSignatures, sig)
+	}
+
+	slices.SortFunc(sortedSignatures, func(a, b Sig) int {
+		if a.Class != b.Class {
+			if a.Class < b.Class {
+				return -1
+			}
+			return 1
+		}
+		if a.Method != b.Method {
+			if a.Method < b.Method {
+				return -1
+			}
+			return 1
+		}
+		if a.Frame < b.Frame {
+			return -1
+		}
+		if a.Frame > b.Frame {
+			return 1
+		}
+		return 0
+	})
+
+	return sortedSignatures
+}
+
 func TypeToStringForSignature(t *T) string {
 	var content string
 
