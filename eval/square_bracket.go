@@ -92,29 +92,9 @@ func (e *Evaluator) arrayReferenceEvaluation(
 			return nil
 		}
 
-		for {
-			err = e.Eval(p, ctx, nextT)
-			if err != nil {
-				return err
-			}
-
-			nextT, err = p.Read()
-			if err != nil {
-				return err
-			}
-
-			if nextT == nil {
-				return nil
-			}
-
-			if nextT.IsCommaIdentifier() {
-				continue
-			}
-
-			if nextT.GetPower() == 0 {
-				p.Unget()
-				break
-			}
+		err = e.EvalToZeroPower(p, ctx, nextT)
+		if err != nil {
+			return err
 		}
 
 		arrayT.AppendArrayVariant(p.GetLastEvaluatedT())
@@ -208,29 +188,9 @@ func (e *Evaluator) hashReferenceEvaluation(
 			return nil
 		}
 
-		for {
-			err = e.Eval(p, ctx, nextT)
-			if err != nil {
-				return err
-			}
-
-			nextT, err = p.Read()
-			if err != nil {
-				return err
-			}
-
-			if nextT == nil {
-				return nil
-			}
-
-			if nextT.IsCommaIdentifier() {
-				continue
-			}
-
-			if nextT.GetPower() == 0 {
-				p.Unget()
-				break
-			}
+		err = e.EvalToZeroPower(p, ctx, nextT)
+		if err != nil {
+			return err
 		}
 
 		valueT := p.GetLastEvaluatedT()
@@ -340,29 +300,9 @@ func (e *Evaluator) stringReferenceEvaluation(
 			return err
 		}
 
-		for {
-			err = e.Eval(p, ctx, nextT)
-			if err != nil {
-				return err
-			}
-
-			nextT, err = p.Read()
-			if err != nil {
-				return err
-			}
-
-			if nextT == nil {
-				return nil
-			}
-
-			if nextT.IsCommaIdentifier() {
-				continue
-			}
-
-			if nextT.GetPower() == 0 {
-				p.Unget()
-				break
-			}
+		err = e.EvalToZeroPower(p, ctx, nextT)
+		if err != nil {
+			return err
 		}
 
 		base.SetValueT(
@@ -434,29 +374,9 @@ func (e *Evaluator) integerReferenceEvaluation(
 			return err
 		}
 
-		for {
-			err = e.Eval(p, ctx, nextT)
-			if err != nil {
-				return err
-			}
-
-			nextT, err = p.Read()
-			if err != nil {
-				return err
-			}
-
-			if nextT == nil {
-				return nil
-			}
-
-			if nextT.IsCommaIdentifier() {
-				continue
-			}
-
-			if nextT.GetPower() == 0 {
-				p.Unget()
-				break
-			}
+		err = e.EvalToZeroPower(p, ctx, nextT)
+		if err != nil {
+			return err
 		}
 
 		base.SetValueT(

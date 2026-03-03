@@ -119,6 +119,40 @@ func (e *Evaluator) ContinuousEval(
 	return nil
 }
 
+func (e *Evaluator) EvalToZeroPower(
+	p *parser.Parser,
+	ctx context.Context,
+	t *base.T,
+) error {
+
+	for {
+		err := e.Eval(p, ctx, t)
+		if err != nil {
+			return err
+		}
+
+		t, err = p.Read()
+		if err != nil {
+			return err
+		}
+
+		if t == nil {
+			return nil
+		}
+
+		if t.IsCommaIdentifier() {
+			continue
+		}
+
+		if t.GetPower() == 0 {
+			p.Unget()
+			break
+		}
+	}
+
+	return nil
+}
+
 func (e *Evaluator) Eval(
 	p *parser.Parser,
 	ctx context.Context,
