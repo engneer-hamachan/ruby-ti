@@ -23,24 +23,9 @@ func (r *Begin) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	for {
-		nextT, err := p.Read()
-		if err != nil {
-			return err
-		}
-
-		if nextT == nil {
-			return nil
-		}
-
-		if nextT.IsEndIdentifier() {
-			break
-		}
-
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
-		}
+	err = e.EvalToTargetToken(p, ctx, "end")
+	if err != nil {
+		return err
 	}
 
 	return nil
