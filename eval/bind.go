@@ -256,7 +256,7 @@ func (b *Bind) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	defer setDefineInfos(p, p.ErrorRow)
+	defer setBindInfos(p, p.ErrorRow)
 
 	p.EndParsingExpression()
 

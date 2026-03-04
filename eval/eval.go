@@ -2,6 +2,7 @@ package eval
 
 import (
 	"fmt"
+	"slices"
 	"ti/base"
 	"ti/context"
 	"ti/parser"
@@ -119,6 +120,46 @@ func (e *Evaluator) ContinuousEval(
 	return nil
 }
 
+func (e *Evaluator) EvalToZeroPowerWithoutTarget(
+	p *parser.Parser,
+	ctx context.Context,
+	t *base.T,
+	target []string,
+) error {
+
+	for {
+		if slices.Contains(target, t.ToString()) {
+			p.Unget()
+			break
+		}
+
+		err := e.Eval(p, ctx, t)
+		if err != nil {
+			return err
+		}
+
+		t, err = p.Read()
+		if err != nil {
+			return err
+		}
+
+		if t == nil {
+			return nil
+		}
+
+		if t.IsCommaIdentifier() {
+			continue
+		}
+
+		if t.GetPower() == 0 {
+			p.Unget()
+			break
+		}
+	}
+
+	return nil
+}
+
 func (e *Evaluator) EvalToZeroPower(
 	p *parser.Parser,
 	ctx context.Context,
@@ -147,6 +188,35 @@ func (e *Evaluator) EvalToZeroPower(
 		if t.GetPower() == 0 {
 			p.Unget()
 			break
+		}
+	}
+
+	return nil
+}
+
+func (e *Evaluator) EvalToTargetToken(
+	p *parser.Parser,
+	ctx context.Context,
+	tokenStr string,
+) error {
+
+	for {
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		if nextT == nil {
+			return nil
+		}
+
+		if nextT.IsTargetIdentifier(tokenStr) {
+			break
+		}
+
+		err = e.Eval(p, ctx, nextT)
+		if err != nil {
+			return err
 		}
 	}
 

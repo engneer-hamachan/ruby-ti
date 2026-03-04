@@ -27,24 +27,9 @@ func (r *Ternary) Evaluation(
 
 	var nextT *base.T
 
-	for {
-		nextT, err := p.Read()
-		if err != nil {
-			return err
-		}
-
-		if nextT == nil {
-			return nil
-		}
-
-		if nextT.IsTargetIdentifier(":") {
-			break
-		}
-
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
-		}
+	err = e.EvalToTargetToken(p, ctx, ":")
+	if err != nil {
+		return err
 	}
 
 	variants = append(variants, p.GetLastEvaluatedT())

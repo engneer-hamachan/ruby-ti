@@ -23,24 +23,9 @@ func (o *OpenParentheses) Evaluation(
 	t *base.T,
 ) (err error) {
 
-	for {
-		nextT, err := p.Read()
-		if err != nil {
-			return err
-		}
-
-		if nextT == nil {
-			break
-		}
-
-		if nextT.IsCloseParentheses() {
-			break
-		}
-
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
-		}
+	err = e.EvalToTargetToken(p, ctx, ")")
+	if err != nil {
+		return err
 	}
 
 	err = e.evalPriorityExp(p, ctx)

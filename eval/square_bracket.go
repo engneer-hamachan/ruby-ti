@@ -98,7 +98,7 @@ func (e *Evaluator) arrayReferenceEvaluation(
 		}
 
 		arrayT.AppendArrayVariant(p.GetLastEvaluatedT())
-		setDefineInfos(p, defineRow)
+		setBindInfos(p, defineRow)
 
 		base.SetValueT(
 			ctx.GetFrame(),
@@ -137,26 +137,9 @@ func (e *Evaluator) hashReferenceEvaluation(
 
 	defineRow := p.ErrorRow
 
-	nextT, err := p.Read()
+	err := e.EvalToTargetToken(p, ctx, "]")
 	if err != nil {
 		return err
-	}
-
-	// skip to end braquet
-	for {
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
-		}
-
-		nextT, err := p.Read()
-		if err != nil {
-			return err
-		}
-
-		if nextT.IsTargetIdentifier("]") || nextT == nil {
-			break
-		}
 	}
 
 	keyT := p.GetLastEvaluatedT()
@@ -194,7 +177,7 @@ func (e *Evaluator) hashReferenceEvaluation(
 		}
 
 		valueT := p.GetLastEvaluatedT()
-		setDefineInfos(p, defineRow)
+		setBindInfos(p, defineRow)
 
 		var keyvalueT *base.T
 

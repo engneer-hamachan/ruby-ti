@@ -63,7 +63,7 @@ func (h *Hash) Evaluation(
 			}
 		}
 
-		err = e.Eval(p, ctx, nextT)
+		err = e.EvalToZeroPowerWithoutTarget(p, ctx, nextT, []string{",", "}"})
 		if err != nil {
 			return err
 		}

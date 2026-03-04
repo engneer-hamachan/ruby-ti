@@ -6,7 +6,7 @@ import (
 	"ti/parser"
 )
 
-func setDefineInfos(p *parser.Parser, defineRow int) {
+func setBindInfos(p *parser.Parser, defineRow int) {
 	var hint string
 
 	hint += "@"

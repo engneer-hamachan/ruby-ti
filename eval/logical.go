@@ -36,25 +36,9 @@ func (r *Logical) Evaluation(
 		return err
 	}
 
-	for {
-		err = e.Eval(p, ctx, nextT)
-		if err != nil {
-			return err
-		}
-
-		nextT, err = p.Read()
-		if err != nil {
-			return err
-		}
-
-		if nextT == nil {
-			break
-		}
-
-		if nextT.GetPower() == 0 {
-			p.Unget()
-			break
-		}
+	err = e.EvalToZeroPower(p, ctx, nextT)
+	if err != nil {
+		return err
 	}
 
 	variants = append(variants, p.GetLastEvaluatedT())
