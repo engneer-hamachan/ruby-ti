@@ -43,6 +43,23 @@ func (e *Evaluator) arrayReferenceEvaluation(
 			return err
 		}
 
+		// a[1, 2]
+		if id.IsCommaIdentifier() {
+			base.SetValueT(
+				ctx.GetFrame(),
+				ctx.GetClass(),
+				ctx.GetMethod(),
+				objectT.ToString(),
+				arrayT,
+				ctx.IsDefineStatic,
+			)
+
+			p.SetLastEvaluatedT(arrayT)
+			p.Skip()
+
+			return nil
+		}
+
 		// a[1..]
 		if id.IsTargetIdentifier("..") {
 			base.SetValueT(

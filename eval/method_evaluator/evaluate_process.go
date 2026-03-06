@@ -226,6 +226,10 @@ func evaluateNoUnionInstanceMethod(
 		methodT = conditioningMethodReturn(m, class, methodT, evaluatedArgs)
 	}
 
+	if methodT.IsBuiltinMethod() {
+		methodT = methodT.DeepCopy()
+	}
+
 	returnT := calculateExecutionType(m, methodT, evaluatedArgs)
 
 	if methodT.IsCaptureOwner {
