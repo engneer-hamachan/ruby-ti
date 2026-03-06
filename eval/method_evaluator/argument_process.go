@@ -320,7 +320,11 @@ func handleEvaluateArgsMethodChain(m *MethodEvaluator) error {
 			return err
 		}
 
-		if !nextT.IsTargetIdentifier("?") && m.parser.LastCallT.IsPowerUp(nextT) || nextT.IsTargetIdentifier("[") {
+		if !nextT.IsTargetIdentifier("?") &&
+			nextT.GetPower() > 35 &&
+			m.parser.LastCallT.IsPowerUp(nextT) ||
+			nextT.IsTargetIdentifier("[") {
+
 			err = m.outerEval.Eval(m.parser, m.ctx, nextT)
 			if err != nil {
 				return err
