@@ -28,6 +28,15 @@ func (c *Case) Evaluation(
 		return err
 	}
 
+	currentT :=
+		base.GetValueT(
+			ctx.GetFrame(),
+			ctx.GetClass(),
+			ctx.GetMethod(),
+			objectT.ToString(),
+			ctx.IsDefineStatic,
+		).DeepCopy()
+
 	err = e.Eval(p, ctx, objectT)
 	if err != nil {
 		return err
@@ -42,7 +51,7 @@ func (c *Case) Evaluation(
 				ctx.GetClass(),
 				ctx.GetMethod(),
 				objectT.ToString(),
-				&evaluatedT,
+				currentT,
 				ctx.IsDefineStatic,
 			)
 		}()
