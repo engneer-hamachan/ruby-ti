@@ -12,7 +12,7 @@ func TestE8f79ba6(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := `./e8f79ba6.rb:::10:::untyped`
+	expectedOutput := `./e8f79ba6.rb:::10:::Integer`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

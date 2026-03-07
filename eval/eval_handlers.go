@@ -15,6 +15,9 @@ func (e *Evaluator) handleEvaluateMethod(
 	isAmpersand bool,
 ) error {
 
+	prevLastCallT := p.LastCallT
+	defer func() { p.LastCallT = prevLastCallT }()
+
 	methodEvaluator :=
 		method_evaluator.NewMethodEvaluator(
 			e,

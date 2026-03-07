@@ -321,7 +321,6 @@ func handleEvaluateArgsMethodChain(m *MethodEvaluator) error {
 		}
 
 		if !nextT.IsTargetIdentifier("?") &&
-			nextT.GetPower() > 35 &&
 			m.parser.LastCallT.IsPowerUp(nextT) ||
 			nextT.IsTargetIdentifier("[") {
 
