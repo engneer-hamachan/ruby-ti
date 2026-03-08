@@ -39,27 +39,34 @@ func PrintDefineInfosForLlm() {
 
 			points := base.MethodCallPoint[sig.Frame+sig.Class+sig.Method]
 
+			// print cllers start
 			if len(points) == 0 {
-				fmt.Println("- call points: none")
+				fmt.Println("- callers: none")
 			} else {
-				fmt.Println("- call points:")
+				fmt.Println("- callers:")
 
 				for _, point := range points {
-					fmt.Println("  - " + point.Point)
+					if point.CallerMethod != "" {
+						fmt.Println("  - method: " + point.CallerMethod)
+					} else {
+						fmt.Println("  - method: " + "top level")
+					}
 
 					if point.CallerClass != "" {
-						fmt.Println("    - class:" + point.CallerClass)
+						fmt.Println("    - class: " + point.CallerClass)
+					} else {
+						fmt.Println("    - class: none")
 					}
 
-					if point.CallerMethod != "" {
-						fmt.Println("    - method: " + point.CallerMethod)
-					} else {
-						fmt.Println("    - method: " + "top level")
-					}
+					fmt.Println("    - call point: " + point.Point)
 				}
 			}
 
-			fmt.Printf("- total call points: %d\n", len(points))
+			fmt.Printf("  - total call points: %d\n", len(points))
+			// print cllers end
+			// print cllees start
+			// TODO:
+			// print cllees end
 
 			fmt.Println()
 		}
