@@ -40,6 +40,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsVersion = true
 	}
 
+	if hasFlag("--help") || hasFlag("-h") {
+		flags.IsHelp = true
+	}
+
 	if hasFlag("--llm") {
 		flags.IsLlmInfo = true
 	}
@@ -114,6 +118,10 @@ func ValidateArgs() {
 	}
 
 	if hasFlag("--version") || hasFlag("-v") {
+		return
+	}
+
+	if hasFlag("--help") || hasFlag("-h") {
 		return
 	}
 

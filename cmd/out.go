@@ -89,31 +89,29 @@ func PrintAllDefinitionsForLlm() {
 	targetClassName := getTargetClass()
 
 	for _, sig := range base.GetSortedTSignaturesByClass() {
-		if sig.Frame == "Builtin" {
-			if sig.Class == "" {
-				class = "Object"
-			} else {
-				class = sig.Class
-			}
+		if sig.Class == "" {
+			class = "Object"
+		} else {
+			class = sig.Class
+		}
 
-			if targetClassName != "" && targetClassName != class {
-				continue
-			}
+		if targetClassName != "" && targetClassName != class {
+			continue
+		}
 
-			if class != previewClass {
-				fmt.Println("---")
-				fmt.Println("# " + class)
-				previewClass = class
-			}
+		if class != previewClass {
+			fmt.Println("---")
+			fmt.Println("# " + class)
+			previewClass = class
+		}
 
-			fmt.Println("## " + sig.Detail)
-			fmt.Println("- document: " + sig.Document)
+		fmt.Println("## " + sig.Detail)
+		fmt.Println("- document: " + sig.Document)
 
-			if sig.IsStatic {
-				fmt.Println("- isStatic: " + "true")
-			} else {
-				fmt.Println("- isStatic: " + "false")
-			}
+		if sig.IsStatic {
+			fmt.Println("- isStatic: " + "true")
+		} else {
+			fmt.Println("- isStatic: " + "false")
 		}
 	}
 }
@@ -123,17 +121,15 @@ func PrintAllClassesForLlm() {
 	previewClass := ""
 
 	for _, sig := range base.GetSortedTSignaturesByClass() {
-		if sig.Frame == "Builtin" {
-			if sig.Class == "" {
-				class = "Object"
-			} else {
-				class = sig.Class
-			}
+		if sig.Class == "" {
+			class = "Object"
+		} else {
+			class = sig.Class
+		}
 
-			if class != previewClass {
-				fmt.Println(class)
-				previewClass = class
-			}
+		if class != previewClass {
+			fmt.Println(class)
+			previewClass = class
 		}
 	}
 }

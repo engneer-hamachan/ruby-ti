@@ -8,6 +8,7 @@ type ExecuteFlags struct {
 	IsExtends       bool
 	IsHover         bool
 	IsVersion       bool
+	IsHelp          bool
 	IsLlmInfo       bool
 	IsLlmError      bool
 	IsLlmDefine     bool

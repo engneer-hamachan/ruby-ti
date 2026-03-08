@@ -226,6 +226,12 @@ func main() {
 		cmd.ValidateArgs()
 		flags := cmd.BuildFlags()
 
+		if flags.IsHelp {
+			cmd.PrintHelp()
+			done <- true
+			return
+		}
+
 		if flags.IsVersion {
 			cmd.PrintVersion()
 			done <- true
