@@ -69,7 +69,7 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
-	if t.IsTargetIdentifier("if") {
+	if t.IsPostFixToken() {
 		m.parser.Unget()
 		return true
 	}
@@ -289,7 +289,7 @@ func expectBlockArgProcess(
 		return argTs, nil
 	}
 
-	if methodT.IsBlockGiven && !nextT.IsNewLineIdentifier() {
+	if methodT.IsBlockGiven && !nextT.IsNewLineIdentifier() && !m.isNotArgT(methodT, argTs, nextT) {
 		err := m.outerEval.Eval(m.parser, m.ctx, nextT)
 		if err != nil {
 			return argTs, err

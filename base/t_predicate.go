@@ -25,6 +25,10 @@ func (t *T) IsTargetIdentifiers(targets []string) bool {
 	return slices.Contains(targets, t.ToString())
 }
 
+func (t *T) IsPostFixToken() bool {
+	return t.IsTargetIdentifiers([]string{"if", "unless", "until", "while"})
+}
+
 func (t *T) IsIdentifierType() bool {
 	if t == nil {
 		return false
