@@ -111,6 +111,7 @@ func (p *Parser) Read() (*base.T, error) {
 		t = base.MakeNil()
 
 	case
+		';',
 		'^',
 		'+', '-', '/', '*',
 		'>', '<',

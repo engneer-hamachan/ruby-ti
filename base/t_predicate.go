@@ -177,7 +177,7 @@ func (t *T) IsEndIdentifier() bool {
 }
 
 func (t *T) IsNewLineIdentifier() bool {
-	return t.IsTargetIdentifier("\n")
+	return t.IsTargetIdentifier("\n") || t.IsTargetIdentifier(";")
 }
 
 func (t *T) IsEqualIdentifier() bool {

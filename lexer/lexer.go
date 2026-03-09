@@ -472,10 +472,7 @@ func (l *Lexer) Advance() bool {
 		l.val = Intern(str)
 		l.tok = base.UNKNOWN
 
-	case '^':
-		l.tok = char
-
-	case '\n', '(', ')', '`', ',', '{', '}', '[', ']':
+	case '\n', '(', ')', '`', ',', '{', '}', '[', ']', '^', ';':
 		l.tok = char
 
 	case '"', '\'':

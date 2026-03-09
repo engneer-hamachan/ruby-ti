@@ -368,6 +368,11 @@ func getEvaluatedArgs(
 			m.parser.LastCallT = t
 		}
 
+		if !m.isParentheses && t.IsTargetIdentifier("{") && m.parser.LastCallT.GetPower() < 35 {
+			m.parser.Unget()
+			break
+		}
+
 		if m.isNotArgT(methodT, argTs, t) {
 			break
 		}
