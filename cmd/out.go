@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"ti/base"
 	"ti/builtin"
+	"ti/eval"
 	"ti/parser"
 	"unicode"
 )
@@ -62,11 +63,36 @@ func PrintDefineInfosForLlm() {
 				}
 			}
 
-			fmt.Printf("  - total call points: %d\n", len(points))
+			fmt.Printf("  - total callers: %d\n", len(points))
 			// print cllers end
+
 			// print cllees start
-			// TODO:
-			// print cllees end
+			callees := base.MethodCalleePoint[sig.Frame+sig.Class+sig.Method]
+
+			printedCallees := 0
+
+			if len(callees) > 0 {
+				fmt.Println("- callees:")
+			} else {
+				fmt.Println("- callees: none")
+			}
+
+			for _, cp := range callees {
+				definePoint, ok := findDefinePoint(cp.CalleeFrame, cp.CalleeClass, cp.CalleeMethod)
+				if !ok {
+					continue
+				}
+				fmt.Println("  - method: " + cp.CalleeMethod)
+				if cp.CalleeClass != "" {
+					fmt.Println("    - class: " + cp.CalleeClass)
+				} else {
+					fmt.Println("    - class: none")
+				}
+				fmt.Println("    - define point: " + definePoint)
+				printedCallees++
+			}
+
+			fmt.Printf("  - total callees: %d\n", printedCallees)
 
 			fmt.Println()
 		}
@@ -139,6 +165,17 @@ func PrintAllClassesForLlm() {
 			previewClass = class
 		}
 	}
+}
+
+func findDefinePoint(frame, class, method string) (string, bool) {
+	for _, article := range eval.DefineInfoArticles {
+		if article.Ctx.GetFrame() == frame &&
+			article.Ctx.GetClass() == class &&
+			article.Ctx.GetMethod() == method {
+			return article.P.FileName + ":" + strconv.Itoa(article.DefineRow), true
+		}
+	}
+	return "", false
 }
 
 func readLineFromFile(fileName string, row int) string {

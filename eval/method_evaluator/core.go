@@ -64,19 +64,29 @@ func NewMethodEvaluator(
 		methodIdentifierT.ToString(),
 	)
 
-	key := evaluatedObjectT.GetFrame() + evaluatedObjectT.GetObjectClass() + methodIdentifierT.ToString()
-	point := p.FileName + ":" + strconv.Itoa(p.Row)
+	if ctx.IsCheckRound() {
+		key := evaluatedObjectT.GetFrame() + evaluatedObjectT.GetObjectClass() + methodIdentifierT.ToString()
+		point := p.FileName + ":" + strconv.Itoa(p.Row)
 
-	callPoint :=
-		base.CallPoint{
+		callPoint :=
+			base.CallPoint{
+				Point:        point,
+				CallerFrame:  ctx.GetFrame(),
+				CallerClass:  ctx.GetClass(),
+				CallerMethod: ctx.GetMethod(),
+			}
+
+		base.MethodCallPoint[key] = append(base.MethodCallPoint[key], callPoint)
+
+		callerKey := ctx.GetFrame() + ctx.GetClass() + ctx.GetMethod()
+		calleePoint := base.CalleePoint{
 			Point:        point,
-			CallerFrame:  ctx.GetFrame(),
-			CallerClass:  ctx.GetClass(),
-			CallerMethod: ctx.GetMethod(),
+			CalleeFrame:  evaluatedObjectT.GetFrame(),
+			CalleeClass:  evaluatedObjectT.GetObjectClass(),
+			CalleeMethod: methodIdentifierT.ToString(),
 		}
 
-	if ctx.IsCheckRound() {
-		base.MethodCallPoint[key] = append(base.MethodCallPoint[key], callPoint)
+		base.MethodCalleePoint[callerKey] = append(base.MethodCalleePoint[callerKey], calleePoint)
 	}
 
 	p.LastCallT = methodIdentifierT
