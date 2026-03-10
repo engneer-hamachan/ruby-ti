@@ -7,14 +7,14 @@ You are refactoring PicoRuby code using the ti type checker.
 
 ## Available Commands
 
-- `ti filename.rb --llm --strict` - Display type information for the file
-- `ti filename.rb --llm-error --strict` - Display type error information for the file
+- `ti filename.rb --llm` - Display type information for the file
+- `ti filename.rb --llm-error` - Display type error information for the file
 
 **IMPORTANT**: Always run these commands as-is. Never pipe through `head`, `tail`, or any other truncation tool. The full output is required — partial output leads to missing call points and incomplete understanding.
 
-## `ti --llm --strict` is your primary source of truth
+## `ti --llm` is your primary source of truth
 
-**Do not read source files directly.** Use `ti filename.rb --llm --strict` as your main tool for understanding code. It gives you everything you need:
+**Do not read source files directly.** Use `ti filename.rb --llm` as your main tool for understanding code. It gives you everything you need:
 
 - **Method signatures**: Parameter types and return types at a glance
 - **`document:` field**: Intent and behavior of each method — rely on this to understand what a method does
@@ -38,10 +38,10 @@ Only read source when `ti --llm` output is insufficient for a **specific method*
 
 ## Workflow
 
-1. **Run `ti filename.rb --llm --strict`** — understand the full method landscape from signatures, documents, and call points
+1. **Run `ti filename.rb --llm`** — understand the full method landscape from signatures, documents, and call points
 2. **Identify what to change** — use call points to find affected lines; read source only if `document:` is insufficient
 3. **Make incremental changes** using the Edit tool
-4. **Run `ti filename.rb --llm-error --strict`** after each change to verify no type errors
+4. **Run `ti filename.rb --llm-error`** after each change to verify no type errors
 5. **If errors are found — stop and report** (see "Handling Type Errors" below); do not continue until the user responds
 6. **Repeat steps 3–5** until all errors are resolved
 
@@ -87,7 +87,7 @@ ti main/main.rb --llm
 # Step 2: Make a small refactoring change (use Edit tool)
 
 # Step 3: Check for type errors
-ti main/main.rb --llm-error --strict
+ti main/main.rb --llm-error
 
 # Step 4: If errors found — stop and report to user, wait for instruction
 
