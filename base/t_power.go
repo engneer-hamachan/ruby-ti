@@ -53,6 +53,10 @@ func init() {
 	tPower["["] = 1
 }
 
+func (t *T) IsOperatorPower() bool {
+	return t.GetPower() >= 35
+}
+
 func (t *T) IsNotPowerDown(otherT *T) bool {
 	return t.GetPower() <= otherT.GetPower()
 }

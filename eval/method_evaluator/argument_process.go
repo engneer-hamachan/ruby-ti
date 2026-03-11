@@ -32,6 +32,11 @@ func (m *MethodEvaluator) isNotArgT(
 	t *base.T,
 ) bool {
 
+	if isBlockParentheses(t, m.parser.LastCallT, m.isParentheses) {
+		m.parser.Unget()
+		return true
+	}
+
 	if methodT.IsCalcMethod() && len(argTs) >= 1 {
 		m.parser.Unget()
 		return true
@@ -339,6 +344,17 @@ func handleEvaluateArgsMethodChain(m *MethodEvaluator) error {
 	return nil
 }
 
+func isBlockParentheses(
+	t *base.T,
+	lastCallT *base.T,
+	isParentheses bool,
+) bool {
+
+	return !isParentheses &&
+		t.IsTargetIdentifier("{") &&
+		!lastCallT.IsOperatorPower()
+}
+
 func getEvaluatedArgs(
 	m *MethodEvaluator,
 	methodT *base.T,
@@ -366,11 +382,6 @@ func getEvaluatedArgs(
 
 		if t.IsCommaIdentifier() {
 			m.parser.LastCallT = t
-		}
-
-		if !m.isParentheses && t.IsTargetIdentifier("{") && m.parser.LastCallT.GetPower() < 35 {
-			m.parser.Unget()
-			break
 		}
 
 		if m.isNotArgT(methodT, argTs, t) {
