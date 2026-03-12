@@ -140,9 +140,9 @@ func (t *T) AppendVariant(variantT T) {
 		return
 
 	case HASH:
-		for _, variant := range t.variants {
-			if variant.IsHashType() {
-				variant.MergeHash(&variantT)
+		for i := range t.variants {
+			if t.variants[i].IsHashType() {
+				t.variants[i].MergeHash(&variantT)
 				return
 			}
 		}

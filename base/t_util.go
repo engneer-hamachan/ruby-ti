@@ -72,6 +72,16 @@ func (t *T) UnifyVariants() *T {
 }
 
 // Hash utility functions
+func (t *T) StrictHashReference(key string) *T {
+	for _, variant := range t.variants {
+		if variant.key == key {
+			return variant.GetKeyValue()
+		}
+	}
+
+	return MakeNil()
+}
+
 func (t *T) HashReference(key string) *T {
 	for _, variant := range t.variants {
 		if variant.key == key {
@@ -88,14 +98,16 @@ func (t *T) MergeHash(variantT *T) {
 	}
 
 	for _, variant := range variantT.variants {
-		existT := t.HashReference(variant.key)
 		newValueT := variant.GetKeyValue()
 
-		switch existT.tType {
-		case NIL:
+		existT := t.StrictHashReference(variant.key)
+
+		if existT.GetType() == NIL {
 			t.AppendHashVariant(variant)
 			continue
+		}
 
+		switch existT.tType {
 		case UNION:
 			if !existT.IsMatchUnionType(newValueT) {
 				existT.AppendVariant(*newValueT)
