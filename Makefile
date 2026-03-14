@@ -1,4 +1,4 @@
-.PHONY: install generate-test test
+.PHONY: install generate-test test version-up
 
 install:
 	bash ./shell/install.sh
@@ -8,6 +8,18 @@ generate-test:
 
 test:
 	bash ./shell/test.sh
+
+version-up:
+	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
+		echo "Usage: make version-up vX.X.XX"; \
+		exit 1; \
+	fi
+	$(eval VERSION := $(filter-out $@,$(MAKECMDGOALS)))
+	sed -i 's/const Version = ".*"/const Version = "$(VERSION)"/' cmd/version.go
+	git add cmd/version.go
+	git commit -m "minor version up"
+	git tag -a $(VERSION) -m "$(VERSION)"
+	@echo "Version updated to $(VERSION), committed and tagged"
 
 %:
 	@:
