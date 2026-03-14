@@ -1,9 +1,9 @@
 ---
 name: ti-skills
-description: Understand and refactor PicoRuby code using ti type checker
+description: Understand and work with PicoRuby code using ti type checker
 ---
 
-You are refactoring PicoRuby code using the ti type checker.
+You are working with PicoRuby code using the ti type checker.
 
 ## Available Commands
 
@@ -12,86 +12,76 @@ You are refactoring PicoRuby code using the ti type checker.
 
 **IMPORTANT**: Always run these commands as-is. Never pipe through `head`, `tail`, or any other truncation tool. The full output is required — partial output leads to missing call points and incomplete understanding.
 
-## `ti --llm` is your primary source of truth
+## Step 1: Always start with `ti --llm`
 
-**Do not read source files directly.** Use `ti filename.rb --llm` as your main tool for understanding code. It gives you everything you need:
+Run `ti filename.rb --llm` first, every time. It gives you:
 
-- **Method signatures**: Parameter types and return types at a glance
-- **`document:` field**: Intent and behavior of each method — rely on this to understand what a method does
-- **Call points**: Every location a method is called from — use this to assess impact before changing anything
-- **`untyped` warnings**: Parameters or returns marked `untyped` are ambiguous — treat carefully
+- **Method signatures**: Parameter types and return types
+- **`document:` field**: Intent and behavior of each method
+- **Call points**: Every location a method is called from
+- **`ti-for-llm` comments**: Inline annotations explaining non-obvious values, invariants, and constraints
 
-### When you may read source code
+### When `document:` or comments are insufficient
 
-Only read source when `ti --llm` output is insufficient for a **specific method**:
+If the `document:` field is vague, missing, or doesn't answer a **specific question you already have** — read the source. Use call points to find the exact line range, then read only that range.
 
-- The `document:` field is missing or too vague to act on
-- You need to understand the exact logic of a single method (use call points to find the line, then read only that method)
-- **Never read the entire file** — always target specific line ranges identified from `ti --llm` output
+Rules:
+- Read source only when you have a concrete, specific question that `ti --llm` didn't answer
+- Read only the lines needed to answer that question
+- Do not read "just in case" or to get a broader picture — form the question first, then read
 
-### Reading the output effectively
+## Step 2: Before making any change, verify your understanding
 
-- `Union<A B>` means the value can be type A or B — handle both cases
-- `untyped` means ti couldn't infer the type — these are often the riskiest spots
-- `document:` lines describe intent — if they are too vague, consider improving them with ti-add-comments
-- Call points list every location a method is used — check all of them when changing a signature
+For every change you're about to make, write out:
 
-## Workflow
+1. **What values can each relevant variable take?**
+2. **What are all the scenarios this code handles?** Trace through each with concrete values.
+3. **Which scenario is broken, and why?**
 
-1. **Run `ti filename.rb --llm`** — understand the full method landscape from signatures, documents, and call points
-2. **Identify what to change** — use call points to find affected lines; read source only if `document:` is insufficient
-3. **Make incremental changes** using the Edit tool
-4. **Run `ti filename.rb --llm-error`** after each change to verify no type errors
-5. **If errors are found — stop and report** (see "Handling Type Errors" below); do not continue until the user responds
-6. **Repeat steps 3–5** until all errors are resolved
+Do not skip this. Concrete values prevent wrong assumptions.
 
-## Handling Type Errors - Critical Rules
+## Step 3: Before removing or disabling code
 
-**NEVER delete code just because it causes type errors.** Instead, properly address the root cause:
+**Never remove code just because it seems related to a complaint.**
 
-1. **Understand the error first**:
-   - Read the error message carefully to understand what ti expects
-   - Check the line number and context
-   - Identify why the type mismatch is occurring
+First prove the code is the actual cause:
+- Trace the specific scenario the user complained about
+- Confirm this code triggers in that scenario
+- Confirm no other scenario depends on this code correctly
 
-2. **Preserve the original intent**:
-   - The refactored code must maintain the same functionality
-   - Don't sacrifice code quality just to pass type checking
-   - If a helper function causes type errors, fix the function - don't remove it
-   - Find alternative implementations that both satisfy ti and improve code quality
+If the complaint points to code X but the real cause is Y (something else), removing X makes things worse. Fix Y instead.
 
-3. **Common type error solutions**:
-   - For `Union` types containing `NilClass` (e.g., `Union<Integer NilClass>`): Use `is_a?` to narrow the type. ti recognizes `is_a?` checks and narrows the type within the branch:
-     ```ruby
-     x = arr[0] # Union<Integer NilClass>
-     if x.is_a?(Integer)
-       # ti narrows x to Integer here
-       x + 1
-     end
-     ```
-   - For array operations: Use explicit indexing instead of iterators if needed
-   - For hash operations: Ensure consistent access patterns
-   - For generic functions: Make them more specific if ti struggles with inference
-   - Copy arrays/hashes before modifying to help ti track types
+## Step 4: Make incremental changes
 
-4. **When a type error occurs — stop and report**:
-   - **Do not attempt to fix the error on your own.** Stop all work immediately and report to the user.
-   - Wait for the user's instruction before proceeding
+- Use the Edit tool for targeted changes
+- Run `ti filename.rb --llm-error` after each change
+- If type errors appear — stop and report to the user; do not continue
 
-## Example Workflow
+## Handling Type Errors
+
+**Never delete code just because it causes type errors.** Understand the root cause first.
+
+- For `Union<A NilClass>`: use `is_a?` to narrow the type
+- For `untyped`: these are the riskiest spots — read the source before touching them
+- If you can't resolve an error — stop and report to the user
+
+## Example: Bug Fix Workflow
 
 ```bash
-# Step 1: Check initial type information
-ti main/main.rb --llm
+# 1. Understand the code
+ti filename.rb --llm
 
-# Step 2: Make a small refactoring change (use Edit tool)
+# 2. If document: is vague, read the relevant source lines
+#    (use call points from ti output to find exact line numbers)
 
-# Step 3: Check for type errors
-ti main/main.rb --llm-error
+# 3. Trace the broken scenario with actual values
 
-# Step 4: If errors found — stop and report to user, wait for instruction
+# 4. Identify root cause. Confirm it before touching anything.
 
-# Step 5: Once no errors, continue with next refactoring
+# 5. Make the minimal change that fixes the root cause.
+
+# 6. Verify no type errors
+ti filename.rb --llm-error
+
+# 7. Trace the scenario again with actual values to confirm the fix.
 ```
-
-Now, which file would you like to work with?
