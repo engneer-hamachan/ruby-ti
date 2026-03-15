@@ -9,6 +9,8 @@ You are working with PicoRuby code using the ti type checker.
 
 - `ti filename.rb --llm` - Display type information for the file
 - `ti filename.rb --llm-error` - Display type error information for the file
+- `ti filename.rb --llm-class` - List all classes available in the project
+- `ti filename.rb --llm-define --class=ClassName` - Display method signatures and type info for a class
 
 **IMPORTANT**: Always run these commands as-is. Never pipe through `head`, `tail`, or any other truncation tool. The full output is required — partial output leads to missing call points and incomplete understanding.
 
@@ -20,6 +22,15 @@ Run `ti filename.rb --llm` first, every time. It gives you:
 - **`document:` field**: Intent and behavior of each method
 - **Call points**: Every location a method is called from
 - **`ti-for-llm` comments**: Inline annotations explaining non-obvious values, invariants, and constraints
+
+### When you need to understand an external class or method
+
+If the task involves a class/method from the project's type system and its behavior (argument order, return type, side effects) is unclear:
+
+1. Run `ti filename.rb --llm-class` to see all available classes
+2. Run `ti filename.rb --llm-define --class=ClassName` for each relevant class
+
+Do not guess or search binding source files — use `--llm-define` first.
 
 ### When `document:` or comments are insufficient
 
@@ -71,17 +82,21 @@ If the complaint points to code X but the real cause is Y (something else), remo
 # 1. Understand the code
 ti filename.rb --llm
 
-# 2. If document: is vague, read the relevant source lines
+# 2. If external class/method behavior is unclear, look up its signatures
+ti filename.rb --llm-class
+ti filename.rb --llm-define --class=RelevantClass
+
+# 3. If document: is vague, read the relevant source lines
 #    (use call points from ti output to find exact line numbers)
 
-# 3. Trace the broken scenario with actual values
+# 4. Trace the broken scenario with actual values
 
-# 4. Identify root cause. Confirm it before touching anything.
+# 5. Identify root cause. Confirm it before touching anything.
 
-# 5. Make the minimal change that fixes the root cause.
+# 6. Make the minimal change that fixes the root cause.
 
-# 6. Verify no type errors
+# 7. Verify no type errors
 ti filename.rb --llm-error
 
-# 7. Trace the scenario again with actual values to confirm the fix.
+# 8. Trace the scenario again with actual values to confirm the fix.
 ```
