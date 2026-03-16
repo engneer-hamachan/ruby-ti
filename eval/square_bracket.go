@@ -93,6 +93,11 @@ func (e *Evaluator) arrayReferenceEvaluation(
 	case true:
 
 		ctx.IsBind = true
+		p.EndParsingExpression()
+
+		ctx.StartMultiValue()
+		defer ctx.EndMultiValue()
+
 		p.SkipNewline()
 
 		nextT, err := p.Read()
@@ -171,6 +176,9 @@ func (e *Evaluator) hashReferenceEvaluation(
 	case true:
 		ctx.IsBind = true
 		p.EndParsingExpression()
+
+		ctx.StartMultiValue()
+		defer ctx.EndMultiValue()
 
 		p.SkipNewline()
 
@@ -412,6 +420,8 @@ func (e *Evaluator) makeArray(
 	ctx context.Context,
 	t *base.T,
 ) error {
+
+	ctx.EndMultiValue()
 
 	ctx.StartArrayCollect()
 	defer ctx.EndArrayCollect()

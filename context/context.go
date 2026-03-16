@@ -7,6 +7,7 @@ type Context struct {
 	IsPrivate      bool
 	IsProtected    bool
 	IsBind         bool
+	isMultiValue   bool
 	IsCallArg      bool
 	IsDefineArg    bool
 	IsArrayCollect bool
@@ -126,4 +127,16 @@ func (c *Context) StartDefineStatic() {
 
 func (c *Context) EndDefineStatic() {
 	c.IsDefineStatic = false
+}
+
+func (c *Context) StartMultiValue() {
+	c.isMultiValue = true
+}
+
+func (c *Context) EndMultiValue() {
+	c.isMultiValue = false
+}
+
+func (c *Context) IsMultiValue() bool {
+	return c.isMultiValue
 }

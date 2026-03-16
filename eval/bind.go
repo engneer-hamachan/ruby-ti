@@ -260,6 +260,9 @@ func (b *Bind) Evaluation(
 
 	p.EndParsingExpression()
 
+	ctx.StartMultiValue()
+	defer ctx.EndMultiValue()
+
 	some := p.GetLastEvaluatedTPointer()
 
 	if err := p.SkipNewline(); err != nil {

@@ -36,6 +36,9 @@ func (r *Return) Evaluation(
 
 	p.StartParsingExpression()
 
+	ctx.StartMultiValue()
+	defer ctx.EndMultiValue()
+
 	err = e.EvalToZeroPower(p, ctx, nextT)
 	if err != nil {
 		return err

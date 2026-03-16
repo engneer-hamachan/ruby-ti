@@ -115,6 +115,10 @@ func (d *While) Evaluation(
 		if nextT.IsTargetIdentifier("break") {
 			isBreak = true
 			p.StartParsingExpression()
+
+			ctx.StartMultiValue()
+			defer ctx.EndMultiValue()
+
 			continue
 		}
 

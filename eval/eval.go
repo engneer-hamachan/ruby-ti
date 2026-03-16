@@ -182,6 +182,11 @@ func (e *Evaluator) EvalToZeroPower(
 		}
 
 		if t.IsCommaIdentifier() {
+			if !ctx.IsMultiValue() {
+				p.Unget()
+				break
+			}
+
 			continue
 		}
 
