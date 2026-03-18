@@ -37,7 +37,7 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
-	if methodT.IsCalcMethod() && len(argTs) >= 1 {
+	if methodT.IsOperatorPower() && len(argTs) >= 1 {
 		m.parser.Unget()
 		return true
 	}
