@@ -37,13 +37,13 @@ func (m *MethodEvaluator) isNotArgT(
 		return true
 	}
 
-	if methodT.IsOperatorPower() && len(argTs) >= 1 {
+	if methodT.IsOperatorPower() && len(argTs) != 0 {
 		m.parser.Unget()
 		return true
 	}
 
 	if t.IsCommaIdentifier() || t.IsPredicateIdentifier() {
-		if len(argTs) < 1 {
+		if len(argTs) == 0 {
 			m.parser.Unget()
 			return true
 		}
