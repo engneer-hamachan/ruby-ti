@@ -39,7 +39,7 @@ func (r *Return) Evaluation(
 	ctx.StartMultiValue()
 	defer ctx.EndMultiValue()
 
-	err = e.EvalToZeroPower(p, ctx, nextT)
+	err = e.EvalExpr(p, ctx, nextT, 0)
 	if err != nil {
 		return err
 	}

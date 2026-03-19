@@ -36,7 +36,7 @@ func (r *Logical) Evaluation(
 		return err
 	}
 
-	err = e.EvalToZeroPower(p, ctx, nextT)
+	err = e.EvalExpr(p, ctx, nextT, 0)
 	if err != nil {
 		return err
 	}

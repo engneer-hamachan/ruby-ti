@@ -321,31 +321,6 @@ func expectBlockArgProcess(
 	return argTs, nil
 }
 
-func handleEvaluateArgsMethodChain(m *MethodEvaluator) error {
-	for {
-		nextT, err := m.parser.Read()
-		if err != nil {
-			return err
-		}
-
-		if !nextT.IsTargetIdentifier("?") &&
-			m.parser.LastCallT.IsPowerUp(nextT) ||
-			nextT.IsTargetIdentifier("[") {
-
-			err = m.outerEval.Eval(m.parser, m.ctx, nextT)
-			if err != nil {
-				return err
-			}
-
-			continue
-		}
-
-		m.parser.Unget()
-		break
-	}
-
-	return nil
-}
 
 func isBlockParentheses(
 	t *base.T,
@@ -413,13 +388,10 @@ func getEvaluatedArgs(
 			continue
 		}
 
-		err = m.outerEval.Eval(m.parser, m.ctx, nextT)
-		if err != nil {
-			return argTs, err
-		}
-
 		// x.abc.def.ghi
-		err = handleEvaluateArgsMethodChain(m)
+		zaorik := m.ctx.SuspendMultiValue()
+		err = m.outerEval.EvalExpr(m.parser, m.ctx, nextT, m.parser.LastCallT.GetPower())
+		zaorik()
 		if err != nil {
 			return argTs, err
 		}

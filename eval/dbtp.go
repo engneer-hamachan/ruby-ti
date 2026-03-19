@@ -31,7 +31,7 @@ func (d *DebugTypePrint) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
-	err = e.EvalToZeroPower(p, ctx, nextT)
+	err = e.EvalExpr(p, ctx, nextT, 0)
 	if err != nil {
 		p.Fatal(ctx, err)
 	}

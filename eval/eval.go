@@ -91,10 +91,11 @@ func (e *Evaluator) setLastEvaluatedT(
 }
 
 
-func (e *Evaluator) EvalToZeroPower(
+func (e *Evaluator) EvalExpr(
 	p *parser.Parser,
 	ctx context.Context,
 	t *base.T,
+	rbp int8,
 ) error {
 
 	for {
@@ -112,6 +113,12 @@ func (e *Evaluator) EvalToZeroPower(
 			return nil
 		}
 
+		// foo(a.b ? 1 : 2)
+		if rbp > 0 && t.IsTargetIdentifier("?") {
+			p.Unget()
+			break
+		}
+
 		if t.IsCommaIdentifier() {
 			if !ctx.IsMultiValue() {
 				p.Unget()
@@ -121,7 +128,12 @@ func (e *Evaluator) EvalToZeroPower(
 			continue
 		}
 
-		if t.GetPower() == 0 {
+		// a + b[0]
+		if t.IsTargetIdentifier("[") {
+			continue
+		}
+
+		if t.GetPower() <= rbp {
 			p.Unget()
 			break
 		}

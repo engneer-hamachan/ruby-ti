@@ -64,7 +64,7 @@ func (h *Hash) Evaluation(
 		}
 
 		zaorik := ctx.SuspendMultiValue()
-		err = e.EvalToZeroPower(p, ctx, nextT)
+		err = e.EvalExpr(p, ctx, nextT, 0)
 		zaorik()
 		if err != nil {
 			return err

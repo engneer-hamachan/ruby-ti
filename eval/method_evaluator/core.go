@@ -9,6 +9,7 @@ import (
 
 type Eval interface {
 	Eval(p *parser.Parser, ctx context.Context, t *base.T) (err error)
+	EvalExpr(p *parser.Parser, ctx context.Context, t *base.T, rbp int8) error
 }
 
 type MethodEvaluator struct {

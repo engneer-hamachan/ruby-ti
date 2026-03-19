@@ -114,7 +114,7 @@ func (e *Evaluator) arrayReferenceEvaluation(
 			return nil
 		}
 
-		err = e.EvalToZeroPower(p, ctx, nextT)
+		err = e.EvalExpr(p, ctx, nextT, 0)
 		if err != nil {
 			return err
 		}
@@ -196,7 +196,7 @@ func (e *Evaluator) hashReferenceEvaluation(
 			return nil
 		}
 
-		err = e.EvalToZeroPower(p, ctx, nextT)
+		err = e.EvalExpr(p, ctx, nextT, 0)
 		if err != nil {
 			return err
 		}
@@ -308,7 +308,7 @@ func (e *Evaluator) stringReferenceEvaluation(
 			return err
 		}
 
-		err = e.EvalToZeroPower(p, ctx, nextT)
+		err = e.EvalExpr(p, ctx, nextT, 0)
 		if err != nil {
 			return err
 		}
@@ -382,7 +382,7 @@ func (e *Evaluator) integerReferenceEvaluation(
 			return err
 		}
 
-		err = e.EvalToZeroPower(p, ctx, nextT)
+		err = e.EvalExpr(p, ctx, nextT, 0)
 		if err != nil {
 			return err
 		}
