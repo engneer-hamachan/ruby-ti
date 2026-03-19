@@ -233,7 +233,7 @@ func (b *Bind) handleMultipleAsigntment(
 		return err
 	}
 
-	err = e.ContinuousEval(p, ctx, nextT, ",")
+	err = e.EvalToZeroPower(p, ctx, nextT)
 	if err != nil {
 		return err
 	}

@@ -137,6 +137,12 @@ func (c *Context) EndMultiValue() {
 	c.isMultiValue = false
 }
 
+func (c *Context) SuspendMultiValue() func() {
+	prev := c.isMultiValue
+	c.isMultiValue = false
+	return func() { c.isMultiValue = prev }
+}
+
 func (c *Context) IsMultiValue() bool {
 	return c.isMultiValue
 }

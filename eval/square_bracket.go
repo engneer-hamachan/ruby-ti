@@ -421,7 +421,8 @@ func (e *Evaluator) makeArray(
 	t *base.T,
 ) error {
 
-	ctx.EndMultiValue()
+	zaorik := ctx.SuspendMultiValue()
+	defer zaorik()
 
 	ctx.StartArrayCollect()
 	defer ctx.EndArrayCollect()
