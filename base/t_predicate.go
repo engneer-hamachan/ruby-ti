@@ -9,10 +9,6 @@ func (t *T) IsEmptyDefineArgs() bool {
 	return len(t.defineArgs) == 0
 }
 
-func (t *T) IsAcceptCountArgs(args []*T) bool {
-	return len(t.defineArgs) == len(args)
-}
-
 func (t *T) IsTargetIdentifier(target string) bool {
 	return t != nil && t.tType == UNKNOWN && t.ToString() == target
 }
@@ -188,18 +184,6 @@ func (t *T) IsBoolIdentifier() bool {
 	return t.IsTargetIdentifier("true") || t.IsTargetIdentifier("false")
 }
 
-func (t *T) IsCalcIdentifier() bool {
-	calcIdentifiers := []string{"+", "-", "/", "*"}
-
-	return t.IsTargetIdentifiers(calcIdentifiers)
-}
-
-func (t *T) IsCalcMethod() bool {
-	calcIdentifiers := []string{"+", "-", "/", "*"}
-
-	return slices.Contains(calcIdentifiers, t.GetMethodName())
-}
-
 func (t *T) IsRefferenceSquareT() bool {
 	return t.IsTargetIdentifier("[") && !t.IsBeforeSpace
 }
@@ -329,16 +313,6 @@ func (t *T) IsRangeType() bool {
 	}
 
 	return t.tType == RANGE
-}
-
-func (t *T) IsIteratableType() bool {
-	if t == nil {
-		return false
-	}
-
-	iteratableTypes := []int{ARRAY, HASH, RANGE}
-
-	return slices.Contains(iteratableTypes, t.tType)
 }
 
 func (t *T) IsUnionType() bool {

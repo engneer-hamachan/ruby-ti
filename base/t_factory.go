@@ -103,10 +103,6 @@ func MakeAnyArray() *T {
 	return t
 }
 
-func MakeHash(val string) *T {
-	return NewT("Hash", HASH, val)
-}
-
 func MakeAnyHash() *T {
 	t := NewT("Hash", HASH, "hash")
 
@@ -283,10 +279,6 @@ func MakeKeyValueArray() *T {
 	t := NewT("KeyValueArray", KEYVALUE_ARRAY, "keyValueArray")
 
 	return t
-}
-
-func MakeEos() *T {
-	return NewT("EOS", EOS, "eos")
 }
 
 func MakeFlatten() *T {

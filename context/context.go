@@ -75,10 +75,6 @@ func (c Context) IsAfterCollectRound() bool {
 	return c.round != "define" && c.round != "collect"
 }
 
-func (c Context) IsBeforeInferenceRound() bool {
-	return c.round != "inference" && c.round != "check"
-}
-
 func (c *Context) StartPrivate() {
 	c.IsPrivate = true
 	c.IsProtected = false

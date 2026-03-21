@@ -126,10 +126,6 @@ func (p *Parser) AppendLastReturnT() {
 	p.lastReturnT = append(p.lastReturnT, *lastEvaluatedT)
 }
 
-func (p *Parser) GetLastReturnT() []base.T {
-	return p.lastReturnT
-}
-
 func (p *Parser) ConsumeLastReturnT() []base.T {
 	returnTs := p.lastReturnT
 

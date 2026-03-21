@@ -31,22 +31,6 @@ func SaveArgumentSnapShot(ctx context.Context, method, variable string, t T) {
 	ArgumentSnapShot[key] = t
 }
 
-func UpdateArgumentSnapShot(frame, class, method, variable string, t T, isStatic bool) bool {
-	key := FrameKey{
-		frame:          frame,
-		targetClass:    class,
-		targetMethod:   method,
-		targetVariable: variable,
-		isStatic:       isStatic,
-	}
-
-	_, ok := ArgumentSnapShot[key]
-	if ok {
-		ArgumentSnapShot[key] = t
-	}
-	return ok
-}
-
 func SnapShotArgumentTypes(
 	ctx context.Context,
 	method string,
