@@ -385,8 +385,15 @@ func getEvaluatedArgs(
 
 		// x.abc.def.ghi
 		zaorik := m.ctx.SuspendMultiValue()
-		err = m.outerEval.EvalExpr(m.parser, m.ctx, nextT, m.parser.LastCallT.GetPower())
+		err =
+			m.outerEval.EvalExpr(
+				m.parser,
+				m.ctx,
+				nextT,
+				m.parser.LastCallT.GetPower(),
+			)
 		zaorik()
+
 		if err != nil {
 			return argTs, err
 		}
@@ -394,6 +401,7 @@ func getEvaluatedArgs(
 		lastEvaluatedT := m.parser.GetLastEvaluatedT()
 		argTs = append(argTs, &lastEvaluatedT)
 
+		// a + b
 		if len(argTs) > 0 && base.GetPowerByString(m.method) >= 35 {
 			break
 		}
