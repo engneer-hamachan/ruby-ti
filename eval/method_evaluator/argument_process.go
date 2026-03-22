@@ -321,7 +321,6 @@ func expectBlockArgProcess(
 	return argTs, nil
 }
 
-
 func isBlockParentheses(
 	t *base.T,
 	lastCallT *base.T,
@@ -356,10 +355,6 @@ func getEvaluatedArgs(
 		t, err := m.parser.Read()
 		if err != nil {
 			return argTs, err
-		}
-
-		if t.IsCommaIdentifier() {
-			m.parser.LastCallT = t
 		}
 
 		if m.isNotArgT(methodT, argTs, t) {
