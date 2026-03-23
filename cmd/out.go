@@ -172,15 +172,16 @@ func sigHasCallPoints(sig base.Sig) bool {
 	return len(base.MethodCallPoint[key]) > 0 || len(base.MethodCalleePoint[key]) > 0
 }
 
-func PrintLlmNav() {
+func PrintLlmNav() bool {
 	target := getTarget()
 
 	if target != "" {
 		printLlmNavDetail(target)
-		return
+		return true
 	}
 
 	printLlmNavList()
+	return false
 }
 
 func printLlmNavList() {

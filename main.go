@@ -164,10 +164,12 @@ func evaluationLoop(
 	}
 
 	if len(base.TSignatures) > 0 && flags.IsLlmNav {
-		cmd.PrintLlmNav()
-		fmt.Println("---")
-		fmt.Println("# Special Code Comments")
-		cmd.PrintSpecialCodeCommentsForLlm()
+		hasTarget := cmd.PrintLlmNav()
+		if !hasTarget {
+			fmt.Println("---")
+			fmt.Println("# Special Code Comments")
+			cmd.PrintSpecialCodeCommentsForLlm()
+		}
 	}
 
 	if len(base.TSignatures) > 0 && flags.IsDefineAllInfo {
