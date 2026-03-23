@@ -555,6 +555,7 @@ type DefineInfoArticle struct {
 	Ctx       context.Context
 	MethodT   base.T
 	DefineRow int
+	EndRow    int
 }
 
 var DefineInfoArticles = []DefineInfoArticle{}
@@ -564,11 +565,12 @@ func (d *Def) setDefineInfos(
 	ctx context.Context,
 	methodT *base.T,
 	defineRow int,
+	endRow int,
 ) {
 	DefineInfoArticles =
 		append(
 			DefineInfoArticles,
-			DefineInfoArticle{*p, ctx, *methodT.DeepCopy(), defineRow},
+			DefineInfoArticle{*p, ctx, *methodT.DeepCopy(), defineRow, endRow},
 		)
 }
 
@@ -656,6 +658,8 @@ func (d *Def) Evaluation(
 		p.Fatal(ctx, err)
 	}
 
+	endRow := p.Row
+
 	base.RestoreArgumentTypes()
 
 	returnT := d.makeReturnT(e, p, ctx, method)
@@ -664,7 +668,7 @@ func (d *Def) Evaluation(
 	d.setDefineMethodT(p, ctx, methodT, defineRow)
 
 	if ctx.IsCheckRound() {
-		d.setDefineInfos(p, ctx, methodT, defineRow)
+		d.setDefineInfos(p, ctx, methodT, defineRow, endRow)
 	}
 
 	return nil
