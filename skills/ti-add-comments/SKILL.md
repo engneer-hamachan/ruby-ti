@@ -3,7 +3,7 @@ name: ti-add-comments
 description: Add ti-doc and ti-for-llm comments to PicoRuby code for ti type checker integration
 ---
 
-You add special comments to PicoRuby code that are consumed by the `ti` type checker's `--llm` output.
+You add special comments to PicoRuby code that are consumed by the `ti` type checker's `--llm-nav` output.
 
 ## Usage
 
@@ -11,14 +11,22 @@ The user will specify a file: `ti-add-comments {file name}.rb`
 
 ## Rule: All comments MUST be written in English
 
+## Available Commands
+
+### Code understanding (current file)
+- `ti filename.rb --llm-nav` - List classes and top-level methods that have callers or callees in the code
+- `ti filename.rb --llm-nav --target=Name` - Display detailed signatures, callers/callees for a specific class or method in the code
+
+**IMPORTANT**: Always run these commands as-is. Never pipe through `head`, `tail`, or any other truncation tool. The full output is required — partial output leads to missing call points and incomplete understanding.
+
 ## Two Comment Types
 
-There are two distinct comment types, each serving a different purpose in `ti --llm` output:
+There are two distinct comment types, each serving a different purpose in `ti --llm-nav` output:
 
 ### 1. `# ti-doc:` — Function documentation
 
 - **Purpose**: Describes what a function does
-- **Where it appears in `ti --llm`**: `[Method Signatures]` section as the `document:` field
+- **Where it appears in `ti --llm-nav --target=Name`**: `[Method Signatures]` section as the `document:` field
 - **Placement**: Always one line above the `def` keyword
 - **Required for**: Every function definition (`def`)
 
@@ -28,7 +36,7 @@ Example:
 def calculate_line_number_space(line_number)
 ```
 
-In `ti --llm` output, this appears as:
+In `ti --llm-nav --target=calculate_line_number_space` output, this appears as:
 ```
 ## calculate_line_number_space(Union<untyped Integer>) -> Integer
 - file: theme/editor_app.rb:109
@@ -40,7 +48,7 @@ In `ti --llm` output, this appears as:
 ### 2. `# ti-for-llm:` — Important code explanation
 
 - **Purpose**: Explains significant non-function code (variables, conditional branches, complex logic)
-- **Where it appears in `ti --llm`**: `[Special Code Comments]` section as the `comment:` field
+- **Where it appears in `ti --llm-nav`**: `[Special Code Comments]` section as the `comment:` field
 - **Placement**: Always one line above the target code
 - **Required for**: Important variables, complex conditionals, non-obvious logic that LLMs need context to understand
 
@@ -50,7 +58,7 @@ Example:
 $completion_chars = nil
 ```
 
-In `ti --llm` output, this appears as:
+In `ti --llm-nav` output, this appears as:
 ```
 [Special Code Comments]
 ## theme/editor_app.rb:90
@@ -60,18 +68,46 @@ $completion_chars = nil
 
 ## Workflow
 
-1. **Run `ti {file}.rb --llm`** to see the current state of comments
-2. **Read the source file** to understand the code
-3. **Add `# ti-doc:` to every function** that is missing one
+### Step 1: Browse the code structure
+
+Run `ti {file}.rb --llm-nav` first. It lists classes and top-level methods. Identify which ones are missing `document:` fields or have vague ones.
+
+### Step 2: Drill into each target
+
+For each class or method that needs comments, run:
+
+```bash
+ti {file}.rb --llm-nav --target=Name
+```
+
+This shows you the method signatures, existing `document:` fields, and call points. Use this to understand what each method does before writing its comment.
+
+Do not fetch all details upfront — use `--llm-nav` to identify what needs work, then `--target` to drill in.
+
+### Step 3: Read source when needed
+
+If the `--target` output doesn't give you enough context to write a good comment, use call points to find the exact line range and read only that range.
+
+Rules:
+- Read source only when you have a concrete, specific question that the output didn't answer
+- Read only the lines needed to answer that question
+- Do not read "just in case" or to get a broader picture — form the question first, then read
+
+### Step 4: Add comments
+
+1. **Add `# ti-doc:` to every function** that is missing one
    - Write a concise English description of what the function does
    - Place it on the line immediately above `def`
-4. **Add `# ti-for-llm:` to important non-function code** such as:
+2. **Add `# ti-for-llm:` to important non-function code** such as:
    - Global/instance variables with special meaning
    - Complex conditional logic that requires explanation
    - Key business logic or state transitions
    - Non-obvious assignments or calculations
-5. **Review all existing comments** — improve unclear or inaccurate ones
-6. **Run `ti {file}.rb --llm`** again to verify all comments appear correctly
+3. **Review all existing comments** — improve unclear or inaccurate ones
+
+### Step 5: Verify
+
+Run `ti {file}.rb --llm-nav` and drill into updated targets with `--target=Name` to confirm all comments appear correctly.
 
 ## Guidelines for Writing Good Comments
 
@@ -86,7 +122,7 @@ $completion_chars = nil
 
 ## Goal: LLMs should not need to read source code
 
-The `document:` field in `ti --llm` output is the primary way an LLM understands your code **without reading the source**. Write `ti-doc:` comments rich enough that another LLM can make correct implementation decisions from the `ti --llm` output alone.
+The `document:` field in `ti --llm-nav --target=Name` output is the primary way an LLM understands your code **without reading the source**. Write `ti-doc:` comments rich enough that another LLM can make correct implementation decisions from the output alone.
 
 ### What to include in `ti-doc:` when relevant
 
