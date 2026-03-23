@@ -167,6 +167,137 @@ func PrintAllClassesForLlm() {
 	}
 }
 
+func sigHasCallPoints(sig base.Sig) bool {
+	key := sig.Frame + sig.Class + sig.Method
+	return len(base.MethodCallPoint[key]) > 0 || len(base.MethodCalleePoint[key]) > 0
+}
+
+func PrintLlmNav() {
+	target := getTarget()
+
+	if target != "" {
+		printLlmNavDetail(target)
+		return
+	}
+
+	printLlmNavList()
+}
+
+func printLlmNavList() {
+	class := ""
+	previewClass := ""
+	topLevelMethods := []string{}
+
+	fmt.Println("# Classes")
+	for _, sig := range base.GetSortedTSignaturesByClass() {
+		if sig.Frame == "Builtin" {
+			continue
+		}
+
+		if !sigHasCallPoints(sig) {
+			continue
+		}
+
+		if sig.Class == "" {
+			topLevelMethods = append(topLevelMethods, sig.Method)
+			continue
+		}
+
+		class = sig.Class
+
+		if class != previewClass {
+			fmt.Println(class)
+			previewClass = class
+		}
+	}
+
+	if len(topLevelMethods) > 0 {
+		fmt.Println("---")
+		fmt.Println("# Top Level Methods")
+		for _, method := range topLevelMethods {
+			fmt.Println(method)
+		}
+	}
+}
+
+func printLlmNavDetail(target string) {
+	for _, sig := range base.GetSortedTSignaturesByClass() {
+		if sig.Frame == "Builtin" {
+			continue
+		}
+
+		if !sigHasCallPoints(sig) {
+			continue
+		}
+
+		class := sig.Class
+		if class == "" {
+			class = "Object"
+		}
+
+		if class != target && sig.Method != target {
+			continue
+		}
+
+		if sig.Document == "" {
+			sig.Document = "<no document>"
+		}
+
+		fmt.Println("## " + sig.GetPrintDetail())
+		fmt.Println("- file: " + sig.FileName + ":" + strconv.Itoa(sig.Row))
+		fmt.Println("- document: " + sig.Document)
+
+		points := base.MethodCallPoint[sig.Frame+sig.Class+sig.Method]
+
+		if len(points) == 0 {
+			fmt.Println("- callers: none")
+		} else {
+			fmt.Println("- callers:")
+			for _, point := range points {
+				if point.CallerMethod != "" {
+					fmt.Println("  - method: " + point.CallerMethod)
+				} else {
+					fmt.Println("  - method: " + "top level")
+				}
+				if point.CallerClass != "" {
+					fmt.Println("    - class: " + point.CallerClass)
+				} else {
+					fmt.Println("    - class: none")
+				}
+				fmt.Println("    - call point: " + point.Point)
+			}
+		}
+		fmt.Printf("  - total callers: %d\n", len(points))
+
+		callees := base.MethodCalleePoint[sig.Frame+sig.Class+sig.Method]
+		printedCallees := 0
+
+		if len(callees) > 0 {
+			fmt.Println("- callees:")
+		} else {
+			fmt.Println("- callees: none")
+		}
+
+		for _, cp := range callees {
+			definePoint, ok := findDefinePoint(cp.CalleeFrame, cp.CalleeClass, cp.CalleeMethod)
+			if !ok {
+				continue
+			}
+			fmt.Println("  - method: " + cp.CalleeMethod)
+			if cp.CalleeClass != "" {
+				fmt.Println("    - class: " + cp.CalleeClass)
+			} else {
+				fmt.Println("    - class: none")
+			}
+			fmt.Println("    - define point: " + definePoint)
+			printedCallees++
+		}
+		fmt.Printf("  - total callees: %d\n", printedCallees)
+
+		fmt.Println()
+	}
+}
+
 func findDefinePoint(frame, class, method string) (string, bool) {
 	for _, article := range eval.DefineInfoArticles {
 		if article.Ctx.GetFrame() == frame &&

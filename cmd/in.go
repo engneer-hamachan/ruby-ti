@@ -60,6 +60,10 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsLlmClass = true
 	}
 
+	if hasFlag("--llm-nav") {
+		flags.IsLlmNav = true
+	}
+
 	return flags
 }
 
@@ -103,6 +107,15 @@ func getTargetClass() string {
 	for _, arg := range os.Args {
 		if strings.HasPrefix(arg, "--class=") {
 			return arg[8:]
+		}
+	}
+	return ""
+}
+
+func getTarget() string {
+	for _, arg := range os.Args {
+		if strings.HasPrefix(arg, "--target=") {
+			return arg[9:]
 		}
 	}
 	return ""

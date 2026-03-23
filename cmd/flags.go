@@ -13,6 +13,7 @@ type ExecuteFlags struct {
 	IsLlmError      bool
 	IsLlmDefine     bool
 	IsLlmClass      bool
+	IsLlmNav        bool
 }
 
 func NewExecuteFlags() *ExecuteFlags {
