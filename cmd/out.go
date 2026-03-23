@@ -35,7 +35,8 @@ func PrintDefineInfosForLlm() {
 			}
 
 			fmt.Println("## " + sig.GetPrintDetail())
-			fmt.Println("- file: " + sig.FileName + ":" + strconv.Itoa(sig.Row))
+			endRow := findEndRow(sig.Frame, sig.Class, sig.Method)
+			fmt.Println("- file: " + sig.FileName + ":" + strconv.Itoa(sig.Row) + "-" + strconv.Itoa(endRow))
 			fmt.Println("- document: " + sig.Document)
 
 			points := base.MethodCallPoint[sig.Frame+sig.Class+sig.Method]
@@ -245,7 +246,8 @@ func printLlmNavDetail(target string) {
 		}
 
 		fmt.Println("## " + sig.GetPrintDetail())
-		fmt.Println("- file: " + sig.FileName + ":" + strconv.Itoa(sig.Row))
+		endRow := findEndRow(sig.Frame, sig.Class, sig.Method)
+		fmt.Println("- file: " + sig.FileName + ":" + strconv.Itoa(sig.Row) + "-" + strconv.Itoa(endRow))
 		fmt.Println("- document: " + sig.Document)
 
 		points := base.MethodCallPoint[sig.Frame+sig.Class+sig.Method]
@@ -304,10 +306,21 @@ func findDefinePoint(frame, class, method string) (string, bool) {
 		if article.Ctx.GetFrame() == frame &&
 			article.Ctx.GetClass() == class &&
 			article.Ctx.GetMethod() == method {
-			return article.P.FileName + ":" + strconv.Itoa(article.DefineRow), true
+			return article.P.FileName + ":" + strconv.Itoa(article.DefineRow) + "-" + strconv.Itoa(article.EndRow), true
 		}
 	}
 	return "", false
+}
+
+func findEndRow(frame, class, method string) int {
+	for _, article := range eval.DefineInfoArticles {
+		if article.Ctx.GetFrame() == frame &&
+			article.Ctx.GetClass() == class &&
+			article.Ctx.GetMethod() == method {
+			return article.EndRow
+		}
+	}
+	return 0
 }
 
 func readLineFromFile(fileName string, row int) string {
