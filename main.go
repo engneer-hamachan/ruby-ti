@@ -146,7 +146,7 @@ func evaluationLoop(
 		cmd.PrintDefineInfosForPlugin(p.DefineInfos)
 	}
 
-	if len(p.DefineInfos) > 0 && flags.IsLlmInfo {
+	if len(p.DefineInfos) > 0 && flags.IsLlmNavAll {
 		fmt.Println("# Method Signatures")
 		cmd.PrintDefineInfosForLlm()
 		fmt.Println("---")

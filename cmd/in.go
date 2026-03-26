@@ -44,8 +44,8 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsHelp = true
 	}
 
-	if hasFlag("--llm") {
-		flags.IsLlmInfo = true
+	if hasFlag("--llm-nav") && hasFlag("--all") {
+		flags.IsLlmNavAll = true
 	}
 
 	if hasFlag("--llm-error") {
@@ -60,7 +60,7 @@ func BuildFlags() *ExecuteFlags {
 		flags.IsLlmClass = true
 	}
 
-	if hasFlag("--llm-nav") {
+	if hasFlag("--llm-nav") && !hasFlag("--all") {
 		flags.IsLlmNav = true
 	}
 

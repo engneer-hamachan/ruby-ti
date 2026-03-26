@@ -9,7 +9,7 @@ type ExecuteFlags struct {
 	IsHover         bool
 	IsVersion       bool
 	IsHelp          bool
-	IsLlmInfo       bool
+	IsLlmNavAll     bool
 	IsLlmError      bool
 	IsLlmDefine     bool
 	IsLlmClass      bool
