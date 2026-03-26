@@ -150,7 +150,7 @@ func evaluationLoop(
 		fmt.Println("# Method Signatures")
 		cmd.PrintDefineInfosForLlm()
 		fmt.Println("---")
-		fmt.Println("# Special Code Comments")
+		fmt.Println("# Top Level Special Code Comments")
 		cmd.PrintSpecialCodeCommentsForLlm()
 		return
 	}
@@ -167,7 +167,7 @@ func evaluationLoop(
 		hasTarget := cmd.PrintLlmNav()
 		if !hasTarget {
 			fmt.Println("---")
-			fmt.Println("# Special Code Comments")
+			fmt.Println("# Top Level Special Code Comments")
 			cmd.PrintSpecialCodeCommentsForLlm()
 		}
 	}

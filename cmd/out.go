@@ -95,6 +95,8 @@ func PrintDefineInfosForLlm() {
 
 			fmt.Printf("  - total callees: %d\n", printedCallees)
 
+			printSpecialComments(sig.FileName, sig.Row, endRow)
+
 			fmt.Println()
 		}
 	}
@@ -102,6 +104,9 @@ func PrintDefineInfosForLlm() {
 
 func PrintSpecialCodeCommentsForLlm() {
 	for _, sig := range base.SpecialCodeComments {
+		if isCommentInAnyFunction(sig) {
+			continue
+		}
 		fmt.Println("## " + sig.FileName + ":" + strconv.Itoa(sig.Row))
 		fmt.Println("- comment: " + sig.Document)
 
@@ -297,6 +302,8 @@ func printLlmNavDetail(target string) {
 		}
 		fmt.Printf("  - total callees: %d\n", printedCallees)
 
+		printSpecialComments(sig.FileName, sig.Row, endRow)
+
 		fmt.Println()
 	}
 }
@@ -321,6 +328,50 @@ func findEndRow(frame, class, method string) int {
 		}
 	}
 	return 0
+}
+
+func findSpecialComments(fileName string, startRow, endRow int) []base.SpecialCodeComment {
+	if endRow == 0 {
+		return nil
+	}
+	var result []base.SpecialCodeComment
+	for _, c := range base.SpecialCodeComments {
+		if c.FileName == fileName && c.Row >= startRow && c.Row <= endRow {
+			result = append(result, c)
+		}
+	}
+	return result
+}
+
+func printSpecialComments(fileName string, startRow, endRow int) {
+	comments := findSpecialComments(fileName, startRow, endRow)
+	if len(comments) == 0 {
+		return
+	}
+	fmt.Println("### special comments")
+	for _, c := range comments {
+		fmt.Println("#### " + c.FileName + ":" + strconv.Itoa(c.Row))
+		fmt.Println("- comment: " + c.Document)
+		line := readLineFromFile(c.FileName, c.Row)
+		if line != "" {
+			fmt.Println("```")
+			fmt.Println(line)
+			fmt.Println("```")
+		}
+		fmt.Println()
+	}
+}
+
+func isCommentInAnyFunction(c base.SpecialCodeComment) bool {
+	for _, article := range eval.DefineInfoArticles {
+		if article.EndRow == 0 {
+			continue
+		}
+		if article.P.FileName == c.FileName && c.Row >= article.DefineRow && c.Row <= article.EndRow {
+			return true
+		}
+	}
+	return false
 }
 
 func readLineFromFile(fileName string, row int) string {
