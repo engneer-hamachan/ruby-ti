@@ -332,6 +332,24 @@ func isBlockParentheses(
 		!lastCallT.IsOperatorPower()
 }
 
+func getEvaluatedArgsWithBlock(
+	m *MethodEvaluator,
+	methodT *base.T,
+) (argTs []*base.T, err error) {
+
+	m.parser.EndParsingExpression()
+
+	m.ctx.StartCallArg()
+	defer m.ctx.EndCallArg()
+
+	argTs, err = collectArgs(m, methodT)
+	if err != nil {
+		return argTs, err
+	}
+
+	return expectBlockArgProcess(m, methodT, argTs)
+}
+
 func getEvaluatedArgs(
 	m *MethodEvaluator,
 	methodT *base.T,
@@ -342,13 +360,21 @@ func getEvaluatedArgs(
 	m.ctx.StartCallArg()
 	defer m.ctx.EndCallArg()
 
+	return collectArgs(m, methodT)
+}
+
+func collectArgs(
+	m *MethodEvaluator,
+	methodT *base.T,
+) (argTs []*base.T, err error) {
+
 	m.isParentheses, err = checkParentheses(m)
 	if err != nil {
 		return argTs, err
 	}
 
 	if methodT.IsEmptyDefineArgs() && !m.isParentheses {
-		return expectBlockArgProcess(m, methodT, argTs)
+		return argTs, nil
 	}
 
 	for {
@@ -407,7 +433,7 @@ func getEvaluatedArgs(
 		}
 	}
 
-	return expectBlockArgProcess(m, methodT, argTs)
+	return argTs, nil
 }
 
 func sortTsByKey(tList []*base.T) []*base.T {

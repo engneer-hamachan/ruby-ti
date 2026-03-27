@@ -224,7 +224,7 @@ func (o *objectClassStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("", "class", "instance")
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -249,7 +249,7 @@ func (o *objectRaiseStrategy) evaluate(m *MethodEvaluator) error {
 		return m.makeNotDefinedMethodError("", "raise", "instance")
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}

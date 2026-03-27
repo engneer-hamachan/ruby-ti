@@ -26,7 +26,7 @@ func (h *hashMergeStrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -59,7 +59,7 @@ func (h *hashDestructionMergeStrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -92,7 +92,7 @@ func (h *hashShiftStrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}

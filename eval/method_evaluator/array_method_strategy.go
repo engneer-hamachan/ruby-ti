@@ -29,7 +29,7 @@ func (a *arrayAppendStrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -73,7 +73,7 @@ func (c *concatArraystrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -109,7 +109,7 @@ func (u *unshiftArraystrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -138,7 +138,7 @@ func (r *replaceArraystrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -238,7 +238,7 @@ func (a *addArrayStrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}

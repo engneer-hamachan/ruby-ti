@@ -17,7 +17,7 @@ func (u *unionInstanceStrategy) evaluate(m *MethodEvaluator) error {
 		return nil
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodTs[0])
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodTs[0])
 	if err != nil {
 		return err
 	}

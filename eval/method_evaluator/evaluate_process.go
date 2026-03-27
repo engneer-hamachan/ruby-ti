@@ -212,7 +212,7 @@ func evaluateNoUnionInstanceMethod(
 	methodT *base.T,
 ) error {
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}

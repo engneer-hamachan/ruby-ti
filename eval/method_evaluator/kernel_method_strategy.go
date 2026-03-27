@@ -23,7 +23,7 @@ func (k *kernelYieldStrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func (k *kernelPrintStrategy) evaluate(m *MethodEvaluator) error {
 		base.GlobT = *methodT
 	}
 
-	evaluatedArgs, err := getEvaluatedArgs(m, methodT)
+	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
 	if err != nil {
 		return err
 	}
