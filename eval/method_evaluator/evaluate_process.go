@@ -227,6 +227,10 @@ func evaluateNoUnionInstanceMethod(
 					break
 				}
 			}
+
+			if err != nil {
+				return err
+			}
 		}
 
 		if err != nil {

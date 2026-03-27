@@ -41,7 +41,12 @@
       "arguments": [
         {
           "type": [
-            "String"
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
           ]
         },
         {

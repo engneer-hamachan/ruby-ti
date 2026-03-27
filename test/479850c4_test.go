@@ -12,7 +12,7 @@ func Test479850c4(t *testing.T) {
 
 	output, _ := cmd.CombinedOutput()
 
-	expectedOutput := "./479850c4.rb:::1:::type mismatch: expected String, but got Integer for Test.test"
+	expectedOutput := "./479850c4.rb:::1:::too few arguments for Builtin::Test::test expected (Integer, Integer, String)"
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))
