@@ -72,6 +72,11 @@ func (d *defineBuiltinMethod) defineBuiltinInstanceMethod(
 	methodT.DefinedClass = d.targetClass
 	methodT.IsStatic = false
 
+	if existingT := base.GetMethodT(frame, d.targetClass, method, false); existingT != nil {
+		existingT.Overloads = append(existingT.Overloads, *methodT)
+		return
+	}
+
 	base.SetMethodT(frame, d.targetClass, methodT, false, "unknown", 0)
 }
 
@@ -92,6 +97,11 @@ func (d *defineBuiltinMethod) defineBuiltinStaticMethod(
 	methodT.SetBeforeEvaluateCode(
 		base.CalculateFrame(frame, d.targetClass) + "::" + method,
 	)
+
+	if existingT := base.GetClassMethodT(frame, d.targetClass, method, false); existingT != nil {
+		existingT.Overloads = append(existingT.Overloads, *methodT)
+		return
+	}
 
 	base.SetClassMethodT(frame, d.targetClass, methodT, false, "unknown", 0)
 }

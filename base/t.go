@@ -31,6 +31,7 @@ type T struct {
 	IsExtend            bool
 	IsInclude           bool
 	Round               string
+	Overloads           []T
 }
 
 func (t *T) DeepCopy() *T {
