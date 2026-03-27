@@ -219,7 +219,19 @@ func evaluateNoUnionInstanceMethod(
 
 	err = checkAndPropagateArgs(m, class, methodT, evaluatedArgs)
 	if err != nil {
-		return err
+		if methodT.HasOverloads() {
+			for _, overloadT := range methodT.Overloads {
+				err = checkAndPropagateArgs(m, class, &overloadT, evaluatedArgs)
+				if err == nil {
+					methodT = &overloadT
+					break
+				}
+			}
+		}
+
+		if err != nil {
+			return err
+		}
 	}
 
 	if methodT.IsConditionalReturn {

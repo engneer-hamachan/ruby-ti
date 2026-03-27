@@ -37,6 +37,26 @@
       }
     },
     {
+      "name": "test",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      }
+    },
+    {
       "name": "any",
       "arguments": [],
       "return_type": {

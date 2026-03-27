@@ -584,3 +584,7 @@ func (t *T) IsBuiltinMethod() bool {
 
 	return t.GetFrame() == "Builtin"
 }
+
+func (t *T) HasOverloads() bool {
+	return len(t.Overloads) > 0
+}
