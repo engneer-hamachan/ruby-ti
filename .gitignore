@@ -6,3 +6,4 @@ CLAUDE.md
 .ti-config/*
 parser.md
 .go-nav.settings.json
+sig/*
