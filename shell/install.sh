@@ -26,3 +26,4 @@ cp test/.ti-config/true.json .ti-config/true.json
 cp test/.ti-config/false.json .ti-config/false.json
 
 go build -o ./bin/ti-c2json ./cmd/c2json/main.go
+go build -o ./bin/rbs2json ./cmd/rbs2json/main.go

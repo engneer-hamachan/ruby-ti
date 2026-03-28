@@ -57,13 +57,27 @@ type ConstDefinition struct {
 	ReturnType MethodReturn `json:"return_type"`
 }
 
+type PropertyDefinition struct {
+	Name   string   `json:"name"`
+	Type   TypeSpec `json:"type"`
+	Access string   `json:"access"`
+}
+
+type InstanceVarDefinition struct {
+	Name string   `json:"name"`
+	Type TypeSpec `json:"type"`
+}
+
 type ClassDefinition struct {
-	Frame           string             `json:"frame"`
-	Class           string             `json:"class"`
-	InstanceMethods []MethodDefinition `json:"instance_methods"`
-	ClassMethods    []MethodDefinition `json:"class_methods"`
-	Constants       []ConstDefinition  `json:"constants"`
-	Extends         []string           `json:"extends"`
+	Frame              string                `json:"frame"`
+	Class              string                `json:"class"`
+	Type               string                `json:"type,omitempty"`
+	InstanceMethods    []MethodDefinition    `json:"instance_methods"`
+	ClassMethods       []MethodDefinition    `json:"class_methods"`
+	Constants          []ConstDefinition     `json:"constants"`
+	Extends            []string              `json:"extends"`
+	InstanceProperties []PropertyDefinition  `json:"instance_properties"`
+	InstanceVariables  []InstanceVarDefinition `json:"instance_variables"`
 }
 
 func parseReturnType(returnType MethodReturn) base.T {
@@ -338,6 +352,34 @@ func loadBuiltinFromJSON() error {
 				classDef.Class,
 				constant.Name,
 				returnType,
+			)
+		}
+
+		for _, prop := range classDef.InstanceProperties {
+			propType := parseReturnType(MethodReturn{Type: prop.Type})
+			propT := &propType
+
+			if prop.Access == "reader" {
+				propT.EnableReadOnly()
+			}
+
+			base.SetInstanceValueT(
+				classDef.Frame,
+				classDef.Class,
+				prop.Name,
+				propT,
+			)
+		}
+
+		for _, ivar := range classDef.InstanceVariables {
+			ivarType := parseReturnType(MethodReturn{Type: ivar.Type})
+			ivarT := &ivarType
+
+			base.SetInstanceValueT(
+				classDef.Frame,
+				classDef.Class,
+				ivar.Name,
+				ivarT,
 			)
 		}
 
