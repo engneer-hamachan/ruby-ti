@@ -350,19 +350,6 @@ func getEvaluatedArgsWithBlock(
 	return expectBlockArgProcess(m, methodT, argTs)
 }
 
-func getEvaluatedArgs(
-	m *MethodEvaluator,
-	methodT *base.T,
-) (argTs []*base.T, err error) {
-
-	m.parser.EndParsingExpression()
-
-	m.ctx.StartCallArg()
-	defer m.ctx.EndCallArg()
-
-	return collectArgs(m, methodT)
-}
-
 func collectArgs(
 	m *MethodEvaluator,
 	methodT *base.T,

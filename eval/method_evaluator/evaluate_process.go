@@ -212,10 +212,14 @@ func evaluateNoUnionInstanceMethod(
 	methodT *base.T,
 ) error {
 
-	evaluatedArgs, err := getEvaluatedArgsWithBlock(m, methodT)
+	m.parser.EndParsingExpression()
+
+	m.ctx.StartCallArg()
+	evaluatedArgs, err := collectArgs(m, methodT)
 	if err != nil {
 		return err
 	}
+	m.ctx.EndCallArg()
 
 	err = checkAndPropagateArgs(m, class, methodT, evaluatedArgs)
 	if err != nil {
@@ -236,6 +240,13 @@ func evaluateNoUnionInstanceMethod(
 		if err != nil {
 			return err
 		}
+	}
+
+	m.ctx.StartCallArg()
+	_, err = expectBlockArgProcess(m, methodT, evaluatedArgs)
+	m.ctx.EndCallArg()
+	if err != nil {
+		return err
 	}
 
 	if methodT.IsConditionalReturn {
