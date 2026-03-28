@@ -193,8 +193,28 @@ func convertType(t RBSType, aliases typeAliasMap, className string) []string {
 	case "tuple":
 		return []string{"Array"}
 	case "alias":
-		if t.Name == "boolish" {
+		// RBS built-in type aliases
+		switch t.Name {
+		case "int":
+			return []string{"Int"}
+		case "float":
+			return []string{"Float"}
+		case "string", "path", "encoding":
+			return []string{"String"}
+		case "boolish", "bool":
 			return []string{"Bool"}
+		case "real":
+			return []string{"Float", "Int"}
+		case "interned":
+			return []string{"Symbol", "String"}
+		case "io":
+			return []string{"Untyped"}
+		case "range":
+			return []string{"Range"}
+		case "array":
+			return []string{"Array"}
+		case "hash":
+			return []string{"Hash"}
 		}
 		if resolved, ok := aliases[t.Name]; ok {
 			return convertType(resolved, aliases, className)
@@ -304,6 +324,8 @@ func toDefaultType(typeName string) string {
 		return "DefaultString"
 	case "Untyped":
 		return "DefaultUntyped"
+	case "NilClass":
+		return "DefaultNilClass"
 	default:
 		return "?" + typeName
 	}
