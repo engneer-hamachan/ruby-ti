@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -10,6 +11,9 @@ import (
 	"strings"
 	"unicode"
 )
+
+//go:embed rbs_ast.rb
+var rbsAstScript string
 
 // --- RBS AST structures ---
 
@@ -576,15 +580,7 @@ func main() {
 
 	inputFile := flag.Arg(0)
 
-	exePath, err := os.Executable()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		os.Exit(1)
-	}
-	exeDir := filepath.Dir(exePath)
-	rbsScript := filepath.Join(exeDir, "..", "cmd", "rbs2json", "rbs_ast.rb")
-
-	astJSON, err := execRubyScript(rbsScript, inputFile)
+	astJSON, err := execRubyScript(inputFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
@@ -604,8 +600,20 @@ func main() {
 	}
 }
 
-func execRubyScript(scriptPath string, inputFile string) ([]byte, error) {
-	cmd := exec.Command("ruby", scriptPath, inputFile)
+func execRubyScript(inputFile string) ([]byte, error) {
+	tmpFile, err := os.CreateTemp("", "rbs_ast_*.rb")
+	if err != nil {
+		return nil, err
+	}
+	defer os.Remove(tmpFile.Name())
+
+	if _, err := tmpFile.WriteString(rbsAstScript); err != nil {
+		tmpFile.Close()
+		return nil, err
+	}
+	tmpFile.Close()
+
+	cmd := exec.Command("ruby", tmpFile.Name(), inputFile)
 	cmd.Stderr = os.Stderr
 	return cmd.Output()
 }
