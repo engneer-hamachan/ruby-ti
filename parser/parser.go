@@ -19,6 +19,7 @@ type Parser struct {
 	CurrentT            base.T
 	LastCallT           *base.T
 	lastCallFrame       [3]string
+	lastResolvedMethodT *base.T
 	isParsingExpression bool
 	lastReturnT         []base.T
 	tmpBlockParamaters  []base.T
@@ -152,6 +153,14 @@ func (p *Parser) SetLastCallFrameDetails(frame, class, method string) {
 
 func (p *Parser) GetLastCallFrameDetails() (string, string, string) {
 	return p.lastCallFrame[0], p.lastCallFrame[1], p.lastCallFrame[2]
+}
+
+func (p *Parser) SetLastResolvedMethodT(t *base.T) {
+	p.lastResolvedMethodT = t
+}
+
+func (p *Parser) GetLastResolvedMethodT() *base.T {
+	return p.lastResolvedMethodT
 }
 
 func (p *Parser) SetTmpEvaluaetdArgs(args []*base.T) {

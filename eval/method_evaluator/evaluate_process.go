@@ -221,8 +221,19 @@ func evaluateNoUnionInstanceMethod(
 	}
 	m.ctx.EndCallArg()
 
-	err = checkAndPropagateArgs(m, class, methodT, evaluatedArgs)
+	nextT, err := m.parser.Read()
 	if err != nil {
+		return err
+	}
+
+	m.parser.Unget()
+	var isBlock bool
+	if nextT.IsTargetIdentifier("do") || nextT.IsTargetIdentifier("{") {
+		isBlock = true
+	}
+
+	err = checkAndPropagateArgs(m, class, methodT, evaluatedArgs)
+	if err != nil || (methodT.IsBlockGiven != isBlock) {
 		if methodT.HasOverloads() {
 			for _, overloadT := range methodT.Overloads {
 				err = checkAndPropagateArgs(m, class, &overloadT, evaluatedArgs)
@@ -241,6 +252,8 @@ func evaluateNoUnionInstanceMethod(
 			return err
 		}
 	}
+
+	m.parser.SetLastResolvedMethodT(methodT)
 
 	m.ctx.StartCallArg()
 	_, err = expectBlockArgProcess(m, methodT, evaluatedArgs)

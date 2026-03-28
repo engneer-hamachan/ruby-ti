@@ -64,6 +64,7 @@ func NewMethodEvaluator(
 		evaluatedObjectT.GetObjectClass(),
 		methodIdentifierT.ToString(),
 	)
+	p.SetLastResolvedMethodT(nil)
 
 	if ctx.IsCheckRound() {
 		key := evaluatedObjectT.GetFrame() + evaluatedObjectT.GetObjectClass() + methodIdentifierT.ToString()

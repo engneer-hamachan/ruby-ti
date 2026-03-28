@@ -62,6 +62,27 @@
       }
     },
     {
+      "name": "test",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "block_parameters": ["Int"],
+      "return_type": {
+        "type": [
+          "Array"
+        ]
+      }
+    },
+    {
       "name": "any",
       "arguments": [],
       "return_type": {

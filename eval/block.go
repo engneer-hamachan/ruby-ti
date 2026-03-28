@@ -235,12 +235,17 @@ func (d *Do) setBlockParameters(
 ) {
 
 	lastEvaluatedT := p.GetLastEvaluatedT()
-	frame, class, method := p.GetLastCallFrameDetails()
 
-	methodT := base.GetMethodT(frame, class, method, false)
+	methodT := p.GetLastResolvedMethodT()
 
 	if methodT == nil {
-		methodT = base.GetClassMethodT(frame, class, method, false)
+		frame, class, method := p.GetLastCallFrameDetails()
+
+		methodT = base.GetMethodT(frame, class, method, false)
+
+		if methodT == nil {
+			methodT = base.GetClassMethodT(frame, class, method, false)
+		}
 	}
 
 	if methodT != nil {
