@@ -72,8 +72,25 @@ func (d *defineBuiltinMethod) defineBuiltinInstanceMethod(
 	methodT.DefinedClass = d.targetClass
 	methodT.IsStatic = false
 
-	if existingT := base.GetMethodT(frame, d.targetClass, method, false); existingT != nil {
+	existingT := base.GetMethodT(frame, d.targetClass, method, false)
+
+	if existingT != nil {
 		existingT.Overloads = append(existingT.Overloads, *methodT)
+
+		base.TSignatureArticles =
+			append(
+				base.TSignatureArticles,
+				base.TSignatureArticle{
+					Frame:     frame,
+					Class:     d.targetClass,
+					MethodT:   *methodT,
+					IsStatic:  false,
+					IsPrivate: false,
+					FileName:  "unknown",
+					Row:       0,
+				},
+			)
+
 		return
 	}
 
@@ -98,8 +115,25 @@ func (d *defineBuiltinMethod) defineBuiltinStaticMethod(
 		base.CalculateFrame(frame, d.targetClass) + "::" + method,
 	)
 
-	if existingT := base.GetClassMethodT(frame, d.targetClass, method, false); existingT != nil {
+	existingT := base.GetClassMethodT(frame, d.targetClass, method, false)
+
+	if existingT != nil {
 		existingT.Overloads = append(existingT.Overloads, *methodT)
+
+		base.TSignatureArticles =
+			append(
+				base.TSignatureArticles,
+				base.TSignatureArticle{
+					Frame:     frame,
+					Class:     d.targetClass,
+					MethodT:   *methodT,
+					IsStatic:  true,
+					IsPrivate: false,
+					FileName:  "unknown",
+					Row:       0,
+				},
+			)
+
 		return
 	}
 

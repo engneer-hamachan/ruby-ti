@@ -86,16 +86,21 @@ func appendSignature() {
 
 		sig :=
 			base.Sig{
-				methodT.GetMethodName(),
-				content,
-				frame,
-				class,
-				isStatic,
-				isPrivate,
-				fileName,
-				row,
-				document,
+				Method:    methodT.GetMethodName(),
+				Detail:    content,
+				Frame:     frame,
+				Class:     class,
+				IsStatic:  isStatic,
+				IsPrivate: isPrivate,
+				FileName:  fileName,
+				Row:       row,
+				Document:  document,
 			}
+
+		_, ok := base.TSignatures[key]
+		if ok && frame == "Builtin" {
+			key = fmt.Sprintf("%s__overload_%s", key, content)
+		}
 
 		base.TSignatures[key] = sig
 	}
