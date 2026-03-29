@@ -1,8 +1,0 @@
-bash ./shell/test.sh
---- FAIL: TestF23ee39b (0.03s)
-    f23ee39b_test.go:18: Expected output: ./f23ee39b.rb:::4:::type mismatch: expected Union<Integer Float>, but got NilClass for Integer.+
-        ./f23ee39b.rb:::7:::q is not defined expected (Integer, unknown, a: Integer, b: Integer, c: optional NilClass), but got: ./f23ee39b.rb:::4:::type mismatch: expected Union<Integer Float>, but got NilClass for Integer.+
-        ./f23ee39b.rb:::7:::q is not defined expected (Integer, unknown, a: Integer, b: Integer, c: default NilClass)
-FAIL
-FAIL	ti/test	5.271s
-FAIL

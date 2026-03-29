@@ -101,6 +101,7 @@ type TiArgument struct {
 	Type       []string `json:"type,omitempty"`
 	Key        string   `json:"key,omitempty"`
 	IsAsterisk bool     `json:"is_asterisk,omitempty"`
+	IsDefault  bool     `json:"is_default,omitempty"`
 }
 
 type TiReturnType struct {
@@ -312,25 +313,6 @@ func containsType(types []string, target string) bool {
 	return false
 }
 
-func toDefaultType(typeName string) string {
-	switch typeName {
-	case "Bool":
-		return "DefaultBool"
-	case "Int":
-		return "DefaultInt"
-	case "Float":
-		return "DefaultFloat"
-	case "String":
-		return "DefaultString"
-	case "Untyped":
-		return "DefaultUntyped"
-	case "NilClass":
-		return "DefaultNilClass"
-	default:
-		return "?" + typeName
-	}
-}
-
 // --- declaration conversion ---
 
 func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassConfig {
@@ -500,11 +482,7 @@ func convertArguments(funcType RBSFuncType, aliases typeAliasMap, className stri
 	for _, param := range funcType.OptionalPositionals {
 		if param.Type != nil {
 			types := convertType(*param.Type, aliases, className)
-			defaultTypes := make([]string, len(types))
-			for i, t := range types {
-				defaultTypes[i] = toDefaultType(t)
-			}
-			args = append(args, TiArgument{Type: defaultTypes})
+			args = append(args, TiArgument{Type: types, IsDefault: true})
 		}
 	}
 
@@ -532,13 +510,10 @@ func convertArguments(funcType RBSFuncType, aliases typeAliasMap, className stri
 	for name, kw := range funcType.OptionalKeywords {
 		if kw.Type != nil {
 			types := convertType(*kw.Type, aliases, className)
-			defaultTypes := make([]string, len(types))
-			for i, t := range types {
-				defaultTypes[i] = toDefaultType(t)
-			}
 			args = append(args, TiArgument{
-				Type: defaultTypes,
-				Key:  name + ":",
+				Type:      types,
+				Key:       name + ":",
+				IsDefault: true,
 			})
 		}
 	}
