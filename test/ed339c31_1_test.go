@@ -117,7 +117,7 @@ func TestEd339c31_1(t *testing.T) {
 @./ed339c31_1.rb:::411:::bind: untyped
 @./ed339c31_1.rb:::40:::() -> NilClass [i/public]
 @./ed339c31_1.rb:::44:::(Integer, Integer, Integer) -> Integer [i/public]
-@./ed339c31_1.rb:::48:::(Integer, optional Integer, optional Integer) -> Integer [i/public]
+@./ed339c31_1.rb:::48:::(Integer, default Integer, default Integer) -> Integer [i/public]
 @./ed339c31_1.rb:::52:::(untyped) -> Array<Integer> [i/public]
 @./ed339c31_1.rb:::56:::() <block_params: NilClass> -> Union<NilClass untyped> [i/public]
 @./ed339c31_1.rb:::64:::(String) -> BasicClass [c/public]

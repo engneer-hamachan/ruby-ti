@@ -13,7 +13,7 @@ func TestCa3d163b(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 	expectedOutput := `%!=:::!=(untyped) -> Bool:::Perform inequality comparison
-%->:::Kernel.->(optional untyped) <block_params: untyped> -> Proc:::
+%->:::Kernel.->(default untyped) <block_params: untyped> -> Proc:::
 %<:::Hash.<(Hash) -> Bool:::
 %<=:::Hash.<=(Hash) -> Bool:::
 %<=>:::<=>(untyped) -> Union<Integer NilClass>:::Comparison operator
@@ -35,7 +35,7 @@ func TestCa3d163b(t *testing.T) {
 %each:::Hash.each() <block_params: untyped, Unify> -> Self:::Execute block for each key and value
 %each_with_index:::Enumerable.each_with_index() <block_params: Unify, Integer> -> Self:::Execute block for each element and index
 %empty?:::Hash.empty?() -> Bool:::Check if hash is empty
-%exit:::exit(optional Integer) -> NilClass:::
+%exit:::exit(default Integer) -> NilClass:::
 %extend:::extend(untyped) -> NilClass:::
 %has_key?:::Hash.has_key?(Union<String Symbol>) -> Bool:::Check if specified key exists
 %has_value?:::Hash.has_value?(untyped) -> Bool:::Check if specified value exists
@@ -53,12 +53,12 @@ func TestCa3d163b(t *testing.T) {
 %methods:::methods() -> Array<Symbol>:::get object method list
 %nil?:::nil?() -> Bool:::Check if nil
 %p:::Kernel.p(untyped) -> SelfArgument:::Inspect and output object
-%print:::Kernel.print(optional untyped) -> NilClass:::Output object
-%private:::private(optional untyped) -> NilClass:::
+%print:::Kernel.print(default untyped) -> NilClass:::Output object
+%private:::private(default untyped) -> NilClass:::
 %proc:::Kernel.proc() <block_params: untyped> -> Proc:::Create Proc object
-%public:::public(optional untyped) -> NilClass:::
+%public:::public(default untyped) -> NilClass:::
 %puts:::Kernel.puts(untyped) -> NilClass:::Output object with newline
-%raise:::raise(optional untyped, optional String) -> Bot:::
+%raise:::raise(default untyped, default String) -> Bot:::
 %relinquish:::relinquish() -> Bool:::
 %shift:::Hash.shift() -> Array<untyped>:::Remove and return first key-value pair
 %sleep:::sleep(Union<Integer Float>) -> Integer:::

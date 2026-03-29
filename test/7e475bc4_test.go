@@ -13,7 +13,7 @@ func Test7e475bc4(t *testing.T) {
 	output, _ := cmd.CombinedOutput()
 
 	expectedOutput := `%!=:::!=(untyped) -> Bool:::Perform inequality comparison
-%->:::Kernel.->(optional untyped) <block_params: untyped> -> Proc:::
+%->:::Kernel.->(default untyped) <block_params: untyped> -> Proc:::
 %<=>:::<=>(untyped) -> Union<Integer NilClass>:::Comparison operator
 %==:::==(untyped) -> Bool:::Perform equality comparison
 %===:::===(untyped) -> Bool:::Judge case equality
@@ -22,7 +22,7 @@ func Test7e475bc4(t *testing.T) {
 %block_given?:::block_given?() -> Bool:::
 %class:::class() -> String:::Return object class
 %dup:::dup() -> Self:::Duplicate object
-%exit:::exit(optional Integer) -> NilClass:::
+%exit:::exit(default Integer) -> NilClass:::
 %extend:::extend(untyped) -> NilClass:::
 %hoge:::User.hoge() -> Integer:::
 %include:::include(untyped) -> NilClass:::
@@ -33,12 +33,12 @@ func Test7e475bc4(t *testing.T) {
 %methods:::methods() -> Array<Symbol>:::get object method list
 %nil?:::nil?() -> Bool:::Check if nil
 %p:::Kernel.p(untyped) -> SelfArgument:::Inspect and output object
-%print:::Kernel.print(optional untyped) -> NilClass:::Output object
-%private:::private(optional untyped) -> NilClass:::
+%print:::Kernel.print(default untyped) -> NilClass:::Output object
+%private:::private(default untyped) -> NilClass:::
 %proc:::Kernel.proc() <block_params: untyped> -> Proc:::Create Proc object
-%public:::public(optional untyped) -> NilClass:::
+%public:::public(default untyped) -> NilClass:::
 %puts:::Kernel.puts(untyped) -> NilClass:::Output object with newline
-%raise:::raise(optional untyped, optional String) -> Bot:::
+%raise:::raise(default untyped, default String) -> Bot:::
 %relinquish:::relinquish() -> Bool:::
 %sleep:::sleep(Union<Integer Float>) -> Integer:::
 %sleep_ms:::sleep_ms(Integer) -> Integer:::

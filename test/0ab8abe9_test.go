@@ -16,7 +16,7 @@ func Test0ab8abe9(t *testing.T) {
 %!=:::!=(untyped) -> Bool:::Perform inequality comparison
 %*:::String.*(Integer) -> String:::Repeat string specified number of times
 %+:::String.+(String) -> String:::Concatenate strings
-%->:::Kernel.->(optional untyped) <block_params: untyped> -> Proc:::
+%->:::Kernel.->(default untyped) <block_params: untyped> -> Proc:::
 %<:::String.<(String) -> Bool:::Check if lexicographically smaller
 %<<:::String.<<(Union<String Integer>) -> String:::Append string or character code
 %<=:::String.<=(String) -> Bool:::Check if lexicographically less than or equal
@@ -36,19 +36,19 @@ func Test0ab8abe9(t *testing.T) {
 %block_given?:::block_given?() -> Bool:::
 %bytes:::String.bytes() -> Array<Integer>:::Return byte sequence of string as array
 %chars:::String.chars() -> Array<String>:::Return characters of string as array
-%chomp:::String.chomp(optional String) -> String:::Return string with trailing newline removed
-%chomp!:::String.chomp!(optional String) -> Union<String NilClass>:::Remove trailing newline destructively
+%chomp:::String.chomp(default String) -> String:::Return string with trailing newline removed
+%chomp!:::String.chomp!(default String) -> Union<String NilClass>:::Remove trailing newline destructively
 %class:::class() -> String:::Return object class
 %clear:::String.clear() -> String:::Clear string contents
-%downcase:::String.downcase(optional untyped, optional untyped) -> String:::Return string converted to lowercase
-%downcase!:::String.downcase!(optional untyped, optional untyped) -> Union<String NilClass>:::Convert to lowercase destructively
+%downcase:::String.downcase(default untyped, default untyped) -> String:::Return string converted to lowercase
+%downcase!:::String.downcase!(default untyped, default untyped) -> Union<String NilClass>:::Convert to lowercase destructively
 %dup:::dup() -> Self:::Duplicate object
 %each_byte:::String.each_byte() <block_params: Integer> -> Self:::Execute block for each byte
 %each_char:::String.each_char() <block_params: String> -> Self:::Execute block for each character
 %each_line:::String.each_line() <block_params: String> -> String:::Execute block for each line
 %empty?:::String.empty?() -> Bool:::Check if string is empty
 %end_with?:::String.end_with?(untyped) -> String:::Check if ends with specified string
-%exit:::exit(optional Integer) -> NilClass:::
+%exit:::exit(default Integer) -> NilClass:::
 %extend:::extend(untyped) -> NilClass:::
 %getbyte:::String.getbyte(Integer) -> Union<Integer NilClass>:::Get byte value at specified position
 %include:::include(untyped) -> NilClass:::
@@ -60,7 +60,7 @@ func Test0ab8abe9(t *testing.T) {
 %is_a?:::is_a?(untyped) -> Bool:::Check if instance of specified class or module
 %lambda:::Kernel.lambda() <block_params: untyped> -> Proc:::Create lambda expression
 %length:::String.length() -> Integer:::Return string length
-%ljust:::String.ljust(Integer, optional String) -> String:::Return string left-justified to specified width
+%ljust:::String.ljust(Integer, default String) -> String:::Return string left-justified to specified width
 %loop:::loop() <block_params: NilClass> -> NilClass:::
 %lstrip:::String.lstrip() -> String:::Return string with leading whitespace removed
 %lstrip!:::String.lstrip!() -> Union<String NilClass>:::Remove leading whitespace destructively
@@ -68,33 +68,33 @@ func Test0ab8abe9(t *testing.T) {
 %nil?:::nil?() -> Bool:::Check if nil
 %ord:::String.ord() -> Integer:::Return character code of first character
 %p:::Kernel.p(untyped) -> SelfArgument:::Inspect and output object
-%print:::Kernel.print(optional untyped) -> NilClass:::Output object
-%private:::private(optional untyped) -> NilClass:::
+%print:::Kernel.print(default untyped) -> NilClass:::Output object
+%private:::private(default untyped) -> NilClass:::
 %proc:::Kernel.proc() <block_params: untyped> -> Proc:::Create Proc object
-%public:::public(optional untyped) -> NilClass:::
+%public:::public(default untyped) -> NilClass:::
 %puts:::Kernel.puts(untyped) -> NilClass:::Output object with newline
-%raise:::raise(optional untyped, optional String) -> Bot:::
+%raise:::raise(default untyped, default String) -> Bot:::
 %relinquish:::relinquish() -> Bool:::
-%rjust:::String.rjust(Integer, optional String) -> String:::Return string right-justified to specified width
+%rjust:::String.rjust(Integer, default String) -> String:::Return string right-justified to specified width
 %rstrip:::String.rstrip() -> String:::Return string with trailing whitespace removed
 %rstrip!:::String.rstrip!() -> Union<String NilClass>:::Remove trailing whitespace destructively
 %sleep:::sleep(Union<Integer Float>) -> Integer:::
 %sleep_ms:::sleep_ms(Integer) -> Integer:::
-%split:::String.split(optional String, optional Integer) -> Array<String>:::Split by delimiter and return array
+%split:::String.split(default String, default Integer) -> Array<String>:::Split by delimiter and return array
 %sprintf:::sprintf(String, untyped) -> String:::
 %start_with?:::String.start_with?(untyped) -> Bool:::Check if starts with specified string
 %strip:::String.strip() -> String:::Return string with leading and trailing whitespace removed
 %strip!:::String.strip!() -> Union<String NilClass>:::Remove leading and trailing whitespace destructively
 %system:::Kernel.system(String) -> Bool:::
 %to_f:::String.to_f() -> Float:::Convert to floating point number
-%to_i:::String.to_i(optional Integer) -> Integer:::Convert to integer
+%to_i:::String.to_i(default Integer) -> Integer:::Convert to integer
 %to_s:::to_s() -> String:::Return string representation
 %to_s:::String.to_s() -> String:::Return self as string
 %to_sym:::String.to_sym() -> Symbol:::Convert to symbol
 %tr:::String.tr(String, String) -> String:::Return string with characters replaced
 %tr!:::String.tr!(String, String) -> Union<String NilClass>:::Replace characters destructively
-%upcase:::String.upcase(optional untyped, optional untyped) -> String:::Return string converted to uppercase
-%upcase!:::String.upcase!(optional untyped, optional untyped) -> Union<String NilClass>:::Convert to uppercase destructively
+%upcase:::String.upcase(default untyped, default untyped) -> String:::Return string converted to uppercase
+%upcase!:::String.upcase!(default untyped, default untyped) -> Union<String NilClass>:::Convert to uppercase destructively
 %yield:::Kernel.yield(untyped) -> SelfArgument:::`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {

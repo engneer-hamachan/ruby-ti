@@ -17,7 +17,7 @@ func Test37517e5f(t *testing.T) {
 %*:::Array.*(Match) => (Integer) -> Self, (String) -> String:::Repeat array specified number of times and return new array
 %+:::Array.+(Array<untyped>) -> Array<untyped>:::Concatenate arrays
 %-:::Array.-(Array<untyped>) -> Self:::Return new array excluding specified elements
-%->:::Kernel.->(optional untyped) <block_params: untyped> -> Proc:::
+%->:::Kernel.->(default untyped) <block_params: untyped> -> Proc:::
 %<=>:::<=>(untyped) -> Union<Integer NilClass>:::Comparison operator
 %<=>:::Array.<=>(untyped) -> Union<Integer NilClass>:::Compare arrays. Returns -1 if self < other, 0 if self == other, 1 if self > other
 %==:::==(untyped) -> Bool:::Perform equality comparison
@@ -34,7 +34,7 @@ func Test37517e5f(t *testing.T) {
 %collect:::Enumerable.collect() <block_params: Item> -> BlockResultArray:::Execute block for each element and return results as array
 %collect!:::Array.collect!() <block_params: Item> -> BlockResultArray:::Execute block for each element and destructively replace
 %concat:::Array.concat(Array<untyped>) -> Array<untyped>:::Concatenate arrays
-%count:::Array.count(optional untyped) <block_params: Unify> -> Integer:::
+%count:::Array.count(default untyped) <block_params: Unify> -> Integer:::
 %delete_at:::Array.delete_at(Integer) -> OptiionalUnify:::Delete element at specified position
 %delete_if:::Array.delete_if() <block_params: Unify> -> Self:::Delete elements for which block returns true
 %dup:::dup() -> Self:::Duplicate object
@@ -42,16 +42,16 @@ func Test37517e5f(t *testing.T) {
 %each_index:::Array.each_index() <block_params: Integer> -> Self:::Execute block for each index
 %each_with_index:::Enumerable.each_with_index() <block_params: Unify, Integer> -> Self:::Execute block for each element and index
 %empty?:::Array.empty?() -> Bool:::Check if array is empty
-%exit:::exit(optional Integer) -> NilClass:::
+%exit:::exit(default Integer) -> NilClass:::
 %extend:::extend(untyped) -> NilClass:::
-%first:::Array.first(optional Integer) -> OptiionalUnify:::Get first element
+%first:::Array.first(default Integer) -> OptiionalUnify:::Get first element
 %flatten:::Array.flatten() -> Self:::Flatten nested array
 %include:::include(untyped) -> NilClass:::
 %include?:::Array.include?(untyped) -> Bool:::Check if element is included
 %inspect:::inspect() -> String:::Return string representation for debugging
 %inspect:::Array.inspect() -> String:::Return string representation for debugging
 %is_a?:::is_a?(untyped) -> Bool:::Check if instance of specified class or module
-%join:::Array.join(optional String) -> String:::Join elements and return string
+%join:::Array.join(default String) -> String:::Join elements and return string
 %lambda:::Kernel.lambda() <block_params: untyped> -> Proc:::Create lambda expression
 %last:::Array.last(Match) => (OptiionalUnify) -> OptiionalUnify, (Self) -> Self:::Get last element
 %length:::Array.length() -> Integer:::Return number of elements in array
@@ -62,13 +62,13 @@ func Test37517e5f(t *testing.T) {
 %nil?:::nil?() -> Bool:::Check if nil
 %p:::Kernel.p(untyped) -> SelfArgument:::Inspect and output object
 %pop:::Array.pop(Match) => (OptiionalUnify) -> OptiionalUnify, (Self) -> Self:::Remove and return last element
-%print:::Kernel.print(optional untyped) -> NilClass:::Output object
-%private:::private(optional untyped) -> NilClass:::
+%print:::Kernel.print(default untyped) -> NilClass:::Output object
+%private:::private(default untyped) -> NilClass:::
 %proc:::Kernel.proc() <block_params: untyped> -> Proc:::Create Proc object
-%public:::public(optional untyped) -> NilClass:::
+%public:::public(default untyped) -> NilClass:::
 %push:::Array.push(untyped) -> Array<untyped>:::Append element to end
 %puts:::Kernel.puts(untyped) -> NilClass:::Output object with newline
-%raise:::raise(optional untyped, optional String) -> Bot:::
+%raise:::raise(default untyped, default String) -> Bot:::
 %reject:::Array.reject() <block_params: Unify> -> Self:::Return array excluding elements for which block returns true
 %reject!:::Array.reject!() <block_params: Unify> -> Self:::Destructively delete elements for which block returns true
 %relinquish:::relinquish() -> Bool:::

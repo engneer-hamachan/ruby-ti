@@ -231,3 +231,7 @@ func (t *T) GetOwnerT() *T {
 func (t *T) ClearDefineArgs() {
 	t.defineArgs = []string{}
 }
+
+func (t *T) SetIsBuiltin(b bool) {
+	t.isBuiltin = b
+}

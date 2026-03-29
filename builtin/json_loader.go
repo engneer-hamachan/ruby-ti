@@ -70,14 +70,14 @@ type InstanceVarDefinition struct {
 }
 
 type ClassDefinition struct {
-	Frame              string                `json:"frame"`
-	Class              string                `json:"class"`
-	Type               string                `json:"type,omitempty"`
-	InstanceMethods    []MethodDefinition    `json:"instance_methods"`
-	ClassMethods       []MethodDefinition    `json:"class_methods"`
-	Constants          []ConstDefinition     `json:"constants"`
-	Extends            []string              `json:"extends"`
-	InstanceProperties []PropertyDefinition  `json:"instance_properties"`
+	Frame              string                  `json:"frame"`
+	Class              string                  `json:"class"`
+	Type               string                  `json:"type,omitempty"`
+	InstanceMethods    []MethodDefinition      `json:"instance_methods"`
+	ClassMethods       []MethodDefinition      `json:"class_methods"`
+	Constants          []ConstDefinition       `json:"constants"`
+	Extends            []string                `json:"extends"`
+	InstanceProperties []PropertyDefinition    `json:"instance_properties"`
 	InstanceVariables  []InstanceVarDefinition `json:"instance_variables"`
 }
 
@@ -244,6 +244,9 @@ func parseArguments(args []MethodArgument) []base.T {
 		}
 
 		baseType.IsBuiltinAsterisk = arg.IsAsterisk
+
+		baseType.SetIsBuiltin(true)
+
 		if arg.IsDefault {
 			baseType.SetHasDefault(true)
 		}

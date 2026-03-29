@@ -121,7 +121,7 @@ func TypeToStringForSignature(t *T) string {
 	var content string
 
 	if t.HasDefault() {
-		content += "optional "
+		content += "default "
 	}
 
 	if t.IsAsteriskPrefix() {
