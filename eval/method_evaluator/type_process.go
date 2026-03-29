@@ -607,7 +607,7 @@ func checkAndPropagateArgs(
 			m.parser.Fatal(m.ctx, err)
 		}
 
-		if isNotDefineArgArgsError(isKeyTypeDefineArg, sortedArgTs, argIdx) {
+		if isNotDefineArgArgsError(isKeyTypeDefineArg, sortedArgTs, argIdx) && !definedArgT.HasDefault() {
 			err = fmt.Errorf(
 				"%s is not defined expected %s",
 				definedArg,
