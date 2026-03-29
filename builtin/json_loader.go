@@ -14,6 +14,7 @@ type MethodArgument struct {
 	Type       TypeSpec       `json:"type,omitempty"`
 	Key        string         `json:"key,omitempty"`
 	IsAsterisk bool           `json:"is_asterisk,omitempty"`
+	IsDefault  bool           `json:"is_default,omitempty"`
 	Value      map[string]any `json:",inline"`
 }
 
@@ -243,6 +244,9 @@ func parseArguments(args []MethodArgument) []base.T {
 		}
 
 		baseType.IsBuiltinAsterisk = arg.IsAsterisk
+		if arg.IsDefault {
+			baseType.SetHasDefault(true)
+		}
 
 		switch arg.Key {
 		case "":
