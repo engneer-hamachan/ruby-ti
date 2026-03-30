@@ -253,6 +253,15 @@ func GetMethodT(frame, targetClass, targetMethod string, isPrivate bool) *T {
 		return methodT
 	}
 
+	if frame != "" && frame != "Builtin" {
+		methodT, ok =
+			TFrame[methodTFrameKey("Builtin::"+frame, targetClass, targetMethod, isPrivate)]
+
+		if ok {
+			return methodT
+		}
+	}
+
 	return methodT
 }
 

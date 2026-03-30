@@ -309,6 +309,12 @@ func loadBuiltinFromJSON() error {
 			return fmt.Errorf("failed to parse %s: %w", match, err)
 		}
 
+		if strings.Contains(classDef.Class, "::") {
+			_, parentClass, class := base.SeparateNameSpaces(classDef.Class)
+			classDef.Frame = base.CalculateFrame(classDef.Frame, parentClass)
+			classDef.Class = class
+		}
+
 		d := NewDefineBuiltinMethod(classDef.Frame, classDef.Class)
 
 		base.BuiltinClasses = append(base.BuiltinClasses, classDef.Class)
