@@ -1,0 +1,913 @@
+{
+  "frame": "ActiveRecord",
+  "class": "Relation",
+  "instance_methods": [
+    {
+      "name": "new",
+      "arguments": [
+        {
+          "type": [
+            "DefaultOptionalUntyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "ActiveRecord::Relation"
+        ]
+      }
+    },
+    {
+      "name": "arel_table",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Arel::Table"
+        ]
+      }
+    },
+    {
+      "name": "all",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "ActiveRecord::Relation"
+        ],
+        "is_capture_owner": true
+      }
+    },
+    {
+      "name": "ids",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Array"
+        ]
+      }
+    },
+    {
+      "name": "none",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "pluck",
+      "arguments": [
+        {
+          "type": [
+            "Symbol",
+            "String",
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Array"
+        ]
+      }
+    },
+    {
+      "name": "where",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "::ActiveRecord::QueryMethods::WhereChain",
+          "Self"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "exists?",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "order",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "group",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "in_order_of",
+      "arguments": [
+        {
+          "type": [
+            "Symbol"
+          ]
+        },
+        {
+          "type": [
+            "Array"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "distinct",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "or",
+      "arguments": [
+        {
+          "type": [
+            "::ActiveRecord::Relation"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "merge",
+      "arguments": [
+        {
+          "type": [
+            "Array",
+            "Hash",
+            "ActiveRecord::Relation",
+            "Proc"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "joins",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "left_joins",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "left_outer_joins",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "includes",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "eager_load",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "preload",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "find_by",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "find_by!",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "find",
+      "arguments": [
+        {
+          "type": [
+            "Unify",
+            "Array",
+            "Untyped"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Unify",
+          "Array",
+          "OptionalUnify"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "find_or_create_by",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Unify"
+        ]
+      }
+    },
+    {
+      "name": "find_or_create_by!",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "find_or_initialize_by",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Unify"
+        ]
+      }
+    },
+    {
+      "name": "create_or_find_by",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Unify"
+        ]
+      }
+    },
+    {
+      "name": "create_or_find_by!",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "take",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Unify",
+          "Array"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "take!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "first",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Owner"
+        ]
+      }
+    },
+    {
+      "name": "first!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "second",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "second!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "third",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "third!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "fourth",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "fourth!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "fifth",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "fifth!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "forty_two",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "forty_two!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "second_to_last",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "second_to_last!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "third_to_last",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "OptionalUnify"
+        ]
+      }
+    },
+    {
+      "name": "third_to_last!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "last",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "OptionalUnify",
+          "Array"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "last!",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Unify"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "limit",
+      "arguments": [
+        {
+          "type": [
+            "Int",
+            "Arel::Nodes::SqlLiteral",
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "limit!",
+      "arguments": [
+        {
+          "type": [
+            "Int",
+            "Arel::Nodes::SqlLiteral",
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "offset",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "offset!",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ],
+        "is_destructive": true
+      }
+    },
+    {
+      "name": "find_each",
+      "arguments": [],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Untyped",
+          "Enumerator"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "find_in_batches",
+      "arguments": [],
+      "block_parameters": [
+        "Array"
+      ],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "in_batches",
+      "arguments": [],
+      "block_parameters": [
+        "Self"
+      ],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "sum",
+      "arguments": [
+        {
+          "type": [
+            "DefaultOptionalUntyped",
+            "DefaultUnify"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Untyped",
+          "Unify"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "destroy_all",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "delete_all",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "update_all",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "touch_all",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "destroy_by",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "delete_by",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "each",
+      "arguments": [],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "select",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Self",
+          "Array"
+        ],
+        "is_conditional": true
+      }
+    },
+    {
+      "name": "reselect",
+      "arguments": [
+        {
+          "type": [
+            "Untyped"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Self"
+        ]
+      }
+    },
+    {
+      "name": "count",
+      "arguments": [
+        {
+          "type": [
+            "Symbol",
+            "String"
+          ]
+        }
+      ],
+      "block_parameters": [
+        "Unify"
+      ],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      }
+    }
+  ],
+  "extends": [
+    "ClassMethods"
+  ]
+}

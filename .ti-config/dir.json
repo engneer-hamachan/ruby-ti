@@ -132,9 +132,8 @@
       "arguments": [
         {
           "type": [
-            "String"
-          ],
-          "is_default": true
+            "DefaultString"
+          ]
         }
       ],
       "return_type": {
@@ -148,9 +147,8 @@
       "arguments": [
         {
           "type": [
-            "String"
-          ],
-          "is_default": true
+            "DefaultString"
+          ]
         }
       ],
       "return_type": {
@@ -298,9 +296,8 @@
         },
         {
           "type": [
-            "Int"
-          ],
-          "is_default": true
+            "DefaultInt"
+          ]
         }
       ],
       "return_type": {
@@ -319,9 +316,8 @@
         },
         {
           "type": [
-            "Int"
-          ],
-          "is_default": true
+            "DefaultInt"
+          ]
         },
         {
           "type": [
@@ -348,9 +344,8 @@
         },
         {
           "type": [
-            "Int"
-          ],
-          "is_default": true
+            "DefaultInt"
+          ]
         },
         {
           "type": [
