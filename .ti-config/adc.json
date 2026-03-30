@@ -1,0 +1,48 @@
+{
+  "frame": "Builtin",
+  "class": "ADC",
+  "instance_methods": [
+    {
+      "name": "read_voltage",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      }
+    },
+    {
+      "name": "read",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "read_raw",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      }
+    }
+  ],
+  "class_methods": [
+    {
+      "name": "new",
+      "arguments": [
+        {
+          "type": ["Int"]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "ADC"
+        ]
+      }
+    }
+  ]
+}

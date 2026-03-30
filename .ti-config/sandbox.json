@@ -1,0 +1,251 @@
+{
+  "frame": "Builtin",
+  "class": "Sandbox",
+  "extends": [],
+  "instance_methods": [
+    {
+      "name": "compile",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "Bool"
+          ],
+          "key": "remove_lv:",
+          "is_default": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "compile_from_memory",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Int"
+          ]
+        },
+        {
+          "type": [
+            "Bool"
+          ],
+          "key": "remove_lv:",
+          "is_default": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "resume",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "suspend",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "terminate",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "stop",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "free_parser",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "NilClass"
+        ]
+      }
+    },
+    {
+      "name": "state",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Symbol"
+        ]
+      }
+    },
+    {
+      "name": "result",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Untyped"
+        ]
+      }
+    },
+    {
+      "name": "wait",
+      "arguments": [
+        {
+          "type": [
+            "Int",
+            "NilClass"
+          ],
+          "key": "timeout:",
+          "is_default": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "execute",
+      "arguments": [],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "exec_mrb",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "exec_mrb_from_memory",
+      "arguments": [
+        {
+          "type": [
+            "Int"
+          ]
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Bool"
+        ]
+      }
+    },
+    {
+      "name": "load_file",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ]
+        },
+        {
+          "type": [
+            "Bool"
+          ],
+          "key": "join:",
+          "is_default": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "NilClass"
+        ]
+      }
+    }
+  ],
+  "class_methods": [
+    {
+      "name": "new",
+      "arguments": [
+        {
+          "type": [
+            "String"
+          ],
+          "is_default": true
+        }
+      ],
+      "return_type": {
+        "type": [
+          "Sandbox"
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "TIMEOUT",
+      "return_type": {
+        "type": [
+          "Int"
+        ]
+      }
+    }
+  ],
+  "instance_properties": [
+    {
+      "name": "error",
+      "type": [
+        "Exception",
+        "NilClass"
+      ],
+      "access": "accessor"
+    }
+  ],
+  "instance_variables": [
+    {
+      "name": "result",
+      "type": [
+        "Untyped",
+        "NilClass"
+      ]
+    },
+    {
+      "name": "script",
+      "type": [
+        "String"
+      ]
+    }
+  ]
+}

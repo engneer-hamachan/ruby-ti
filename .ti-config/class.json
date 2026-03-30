@@ -1,0 +1,15 @@
+{
+  "frame": "Builtin",
+  "class": "Class",
+  "instance_methods": [
+    {
+      "name": "name",
+      "return_type": {
+        "type": [
+          "String"
+        ]
+      },
+      "document": "Return class name as string"
+    }
+  ]
+}
