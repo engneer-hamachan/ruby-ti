@@ -226,6 +226,13 @@ func parseArguments(args []MethodArgument) []base.T {
 					}
 
 				default:
+					if base.IsNameSpace(typeStr) {
+						frame, parentClass, class := base.SeparateNameSpaces(typeStr)
+						baseType = *base.MakeObject(class)
+						baseType.SetFrame(base.CalculateFrame(frame, parentClass))
+						break
+					}
+
 					baseType = parseTypeString(typeStr)
 				}
 			}
