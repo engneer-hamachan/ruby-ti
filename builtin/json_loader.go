@@ -228,8 +228,6 @@ func parseArguments(args []MethodArgument) []base.T {
 				default:
 					baseType = parseTypeString(typeStr)
 				}
-			} else {
-				baseType = parseTypeString(typeStr)
 			}
 
 		default:
