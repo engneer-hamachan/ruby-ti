@@ -1,7 +1,6 @@
 package builtin
 
 import (
-	"strings"
 	"ti/base"
 )
 
@@ -134,10 +133,6 @@ func ConvertToBuiltinT(typeStr string) base.T {
 	case "Owner":
 		return OwnerT
 	default:
-		if len(strings.Split(typeStr, "::")) > 1 {
-			return *base.MakeIdentifier(typeStr)
-		}
-
 		return *base.MakeObject(typeStr)
 	}
 }
