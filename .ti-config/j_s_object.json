@@ -1,6 +1,6 @@
 {
-  "frame": "Builtin",
-  "class": "JS::Object",
+  "frame": "Builtin::JS",
+  "class": "Object",
   "extends": [],
   "instance_methods": [
     {
