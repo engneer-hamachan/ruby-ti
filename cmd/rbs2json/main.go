@@ -232,7 +232,8 @@ func convertType(t RBSType, aliases typeAliasMap, className string) []string {
 }
 
 func convertClassInstance(t RBSType, aliases typeAliasMap, className string) []string {
-	switch t.Name {
+	name := strings.TrimPrefix(t.Name, "::")
+	switch name {
 	case "Integer", "int":
 		return []string{"Int"}
 	case "Float":
@@ -258,7 +259,7 @@ func convertClassInstance(t RBSType, aliases typeAliasMap, className string) []s
 	case "Hash":
 		return []string{"Hash"}
 	default:
-		return []string{t.Name}
+		return []string{name}
 	}
 }
 
@@ -338,7 +339,7 @@ func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassCon
 		}
 
 		if decl.SuperClass != nil && decl.SuperClass.Name != "" {
-			superName := decl.SuperClass.Name
+			superName := strings.TrimPrefix(decl.SuperClass.Name, "::")
 			if parentName != "" && !strings.Contains(superName, "::") {
 				superName = parentName + "::" + superName
 			}
@@ -360,7 +361,13 @@ func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassCon
 					continue
 				}
 				methods := convertMethodDefinition(member, aliases, className)
-				if member.Kind == "singleton" {
+				if member.Name == "initialize" {
+					for i := range methods {
+						methods[i].Name = "new"
+					}
+					config.ClassMethods = append(config.ClassMethods, methods...)
+					classMethodDefs["new"] = methods
+				} else if member.Kind == "singleton" {
 					config.ClassMethods = append(config.ClassMethods, methods...)
 					classMethodDefs[member.Name] = methods
 				} else {
@@ -409,6 +416,12 @@ func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassCon
 				nestedDecl := memberToDeclaration(member)
 				nested := convertDeclarations([]RBSDeclaration{nestedDecl}, className)
 				configs = append(configs, nested...)
+
+			case "include":
+				if member.Name != "" {
+					name := strings.TrimPrefix(member.Name, "::")
+					config.Extends = append(config.Extends, name)
+				}
 
 			case "constant":
 				if member.Type != nil {
@@ -647,12 +660,10 @@ func writeOutput(configs []TiClassConfig, outputPath string) error {
 		} else {
 			data = configs
 		}
-		jsonData, err := json.MarshalIndent(data, "", "  ")
-		if err != nil {
-			return err
-		}
-		fmt.Println(string(jsonData))
-		return nil
+		enc := json.NewEncoder(os.Stdout)
+		enc.SetEscapeHTML(false)
+		enc.SetIndent("", "  ")
+		return enc.Encode(data)
 	}
 
 	info, err := os.Stat(outputPath)
@@ -678,9 +689,12 @@ func writeOutput(configs []TiClassConfig, outputPath string) error {
 }
 
 func writeJSONFile(path string, data any) error {
-	jsonData, err := json.MarshalIndent(data, "", "  ")
-	if err != nil {
+	var buf strings.Builder
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	enc.SetIndent("", "  ")
+	if err := enc.Encode(data); err != nil {
 		return err
 	}
-	return os.WriteFile(path, append(jsonData, '\n'), 0644)
+	return os.WriteFile(path, []byte(buf.String()), 0644)
 }
