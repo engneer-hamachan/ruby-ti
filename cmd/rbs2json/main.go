@@ -316,6 +316,21 @@ func convertLiteral(t RBSType) []string {
 	return []string{"Untyped"}
 }
 
+func stripRDocMeta(s string) string {
+	for {
+		start := strings.Index(s, "<!--")
+		if start == -1 {
+			break
+		}
+		end := strings.Index(s[start:], "-->")
+		if end == -1 {
+			break
+		}
+		s = s[:start] + s[start+end+3:]
+	}
+	return strings.TrimSpace(s)
+}
+
 func containsType(types []string, target string) bool {
 	for _, t := range types {
 		if t == target {
@@ -476,7 +491,7 @@ func convertMethodDefinition(member RBSMember, aliases typeAliasMap, className s
 
 	doc := ""
 	if member.Comment != nil && member.Comment.String != "" {
-		doc = strings.TrimSpace(member.Comment.String)
+		doc = stripRDocMeta(member.Comment.String)
 	}
 
 	for _, overload := range member.Overloads {
