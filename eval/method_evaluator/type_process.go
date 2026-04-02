@@ -594,7 +594,10 @@ func checkAndPropagateArgs(
 				definedArg,
 				makeDefineArgumentInfo(m, class, methodT),
 			)
-			m.parser.Fatal(m.ctx, err)
+
+			if m.ctx.IsCheckRound() {
+				return err
+			}
 		}
 
 		if isExtraArgError(isKeyTypeDefineArg, sortedArgTs, argIdx) {
@@ -604,7 +607,9 @@ func checkAndPropagateArgs(
 					sortedArgTs[argIdx].GetBeforeEvaluateCode(),
 				)
 
-			m.parser.Fatal(m.ctx, err)
+			if m.ctx.IsCheckRound() {
+				return err
+			}
 		}
 
 		if isNotDefineArgArgsError(isKeyTypeDefineArg, sortedArgTs, argIdx) && !definedArgT.HasDefault() {
@@ -613,7 +618,10 @@ func checkAndPropagateArgs(
 				definedArg,
 				makeDefineArgumentInfo(m, class, methodT),
 			)
-			m.parser.Fatal(m.ctx, err)
+
+			if m.ctx.IsCheckRound() {
+				return err
+			}
 		}
 
 		if isKeyValueTypeArgBeforeAcceptIdx(sortedArgTs, argIdx) {
@@ -642,7 +650,9 @@ func checkAndPropagateArgs(
 					makeDefineArgumentInfo(m, class, methodT),
 				)
 
-				m.parser.Fatal(m.ctx, err)
+				if m.ctx.IsCheckRound() {
+					return err
+				}
 			}
 		}
 
@@ -682,7 +692,9 @@ func checkAndPropagateArgs(
 		err =
 			fmt.Errorf("too many arguments for %s", methodT.GetBeforeEvaluateCode())
 
-		m.parser.Fatal(m.ctx, err)
+		if m.ctx.IsCheckRound() {
+			return err
+		}
 	}
 
 	return nil

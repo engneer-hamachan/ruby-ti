@@ -16,7 +16,7 @@ func Test3ef3d375(t *testing.T) {
 ./3ef3d375.rb:::3:::Union<Array<String> NilClass>
 ./3ef3d375.rb:::5:::Union<String Integer>
 ./3ef3d375.rb:::6:::type mismatch: expected Union<String Integer>, but got Array<untyped> for Test.compact_union
-./3ef3d375.rb:::6:::Array<untyped>
+./3ef3d375.rb:::6:::Union<String Integer>
 ./3ef3d375.rb:::8:::String
 ./3ef3d375.rb:::10:::String
 ./3ef3d375.rb:::11:::String`

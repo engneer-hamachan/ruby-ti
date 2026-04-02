@@ -19,9 +19,9 @@ func Test90f04e11(t *testing.T) {
 ./90f04e11.rb:::14:::Array<String>
 ./90f04e11.rb:::15:::Array<String>
 ./90f04e11.rb:::17:::type mismatch: expected Union<String NilClass>, but got Integer for Dir.glob
-./90f04e11.rb:::17:::KeyValue
+./90f04e11.rb:::17:::Array<String>
 ./90f04e11.rb:::18:::type mismatch: expected Integer, but got String for Dir.glob
-./90f04e11.rb:::18:::String`
+./90f04e11.rb:::18:::Array<String>`
 
 	if strings.TrimSpace(string(output)) != strings.TrimSpace(expectedOutput) {
 		t.Errorf("Expected output: %s, but got: %s", expectedOutput, string(output))

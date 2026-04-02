@@ -244,11 +244,13 @@ func evaluateNoUnionInstanceMethod(
 			}
 
 			if err != nil {
+				m.parser.SetLastEvaluatedT(calculateExecutionType(m, methodT, evaluatedArgs))
 				return err
 			}
 		}
 
 		if err != nil {
+			m.parser.SetLastEvaluatedT(calculateExecutionType(m, methodT, evaluatedArgs))
 			return err
 		}
 	}
