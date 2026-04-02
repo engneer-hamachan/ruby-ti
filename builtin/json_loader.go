@@ -318,7 +318,7 @@ func loadBuiltinFromJSON() error {
 			frame, parentClass, class := base.SeparateNameSpaces(classDef.Class)
 			t := *base.MakeObject(class)
 			t.SetFrame(base.CalculateFrame(frame, parentClass))
-			break
+			continue
 		}
 
 		d := NewDefineBuiltinMethod(classDef.Frame, classDef.Class)
