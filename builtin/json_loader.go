@@ -335,7 +335,7 @@ func loadBuiltinFromJSON() error {
 
 			key := classDef.Frame + classDef.Class + method.Name
 			if method.Document != "" || base.TSignatureDocument[key] == "" {
-				base.TSignatureDocument[key] = method.Document
+				base.TSignatureDocument[key] = strings.ReplaceAll(method.Document, "\n", "<CR>")
 			}
 
 			d.defineBuiltinInstanceMethod(
@@ -356,7 +356,7 @@ func loadBuiltinFromJSON() error {
 
 			key := classDef.Frame + classDef.Class + method.Name + "static"
 			if method.Document != "" || base.TSignatureDocument[key] == "" {
-				base.TSignatureDocument[key] = method.Document
+				base.TSignatureDocument[key] = strings.ReplaceAll(method.Document, "\n", "<CR>")
 			}
 
 			d.defineBuiltinStaticMethod(
