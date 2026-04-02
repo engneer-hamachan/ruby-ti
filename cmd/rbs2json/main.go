@@ -544,7 +544,11 @@ func convertArguments(funcType RBSFuncType, aliases typeAliasMap, className stri
 	}
 
 	if funcType.RestPositionals != nil {
-		args = append(args, TiArgument{IsAsterisk: true})
+		arg := TiArgument{IsAsterisk: true}
+		if funcType.RestPositionals.Type != nil {
+			arg.Type = convertType(*funcType.RestPositionals.Type, aliases, className)
+		}
+		args = append(args, arg)
 	}
 
 	for _, param := range funcType.TrailingPositionals {
