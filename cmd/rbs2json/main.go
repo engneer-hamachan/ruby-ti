@@ -24,6 +24,7 @@ type RBSDeclaration struct {
 	Members     []RBSMember    `json:"members"`
 	SuperClass  *RBSSuperClass `json:"super_class"`
 	Comment     *RBSComment    `json:"comment"`
+	Type        *RBSType       `json:"type"`
 }
 
 type RBSSuperClass struct {
@@ -153,6 +154,16 @@ func collectTypeAliases(members []RBSMember) typeAliasMap {
 	for _, m := range members {
 		if m.Declaration == "alias" && m.Member == "" && m.Type != nil {
 			aliases[m.Name] = *m.Type
+		}
+	}
+	return aliases
+}
+
+func collectTopLevelAliases(decls []RBSDeclaration) typeAliasMap {
+	aliases := make(typeAliasMap)
+	for _, decl := range decls {
+		if decl.Declaration == "alias" && decl.Type != nil {
+			aliases[decl.Name] = *decl.Type
 		}
 	}
 	return aliases
@@ -319,13 +330,24 @@ func containsType(types []string, target string) bool {
 func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassConfig {
 	var configs []TiClassConfig
 
+	topAliases := collectTopLevelAliases(decls)
+
 	for _, decl := range decls {
+		if decl.Declaration == "alias" {
+			continue
+		}
+
 		className := decl.Name
 		if parentName != "" {
 			className = parentName + "::" + decl.Name
 		}
 
 		aliases := collectTypeAliases(decl.Members)
+		for name, typ := range topAliases {
+			if _, exists := aliases[name]; !exists {
+				aliases[name] = typ
+			}
+		}
 
 		config := TiClassConfig{
 			Frame:           "Builtin",
