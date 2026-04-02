@@ -6,6 +6,12 @@ import (
 )
 
 func (t *T) IsEmptyDefineArgs() bool {
+	for _, m := range t.Overloads {
+		if len(m.defineArgs) > 0 {
+			return false
+		}
+	}
+
 	return len(t.defineArgs) == 0
 }
 
