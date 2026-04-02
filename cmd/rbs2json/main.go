@@ -333,7 +333,7 @@ func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassCon
 	topAliases := collectTopLevelAliases(decls)
 
 	for _, decl := range decls {
-		if decl.Declaration == "alias" {
+		if decl.Declaration == "alias" || decl.Declaration == "global" {
 			continue
 		}
 
@@ -349,9 +349,16 @@ func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassCon
 			}
 		}
 
+		frame := "Builtin"
+		shortClass := className
+		if parts := strings.Split(className, "::"); len(parts) > 1 {
+			frame = "Builtin::" + strings.Join(parts[:len(parts)-1], "::")
+			shortClass = parts[len(parts)-1]
+		}
+
 		config := TiClassConfig{
-			Frame:           "Builtin",
-			Class:           className,
+			Frame:           frame,
+			Class:           shortClass,
 			Extends:         []string{},
 			InstanceMethods: []TiMethod{},
 		}
@@ -700,7 +707,11 @@ func writeOutput(configs []TiClassConfig, outputPath string) error {
 
 	os.MkdirAll(outputPath, 0755)
 	for _, config := range configs {
-		fileName := classNameToFileName(config.Class)
+		fullClass := config.Class
+		if frameSuffix := strings.TrimPrefix(config.Frame, "Builtin"); frameSuffix != "" {
+			fullClass = strings.TrimPrefix(frameSuffix, "::") + "::" + config.Class
+		}
+		fileName := classNameToFileName(fullClass)
 		filePath := filepath.Join(outputPath, fileName)
 		if err := writeJSONFile(filePath, config); err != nil {
 			return err
