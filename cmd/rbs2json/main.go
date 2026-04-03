@@ -628,6 +628,7 @@ func memberToDeclaration(member RBSMember) RBSDeclaration {
 
 func main() {
 	output := flag.String("o", "", "output path (directory/ or file)")
+	install := flag.Bool("install", false, "output to ./.ti-config/ directory")
 	flag.Parse()
 
 	if flag.NArg() < 1 {
@@ -637,6 +638,11 @@ func main() {
 	}
 
 	inputFile := flag.Arg(0)
+
+	outputPath := *output
+	if *install {
+		outputPath = ".ti-config/"
+	}
 
 	astJSON, err := execRubyScript(inputFile)
 	if err != nil {
@@ -652,7 +658,7 @@ func main() {
 
 	configs := convertDeclarations(decls, "")
 
-	if err := writeOutput(configs, *output); err != nil {
+	if err := writeOutput(configs, outputPath); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
