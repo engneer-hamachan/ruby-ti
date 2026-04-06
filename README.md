@@ -167,7 +167,7 @@ See the [Configuration Guide](./docs/ti-config.md) for detailed customization op
 
 - [.ti-config Configuration Guide](./docs/ti-config.md) - Customize type definitions for your environment
 
-## Beta Feature (Code Navigator for AI Agents)
+## Code Navigator for AI Agents
 ### Setup
 After completing the Ruby-TI setup,
 install the skills from the `skills` directory into your AI agent.
@@ -181,41 +181,26 @@ ti-skills is the core of the Code Navigator.
 It uses Ruby-TI to perform code analysis and passes documents like the following to the AI agent:
 
 ````
-# Method Signatures
-## calculate_max_history_lines(Integer, Integer, String) -> Integer
-- file: theme/editor_app.rb:1164
-- document: returns max_visible_lines-1 when cursor is on new bottom line (cursor_row_index==-1) or temp_new_line_code is non-empty (reserves a row for the current input line); otherwise returns max_visible_lines
-- call points:
-  - theme/editor_app.rb:1172
-    - method: calculate_scroll_offset
-  - theme/editor_app.rb:1214
-    - method: redraw_code_area
-- total call points: 2
+## draw_frame(M5Canvas, M5GFX) -> NilClass
+- file: main/mrblib/app.rb:416-496
+- document: <no document>
+- callers:
+  - method: top level
+    - class: none
+    - call point: main/mrblib/app.rb:581
+  - total callers: 1
+- callees:
+  - method: dist_sq
+    - class: none
+    - define point: main/mrblib/app.rb:281-286
+  - method: dist_sq
+    - class: none
+    - define point: main/mrblib/app.rb:281-286
+  - method: dist_sq
+    - class: none
+    - define point: main/mrblib/app.rb:281-286
+  - method: draw_stars
 
-## calculate_scroll_offset(Array<untyped>, Integer, Integer, Integer, String) -> Integer
-- file: theme/editor_app.rb:1170
-- document: when editing existing line, adjusts scroll_offset so cursor_row_index is within the visible window; when on new bottom line, scrolls to show the last max_history_lines; returns new scroll_offset
-- call points:
-  - theme/editor_app.rb:1216
-    - method: redraw_code_area
-- total call points: 1
-
-and more ...
-
----
-# Special Code Comments
-## theme/editor_app.rb:72
-- comment: holds all editor state variables in a single object to reduce Hash return values
-```
-class EditorState
-```
-## theme/editor_app.rb:80
-- comment: code being typed on the current (bottom) new line — empty string means no code yet
-```
-    @code = ''
-```
-
-and more ...
 ````
 By using ti-skills, the AI agent reads the above documents before making code changes or additions,
 significantly reducing the amount of code the AI agent needs to read during its work. (However, this may not always be the case.)
