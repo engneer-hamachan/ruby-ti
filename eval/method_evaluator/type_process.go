@@ -420,7 +420,15 @@ func asteriskDefineProcess(
 ) (int, int) {
 
 	asteriskArrayT := base.MakeAnyArray()
-	mustBindCt := len(definedArgNames[defineArgIdx+1:])
+	//mustBindCt := len(definedArgNames[defineArgIdx+1:])
+
+	mustBindCt := 0
+	for _, name := range definedArgNames[defineArgIdx+1:] {
+		if !base.IsKeySuffix(name) {
+			mustBindCt++
+		}
+	}
+
 	remainingArgTs := argTs[argIdx:]
 
 	if mustBindCt >= len(remainingArgTs) {
@@ -438,10 +446,22 @@ func asteriskDefineProcess(
 		return defineArgIdx, argIdx
 	}
 
-	for idx, argT := range remainingArgTs {
-		asteriskArrayT.AppendArrayVariant(*argT)
+	nonKeyCt := 0
+	for _, rt := range remainingArgTs {
+		if !rt.IsKeyValueType() {
+			nonKeyCt++
+		}
+	}
 
-		if mustBindCt == len(remainingArgTs[idx+1:]) {
+	for _, argT := range remainingArgTs {
+		if argT.IsKeyValueType() {
+			break
+		}
+
+		asteriskArrayT.AppendArrayVariant(*argT)
+		nonKeyCt--
+
+		if mustBindCt == nonKeyCt {
 			break
 		}
 
