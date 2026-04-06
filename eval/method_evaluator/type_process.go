@@ -420,7 +420,6 @@ func asteriskDefineProcess(
 ) (int, int) {
 
 	asteriskArrayT := base.MakeAnyArray()
-	//mustBindCt := len(definedArgNames[defineArgIdx+1:])
 
 	mustBindCt := 0
 	for _, name := range definedArgNames[defineArgIdx+1:] {
@@ -429,9 +428,16 @@ func asteriskDefineProcess(
 		}
 	}
 
-	remainingArgTs := argTs[argIdx:]
+	var positionalArgTs []*base.T
+	for _, rt := range argTs[argIdx:] {
+		if rt.IsKeyValueType() {
+			break
+		}
 
-	if mustBindCt >= len(remainingArgTs) {
+		positionalArgTs = append(positionalArgTs, rt)
+	}
+
+	if mustBindCt >= len(positionalArgTs) {
 		base.SetValueT(
 			m.evaluatedObjectT.GetFrame(),
 			class,
@@ -446,22 +452,10 @@ func asteriskDefineProcess(
 		return defineArgIdx, argIdx
 	}
 
-	nonKeyCt := 0
-	for _, rt := range remainingArgTs {
-		if !rt.IsKeyValueType() {
-			nonKeyCt++
-		}
-	}
-
-	for _, argT := range remainingArgTs {
-		if argT.IsKeyValueType() {
-			break
-		}
-
+	for idx, argT := range positionalArgTs {
 		asteriskArrayT.AppendArrayVariant(*argT)
-		nonKeyCt--
 
-		if mustBindCt == nonKeyCt {
+		if mustBindCt == len(positionalArgTs[idx+1:]) {
 			break
 		}
 
