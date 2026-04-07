@@ -1,13 +1,13 @@
 # .ti-config Configuration Guide
 
-The `.ti-config` directory contains JSON configuration files that define type signatures for Ruby built-in classes. This system allows you to customize Ruby-TI for your specific mruby environment without modifying the Go source code.
+The `.ti-config` directory contains JSON configuration files that define type signatures for Ruby built-in classes. This system allows you to customize mruby-ti for your specific mruby environment without modifying the Go source code.
 
 ## Setup
 
 1. Copy the `.ti-config` directory to your project root:
    ```bash
    cd your-ruby-project
-   cp -r /path/to/ruby-ti/.ti-config .
+   cp -r /path/to/mruby-ti/.ti-config .
    ```
 
 2. Edit or add JSON files in `.ti-config/` to match your mruby environment

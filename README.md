@@ -1,6 +1,6 @@
 <div align="center">
 
-# Ruby-TI
+# mruby-ti
 
 **Static type checking for MRuby. No annotations required.**
 
@@ -11,17 +11,17 @@
 
 ---
 
-Ruby-TI is a static type analyzer for MRuby that performs type inference and checking on your Ruby code without requiring type annotations. Write Ruby naturally and get real-time type feedback in your editor.
+mruby-ti is a static type analyzer for MRuby that performs type inference and checking on your Ruby code without requiring type annotations. Write Ruby naturally and get real-time type feedback in your editor.
 
 **The power of static typing. The freedom of Ruby.**
 
 <p align="center">
-  <img src="image/ruby-ti-demo.gif" alt="Ruby-TI Demo" width="700"/>
+  <img src="image/ruby-ti-demo.gif" alt="mruby-ti" width="700"/>
 </p>
 
 ## Features
 
-- **Zero-annotation type inference** - No need to write type signatures. Ruby-TI analyzes your code automatically
+- **Zero-annotation type inference** - No need to write type signatures. mruby-ti analyzes your code automatically
 - **Real-time feedback** - Get instant type checking as you code through LSP integration
 - **Customizable type system** - Define types that match your mruby environment
 - **Editor integration** - Works with Neovim, VSCode, and any LSP-compatible editor
@@ -34,33 +34,33 @@ Ruby-TI is a static type analyzer for MRuby that performs type inference and che
 
 ## Quick Start
 
-**Install Ruby-TI:**
+**Install mruby-ti:**
 
 ```bash
-git clone https://github.com/engneer-hamachan/ruby-ti.git
-cd ruby-ti
+git clone https://github.com/engneer-hamachan/mruby-ti.git
+cd mruby-ti
 make install
 
 # Add to PATH (fish example):
-set -x PATH "/path/to/ruby-ti/bin:$PATH"
+set -x PATH "/path/to/mruby-ti/bin:$PATH"
 ```
 
 **Install LSP Server:**
 
 ```bash
-git clone https://github.com/engneer-hamachan/ruby-ti-lsp.git
-cd ruby-ti-lsp
+git clone https://github.com/engneer-hamachan/mruby-ti-lsp.git
+cd mruby-ti-lsp
 make install
 
 # Add to PATH (fish example):
-set -x PATH "/path/to/ruby-ti-lsp/bin:$PATH"
+set -x PATH "/path/to/mruby-ti-lsp/bin:$PATH"
 ```
 
 **Setup your project:**
 
 ```bash
 cd your-ruby-project
-cp -r /path/to/ruby-ti/.ti-config .
+cp -r /path/to/mruby-ti/.ti-config .
 ```
 
 **Configure your editor** - See [Editor Setup](#editor-setup) for detailed configuration.
@@ -77,7 +77,7 @@ Add to your `coc-settings.json`:
 ```json
 {
   "languageserver": {
-    "ruby-ti": {
+    "mruby-ti": {
       "command": "ti-lsp",
       "filetypes": ["ruby", "json"]
     }
@@ -93,7 +93,7 @@ Add to your `coc-settings.json`:
 Install the extension:
 
 ```bash
-code --install-extension /path/to/ruby-ti-lsp/vscode/ruby-ti-lsp-0.1.0.vsix
+code --install-extension /path/to/mruby-ti-lsp/vscode/mruby-ti-lsp-0.1.0.vsix
 ```
 
 </details>
@@ -151,7 +151,7 @@ Configure your LSP client to run `ti-lsp` for Ruby files. The server follows sta
 
 ### Supported Classes
 
-Ruby-TI is expanding support with a focus on **PicoRuby** and embedded environments:
+mruby-ti is expanding support with a focus on **PicoRuby** and embedded environments:
 
 `Array` · `Bool` · `Class` · `Enumerable` · `Float` · `GPIO` · `Hash` · `Integer` · `Kernel` · `Math` · `NilClass` · `Object` · `Proc` · `Range` · `String` · `Symbol`
 
@@ -169,7 +169,7 @@ See the [Configuration Guide](./docs/ti-config.md) for detailed customization op
 
 ## Code Navigator for AI Agents
 ### Setup
-After completing the Ruby-TI setup,
+After completing the mruby-ti setup,
 install the skills from the `skills` directory into your AI agent.
 ```
 make install-skills  # for Claude Code
@@ -181,7 +181,7 @@ make install-skills  # for Claude Code
 ```
 
 ti-navi is the core of the Code Navigator.
-It uses Ruby-TI to perform code analysis and passes documents like the following to the AI agent:
+It uses mruby-ti to perform code analysis and passes documents like the following to the AI agent:
 
 ````
 ## draw_frame(M5Canvas, M5GFX) -> NilClass
@@ -227,7 +227,7 @@ Adds code comments required for using ti-navi.
 
 ## Contributing
 
-Issues and feedback are especially welcome! While the project is in active development and pull requests may be challenging to integrate, we'd love to hear about bugs, feature requests, and your experience using Ruby-TI.
+Issues and feedback are especially welcome! While the project is in active development and pull requests may be challenging to integrate, we'd love to hear about bugs, feature requests, and your experience using mruby-ti.
 
 ## License
 
