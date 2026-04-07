@@ -171,10 +171,6 @@ The `.ti-config` directory contains type definitions that you can customize for 
 
 See the [Configuration Guide](./docs/ti-config.md) for detailed customization options.
 
-## Documentation
-
-- [.ti-config Configuration Guide](./docs/ti-config.md) - Customize type definitions for your environment
-
 ## Code Navigator for AI Agents
 ### Setup
 After completing the mruby-ti setup,
