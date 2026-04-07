@@ -218,6 +218,23 @@ It leverages function call graphs to explore the codebase efficiently.
   <img src="image/ti-nav-demo.png" alt="ti-nav" width="700"/>
 </p>
 
+## Beta Feature: Install RBS
+The following commands convert an RBS file into a mruby-ti type configuration file (ti-config JSON) and install it.
+
+```
+# Install directly into the .ti-config directory
+ti-rbs2json --install ./path/to/target.rbs
+
+# Install into an arbitrary directory
+ti-rbs2json -o ./path/to/directory ./path/to/target.rbs
+
+# Output only (no install)
+ti-rbs2json ./path/to/target.rbs
+```
+
+*RBS installation is a beta feature. Conversion may not always succeed — if that happens, manually edit the resulting type configuration file (ti-config JSON).
+
+
 ## Contributing
 
 Issues and feedback are especially welcome! While the project is in active development and pull requests may be challenging to integrate, we'd love to hear about bugs, feature requests, and your experience using mruby-ti.
