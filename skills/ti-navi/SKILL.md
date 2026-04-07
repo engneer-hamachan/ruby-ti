@@ -1,5 +1,5 @@
 ---
-name: ti-skills
+name: ti-navi
 description: Understand and work with PicoRuby code using ti type checker
 ---
 

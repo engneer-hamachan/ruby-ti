@@ -1,7 +1,12 @@
-.PHONY: install generate-test test version-up
+.PHONY: install install-skills generate-test test version-up
 
 install:
 	bash ./shell/install.sh
+
+install-skills:
+	@mkdir -p ~/.claude/skills
+	@cp -r ./skills/* ~/.claude/skills/
+	@echo "Installed skills to ~/.claude/skills/"
 
 generate-test:
 	bash ./shell/generate_test_from_sample.sh $(ARGS)

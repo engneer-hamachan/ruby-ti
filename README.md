@@ -171,13 +171,16 @@ See the [Configuration Guide](./docs/ti-config.md) for detailed customization op
 ### Setup
 After completing the Ruby-TI setup,
 install the skills from the `skills` directory into your AI agent.
-### Usage
-#### ti-skills
 ```
-/ti-skills app.rb {your prompt}
+make install-skills  # for Claude Code
+```
+### Usage
+#### ti-navi
+```
+/ti-navi app.rb {your prompt}
 ```
 
-ti-skills is the core of the Code Navigator.
+ti-navi is the core of the Code Navigator.
 It uses Ruby-TI to perform code analysis and passes documents like the following to the AI agent:
 
 ````
@@ -202,7 +205,7 @@ It uses Ruby-TI to perform code analysis and passes documents like the following
   - method: draw_stars
 
 ````
-By using ti-skills, the AI agent reads the above documents before making code changes or additions,
+By using ti-navi, the AI agent reads the above documents before making code changes or additions,
 significantly reducing the amount of code the AI agent needs to read during its work. (However, this may not always be the case.)
 
 Additionally, the AI agent is instructed to automatically check for type errors after completing its work. (When type errors occur, it is instructed to only report them without attempting fixes. Though it doesn't always listen.)
@@ -211,7 +214,7 @@ Additionally, the AI agent is instructed to automatically check for type errors 
 ```
 /ti-add-comments app.rb
 ```
-Adds code comments required for using ti-skills.
+Adds code comments required for using ti-navi.
 
 ### Benefits
 - Significantly reduces the amount of code the AI agent needs to read during its work.
