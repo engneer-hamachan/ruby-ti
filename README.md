@@ -15,10 +15,16 @@ mruby-ti is a static type analyzer for MRuby, designed for use by both humans an
 
 **The power of static typing. The freedom of Ruby.**
 
-<table align="center"><tr>
-  <td><img src="image/ruby-ti-demo.gif" alt="mruby-ti demo" width="350"/></td>
-  <td><img src="image/ti-nav-demo.png" alt="ti-nav demo" width="350"/></td>
-</tr></table>
+<table align="center">
+  <tr>
+    <th>For Human</th>
+    <th>For AI Agents</th>
+  </tr>
+  <tr>
+    <td><img src="image/ruby-ti-demo.gif" alt="mruby-ti demo" width="350"/></td>
+    <td><img src="image/ti-nav-demo.png" alt="ti-nav demo" width="350"/></td>
+  </tr>
+</table>
 
 ## Features
 
