@@ -29,7 +29,7 @@ mruby-ti is a static type analyzer for MRuby that performs type inference and ch
 
 ## Requirements
 
-- **Go 1.24.5+** for building from source
+- **Go 1.24.5+** 
 - **Neovim** or **VSCode** (or any LSP-compatible editor)
 
 ## Quick Start
@@ -172,16 +172,16 @@ See the [Configuration Guide](./docs/ti-config.md) for detailed customization op
 After completing the mruby-ti setup,
 install the skills from the `skills` directory into your AI agent.
 ```
-make install-skills  # for Claude Code
+# For Claude Code users, you can install with:
+make install-skills
 ```
 ### Usage
-#### ti-navi
 ```
-/ti-navi app.rb {your prompt}
+/ti-navi app.rb {prompt}
 ```
 
-ti-navi is the core of the Code Navigator.
-It uses mruby-ti to perform code analysis and passes documents like the following to the AI agent:
+The ti-navi skill uses mruby-ti's AI agent feature (`--llm-nav`) to provide
+analysis results like the following:
 
 ````
 ## draw_frame(M5Canvas, M5GFX) -> NilClass
@@ -205,25 +205,18 @@ It uses mruby-ti to perform code analysis and passes documents like the followin
   - method: draw_stars
 
 ````
-By using ti-navi, the AI agent reads the above documents before making code changes or additions,
-significantly reducing the amount of code the AI agent needs to read during its work. (However, this may not always be the case.)
+The analysis results include method signatures and call graphs,
+enabling far more efficient understanding of mruby codebases than grep.
 
-Additionally, the AI agent is instructed to automatically check for type errors after completing its work. (When type errors occur, it is instructed to only report them without attempting fixes. Though it doesn't always listen.)
+Additionally, after code edits, the AI agent automatically performs type error checking,
+preventing unnecessary runtime errors.
 
-#### ti-add-comments
-```
-/ti-add-comments app.rb
-```
-Adds code comments required for using ti-navi.
+The image below shows Claude Code using ti-navi.
+It leverages function call graphs to explore the codebase efficiently.
 
-### Benefits
-- Significantly reduces the amount of code the AI agent needs to read during its work.
-- Eliminates the need to create elaborate documentation for the AI agent.
-- Appears to have a positive impact on the AI agent's implementation accuracy when modifying code (perhaps because there is less extraneous information?).
-
-### Known Issues
-- Resolving type errors takes time (the AI cannot determine whether to fix the ti side, the .ti-config, or the code itself).
-
+<p align="center">
+  <img src="image/ti-nav-demo.png" alt="ti-nav" width="700"/>
+</p>
 
 ## Contributing
 

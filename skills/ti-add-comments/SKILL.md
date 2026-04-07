@@ -1,9 +1,9 @@
 ---
 name: ti-add-comments
-description: Add ti-doc and ti-for-llm comments to PicoRuby code for ti type checker integration
+description: Add ti-doc and ti-for-llm comments to mruby code for ti type checker integration
 ---
 
-You add special comments to PicoRuby code that are consumed by the `ti` type checker's `--llm-nav` output.
+You add special comments to mruby code that are consumed by the `ti` type checker's `--llm-nav` output.
 
 ## Usage
 

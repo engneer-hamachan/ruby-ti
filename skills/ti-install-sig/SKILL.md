@@ -1,13 +1,13 @@
 ---
 name: ti-install-sig
-description: Load project-specific PicoRuby class and method signatures into context using the ti type checker
+description: Load project-specific mruby class and method signatures into context using the ti type checker
 ---
 
 You load the classes and method signatures relevant to the current task into your context using the `ti` type checker.
 
 ## Why This Is Needed
 
-In PicoRuby development, the available classes and methods vary per project. This skill lets you discover and internalize the project's type landscape before implementing anything, so you can work with accurate type knowledge.
+In mruby development, the available classes and methods vary per project. This skill lets you discover and internalize the project's type landscape before implementing anything, so you can work with accurate type knowledge.
 
 ## Usage
 
