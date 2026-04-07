@@ -26,6 +26,7 @@ mruby-ti is a static type analyzer for MRuby that performs type inference and ch
 - **Customizable type system** - Define types that match your mruby environment
 - **Editor integration** - Works with Neovim, VSCode, and any LSP-compatible editor
 - **MRuby focused** - Built with embedded Ruby environments in mind
+- **[Code Navigator for AI Agents](#code-navigator-for-ai-agents)** - Provide method signatures and call graphs to AI agents for efficient codebase understanding
 
 ## Requirements
 
