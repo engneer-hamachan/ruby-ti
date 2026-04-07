@@ -11,7 +11,7 @@
 
 ---
 
-mruby-ti is a static type analyzer for MRuby that performs type inference and checking on your Ruby code without requiring type annotations. Write Ruby naturally and get real-time type feedback in your editor.
+mruby-ti is a static type analyzer for MRuby, designed for use by both humans and AI agents. It infers and checks types in your Ruby code without requiring any annotations — delivering real-time feedback in your editor and structured type analysis for AI-driven development.
 
 **The power of static typing. The freedom of Ruby.**
 
