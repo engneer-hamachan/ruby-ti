@@ -48,12 +48,12 @@ set -x PATH "/path/to/mruby-ti/bin:$PATH"
 **Install LSP Server:**
 
 ```bash
-git clone https://github.com/engneer-hamachan/mruby-ti-lsp.git
-cd mruby-ti-lsp
+git clone https://github.com/engneer-hamachan/ruby-ti-lsp.git
+cd ruby-ti-lsp
 make install
 
 # Add to PATH (fish example):
-set -x PATH "/path/to/mruby-ti-lsp/bin:$PATH"
+set -x PATH "/path/to/ruby-ti-lsp/bin:$PATH"
 ```
 
 **Setup your project:**
@@ -93,7 +93,7 @@ Add to your `coc-settings.json`:
 Install the extension:
 
 ```bash
-code --install-extension /path/to/mruby-ti-lsp/vscode/mruby-ti-lsp-0.1.0.vsix
+code --install-extension /path/to/ruby-ti-lsp/vscode/ruby-ti-lsp-0.1.0.vsix
 ```
 
 </details>
