@@ -408,6 +408,9 @@ func convertDeclarations(decls []RBSDeclaration, parentName string) []TiClassCon
 				if member.Name == "initialize" {
 					for i := range methods {
 						methods[i].Name = "new"
+						if len(methods[i].ReturnType.Type) == 1 && methods[i].ReturnType.Type[0] == "NilClass" {
+							methods[i].ReturnType.Type = []string{className}
+						}
 					}
 					config.ClassMethods = append(config.ClassMethods, methods...)
 					classMethodDefs["new"] = methods
