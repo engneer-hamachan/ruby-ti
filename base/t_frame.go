@@ -2,6 +2,7 @@ package base
 
 import (
 	"maps"
+	"slices"
 	"ti/context"
 )
 
@@ -150,9 +151,14 @@ func getParentMethodT(
 		var ok bool
 
 		if parentNode.IsExtend {
+			extendFrame := parentNode.Frame
+			if extendFrame == "" && slices.Contains(BuiltinClasses, parentNode.Class) {
+				extendFrame = "Builtin"
+			}
+
 			methodT, ok =
 				TFrame[methodTFrameKey(
-					parentNode.Frame,
+					extendFrame,
 					parentNode.Class,
 					method,
 					isPrivate,
@@ -168,9 +174,14 @@ func getParentMethodT(
 		}
 
 		if parentNode.IsInclude {
+			includeFrame := parentNode.Frame
+			if includeFrame == "" && slices.Contains(BuiltinClasses, parentNode.Class) {
+				includeFrame = "Builtin"
+			}
+
 			methodT, ok =
 				TFrame[methodTFrameKey(
-					parentNode.Frame,
+					includeFrame,
 					parentNode.Class,
 					method,
 					isPrivate,
