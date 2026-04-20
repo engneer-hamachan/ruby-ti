@@ -351,6 +351,14 @@ func (d *Def) getMethodNameAndSetIsStatic(
 		return "[]", nil
 	}
 
+	// def hoge=
+	if nextT.IsTargetIdentifier("=") && !nextT.IsBeforeSpace {
+		p.Read()
+
+		method := t.ToString() + "="
+		return method, nil
+	}
+
 	// def object.special_method
 	if nextT.IsDotIdentifier() {
 		objectT :=
