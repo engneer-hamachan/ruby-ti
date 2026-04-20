@@ -335,6 +335,22 @@ func (d *Def) getMethodNameAndSetIsStatic(
 		return "", err
 	}
 
+	// def []
+	if t.IsTargetIdentifier("[") && nextT.IsTargetIdentifier("]") {
+		t, err = p.ReadTwice()
+		if err != nil {
+			return "", err
+		}
+
+		if t.IsTargetIdentifier("=") {
+			return "[]=", nil
+		}
+
+		p.Unget()
+
+		return "[]", nil
+	}
+
 	// def object.special_method
 	if nextT.IsDotIdentifier() {
 		objectT :=
