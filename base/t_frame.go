@@ -422,6 +422,10 @@ func GetClassMethodT(
 	}
 
 	if methodT == nil {
+		methodT = TFrame[classMethodTFrameKey("Builtin::"+frame, targetClass, targetMethod, false)]
+	}
+
+	if methodT == nil {
 		methodT = TFrame[classMethodTFrameKey("Builtin", "", targetMethod, false)]
 	}
 

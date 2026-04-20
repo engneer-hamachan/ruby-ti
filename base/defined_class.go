@@ -32,6 +32,13 @@ func IsClassDefined(frames []string, class string) bool {
 		if ok {
 			return ok
 		}
+
+		key = DefinedClass{frame: "Builtin::" + frame, class: class}
+		_, ok = DefinedClassTable[key]
+
+		if ok {
+			return ok
+		}
 	}
 
 	key := DefinedClass{frame: "Builtin", class: class}
