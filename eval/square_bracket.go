@@ -341,6 +341,71 @@ func (e *Evaluator) stringReferenceEvaluation(
 	}
 }
 
+func (e *Evaluator) generalReferenceEvaluation(
+	p *parser.Parser,
+	ctx context.Context,
+	objectT *base.T,
+	t *base.T,
+) error {
+
+	for {
+		_, isCloseParentheses, err := p.ReadWithCheck("]")
+		if err != nil {
+			return err
+		}
+
+		if !isCloseParentheses {
+			continue
+		}
+
+		break
+	}
+
+	_, isEquale, err := p.ReadWithCheck("=")
+	if err != nil {
+		return err
+	}
+
+	switch isEquale {
+	// a[0] = 1
+	case true:
+		methodT := base.GetMethodT(ctx.GetFrame(), t.GetObjectClass(), "[]=", false)
+		if methodT == nil {
+			return fmt.Errorf("[]= is not defined method")
+		}
+
+		ctx.IsBind = true
+		p.SkipNewline()
+
+		nextT, err := p.Read()
+		if err != nil {
+			return err
+		}
+
+		err = e.EvalExpr(p, ctx, nextT, 0)
+		if err != nil {
+			return err
+		}
+
+		p.SetLastEvaluatedT(methodT)
+
+		return nil
+
+	// a[0]
+	default:
+		methodT := base.GetMethodT(ctx.GetFrame(), t.GetObjectClass(), "[]", false)
+		if methodT == nil {
+			return fmt.Errorf("[] is not defined method")
+		}
+
+		p.Unget()
+
+		p.SetLastEvaluatedT(methodT)
+
+		return e.evalPriorityExp(p, ctx)
+	}
+}
+
 func (e *Evaluator) integerReferenceEvaluation(
 	p *parser.Parser,
 	ctx context.Context,
@@ -581,6 +646,16 @@ func (e *Evaluator) referenceEvaluation(
 		return e.integerReferenceEvaluation(p, ctx, objectT, t)
 
 	default:
+		methodT := base.GetMethodT(ctx.GetFrame(), base.TypeToString(t), "[]", false)
+		if methodT != nil {
+			return e.generalReferenceEvaluation(p, ctx, objectT, t)
+		}
+
+		methodT = base.GetMethodT(ctx.GetFrame(), base.TypeToString(t), "[]=", false)
+		if methodT != nil {
+			return e.generalReferenceEvaluation(p, ctx, objectT, t)
+		}
+
 		p.SkipToTargetToken("]")
 
 		if t.IsTargetClassObject("Proc") {
@@ -631,6 +706,14 @@ func (s *SquareBracket) Evaluation(
 	if lastT.IsStringType() && !t.IsBeforeSpace {
 		p.SkipToTargetToken("]")
 		p.SetLastEvaluatedT(base.MakeAnyString())
+
+		return nil
+	}
+
+	methodT := base.GetMethodT(ctx.GetFrame(), base.TypeToString(&lastT), "[]", false)
+	if methodT != nil && !t.IsBeforeSpace {
+		p.SkipToTargetToken("]")
+		p.SetLastEvaluatedT(methodT)
 
 		return nil
 	}
