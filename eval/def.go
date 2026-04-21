@@ -689,6 +689,20 @@ func (d *Def) Evaluation(
 	returnT := d.makeReturnT(e, p, ctx, method)
 	methodT := d.makeDefineMethodT(p, ctx, method, args, returnT, isBlockGiven)
 
+	// def hoge= || def [] || def []=
+	if method[len(method)-1] == '=' || method == "[]" || method == "[]=" {
+		for _, arg := range args {
+			base.SetValueT(
+				methodT.DefinedFrame,
+				methodT.DefinedClass,
+				method,
+				arg,
+				base.MakeUntyped(),
+				false,
+			)
+		}
+	}
+
 	d.setDefineMethodT(p, ctx, methodT, defineRow)
 
 	if ctx.IsCheckRound() {

@@ -79,8 +79,8 @@ func TestEd339c31_1(t *testing.T) {
 @./ed339c31_1.rb:::239:::bind: String
 @./ed339c31_1.rb:::245:::bind: String
 @./ed339c31_1.rb:::246:::bind: Integer
-@./ed339c31_1.rb:::254:::bind: Unknown
-@./ed339c31_1.rb:::262:::bind: Unknown
+@./ed339c31_1.rb:::254:::bind: untyped
+@./ed339c31_1.rb:::262:::bind: untyped
 @./ed339c31_1.rb:::272:::bind: Integer
 @./ed339c31_1.rb:::324:::bind: String
 @./ed339c31_1.rb:::345:::bind: String
@@ -131,9 +131,9 @@ func TestEd339c31_1(t *testing.T) {
 @./ed339c31_1.rb:::106:::() -> String [i/public]
 @./ed339c31_1.rb:::244:::(String, Integer) -> Person [c/public]
 @./ed339c31_1.rb:::249:::() -> String [i/public]
-@./ed339c31_1.rb:::253:::(unknown) -> unknown [i/public]
+@./ed339c31_1.rb:::253:::(untyped) -> untyped [i/public]
 @./ed339c31_1.rb:::257:::() -> Integer [i/public]
-@./ed339c31_1.rb:::261:::(unknown) -> unknown [i/public]
+@./ed339c31_1.rb:::261:::(untyped) -> untyped [i/public]
 @./ed339c31_1.rb:::265:::() -> String [i/public]
 @./ed339c31_1.rb:::274:::() -> Counter [c/public]
 @./ed339c31_1.rb:::278:::() -> Integer [c/public]
